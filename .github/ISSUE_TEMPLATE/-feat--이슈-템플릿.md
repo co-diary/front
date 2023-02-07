@@ -1,7 +1,7 @@
 ---
 name: "[Feat] 이슈 템플릿"
 about: 기능 구현 전 이슈 생성
-title: "[기능] 페이지명_작업사항"
+title: "[Feat] 페이지명_작업사항"
 labels: ''
 assignees: ''
 
