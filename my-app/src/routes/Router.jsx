@@ -34,7 +34,7 @@ function Router() {
         <Route path='/profile/:userId/edit' element={<ProfileEdit />} />
         <Route path='/hashtag' element={<Hashtag />} />
         <Route path='/search' element={<Search />} />
-        <Route path='/notfound' element={<NotFound />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
