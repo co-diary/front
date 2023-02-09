@@ -28,7 +28,7 @@ function Router() {
         <Route path='/post' element={<Post />} />
         <Route path='/post/:postId' element={<PostDetail />} />
         <Route path='/post/:postId/edit' element={<PostEdit />} />
-        <Route path='/post/upload' element={<PostUpload />} />
+        <Route path='/upload' element={<PostUpload />} />
         <Route path='/likeposts' element={<LikePosts />} />
         <Route path='/mypage' element={<MyPage />} />
         <Route path='/profile/:userId/edit' element={<ProfileEdit />} />
