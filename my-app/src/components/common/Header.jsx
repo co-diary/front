@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import Theme from '../../styles/Theme';
 import IconBack from '../../assets/Icon-Back.png';
 
@@ -48,12 +49,17 @@ function Header({
   altTwo,
   onClickTwo,
 }) {
+  const navigate = useNavigate();
+  const handlePageBack = () => {
+    navigate(-1);
+  };
+
   return (
     <Container>
       <Menu>
         {isHome ? null : (
-          <SButton>
-            <img src={IconBack} alt='뒤로가기' />{' '}
+          <SButton onClick={handlePageBack}>
+            <img src={IconBack} alt='뒤로가기' />
           </SButton>
         )}
         {title && <PageTitle>{title}</PageTitle>}
