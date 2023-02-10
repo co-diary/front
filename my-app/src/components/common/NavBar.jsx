@@ -3,10 +3,15 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Theme from '../../styles/Theme';
 import IconHome from '../../assets/Icon-Nav-Home-off.png';
+import IconHomeActive from '../../assets/Icon-Nav-Home-on.png';
 import IconMap from '../../assets/Icon-Nav-Map-off.png';
+import IconMapActive from '../../assets/Icon-Nav-Map-on.png';
 import IconWrite from '../../assets/Icon-Nav-Write-off.png';
+import IconWriteActive from '../../assets/Icon-Nav-Write-on.png';
 import IconLiked from '../../assets/Icon-Nav-Heart-off.png';
+import IconLikedActive from '../../assets/Icon-Nav-Heart-on.png';
 import IconMyPage from '../../assets/Icon-Nav-_Mypage-off.png';
+import IconMyPageActive from '../../assets/Icon-Nav-_Mypage-on.png';
 
 const Container = styled.nav`
   position: fixed;
@@ -40,28 +45,50 @@ const Container = styled.nav`
   }
 `;
 
-function NavBar() {
+function NavBar({ page }) {
   return (
     <Container>
       <ul>
         <li>
-          <img src={IconHome} alt='' />
+          {page === 'home' ? (
+            <img src={IconHomeActive} alt='메인 페이지 바로가기' />
+          ) : (
+            <img src={IconHome} alt='메인 페이지 바로가기' />
+          )}
           <Link to={'/home'}>홈</Link>
         </li>
         <li>
-          <img src={IconMap} alt='' />
+          {page === 'map' ? (
+            <img src={IconMapActive} alt='지도 페이지 바로가기' />
+          ) : (
+            <img src={IconMap} alt='지도 페이지 바로가기' />
+          )}
           <Link to={'/map'}>지도</Link>
         </li>
         <li>
-          <img src={IconWrite} alt='' />
+          {page === 'upload' ? (
+            <img src={IconWriteActive} alt='게시글 작성 페이지 바로가기' />
+          ) : (
+            <img src={IconWrite} alt='게시글 작성 페이지 바로가기' />
+          )}
+
           <Link to={'/upload'}>기록</Link>
         </li>
         <li>
-          <img src={IconLiked} alt='' />
+          {page === 'liked' ? (
+            <img src={IconLikedActive} alt='좋아요 페이지 바로가기' />
+          ) : (
+            <img src={IconLiked} alt='좋아요 페이지 바로가기' />
+          )}
           <Link to={'/likeposts'}>좋아요</Link>
         </li>
         <li>
-          <img src={IconMyPage} alt='' />
+          {page === 'myPage' ? (
+            <img src={IconMyPageActive} alt='마이 페이지 바로가기' />
+          ) : (
+            <img src={IconMyPage} alt='마이 페이지 바로가기' />
+          )}
+
           <Link to={'/mypage'}>마이</Link>
         </li>
       </ul>
