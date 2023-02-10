@@ -37,7 +37,7 @@ ${reset}
 }
 body {
   overflow-x: hidden;
-
+  min-height: 100vh;
 }
 
 button {

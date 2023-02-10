@@ -6,7 +6,7 @@ import IconHeartOff from '../../assets/Icon-Heart-off.png';
 import IconMore from '../../assets/Icon-More.png';
 
 const Container = styled.header`
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
@@ -30,7 +30,7 @@ const Menu = styled.div`
   display: flex;
 `;
 
-const PageTitle = styled.div`
+const PageTitle = styled.h2`
   font-size: 1.8rem;
   padding-top: 0.4rem;
 `;
