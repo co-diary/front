@@ -2,8 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import Theme from '../../styles/Theme';
 import IconBack from '../../assets/Icon-Back.png';
-import IconHeartOff from '../../assets/Icon-Heart-off.png';
-import IconMore from '../../assets/Icon-More.png';
 
 const Container = styled.header`
   position: sticky;
@@ -18,10 +16,15 @@ const Container = styled.header`
   padding: 0 2rem;
   z-index: 99;
   border-bottom: 1px solid ${Theme.BORDER};
+`;
 
+const SButton = styled.button`
+  background-color: ${Theme.WHITE};
+  width: 2.4rem;
+  height: 2.4rem;
   img {
-    width: 2.4rem;
-    height: 2.4rem;
+    width: 100%;
+    height: 100%;
     margin-right: 0.6rem;
   }
 `;
@@ -35,19 +38,44 @@ const PageTitle = styled.h2`
   padding-top: 0.4rem;
 `;
 
-function Header() {
+function Header({
+  isHome,
+  title,
+  rightIconOne,
+  altOne,
+  onClickOne,
+  rightIconTwo,
+  altTwo,
+  onClickTwo,
+}) {
   return (
     <Container>
       <Menu>
-        <img src={IconBack} alt='뒤로가기' />
-        <PageTitle>음료</PageTitle>
+        {isHome ? null : (
+          <SButton>
+            <img src={IconBack} alt='뒤로가기' />{' '}
+          </SButton>
+        )}
+        {title && <PageTitle>{title}</PageTitle>}
       </Menu>
       <Menu>
-        <img src={IconHeartOff} alt='' />
-        <img src={IconMore} alt='' />
+        {rightIconOne && (
+          <SButton onClick={onClickOne}>
+            <img src={rightIconOne} alt={altOne} />
+          </SButton>
+        )}
+        {rightIconTwo && (
+          <SButton onClick={onClickTwo}>
+            <img src={rightIconTwo} alt={altTwo} />
+          </SButton>
+        )}
       </Menu>
     </Container>
   );
 }
+
+Header.defaultProps = {
+  isHome: false,
+};
 
 export default Header;
