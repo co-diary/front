@@ -37,6 +37,7 @@ ${reset}
 }
 body {
   overflow-x: hidden;
+  padding: 0 2rem;
 
 }
 

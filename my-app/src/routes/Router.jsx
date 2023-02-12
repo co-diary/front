@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Hashtag from '../pages/Hashtag/Hashtag';
 import Home from '../pages/Home/Home';
 import LikePosts from '../pages/LikePosts/LikePosts';
-import Login from '../pages/Login/Login';
+import Login from '../pages/Login';
 import Map from '../pages/Map/Map';
 import MyPage from '../pages/MyPage/MyPage';
 import ProfileEdit from '../pages/MyPage/ProfileEdit/ProfileEdit';

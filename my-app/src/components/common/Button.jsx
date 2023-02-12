@@ -12,7 +12,7 @@ const setSize = (size) => {
   switch (size) {
     case 'lg':
       return css`
-        width: 35rem;
+        margin-top: 1.2rem;
         padding: 1.4rem 0;
         border-radius: 4.4rem;
 
@@ -23,6 +23,7 @@ const setSize = (size) => {
         }
 
         &:disabled {
+          color: ${Theme.DISABLED_FONT}
           background-color: #ffe58e;
         }
       `;
@@ -39,6 +40,7 @@ const setSize = (size) => {
         }
 
         &:disabled {
+          color: ${Theme.DISABLED_FONT}
           background-color: #ffe58e;
         }
       `;
@@ -55,6 +57,7 @@ const setSize = (size) => {
         }
 
         &:disabled {
+          color: ${Theme.DISABLED_FONT}
           background-color: #ffe58e;
         }
       `;
@@ -71,6 +74,7 @@ const setSize = (size) => {
         }
 
         &:disabled {
+          color: ${Theme.DISABLED_FONT}
           background-color: #ffe58e;
         }
       `;
@@ -101,7 +105,11 @@ const SButton = styled.button`
 `;
 
 function Button({ text, size, onClick }) {
-  return <SButton size={size} onClick={onClick}>{text}</SButton>;
+  return (
+    <SButton size={size} onClick={onClick}>
+      {text}
+    </SButton>
+  );
 }
 
 export default Button;
