@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import Button from './Button';
 import Theme from '../../styles/Theme';
 import IconBack from '../../assets/Icon-Back.png';
 
@@ -30,25 +31,16 @@ const SButton = styled.button`
   }
 `;
 
-const Menu = styled.div`
-  display: flex;
-`;
-
 const PageTitle = styled.h2`
   font-size: 1.8rem;
   padding-top: 0.4rem;
 `;
 
-function Header({
-  isHome,
-  title,
-  rightIconOne,
-  altOne,
-  onClickOne,
-  rightIconTwo,
-  altTwo,
-  onClickTwo,
-}) {
+const Menu = styled.div`
+  display: flex;
+`;
+
+function FormHeader({ title, onClick }) {
   const navigate = useNavigate();
   const handlePageBack = () => {
     navigate(-1);
@@ -57,31 +49,14 @@ function Header({
   return (
     <Container>
       <Menu>
-        {isHome ? null : (
-          <SButton onClick={handlePageBack}>
-            <img src={IconBack} alt='뒤로가기' />
-          </SButton>
-        )}
-        {title && <PageTitle>{title}</PageTitle>}
+        <SButton onClick={handlePageBack}>
+          <img src={IconBack} alt='뒤로가기' />
+        </SButton>
+        <PageTitle>{title}</PageTitle>
       </Menu>
-      <Menu>
-        {rightIconOne && (
-          <SButton onClick={onClickOne}>
-            <img src={rightIconOne} alt={altOne} />
-          </SButton>
-        )}
-        {rightIconTwo && (
-          <SButton onClick={onClickTwo}>
-            <img src={rightIconTwo} alt={altTwo} />
-          </SButton>
-        )}
-      </Menu>
+      <Button text='등록' size='sm' onClick={onClick} />
     </Container>
   );
 }
 
-Header.defaultProps = {
-  isHome: false,
-};
-
-export default Header;
+export default FormHeader;

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Theme from '../../styles/Theme';
 import IconBack from '../../assets/Icon-Back.png';
+import Button from '../../components/common/Button';
 
 const Container = styled.header`
   position: sticky;
@@ -17,6 +18,7 @@ const Container = styled.header`
   padding: 0 2rem;
   z-index: 99;
   border-bottom: 1px solid ${Theme.BORDER};
+  gap: 1rem;
 `;
 
 const SButton = styled.button`
@@ -30,16 +32,21 @@ const SButton = styled.button`
   }
 `;
 
-const Menu = styled.div`
-  display: flex;
+const SInput = styled.input`
+  width: 25.4rem;
+  height: 3.2rem;
+  padding: 1rem 0 1rem 1.4rem;
+  border: 1px solid ${Theme.BORDER};
+  border-radius: 3.2rem;
+
+  &:focus {
+    /* 임시로 설정 */
+    border: 1px solid ${Theme.MAIN_FONT};
+    outline: none;
+  }
 `;
 
-const PageTitle = styled.h2`
-  font-size: 1.8rem;
-  padding-top: 0.4rem;
-`;
-
-function Header({
+function SearchHeader({
   isHome,
   title,
   rightIconOne,
@@ -56,32 +63,13 @@ function Header({
 
   return (
     <Container>
-      <Menu>
-        {isHome ? null : (
-          <SButton onClick={handlePageBack}>
-            <img src={IconBack} alt='뒤로가기' />
-          </SButton>
-        )}
-        {title && <PageTitle>{title}</PageTitle>}
-      </Menu>
-      <Menu>
-        {rightIconOne && (
-          <SButton onClick={onClickOne}>
-            <img src={rightIconOne} alt={altOne} />
-          </SButton>
-        )}
-        {rightIconTwo && (
-          <SButton onClick={onClickTwo}>
-            <img src={rightIconTwo} alt={altTwo} />
-          </SButton>
-        )}
-      </Menu>
+      <SButton onClick={handlePageBack}>
+        <img src={IconBack} alt='뒤로가기' />
+      </SButton>
+      <SInput type='text' placeholder='검색어를 입력하세요.' />
+      <Button size='sm' text='검색' />
     </Container>
   );
 }
 
-Header.defaultProps = {
-  isHome: false,
-};
-
-export default Header;
+export default SearchHeader;
