@@ -5,7 +5,7 @@ import Theme from '../../styles/Theme';
 import IconBack from '../../assets/Icon-Back.png';
 
 const Container = styled.header`
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
