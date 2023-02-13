@@ -6,7 +6,7 @@ export const Container = styled.div`
   padding-top: 7.4rem;
 `;
 
-export const Header = styled.header`
+export const HeaderContainer = styled.header`
   padding: 3rem 0;
   text-align: center;
 `;

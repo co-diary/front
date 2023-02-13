@@ -9,7 +9,7 @@ import MyPage from '../pages/MyPage/MyPage';
 import ProfileEdit from '../pages/MyPage/ProfileEdit';
 import NotFound from '../pages/NotFound/NotFound';
 import Post from '../pages/Post/Post';
-import PostDetail from '../pages/Post/PostDetail/PostDetail';
+import PostDetail from '../pages/Post/PostDetail';
 import PostEdit from '../pages/Post/PostEdit/PostEdit';
 import PostUpload from '../pages/Post/PostUpload/PostUpload';
 import Search from '../pages/Search/Search';
