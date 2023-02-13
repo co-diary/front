@@ -39,7 +39,6 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   padding: 0 2rem;
-
 }
 
 button {
