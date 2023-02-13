@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Hashtag from '../pages/Hashtag/Hashtag';
 import Home from '../pages/Home/Home';
 import LikePosts from '../pages/LikePosts/LikePosts';
-import Login from '../pages/Login/Login';
+import Login from '../pages/Login';
 import Map from '../pages/Map/Map';
 import MyPage from '../pages/MyPage';
 import ProfileEdit from '../pages/MyPage/ProfileEdit/ProfileEdit';
@@ -13,7 +13,7 @@ import PostDetail from '../pages/Post/PostDetail/PostDetail';
 import PostEdit from '../pages/Post/PostEdit/PostEdit';
 import PostUpload from '../pages/Post/PostUpload/PostUpload';
 import Search from '../pages/Search/Search';
-import SignUp from '../pages/SignUp/SignUp';
+import SignUp from '../pages/SignUp';
 import Splash from '../pages/Splash/Splash';
 
 function Router() {

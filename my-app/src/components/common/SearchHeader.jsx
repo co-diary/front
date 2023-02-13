@@ -6,7 +6,7 @@ import IconBack from '../../assets/Icon-Back.png';
 import Button from '../../components/common/Button';
 
 const Container = styled.header`
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
