@@ -4,7 +4,7 @@ import Hashtag from '../pages/Hashtag/Hashtag';
 import Home from '../pages/Home/Home';
 import LikePosts from '../pages/LikePosts/LikePosts';
 import Login from '../pages/Login';
-import Map from '../pages/Map/Map';
+import Map from '../pages/Map';
 import MyPage from '../pages/MyPage';
 import ProfileEdit from '../pages/MyPage/ProfileEdit'
 import NotFound from '../pages/NotFound/NotFound';
