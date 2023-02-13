@@ -3,29 +3,26 @@ import Theme from "../../styles/Theme";
 
 export const Container = styled.div` 
     display: flex;
-    height: 82rem;
     flex-direction: column;
-    justify-contents: center;
-    align-items: center;
-    
-
 `
 
 export const BoxOne = styled.div`
-    width: 100%;
     height: 9rem;
     border-bottom: 6px solid ${Theme.SECTION_BG};
-    flex-direction: row;
-    padding: 2rem 2.6rem;
     display: flex;
-    position: relative;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 7.4rem 2rem;
+    margin-left: -2rem;
+    margin-right: -2rem;
     
 `
 
 export const ButtonContainer = styled.div`
-    position: absolute;
-    left: 27.6rem;
+    padding-top: 0.2rem;    
+    
 `
+
 
 export const UserName = styled.strong`
     font-family: 'LINESeedKR-Bd';
@@ -39,22 +36,6 @@ export const UserEmail = styled.p`
     font-size: 1.2rem;
 `
 
-export const BoxTwo = styled.div`
-    width: 100%;
-    height: 61.9rem;
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    padding-left: 2rem;
-    
-`
-
-export const MyPageLists = styled.ul`
-    position: absolute;
-    width: 100%;
-
-    
-`
 
 export const MyPageList = styled.li`
     border-bottom: 1px solid ${Theme.SHADOW_BORDER};
@@ -66,14 +47,17 @@ export const MyPageList = styled.li`
     padding-bottom: 2.2rem;
 `
 
+export const WebVersionContainer = styled.div`
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+`
+
 export const WebVersion = styled.p`
     font-family: 'LINESeedKR-Bd';
     font-size: 1.2rem;
     line-height: 1.6rem;
-    color: ${Theme.BORDER};
-    position: absolute;
-    left: 33.4rem;
-    top: 2.2rem;
+    color: ${Theme.BORDER};    
 `
 
 export const Deactivate = styled.li`
