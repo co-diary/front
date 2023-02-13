@@ -59,15 +59,15 @@ const BtnRed = styled.button`
   background-color: ${Theme.WHITE};
 `;
 
-function ConfirmModal() {
+function ConfirmModal({ msg, leftBtnMsg, leftOnclick, rightBtnMsg, rightOnclick }) {
   return (
     <>
       <Background />
       <Box>
-        <Msg>좋아요 목록에서 삭제할까요?</Msg>
+        <Msg>{msg}</Msg>
         <Btns>
-          <Btn>취소</Btn>
-          <BtnRed>삭제</BtnRed>
+          <Btn onClick={leftOnclick}>{leftBtnMsg}</Btn>
+          <BtnRed onClick={rightOnclick}>{rightBtnMsg}</BtnRed>
         </Btns>
       </Box>
     </>
