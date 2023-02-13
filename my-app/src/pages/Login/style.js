@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Theme from '../../styles/Theme';
 
 export const Container = styled.div`
-  height: 100vh;
   padding-top: 7.4rem;
 `;
 
@@ -21,7 +20,7 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   margin-top: 6rem;
-  gap: 2.8rem;
+  gap: 3rem;
 `;
 
 export const InputContainer = styled.div`

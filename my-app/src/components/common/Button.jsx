@@ -12,7 +12,7 @@ const setSize = (size) => {
   switch (size) {
     case 'lg':
       return css`
-        margin-top: 1.2rem;
+        margin-top: 0.8rem;
         padding: 1.4rem 0;
         border-radius: 4.4rem;
 
