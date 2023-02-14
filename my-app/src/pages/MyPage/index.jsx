@@ -11,7 +11,7 @@ import Button from '../../components/common/Button';
 function MyPage() {
   return (
     <>
-    <Header />
+    <Header title="마이 페이지"/>
     <S.Container>
       <S.BoxOne>
         <div>
@@ -38,7 +38,7 @@ function MyPage() {
           <S.Deactivate>탈퇴하기</S.Deactivate>
         </ul>
       </div>
-      <NavBar /> 
+      <NavBar page="myPage"/> 
     </S.Container>
     </>
   )

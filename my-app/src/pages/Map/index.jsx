@@ -6,9 +6,9 @@ import * as S from './style'
 function Map() {
   return (
   <>
-    <Header />
+    <Header title="지도" />
     <S.Container />
-    <NavBar />
+    <NavBar page="map"  />
   </>
 )
 };
