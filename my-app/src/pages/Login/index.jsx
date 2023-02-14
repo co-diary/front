@@ -5,9 +5,9 @@ import Button from '../../components/common/Button';
 function Login() {
   return (
     <S.Container>
-      <S.Header>
+      <S.HeaderContainer>
         <S.Title>로그인</S.Title>
-      </S.Header>
+      </S.HeaderContainer>
       <S.Form>
         <S.InputContainer>
           <S.Label>이메일</S.Label>
