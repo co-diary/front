@@ -4,11 +4,13 @@ import * as S from './style';
 import IconStarOn from '../../../assets/Icon-star-on.png';
 import IconPrev from '../../../assets/Icon-detail-prev.png';
 import IconNext from '../../../assets/Icon-detail-next.png';
+import IconHeartOff from '../../../assets/Icon-Heart-off.png';
+import IconMore from '../../../assets/Icon-More.png';
 
 function PostDetail() {
   return (
     <>
-      <Header />
+      <Header title='논커피' rightIconOne={IconHeartOff} rightIconTwo={IconMore} />
       <S.Container>
         <header>
           <h1 className='ir'>게시글 상세 페이지</h1>
