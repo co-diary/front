@@ -4,9 +4,9 @@ import Hashtag from '../pages/Hashtag/Hashtag';
 import Home from '../pages/Home/Home';
 import LikePosts from '../pages/LikePosts/LikePosts';
 import Login from '../pages/Login';
-import Map from '../pages/Map/Map';
-import MyPage from '../pages/MyPage/MyPage';
-import ProfileEdit from '../pages/MyPage/ProfileEdit';
+import Map from '../pages/Map';
+import MyPage from '../pages/MyPage';
+import ProfileEdit from '../pages/MyPage/ProfileEdit'
 import NotFound from '../pages/NotFound/NotFound';
 import Post from '../pages/Post/Post';
 import PostDetail from '../pages/Post/PostDetail';
