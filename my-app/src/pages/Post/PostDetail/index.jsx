@@ -10,7 +10,19 @@ import IconMore from '../../../assets/Icon-More.png';
 function PostDetail() {
   return (
     <>
-      <Header title='논커피' rightIconOne={IconHeartOff} rightIconTwo={IconMore} />
+      <Header
+        title='논커피'
+        rightChild={
+          <>
+            <S.HeaderBtn>
+              <img src={IconHeartOff} alt='' />
+            </S.HeaderBtn>
+            <S.HeaderBtn>
+              <img src={IconMore} alt='' />
+            </S.HeaderBtn>
+          </>
+        }
+      />
       <S.Container>
         <header>
           <h1 className='ir'>게시글 상세 페이지</h1>
