@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 import Theme from '../../styles/Theme';
 
+import IconTag from '../../assets/Icon-tag.png';
+import IconTagHover from '../../assets/Icon-tag-hover.png';
+import IconSearch from '../../assets/Icon-Search.png';
+import IconSearchHover from '../../assets/Icon-Search-hover.png';
+
 export const Container = styled.main`
   height: calc(100vh - 10.8rem);
   padding-top: calc(4.8rem + 2.6rem);
@@ -11,12 +16,27 @@ export const Container = styled.main`
   height: fit-content;
 `;
 
-export const HeaderBtn = styled.button`
-  background-color: ${Theme.WHITE};
-  img {
-    width: 2.4rem;
-    height: 2.4rem;
-    object-fit: cover;
+export const HashBtn = styled.button`
+  position: relative;
+  width: 2.4rem;
+  height: 2.4rem;
+  background-image: url(${IconTag});
+  background-size: cover;
+
+  &:hover {
+    background-image: url(${IconTagHover});
+  }
+`;
+
+export const SearchBtn = styled.button`
+  position: relative;
+  width: 2.4rem;
+  height: 2.4rem;
+  background-image: url(${IconSearch});
+  background-size: cover;
+
+  &:hover {
+    background-image: url(${IconSearchHover});
   }
 `;
 

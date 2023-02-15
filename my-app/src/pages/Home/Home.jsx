@@ -2,9 +2,6 @@ import React from 'react';
 import * as S from './style';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
-import IconTag from '../../assets/Icon-tag.png';
-// import IconTagActive from '../../assets/Icon-tag-hover.png';
-import IconSearch from '../../assets/Icon-Search.png';
 import DrinkIcon from '../../assets/Icon-beverage.png';
 import DessertIcon from '../../assets/Icon-dessert.png';
 import CategoryCard from '../../components/home/CategoryCard/CategoryCard';
@@ -13,14 +10,11 @@ function Home() {
   return (
     <>
       <Header
+        isHome
         rightChild={
           <>
-            <S.HeaderBtn>
-              <img src={IconTag} alt='태그 검색 바로가기' />
-            </S.HeaderBtn>
-            <S.HeaderBtn>
-              <img src={IconSearch} alt='검색 바로가기' />
-            </S.HeaderBtn>
+            <S.HashBtn />
+            <S.SearchBtn />
           </>
         }
       />
