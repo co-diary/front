@@ -130,3 +130,12 @@ export const Btn = styled.button`
     width: 2.8rem;
   }
 `;
+
+export const HeaderBtn = styled.button`
+  background-color: ${Theme.WHITE};
+  img {
+    width: 2.4rem;
+    height: 2.4rem;
+    object-fit: cover;
+  }
+`;
