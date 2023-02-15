@@ -16,7 +16,9 @@ import IconMyPageActive from '../../assets/Icon-Nav-_Mypage-on.png';
 const Container = styled.nav`
   position: fixed;
   bottom: 0;
-  width: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
   height: 6rem;
   background-color: ${Theme.WHITE};
   border-top: 1px solid ${Theme.BORDER};
@@ -89,7 +91,7 @@ function NavBar({ page }) {
             <img src={IconMyPage} alt='마이 페이지 바로가기' />
           )}
 
-          <Link to={'/mypage'}>마이</Link>
+          <Link to={'/mypage'}>내 정보</Link>
         </li>
       </ul>
       <Link to=''></Link>
