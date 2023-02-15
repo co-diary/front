@@ -1,10 +1,10 @@
 import React from 'react';
 import * as S from './style';
 
-function CategoryCard({ Icon, title }) {
+function CategoryCard({ Icon, title, count }) {
   return (
     <S.Container>
-      <S.Count>102</S.Count>
+      <S.Count>{count}</S.Count>
       <S.ImgContainer>
         <S.CategoryImg src={Icon} alt='' />
         <S.CategoryTitle>{title}</S.CategoryTitle>

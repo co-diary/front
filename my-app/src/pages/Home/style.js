@@ -4,8 +4,10 @@ import Theme from '../../styles/Theme';
 export const Container = styled.main`
   height: calc(100vh - 10.8rem);
   padding-top: calc(4.8rem + 2.6rem);
+  padding-bottom: calc(6rem + 2.6rem);
   display: flex;
   flex-direction: column;
+  gap: 2.6rem;
   height: fit-content;
 `;
 
@@ -18,13 +20,7 @@ export const HeaderBtn = styled.button`
   }
 `;
 
-export const Section = styled.section`
-  & + section {
-    margin-top: 2.6rem;
-  }
-`;
-
-export const SectionTitle = styled.h3`
+export const SubTitle = styled.h3`
   font-family: 'LINESeedKR-Bd';
   font-size: 1.4rem;
   margin-bottom: 1.6rem;
@@ -39,6 +35,7 @@ export const Title = styled.h2`
   width: 18.3rem;
   font-family: 'LINESeedKR-Bd';
   font-size: 1.8rem;
+  line-height: 2.6rem;
 `;
 
 export const Total = styled.div`
@@ -63,23 +60,16 @@ export const Count = styled.p`
   font-size: 1.6rem;
 `;
 
+export const CategoryCards = styled.div`
+  display: flex;
+  gap: 2.2rem;
+`;
+
 export const CategoryContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 2.2rem;
 `;
-
-export const Category = styled.div`
-  display: inline-block;
-  width: 16.4rem;
-  height: 16.4rem;
-  border: 1px solid black;
-  border-radius: 1rem;
-`;
-
-export const CategoryCount = styled.p``;
-
-export const CategoryCard = styled.figure``;
 
 export const Cards = styled.div`
   display: flex;
