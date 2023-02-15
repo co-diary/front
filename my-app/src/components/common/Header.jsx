@@ -26,7 +26,10 @@ const SButton = styled.button`
   img {
     width: 100%;
     height: 100%;
-    margin-right: 0.6rem;
+  }
+
+  & + button {
+    margin-left: 0.6rem;
   }
 `;
 
