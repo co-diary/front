@@ -1,3 +1,4 @@
+import React from 'react';
 import styled, { css } from 'styled-components';
 import Theme from '../../styles/Theme';
 // import Theme from '../../styles/Theme';
@@ -23,7 +24,7 @@ const setSize = (size) => {
         }
 
         &:disabled {
-          color: ${Theme.DISABLED_FONT}
+          color: ${Theme.DISABLED_FONT};
           background-color: #ffe58e;
         }
       `;
@@ -40,7 +41,7 @@ const setSize = (size) => {
         }
 
         &:disabled {
-          color: ${Theme.DISABLED_FONT}
+          color: ${Theme.DISABLED_FONT};
           background-color: #ffe58e;
         }
       `;
@@ -57,7 +58,7 @@ const setSize = (size) => {
         }
 
         &:disabled {
-          color: ${Theme.DISABLED_FONT}
+          color: ${Theme.DISABLED_FONT};
           background-color: #ffe58e;
         }
       `;
@@ -74,7 +75,7 @@ const setSize = (size) => {
         }
 
         &:disabled {
-          color: ${Theme.DISABLED_FONT}
+          color: ${Theme.DISABLED_FONT};
           background-color: #ffe58e;
         }
       `;

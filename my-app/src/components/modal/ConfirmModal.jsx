@@ -31,7 +31,7 @@ const Box = styled.div`
 
 const Msg = styled.p`
   text-align: center;
-  font-weight: 700;
+  font-family: LINESeedKR-bd;
   font-size: 1.6rem;
 `;
 
@@ -59,10 +59,10 @@ const BtnRed = styled.button`
   background-color: ${Theme.WHITE};
 `;
 
-function ConfirmModal({ msg, leftBtnMsg, leftOnclick, rightBtnMsg, rightOnclick }) {
+function ConfirmModal({ onClickClose, msg, leftBtnMsg, leftOnclick, rightBtnMsg, rightOnclick }) {
   return (
     <>
-      <Background />
+      <Background onClick={onClickClose} />
       <Box>
         <Msg>{msg}</Msg>
         <Btns>

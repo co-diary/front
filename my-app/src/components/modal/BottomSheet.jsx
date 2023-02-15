@@ -52,12 +52,12 @@ const Contents = styled.button`
   padding: 1.3rem 0 1.4rem 2.7rem;
 `;
 
-function BottomSheet({ onClickEdit, onClickDelete }) {
+function BottomSheet({ onClickClose, onClickEdit, onClickDelete }) {
   return (
     <>
-      <Background />
+      <Background onClick={onClickClose} />
       <Box>
-        <CloseHandler />
+        <CloseHandler onClick={onClickClose} />
         <Contents onClick={onClickEdit}>수정</Contents>
         <Contents onClick={onClickDelete}>삭제</Contents>
       </Box>
