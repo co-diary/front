@@ -8,9 +8,9 @@ function SignUp() {
     <>
       <Header />
       <S.Container>
-        <S.Header>
+        <S.HeaderContainer>
           <S.Title>회원가입</S.Title>
-        </S.Header>
+        </S.HeaderContainer>
         <S.Form>
           <S.InputContainer>
             <S.Label>이메일</S.Label>

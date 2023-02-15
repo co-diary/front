@@ -2,7 +2,7 @@ import React from 'react';
 
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
-import * as S from './style'
+import * as S from './style';
 
 
 function Location() {
@@ -20,6 +20,6 @@ function Location() {
     <NavBar page="location"  />
   </>
 );
-};
+}
 
 export default Location;
