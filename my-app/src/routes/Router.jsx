@@ -4,7 +4,7 @@ import Hashtag from '../pages/Hashtag/Hashtag';
 import Home from '../pages/Home/Home';
 import LikePosts from '../pages/LikePosts/LikePosts';
 import Login from '../pages/Login';
-import Map from '../pages/Map';
+import Location from '../pages/Location';
 import MyPage from '../pages/MyPage';
 import ProfileEdit from '../pages/MyPage/ProfileEdit'
 import NotFound from '../pages/NotFound/NotFound';
@@ -24,7 +24,7 @@ function Router() {
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/home' element={<Home />} />
-        <Route path='/map' element={<Map />} />
+        <Route path='/location' element={<Location />} />
         <Route path='/post' element={<Post />} />
         <Route path='/post/:postId' element={<PostDetail />} />
         <Route path='/post/:postId/edit' element={<PostEdit />} />
