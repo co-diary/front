@@ -27,14 +27,11 @@ const SButton = styled.button`
     width: 100%;
     height: 100%;
   }
-
-  & + button {
-    margin-left: 0.6rem;
-  }
 `;
 
 const Menu = styled.div`
   display: flex;
+  gap: 1.2rem;
 `;
 
 const PageTitle = styled.h2`
@@ -42,16 +39,7 @@ const PageTitle = styled.h2`
   padding-top: 0.4rem;
 `;
 
-function Header({
-  isHome,
-  title,
-  rightIconOne,
-  altOne,
-  onClickOne,
-  rightIconTwo,
-  altTwo,
-  onClickTwo,
-}) {
+function Header({ isHome, title, rightChild }) {
   const navigate = useNavigate();
   const handlePageBack = () => {
     navigate(-1);
@@ -67,18 +55,7 @@ function Header({
         )}
         {title && <PageTitle>{title}</PageTitle>}
       </Menu>
-      <Menu>
-        {rightIconOne && (
-          <SButton onClick={onClickOne}>
-            <img src={rightIconOne} alt={altOne} />
-          </SButton>
-        )}
-        {rightIconTwo && (
-          <SButton onClick={onClickTwo}>
-            <img src={rightIconTwo} alt={altTwo} />
-          </SButton>
-        )}
-      </Menu>
+      <Menu>{rightChild}</Menu>
     </Container>
   );
 }
