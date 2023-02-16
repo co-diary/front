@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import IconSearch from '../../assets/Icon-Search.png';
@@ -6,6 +6,19 @@ import PostCard from '../../components/common/PostCard';
 import * as S from './style';
 
 function Post() {
+  const [currentOrder, setCurrentOrder] = useState('최신순');
+  const [displayOptions, setDisplayOptions] = useState(false);
+
+  const handleDisplayList = useCallback(() => {
+    setDisplayOptions((prev) => !prev);
+  }, []);
+
+  const handleClickList = useCallback((e) => {
+    setCurrentOrder(e.target.innerText);
+    setDisplayOptions(false);
+    e.stopPropagation();
+  }, []);
+
   return (
     <>
       <Header
@@ -39,11 +52,11 @@ function Post() {
             </li>
           </S.CategoryContainer>
         </nav>
-        <S.SelectBox>
-          <button>최신순</button>
-          <S.ListBox >
-            <li>최신순</li>
-            <li>별점순</li>
+        <S.SelectBox onClick={handleDisplayList} options={displayOptions}>
+          <button>{currentOrder}</button>
+          <S.ListBox options={displayOptions}>
+            <li onClick={handleClickList}>최신순</li>
+            <li onClick={handleClickList}>별점순</li>
           </S.ListBox>
         </S.SelectBox>
         <S.PostContainer>
