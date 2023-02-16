@@ -26,11 +26,11 @@ ${reset}
   }
 
 :root {
-    font-size: 10px;
+  font-size: 10px;
+  font-family: LINESeedKR-Rg;
 }
 
 * {
-  font-family: LINESeedKR-Rg;
   box-sizing: border-box;
   color: ${Theme.MAIN_FONT};
 
@@ -42,8 +42,9 @@ body {
 }
 
 button {
-  padding: 0;
-  border : none;
+  all: unset;
+  text-align: center;
+  box-sizing: border-box;
   cursor : pointer;
 }
 
