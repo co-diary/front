@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Theme from '../../styles/Theme';
+import IconSelectOn from '../../assets/Icon-Select-on.png';
 import IconSelectOff from '../../assets/Icon-Select-off.png';
 
 export const Container = styled.main`
@@ -53,7 +54,8 @@ export const SelectBox = styled.div`
       top: 0.6rem;
       right: 0.8rem;
       background: center / contain no-repeat;
-      background-image: url(${IconSelectOff});
+      background-image: ${({ options }) =>
+        options ? `url(${IconSelectOn})` : `url(${IconSelectOff})`};
     }
   }
 `;
@@ -65,6 +67,9 @@ export const ListBox = styled.ul`
   left: 0;
   border-radius: 0.8rem;
   border: 1px solid ${Theme.MAIN};
+  border-width: ${({ options }) => (options ? '1px' : '0')};
+  max-height: ${({ options }) => (options ? 'none' : '0')};
+  overflow: hidden;
 
   li {
     margin: 0.4rem;
