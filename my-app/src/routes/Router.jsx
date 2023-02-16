@@ -6,9 +6,9 @@ import LikePosts from '../pages/LikePosts/LikePosts';
 import Login from '../pages/Login';
 import Location from '../pages/Location';
 import MyPage from '../pages/MyPage';
-import ProfileEdit from '../pages/MyPage/ProfileEdit'
+import ProfileEdit from '../pages/MyPage/ProfileEdit';
 import NotFound from '../pages/NotFound/NotFound';
-import Post from '../pages/Post/Post';
+import Post from '../pages/Post';
 import PostDetail from '../pages/Post/PostDetail';
 import PostEdit from '../pages/Post/PostEdit/PostEdit';
 import PostUpload from '../pages/Post/PostUpload/PostUpload';
