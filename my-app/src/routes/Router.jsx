@@ -1,12 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Hashtag from '../pages/Hashtag/Hashtag';
+import Hashtag from '../pages/Hashtag';
+import HashtagResult from '../pages/Hashtag/HashtagResult';
 import Home from '../pages/Home/Home';
 import LikePosts from '../pages/LikePosts/LikePosts';
 import Login from '../pages/Login';
 import Location from '../pages/Location';
 import MyPage from '../pages/MyPage';
-import ProfileEdit from '../pages/MyPage/ProfileEdit'
+import ProfileEdit from '../pages/MyPage/ProfileEdit';
 import NotFound from '../pages/NotFound/NotFound';
 import Post from '../pages/Post/Post';
 import PostDetail from '../pages/Post/PostDetail';
@@ -33,6 +34,7 @@ function Router() {
         <Route path='/mypage' element={<MyPage />} />
         <Route path='/profile/:userId/edit' element={<ProfileEdit />} />
         <Route path='/hashtag' element={<Hashtag />} />
+        <Route path='/hashtag/keyword' element={<HashtagResult />} />
         <Route path='/search' element={<Search />} />
         <Route path='*' element={<NotFound />} />
       </Routes>

@@ -8,12 +8,14 @@ function Hashtag() {
     <>
       <Header title='태그 모아보기' />
       <S.Container>
-        <S.TagList>
-          <S.Tag>#달아요요오호</S.Tag>
-          <S.Tag>#다시먹을것</S.Tag>
-          <S.Tag>#마따</S.Tag>
-          <S.Tag>#또먹</S.Tag>
-        </S.TagList>
+        <S.TagBox>
+          <S.TagList>
+            <S.TagLink to='/hashtag/keyword'>#달아요요오호</S.TagLink>
+          </S.TagList>
+          <S.TagList>
+            <S.TagLink to='/hashtag/keyword'>#달아요요호</S.TagLink>
+          </S.TagList>
+        </S.TagBox>
       </S.Container>
       <NavBar />
     </>
