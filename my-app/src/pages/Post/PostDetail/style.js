@@ -4,7 +4,6 @@ import Theme from '../../../styles/Theme';
 
 export const Container = styled.main`
   padding: 4.8rem 0 6rem;
-  font-family: 'LINESeedKR-Rg';
 `;
 
 export const Section = styled.section`
@@ -97,7 +96,7 @@ export const DlTitle = styled.dt`
 
 export const TagLink = styled(Link)`
   display: inline-block;
-  padding: 0.6rem 0.7rem 0.4rem;
+  padding: 0.6rem 1rem 0.4rem;
   border-radius: 3rem;
   color: ${Theme.WHITE};
   background-color: ${Theme.SUB_ORANGE};
