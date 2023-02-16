@@ -65,11 +65,13 @@ export const ListBox = styled.ul`
   width: 100%;
   top: 4rem;
   left: 0;
+  background-color: white;
   border-radius: 0.8rem;
   border: 1px solid ${Theme.MAIN};
   border-width: ${({ options }) => (options ? '1px' : '0')};
   max-height: ${({ options }) => (options ? 'none' : '0')};
   overflow: hidden;
+  z-index: 99;
 
   li {
     margin: 0.4rem;
