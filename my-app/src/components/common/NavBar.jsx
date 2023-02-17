@@ -60,12 +60,12 @@ function NavBar({ page }) {
           <Link to={'/home'}>홈</Link>
         </li>
         <li>
-          {page === 'map' ? (
+          {page === 'location' ? (
             <img src={IconMapActive} alt='지도 페이지 바로가기' />
           ) : (
             <img src={IconMap} alt='지도 페이지 바로가기' />
           )}
-          <Link to={'/map'}>지도</Link>
+          <Link to={'/location'}>지도</Link>
         </li>
         <li>
           {page === 'upload' ? (
