@@ -10,19 +10,18 @@ export const Container = styled.div`
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
   width: 100%;
 `;
 
 export const SelectBoxWrapper = styled.div`
   display: flex;
   gap: 1.2rem;
+  margin: 2.6rem 0 2.4rem;
 `;
 
 export const SelectBox = styled.div`
   position: relative;
   width: 8rem;
-  margin: 2.6rem 0 1.2rem;
   font-size: 1.4rem;
   border: 1px solid ${Theme.BORDER};
   border-radius: 3.8rem;
@@ -55,7 +54,7 @@ export const SelectBox = styled.div`
 export const SectionBorder = styled.div`
   width: 100vw;
   margin-left: calc(-50vw + 50%);
-  padding-bottom: 1.4rem;
+  margin-bottom: 2.8rem;
   border-bottom: 6px solid ${Theme.SECTION_BG};
 `;
 
@@ -63,6 +62,7 @@ export const InputBox = styled.div`
   display: flex;
   position: relative;
   align-items: center;
+  margin-bottom: ${(props) => props.length};
 `;
 
 export const Label = styled.label`
@@ -116,5 +116,102 @@ export const RatingBox = styled.div`
   & img {
     width: 2rem;
     cursor: pointer;
+  }
+`;
+
+export const SubTitleBox = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0.2rem;
+  margin-bottom: 1.6rem;
+
+  img {
+    width: 2rem;
+  }
+
+  span {
+    font-family: 'LINESeedKR-Bd';
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+  }
+`;
+
+export const BoxWrapper = styled.div`
+  display: flex;
+  margin-bottom: ${(props) => props.length};
+`;
+
+export const TagImgBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 5.6rem);
+  margin-bottom: ${(props) => props.length};
+`;
+
+export const TagLabel = styled.label`
+  display: inline-block;
+  width: 5.6rem;
+  margin-right: 1.2rem;
+  padding: 0.6rem 0;
+  font-family: 'LINESeedKR-Bd';
+  font-size: 1.4rem;
+  color: ${Theme.MAIN_FONT};
+`;
+
+export const TagInput = styled.input`
+  padding: 0.4rem 0;
+  font-family: 'LINESeedKR-Rg';
+  font-size: 1.4rem;
+  line-height: 1.8rem;
+  border: none;
+  outline: none;
+
+  &::placeholder {
+    color: ${Theme.PLACEHOLDER};
+  }
+`;
+
+export const TagList = styled.ul`
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.6rem 0 0.8rem;
+  border-bottom: 1px solid ${Theme.BORDER};
+`;
+
+export const Tag = styled.li`
+  padding: 0.5rem 1rem;
+  height: 2.7rem;
+  font-size: 1.4rem;
+  line-height: 1.8rem;
+  color: ${Theme.WHITE};
+  border-radius: 3rem;
+  background-color: ${Theme.SUB_ORANGE};
+  cursor: pointer;
+
+  & + li {
+    background-color: ${Theme.SUB_PINK};
+  }
+`;
+
+export const ImgLabel = styled.label`
+  display: inline-block;
+  width: 5.6rem;
+  margin-right: 1.2rem;
+  padding: 0.8rem 0;
+  font-family: 'LINESeedKR-Bd';
+  font-size: 1.4rem;
+  color: ${Theme.MAIN_FONT};
+`;
+
+export const ImgLabelBtn = styled.label`
+  width: 4.2rem;
+  height: 3rem;
+  border-radius: 3rem;
+  cursor: pointer;
+
+  img {
+    width: 4.2rem;
+    height: 3rem;
   }
 `;
