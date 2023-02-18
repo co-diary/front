@@ -25,20 +25,20 @@ function PostUpload() {
             </S.SelectBox>
           </S.SelectBoxWrapper>
           <S.InputBox length='1.2rem'>
-            <S.Label>날짜</S.Label>
-            <S.Input type='text' placeholder='22.02.18' className='calendar' />
+            <S.Label htmlFor='date'>날짜</S.Label>
+            <S.Input type='text' placeholder='22.02.18' className='calendar' id='date' />
             <S.CalendarBtn src={IconCalendar} alt='달력 버튼' />
           </S.InputBox>
           <S.InputBox length='1.2rem'>
-            <S.Label>메뉴명</S.Label>
-            <S.Input type='text' placeholder='메뉴명을 적어주세요.' />
+            <S.Label htmlFor='menuName'>메뉴명</S.Label>
+            <S.Input type='text' placeholder='메뉴명을 적어주세요.' id='menuName' />
           </S.InputBox>
           <S.InputBox length='1.2rem'>
-            <S.Label>가격</S.Label>
-            <S.Input type='number' placeholder='가격을 적어주세요.' />
+            <S.Label htmlFor='price'>가격</S.Label>
+            <S.Input type='number' placeholder='가격을 적어주세요.' id='price' />
           </S.InputBox>
           <S.InputBox length='1.2rem'>
-            <S.Label>맛 평가</S.Label>
+            <S.Label htmlFor='rating'>맛 평가</S.Label>
             <S.RatingBox>
               <img src={IconStarOn} alt='별점 1점' />
               <img src={IconStarOff} alt='별점 2점' />
@@ -48,13 +48,18 @@ function PostUpload() {
             </S.RatingBox>
           </S.InputBox>
           <S.InputBox length='1.2rem'>
-            <S.Label>상호명</S.Label>
-            <S.Input type='text' placeholder='상호명을 입력해주세요.' />
+            <S.Label htmlFor='storeName'>상호명</S.Label>
+            <S.Input type='text' placeholder='상호명을 입력해주세요.' id='storeName' />
             <S.LocationBtn src={IconLocationOff} alt='지도맵 버튼' />
           </S.InputBox>
           <S.InputBox length='2rem'>
-            <S.Label>위치</S.Label>
-            <S.Input type='text' placeholder='매장의 위치를 입력해주세요.' className='location' />
+            <S.Label htmlFor='storeLocation'>위치</S.Label>
+            <S.Input
+              type='text'
+              placeholder='매장의 위치를 입력해주세요.'
+              className='location'
+              id='storeLocation'
+            />
           </S.InputBox>
           <S.SectionBorder></S.SectionBorder>
           <S.SubTitleBox>
@@ -62,17 +67,18 @@ function PostUpload() {
             <span>추가 선택 입력</span>
           </S.SubTitleBox>
           <S.InputBox length='1.2rem'>
-            <S.Label>후기</S.Label>
+            <S.Label htmlFor='review'>후기</S.Label>
             <S.Input
               type='text'
               placeholder='간단한 후기를 남겨주세요.(최대 100자)'
               maxlength='100'
+              id='review'
             />
           </S.InputBox>
           <S.BoxWrapper length='1.2rem'>
-            <S.TagLabel>태그</S.TagLabel>
+            <S.TagLabel htmlFor='tag'>태그</S.TagLabel>
             <S.TagImgBox>
-              <S.TagInput placeholder='태그를 추가해보세요. (6자이하)'></S.TagInput>
+              <S.TagInput placeholder='태그를 추가해보세요. (6자이하)' id='tag' />
               <S.TagList>
                 <S.Tag>#넘달아용</S.Tag>
                 <S.Tag>#마지막방문임</S.Tag>
