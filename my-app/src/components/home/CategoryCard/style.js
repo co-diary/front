@@ -7,6 +7,7 @@ export const Container = styled.button`
   align-items: center;
   justify-content: center;
   width: 16.4rem;
+  flex-grow: 2;
   height: 16.4rem;
   border-radius: 1rem;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.14);
