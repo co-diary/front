@@ -5,6 +5,7 @@ import NavBar from '../../components/common/NavBar';
 import DrinkIcon from '../../assets/Icon-beverage.png';
 import DessertIcon from '../../assets/Icon-dessert.png';
 import CategoryCard from '../../components/home/CategoryCard/CategoryCard';
+import PostCard from '../../components/common/PostCard';
 
 function Home() {
   return (
@@ -38,10 +39,9 @@ function Home() {
         <section>
           <S.SubTitle>최근 추가된 기록</S.SubTitle>
           <S.Cards>
-            <S.Card />
-            <S.Card />
-            <S.Card />
-            <S.Card />
+            <PostCard />
+            <PostCard />
+            <PostCard />
           </S.Cards>
         </section>
       </S.Container>
