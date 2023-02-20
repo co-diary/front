@@ -12,7 +12,7 @@ import NotFound from '../pages/NotFound/NotFound';
 import Post from '../pages/Post';
 import PostDetail from '../pages/Post/PostDetail';
 import PostEdit from '../pages/Post/PostEdit/PostEdit';
-import PostUpload from '../pages/Post/PostUpload/PostUpload';
+import PostUpload from '../pages/Post/PostUpload';
 import Search from '../pages/Search/Search';
 import SignUp from '../pages/SignUp';
 import Splash from '../pages/Splash/Splash';
