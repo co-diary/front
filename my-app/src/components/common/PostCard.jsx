@@ -7,7 +7,7 @@ import IconStarOn from '../../assets/Icon-star-on.png';
 const PostCardBox = styled.div`
   position: relative;
   display: flex;
-  width: 35rem;
+  width: 100%;
   height: 18.4rem;
   border-radius: 1rem;
   box-shadow: 1px 1px 6px 2px ${Theme.SHADOW_BORDER};
