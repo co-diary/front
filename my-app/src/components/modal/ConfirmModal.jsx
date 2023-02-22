@@ -1,16 +1,22 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import Theme from '../../styles/Theme';
 
 const fadeIn = keyframes`
-  0% {
+  from {
     opacity: 0;
   }
 
-  100% {
+  to {
     opacity: 1;
   }
+`;
 
+const modalSettings = (visible) => css`
+  visibility: ${visible ? 'visible' : 'hidden'};
+  z-index: 999;
+  animation: ${fadeIn} 0.15s ease-out;
+  transition: visibility 0.2s ease-out;
 `;
 
 const Background = styled.div`
@@ -19,9 +25,16 @@ const Background = styled.div`
   right: 0;
   top: 0;
   bottom: 0;
-  opacity: 0.2;
-  z-index: 99;
-  background-color: black;
+  z-index: 999;
+
+  ${({ visible }) =>
+    visible
+      ? css`
+          background-color: rgba(0, 0, 0, 0.2);
+        `
+      : css`
+          display: none;
+        `}
 `;
 
 const Box = styled.div`
@@ -39,7 +52,7 @@ const Box = styled.div`
   background-color: ${Theme.WHITE};
   border-radius: 1rem;
 
-  animation: ${fadeIn} 0.2s linear;
+  ${(props) => modalSettings(props.visible)};
 `;
 
 const Msg = styled.p`
@@ -72,11 +85,19 @@ const BtnRed = styled.button`
   background-color: ${Theme.WHITE};
 `;
 
-function ConfirmModal({ onClickClose, msg, leftBtnMsg, leftOnclick, rightBtnMsg, rightOnclick }) {
+function ConfirmModal({
+  visible,
+  onClickClose,
+  msg,
+  leftBtnMsg,
+  leftOnclick,
+  rightBtnMsg,
+  rightOnclick,
+}) {
   return (
     <>
-      <Background onClick={onClickClose} />
-      <Box>
+      <Background visible={visible} onClick={onClickClose} />
+      <Box visible={visible}>
         <Msg>{msg}</Msg>
         <Btns>
           <Btn onClick={leftOnclick}>{leftBtnMsg}</Btn>

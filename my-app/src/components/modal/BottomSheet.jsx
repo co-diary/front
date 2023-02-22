@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import Theme from '../../styles/Theme';
+import useToggle from '../../hooks/useToggle';
 
 const fadeIn = keyframes`
   from {
@@ -8,19 +9,19 @@ const fadeIn = keyframes`
     transform: translateY(3rem);
   }
 
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0rem);
   }
 `;
 
 const fadeOut = keyframes`
-  0% {
+  from{
     opacity: 1;
     transform: translateY(3rem);
   }
 
-  100% {
+  to{
     opacity: 0;
     transform: translateY(0rem);
   }
@@ -29,7 +30,7 @@ const fadeOut = keyframes`
 const modalSettings = (visible) => css`
   visibility: ${visible ? 'visible' : 'hidden'};
   z-index: 99;
-  animation: ${visible ? fadeIn : fadeOut} 0.4s ease-out;
+  animation: ${visible ? fadeIn : fadeOut} 0.15s ease-out;
   transition: visibility 0.15s ease-out;
 `;
 
@@ -39,7 +40,6 @@ const Background = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 99;
 
   ${({ visible }) =>
     visible
@@ -47,7 +47,7 @@ const Background = styled.div`
           background-color: rgba(0, 0, 0, 0.2);
         `
       : css`
-          opacity: 0;
+          display: none;
         `}
 `;
 
@@ -65,7 +65,7 @@ const Box = styled.div`
   border-top-right-radius: 1rem;
   padding: 3.6rem 0 0.5rem 0;
 
-  ${(props) => modalSettings(props.visible)}
+  ${(props) => modalSettings(props.visible)};
 `;
 
 const CloseHandler = styled.button`
@@ -77,6 +77,7 @@ const CloseHandler = styled.button`
   transform: translateX(-50%);
   border-radius: 0.5rem;
   background-color: ${Theme.SHADOW_BORDER};
+
   &::after {
     content: '';
     display: block;
@@ -93,18 +94,27 @@ const Contents = styled.button`
   font-size: 1.4rem;
 `;
 
-function BottomSheet({ onClickClose, onClickEdit, onClickDelete }) {
-  const [visible, setVisible] = useState(false);
-
-  console.log(visible);
+function BottomSheet({ visible, onClickClose, onClickEdit, onClickDelete }) {
+  const [isOpen, setIsOpen] = useToggle(false);
 
   useEffect(() => {
-    if (onClickClose) {
-      setVisible(true);
+    let timeoutId;
+
+    if (visible) {
+      setIsOpen(true);
     } else {
-      setTimeout(() => setVisible(false), 400);
+      timeoutId = setTimeout(() => setIsOpen(false), 150);
     }
-  }, []);
+    return () => {
+      if (timeoutId !== undefined) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [visible]);
+
+  if (!isOpen) {
+    return null;
+  }
 
   return (
     <>
