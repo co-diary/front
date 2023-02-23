@@ -1,5 +1,4 @@
 import React from 'react';
-
 import * as S from './style';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
@@ -33,8 +32,8 @@ function Home() {
         <section>
           <S.SubTitle>곽두팔이님의 기록 앨범</S.SubTitle>
           <S.CategoryCards>
-            <CategoryCard title={'음료'} Icon={DrinkIcon} count={'102'} />
-            <CategoryCard title={'디저트'} Icon={DessertIcon} count={'300+'} />
+            <CategoryCard to='/post' title={'음료'} Icon={DrinkIcon} count={'102'} />
+            <CategoryCard to='/post' title={'디저트'} Icon={DessertIcon} count={'300+'} />
           </S.CategoryCards>
         </section>
         <section>

@@ -1,7 +1,8 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import Theme from '../../../styles/Theme';
 
-export const Container = styled.button`
+export const Container = styled(Link)`
   position: relative;
   display: flex;
   align-items: center;
