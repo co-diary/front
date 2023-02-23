@@ -1,4 +1,5 @@
 import React from 'react';
+
 import * as S from './style';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
@@ -6,21 +7,16 @@ import DrinkIcon from '../../assets/Icon-beverage.png';
 import DessertIcon from '../../assets/Icon-dessert.png';
 import CategoryCard from '../../components/home/CategoryCard/CategoryCard';
 import PostCard from '../../components/common/PostCard';
-import ConfirmModal from '../../components/modal/ConfirmModal';
-import Portal from '../../components/modal/Potal';
-import useToggle from '../../hooks/useToggle';
 
 function Home() {
-  const [isModalOpen, setIsModalOpen] = useToggle();
-
   return (
     <>
       <Header
         isHome
         rightChild={
           <>
-            <S.HashBtn onClick={setIsModalOpen} />
-            <S.SearchBtn />
+            <S.HashLink to='/hashtag' />
+            <S.SearchLink to='/search' />
           </>
         }
       />
@@ -51,8 +47,6 @@ function Home() {
         </section>
       </S.Container>
       <NavBar page='home' />
-
-      <Portal>{isModalOpen ? <ConfirmModal onClickClose={setIsModalOpen} /> : null}</Portal>
     </>
   );
 }
