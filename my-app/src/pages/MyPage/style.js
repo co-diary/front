@@ -36,13 +36,32 @@ export const UserEmail = styled.p`
     font-size: 1.2rem;
 `
 
+export const BoxTwo = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    
+`
 
-export const MyPageList = styled.li`
+export const NoticeContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
     border-bottom: 1px solid ${Theme.SHADOW_BORDER};
-    height: 6.1rem;
+    height: 6rem;
     font-size: 1.4rem;
     font-family: 'LINESeedKR-Bd';
-    line-height: 1.9rem;
+    padding-top: 2rem;
+    
+    
+`
+
+export const MyPageLists = styled.div`
+    border-bottom: 1px solid ${Theme.SHADOW_BORDER};
+    width: 100%;
+    height: 6rem;
+    font-size: 1.4rem;
+    font-family: 'LINESeedKR-Bd';
     padding-top: 2rem;
     padding-bottom: 2.2rem;
 `
@@ -50,14 +69,14 @@ export const MyPageList = styled.li`
 export const WebVersionContainer = styled.div`
     position: relative;
     display: flex;
-    justify-content: space-between;
+    
 `
 
 export const WebVersion = styled.p`
     font-family: 'LINESeedKR-Bd';
     font-size: 1.2rem;
     line-height: 1.6rem;
-    color: ${Theme.BORDER};    
+    color: ${Theme.BORDER};  
 `
 
 export const Deactivate = styled.li`
