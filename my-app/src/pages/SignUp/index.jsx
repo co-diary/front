@@ -3,25 +3,26 @@ import * as S from './style';
 import Button from '../../components/common/Button';
 import Header from '../../components/common/Header';
 import InputWithLabel from '../../components/common/InputWithLabel';
+import useSignup from '../../hooks/useSignup';
 
 function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
-  
+
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [passwordCheckError, setPasswordCheckError] = useState('');
   const [displayNameError, setDisplayNameError] = useState('');
-  
+
   const [isEmailValid, setIsEmailValid] = useState(null);
   const [isPasswordValid, setIsPasswordValid] = useState(null);
   const [isPasswordCheckValid, setIsPasswordCheckValid] = useState(null);
   const [isDisplayNameValid, setIsDisplayNameValid] = useState(null);
-  
-  const [btnDisabled, setBtnDisabled] = useState(true);
 
+  const [btnDisabled, setBtnDisabled] = useState(true);
+  const { signup } = useSignup();
 
   useEffect(() => {
     if (isEmailValid && isPasswordValid && isPasswordCheckValid && isDisplayNameValid) {
@@ -30,7 +31,6 @@ function SignUp() {
       setBtnDisabled(true);
     }
   }, [isEmailValid, isPasswordValid, isPasswordCheckValid, isDisplayNameValid]);
-
 
   const handleEmailChange = useCallback((e) => {
     setEmail(e.target.value);
@@ -119,7 +119,7 @@ function SignUp() {
   const handleSignupSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      console.log(email, password, displayName);
+      signup(email, password, displayName);
     },
     [email, password, displayName],
   );
