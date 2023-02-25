@@ -62,6 +62,10 @@ li {
   list-style: none;
 }
 
+input::placeholder {
+  font-family: LINESeedKR-Rg;
+}
+
 .ir {
   position: absolute;
   width: 1px;

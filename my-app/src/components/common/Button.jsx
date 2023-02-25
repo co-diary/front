@@ -14,7 +14,7 @@ const setSize = (size) => {
     case 'lg':
       return css`
         margin-top: 0.8rem;
-        padding: 1.4rem 0;
+        padding: 1.6rem 0 1.2rem;
         border-radius: 4.4rem;
 
         &:active,
@@ -22,68 +22,48 @@ const setSize = (size) => {
           color: ${Theme.MAIN_GRAY};
           background-color: #fcd240;
         }
-
-        &:disabled {
-          color: ${Theme.DISABLED_FONT};
-          background-color: #ffe58e;
-        }
       `;
     case 'md':
       return css`
         width: 12rem;
-        padding: 1rem 0;
+        padding: 1.2rem 0 0.8rem;
         border-radius: 3rem;
 
         &:active,
         &:hover {
           color: ${Theme.MAIN_GRAY};
           background-color: #fcd240;
-        }
-
-        &:disabled {
-          color: ${Theme.DISABLED_FONT};
-          background-color: #ffe58e;
         }
       `;
     case 'ms':
       return css`
         width: 9.5rem;
-        padding: 0.8rem 0;
+        padding: 1rem 0 0.6rem;
         border-radius: 3rem;
 
         &:active,
         &:hover {
           color: ${Theme.MAIN_GRAY};
           background-color: #fcd240;
-        }
-
-        &:disabled {
-          color: ${Theme.DISABLED_FONT};
-          background-color: #ffe58e;
         }
       `;
     case 'sm':
       return css`
         width: 5.6rem;
-        padding: 0.8rem 0;
+        padding: 1rem 0 0.6rem;
         border-radius: 3rem;
 
         &:active,
         &:hover {
           color: ${Theme.MAIN_GRAY};
           background-color: #fcd240;
-        }
-
-        &:disabled {
-          color: ${Theme.DISABLED_FONT};
-          background-color: #ffe58e;
         }
       `;
     default:
       return css`
         width: 9.5rem;
         background-color: ${Theme.WHITE};
-        padding: 0.8rem 0;
+        padding: 1rem 0 0.6rem;
         border: 1px solid ${Theme.BORDER};
         border-radius: 3rem;
         font-size: 1.4rem;
@@ -103,11 +83,17 @@ const SButton = styled.button`
   font-family: LINESeedKR-bd;
   background-color: ${Theme.MAIN};
   ${({ size }) => setSize(size)};
+
+  &:disabled {
+    color: ${Theme.DISABLED_FONT};
+    background-color: #ffe58e;
+    cursor: not-allowed;
+  }
 `;
 
-function Button({ text, size, onClick }) {
+function Button({ text, size, onClick, btnDisabled }) {
   return (
-    <SButton size={size} onClick={onClick}>
+    <SButton size={size} onClick={onClick} disabled={btnDisabled}>
       {text}
     </SButton>
   );
