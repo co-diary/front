@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Theme from '../../styles/Theme';
 
 export const InputContainer = styled.div`
@@ -25,10 +25,27 @@ export const Input = styled.input`
     color: ${Theme.PLACEHOLDER};
   }
 
-  &:focus {
-    border-bottom: 1px solid ${Theme.MAIN};
-  }
+  ${({ inputValid, isLoginAllow }) => borderState(inputValid, isLoginAllow)}
 `;
+
+function borderState(inputValid, isLoginAllow) {
+  if (inputValid === false) {
+    return css`
+      border-bottom: 1px solid ${Theme.ERROR};
+    `;
+  }
+  if (isLoginAllow === false) {
+    return css`
+      border-bottom: 1px solid ${Theme.ERROR};
+    `;
+  }
+
+  return css`
+    &:focus {
+      border-bottom: 1px solid ${Theme.MAIN};
+    }
+  `;
+}
 
 export const ErrorMessage = styled.p`
   position: absolute;
