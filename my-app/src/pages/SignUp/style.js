@@ -53,11 +53,10 @@ export const Input = styled.input`
 
 export const ErrorMessage = styled.p`
   position: absolute;
-  top: 5.4rem;
+  top: 5.2rem;
   font-family: 'LINESeedKR-Rg';
   font-size: 1.2rem;
   color: ${Theme.ERROR};
-  display: none;
 `;
 
 export const SignUpLink = styled(Link)`
