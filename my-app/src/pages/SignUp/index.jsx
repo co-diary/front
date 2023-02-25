@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import * as S from './style';
 import Button from '../../components/common/Button';
 import Header from '../../components/common/Header';
@@ -10,19 +10,20 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
-
+  
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [passwordCheckError, setPasswordCheckError] = useState('');
   const [displayNameError, setDisplayNameError] = useState('');
-
+  
   const [isEmailValid, setIsEmailValid] = useState(null);
   const [isPasswordValid, setIsPasswordValid] = useState(null);
   const [isPasswordCheckValid, setIsPasswordCheckValid] = useState(null);
   const [isDisplayNameValid, setIsDisplayNameValid] = useState(null);
-
+  
   const [btnDisabled, setBtnDisabled] = useState(true);
-  const { signup } = useSignup();
+  const { error, signup } = useSignup();
+  const emailRef = useRef(null);
 
   useEffect(() => {
     if (isEmailValid && isPasswordValid && isPasswordCheckValid && isDisplayNameValid) {
@@ -31,6 +32,14 @@ function SignUp() {
       setBtnDisabled(true);
     }
   }, [isEmailValid, isPasswordValid, isPasswordCheckValid, isDisplayNameValid]);
+
+  useEffect(() => {
+    if (error) {
+      setIsEmailValid(false);
+      setEmailError('이미 가입된 이메일입니다.');
+      emailRef.current.focus();
+    }
+  }, [error]);
 
   const handleEmailChange = useCallback((e) => {
     setEmail(e.target.value);
@@ -121,7 +130,7 @@ function SignUp() {
       e.preventDefault();
       signup(email, password, displayName);
     },
-    [email, password, displayName],
+    [email, password, displayName, signup],
   );
 
   return (
@@ -140,6 +149,7 @@ function SignUp() {
             placeholder='이메일을 입력하세요.'
             onChange={handleEmailChange}
             onBlur={handleEmailRequired}
+            ref={emailRef}
             inputValid={isEmailValid}
             errorMessage={emailError}
           />

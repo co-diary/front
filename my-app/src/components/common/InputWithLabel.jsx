@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled, { css } from 'styled-components';
 import Theme from '../../styles/Theme';
 
@@ -55,18 +55,23 @@ export const ErrorMessage = styled.p`
   color: ${Theme.ERROR};
 `;
 
-function InputWithLabel({
-  id,
-  labelText,
-  type,
-  value,
-  placeholder,
-  onChange,
-  onBlur,
-  inputValid,
-  errorMessage,
-}) {
-  return (
+// eslint-disable-next-line react/display-name
+const InputWithLabel = forwardRef(
+  (
+    {
+      id,
+      labelText,
+      type,
+      value,
+      placeholder,
+      onChange,
+      onBlur,
+      inputValid,
+      errorMessage,
+      isLoginAllow,
+    },
+    ref,
+  ) => (
     <InputContainer>
       <Label htmlFor={id}>{labelText}</Label>
       <Input
@@ -76,13 +81,16 @@ function InputWithLabel({
         placeholder={placeholder}
         onChange={onChange}
         onBlur={onBlur}
+        ref={ref}
         inputValid={inputValid}
+        isLoginAllow={isLoginAllow}
         maxLength='30'
         required
       />
       {!inputValid && <ErrorMessage>{errorMessage}</ErrorMessage>}
+      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </InputContainer>
-  );
-}
+  ),
+);
 
 export default InputWithLabel;
