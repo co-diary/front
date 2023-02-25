@@ -1,8 +1,26 @@
 import React, { useEffect } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { onAuthStateChanged } from 'firebase/auth';
+import { authState, isLoggedIn } from './atom/authRecoil';
 import Router from './routes/Router';
-import { firestore } from './firebase';
+import { appAuth, firestore } from './firebase';
 
 function App() {
+  const [userState, setUserState] = useRecoilState(authState);
+  // const setAuth = useSetRecoilState(authState);
+  const setIsLoggedIn = useSetRecoilState(isLoggedIn);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(appAuth, (user) => {
+      setUserState(user);
+      setIsLoggedIn(true);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  console.log('authState', userState);
+
   useEffect(() => {
     console.log(firestore);
     const users = firestore.collection('users');

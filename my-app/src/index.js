@@ -1,8 +1,8 @@
 import React from 'react';
 // import ReactDOM from 'react-dom';
 import { createRoot } from 'react-dom/client';
+import { RecoilRoot } from 'recoil';
 import App from './App';
-import { AuthContextProvider } from './context/AuthContext';
 import GlobalStyle from './styles/GlobalStyle';
 
 const container = document.getElementById('root');
@@ -10,9 +10,9 @@ const root = createRoot(container);
 
 root.render(
   <>
-    <AuthContextProvider>
+    <RecoilRoot>
       <GlobalStyle />
       <App />
-    </AuthContextProvider>
+    </RecoilRoot>
   </>,
 );

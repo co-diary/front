@@ -10,17 +10,17 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
-  
+
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [passwordCheckError, setPasswordCheckError] = useState('');
   const [displayNameError, setDisplayNameError] = useState('');
-  
+
   const [isEmailValid, setIsEmailValid] = useState(null);
   const [isPasswordValid, setIsPasswordValid] = useState(null);
   const [isPasswordCheckValid, setIsPasswordCheckValid] = useState(null);
   const [isDisplayNameValid, setIsDisplayNameValid] = useState(null);
-  
+
   const [btnDisabled, setBtnDisabled] = useState(true);
   const { error, signup } = useSignup();
   const emailRef = useRef(null);
@@ -36,6 +36,7 @@ function SignUp() {
   useEffect(() => {
     if (error) {
       setIsEmailValid(false);
+      setBtnDisabled(true);
       setEmailError('이미 가입된 이메일입니다.');
       emailRef.current.focus();
     }
@@ -43,13 +44,12 @@ function SignUp() {
 
   const handleEmailChange = useCallback((e) => {
     setEmail(e.target.value);
-
     const emailRegExp =
       /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{2,3}$/;
 
     if (!emailRegExp.test(e.target.value)) {
-      setEmailError('이메일 형식이 올바르지 않습니다.');
       setIsEmailValid(false);
+      setEmailError('이메일 형식이 올바르지 않습니다.');
     } else {
       setIsEmailValid(true);
       setEmailError(null);
@@ -58,11 +58,11 @@ function SignUp() {
 
   const handlePasswordChange = useCallback((e) => {
     setPassword(e.target.value);
-    const passwordRegExp = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
+    const passwordRegExp = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,16}$/;
 
     if (!passwordRegExp.test(e.target.value)) {
       setIsPasswordValid(false);
-      setPasswordError('8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.');
+      setPasswordError('6~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.');
     } else {
       setIsPasswordValid(true);
       setPasswordError(null);
@@ -89,11 +89,11 @@ function SignUp() {
     const nicknameRegExp = /^(?=.*[a-zA-Z가-힣])[a-zA-Z가-힣]{2,6}$/;
 
     if (!nicknameRegExp.test(e.target.value)) {
-      setDisplayNameError('2~6자 한글 또는 영문을 사용하세요.');
       setIsDisplayNameValid(false);
+      setDisplayNameError('2~6자 한글 또는 영문을 사용하세요.');
     } else {
-      setDisplayNameError(null);
       setIsDisplayNameValid(true);
+      setDisplayNameError(null);
     }
   }, []);
 
@@ -158,7 +158,7 @@ function SignUp() {
             labelText='비밀번호'
             type='password'
             value={password}
-            placeholder='영문 대 소문자, 숫자, 특수문자를 입력하세요.(8~16자)'
+            placeholder='영문 대 소문자, 숫자, 특수문자를 입력하세요.(6~16자)'
             onChange={handlePasswordChange}
             onBlur={handlePasswordRequired}
             inputValid={isPasswordValid}
