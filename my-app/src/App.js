@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Router from './routes/Router';
-import firestore from './firebase';
+import { firestore } from './firebase';
 
 function App() {
   useEffect(() => {
