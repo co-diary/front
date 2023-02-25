@@ -2,24 +2,26 @@ import React, { useCallback, useEffect, useState } from 'react';
 import * as S from './style';
 import Button from '../../components/common/Button';
 import Header from '../../components/common/Header';
+import InputWithLabel from '../../components/common/InputWithLabel';
 
 function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
-
+  
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [passwordCheckError, setPasswordCheckError] = useState('');
   const [displayNameError, setDisplayNameError] = useState('');
-
-  const [isEmailValid, setIsEmailValid] = useState(false);
-  const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const [isPasswordCheckValid, setIsPasswordCheckValid] = useState(false);
-  const [isDisplayNameValid, setIsDisplayNameValid] = useState(false);
-
+  
+  const [isEmailValid, setIsEmailValid] = useState(null);
+  const [isPasswordValid, setIsPasswordValid] = useState(null);
+  const [isPasswordCheckValid, setIsPasswordCheckValid] = useState(null);
+  const [isDisplayNameValid, setIsDisplayNameValid] = useState(null);
+  
   const [btnDisabled, setBtnDisabled] = useState(true);
+
 
   useEffect(() => {
     if (isEmailValid && isPasswordValid && isPasswordCheckValid && isDisplayNameValid) {
@@ -28,6 +30,7 @@ function SignUp() {
       setBtnDisabled(true);
     }
   }, [isEmailValid, isPasswordValid, isPasswordCheckValid, isDisplayNameValid]);
+
 
   const handleEmailChange = useCallback((e) => {
     setEmail(e.target.value);
@@ -113,6 +116,14 @@ function SignUp() {
     }
   }, []);
 
+  const handleSignupSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      console.log(email, password, displayName);
+    },
+    [email, password, displayName],
+  );
+
   return (
     <>
       <Header />
@@ -120,63 +131,51 @@ function SignUp() {
         <S.HeaderContainer>
           <S.Title>회원가입</S.Title>
         </S.HeaderContainer>
-        <S.Form>
-          <S.InputContainer>
-            <S.Label htmlFor='userEmail'>이메일</S.Label>
-            <S.Input
-              id='userEmail'
-              type='email'
-              value={email}
-              placeholder='이메일을 입력하세요.'
-              onChange={handleEmailChange}
-              onBlur={handleEmailRequired}
-              maxLength='30'
-              required
-            />
-            {!isPasswordValid && <S.ErrorMessage>{emailError}</S.ErrorMessage>}
-          </S.InputContainer>
-          <S.InputContainer>
-            <S.Label htmlFor='userPw'>비밀번호</S.Label>
-            <S.Input
-              id='userPw'
-              type='password'
-              value={password}
-              placeholder='영문 대 소문자, 숫자, 특수문자를 입력하세요.(8~16자)'
-              onChange={handlePasswordChange}
-              onBlur={handlePasswordRequired}
-              maxLength='30'
-              required
-            />
-            {!isPasswordValid && <S.ErrorMessage>{passwordError}</S.ErrorMessage>}
-          </S.InputContainer>
-          <S.InputContainer>
-            <S.Label htmlFor='userPwCheck'>비밀번호 확인</S.Label>
-            <S.Input
-              id='userPwCheck'
-              type='password'
-              value={passwordCheck}
-              placeholder='비밀번호를 재입력하세요.'
-              onChange={handlePasswordCheckChange}
-              onBlur={handlePasswordCheckRequired}
-              maxLength='30'
-              required
-            />
-            {!isPasswordCheckValid && <S.ErrorMessage>{passwordCheckError}</S.ErrorMessage>}
-          </S.InputContainer>
-          <S.InputContainer>
-            <S.Label htmlFor='userNick'>닉네임</S.Label>
-            <S.Input
-              id='userNick'
-              type='text'
-              value={displayName}
-              placeholder='한글 또는 영문을 입력하세요.(2~6자)'
-              onChange={handleNicknameChange}
-              onBlur={handleNicknameRequired}
-              maxLength='30'
-              required
-            />
-            {!isDisplayNameValid && <S.ErrorMessage>{displayNameError}</S.ErrorMessage>}
-          </S.InputContainer>
+        <S.Form onSubmit={handleSignupSubmit}>
+          <InputWithLabel
+            id='userEmail'
+            labelText='이메일'
+            type='email'
+            value={email}
+            placeholder='이메일을 입력하세요.'
+            onChange={handleEmailChange}
+            onBlur={handleEmailRequired}
+            inputValid={isEmailValid}
+            errorMessage={emailError}
+          />
+          <InputWithLabel
+            id='userPw'
+            labelText='비밀번호'
+            type='password'
+            value={password}
+            placeholder='영문 대 소문자, 숫자, 특수문자를 입력하세요.(8~16자)'
+            onChange={handlePasswordChange}
+            onBlur={handlePasswordRequired}
+            inputValid={isPasswordValid}
+            errorMessage={passwordError}
+          />
+          <InputWithLabel
+            id='userPwCheck'
+            labelText='비밀번호 확인'
+            type='password'
+            value={passwordCheck}
+            placeholder='비밀번호를 재입력하세요.'
+            onChange={handlePasswordCheckChange}
+            onBlur={handlePasswordCheckRequired}
+            inputValid={isPasswordCheckValid}
+            errorMessage={passwordCheckError}
+          />
+          <InputWithLabel
+            id='userNick'
+            labelText='닉네임'
+            type='text'
+            value={displayName}
+            placeholder='한글 또는 영문을 입력하세요.(2~6자)'
+            onChange={handleNicknameChange}
+            onBlur={handleNicknameRequired}
+            inputValid={isDisplayNameValid}
+            errorMessage={displayNameError}
+          />
           <Button size='lg' text='회원가입' btnDisabled={btnDisabled} />
         </S.Form>
       </S.Container>
