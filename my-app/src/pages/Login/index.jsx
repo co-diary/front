@@ -2,12 +2,15 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import * as S from './style';
 import Button from '../../components/common/Button';
 import InputWithLabel from '../../components/common/InputWithLabel';
+import useLogin from '../../hooks/useLogin';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoginAllow, setIsLoginAllow] = useState(null);
+  const [loginError, setLoginError] = useState('');
   const [btnDisabled, setBtnDisabled] = useState(true);
+  const { error, login } = useLogin();
   const emailRef = useRef(null);
 
   const handleEmailChange = useCallback((e) => {
@@ -27,10 +30,21 @@ function Login() {
     }
   }, [email, password]);
 
+  useEffect(() => {
+    if (error) {
+      setIsLoginAllow(false);
+      setBtnDisabled(true);
+      setLoginError('이메일 또는 비밀번호가 일치하지 않습니다.');
+      emailRef.current.focus();
+    } else {
+      setLoginError('');
+    }
+  }, [error]);
+
   const handleLoginSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      console.log(email, password);
+      login(email, password);
     },
     [email, password],
   );
@@ -59,6 +73,7 @@ function Login() {
           placeholder='비밀번호를 입력하세요.'
           onChange={handlePasswordChange}
           isLoginAllow={isLoginAllow}
+          errorMessage={loginError}
         />
         <Button size='lg' text='로그인' btnDisabled={btnDisabled} />
       </S.Form>
