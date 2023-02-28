@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'; // eslint-disable-line no-unused-vars
+
 import { useRecoilState, useSetRecoilState } from 'recoil'; // eslint-disable-line no-unused-vars
 import { getAuth, onAuthStateChanged } from 'firebase/auth'; // eslint-disable-line no-unused-vars
 import { authState } from '../../atom/authRecoil'; // eslint-disable-line no-unused-vars
@@ -16,6 +17,8 @@ function Home() {
   const [userState, setUserState] = useRecoilState(authState);
   const [userName, setUserName] = useState('');
   const [postCount, setPostCount] = useState();
+  const [drinkCount, setDrinkCount] = useState(0);
+  const [dessertCount, setdessertCount] = useState(0);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(appAuth, (user) => {
@@ -28,17 +31,16 @@ function Home() {
 
   console.log(userState);
 
-  console.log(postCount);
-
   useEffect(() => {
     firestore
       .collection('post')
       .get()
       .then((result) => {
-        console.log(result);
         result.forEach((doc) => {
-          console.log(doc.data());
           setPostCount(doc.data.length);
+          doc.data().theme === '음료'
+            ? setDrinkCount(drinkCount + 1)
+            : setdessertCount(dessertCount + 1);
         });
       });
   }, []);
@@ -67,8 +69,13 @@ function Home() {
         <section>
           <S.SubTitle>{userName}님의 기록 앨범</S.SubTitle>
           <S.CategoryCards>
-            <CategoryCard to='/post' title={'음료'} Icon={DrinkIcon} count={'102'} />
-            <CategoryCard to='/post' title={'디저트'} Icon={DessertIcon} count={'300+'} />
+            <CategoryCard to='/post/drink' title={'음료'} Icon={DrinkIcon} count={drinkCount} />
+            <CategoryCard
+              to='/post/dessert'
+              title={'디저트'}
+              Icon={DessertIcon}
+              count={dessertCount}
+            />
           </S.CategoryCards>
         </section>
         <section>
