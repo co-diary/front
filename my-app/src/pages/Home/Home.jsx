@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as S from './style';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
@@ -6,8 +6,22 @@ import DrinkIcon from '../../assets/Icon-beverage.png';
 import DessertIcon from '../../assets/Icon-dessert.png';
 import CategoryCard from '../../components/home/CategoryCard/CategoryCard';
 import PostCard from '../../components/common/PostCard';
+import { firestore } from '../../firebase';
 
 function Home() {
+  console.log(firestore.collection('user'));
+
+  useEffect(() => {
+    firestore
+      .collection('user')
+      .get()
+      .then((result) => {
+        result.forEach((doc) => {
+          console.log(doc.data());
+        });
+      });
+  }, []);
+
   return (
     <>
       <Header
