@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Hashtag from '../pages/Hashtag';
 import HashtagResult from '../pages/Hashtag/HashtagResult';
-import Home from '../pages/Home/Home';
+import Home from '../pages/Home';
 import LikePosts from '../pages/LikePosts/';
 import Login from '../pages/Login';
 import Location from '../pages/Location';
