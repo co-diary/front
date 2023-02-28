@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { getAuth } from 'firebase/auth'; // eslint-disable-line no-unused-vars
-import { firestore } from '../../firebase'; // eslint-disable-line no-unused-vars
+import React, { useState, useEffect } from 'react'; // eslint-disable-line no-unused-vars
+import { useRecoilState, useSetRecoilState } from 'recoil'; // eslint-disable-line no-unused-vars
+import { getAuth, onAuthStateChanged } from 'firebase/auth'; // eslint-disable-line no-unused-vars
+import { authState } from '../../atom/authRecoil'; // eslint-disable-line no-unused-vars
+import { appAuth, firestore } from '../../firebase'; // eslint-disable-line no-unused-vars
+
 import * as S from './style';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
@@ -10,14 +13,34 @@ import CategoryCard from '../../components/home/CategoryCard/CategoryCard';
 import PostCard from '../../components/common/PostCard';
 
 function Home() {
-  // const [userInfo, setUserInfo] = useState();
-  const [userName, setUserName] = useState();
+  const [userState, setUserState] = useRecoilState(authState);
+  const [userName, setUserName] = useState('');
+  const [postCount, setPostCount] = useState();
 
   useEffect(() => {
-    const auth = getAuth();
-    const currentUserName = auth.currentUser.displayName;
+    const unsubscribe = onAuthStateChanged(appAuth, (user) => {
+      setUserState(user);
+      setUserName(user.displayName);
+    });
 
-    setUserName(currentUserName);
+    return unsubscribe;
+  }, []);
+
+  console.log(userState);
+
+  console.log(postCount);
+
+  useEffect(() => {
+    firestore
+      .collection('post')
+      .get()
+      .then((result) => {
+        console.log(result);
+        result.forEach((doc) => {
+          console.log(doc.data());
+          setPostCount(doc.data.length);
+        });
+      });
   }, []);
 
   return (
@@ -37,7 +60,7 @@ function Home() {
             <S.Title>오늘도 나만의 커디어리를 기록해 보세요!</S.Title>
             <S.Total>
               <S.TotalTxt>전체 기록</S.TotalTxt>
-              <S.Count>502</S.Count>
+              <S.Count>{postCount}</S.Count>
             </S.Total>
           </S.SectionContainer>
         </section>
