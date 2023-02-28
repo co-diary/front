@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getAuth } from 'firebase/auth'; // eslint-disable-line no-unused-vars
+import { firestore } from '../../firebase'; // eslint-disable-line no-unused-vars
 import * as S from './style';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
@@ -6,20 +8,16 @@ import DrinkIcon from '../../assets/Icon-beverage.png';
 import DessertIcon from '../../assets/Icon-dessert.png';
 import CategoryCard from '../../components/home/CategoryCard/CategoryCard';
 import PostCard from '../../components/common/PostCard';
-import { firestore } from '../../firebase';
 
 function Home() {
-  console.log(firestore.collection('user'));
+  // const [userInfo, setUserInfo] = useState();
+  const [userName, setUserName] = useState();
 
   useEffect(() => {
-    firestore
-      .collection('user')
-      .get()
-      .then((result) => {
-        result.forEach((doc) => {
-          console.log(doc.data());
-        });
-      });
+    const auth = getAuth();
+    const currentUserName = auth.currentUser.displayName;
+
+    setUserName(currentUserName);
   }, []);
 
   return (
@@ -44,7 +42,7 @@ function Home() {
           </S.SectionContainer>
         </section>
         <section>
-          <S.SubTitle>곽두팔이님의 기록 앨범</S.SubTitle>
+          <S.SubTitle>{userName}님의 기록 앨범</S.SubTitle>
           <S.CategoryCards>
             <CategoryCard to='/post' title={'음료'} Icon={DrinkIcon} count={'102'} />
             <CategoryCard to='/post' title={'디저트'} Icon={DessertIcon} count={'300+'} />
