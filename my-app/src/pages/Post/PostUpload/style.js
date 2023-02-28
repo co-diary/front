@@ -34,7 +34,7 @@ export const SelectBox = styled.div`
 
   button {
     width: 100%;
-    padding: 0.9rem 1.2rem 0.6rem;
+    padding: 0.8rem 1.2rem;
     text-align: start;
 
     &::before {
