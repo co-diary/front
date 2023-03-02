@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import Header from '../../../components/common/Header';
 import NavBar from '../../../components/common/NavBar';
 import Button from '../../../components/common/Button';
@@ -11,14 +11,44 @@ import IconAddPhoto from '../../../assets/Icon-AddPhoto.png';
 import * as S from './style';
 
 function PostUpload() {
+  const drink = [
+    { id: 1, option: '커피' },
+    { id: 2, option: '논커피' },
+    { id: 3, option: '스무디' },
+    { id: 4, option: '주스' },
+    { id: 5, option: '기타' },
+  ];
+
+  const [currentDrink, setCurrentDrink] = useState('커피');
+  const [isShowOption, setIsShowOption] = useState(false);
+
+  const handleDisplayList = useCallback(() => {
+    setIsShowOption((prev) => !prev);
+  }, []);
+
+  const handleClickList = useCallback((e) => {
+    setCurrentDrink(e.target.innerText);
+    setIsShowOption(false);
+    e.stopPropagation();
+  }, []);
+
   return (
     <>
       <Header title='오늘 작성할 커디어리' rightChild={<Button size='sm' text='등록' />} />
       <S.Container>
         <S.Form>
           <S.SelectBoxWrapper>
-            <S.SelectBox>
-              <button>음료</button>
+            <S.SelectBox options={isShowOption} onClick={handleDisplayList}>
+              <S.CurrentSelect type='button' options={isShowOption}>
+                {currentDrink}
+              </S.CurrentSelect>
+              {isShowOption && (
+                <S.ListBox options={isShowOption} onClick={handleClickList}>
+                  {drink.map((drinks) => (
+                    <S.ListOption key={drinks.id}>{drinks.option}</S.ListOption>
+                  ))}
+                </S.ListBox>
+              )}
             </S.SelectBox>
             <S.SelectBox>
               <button>논커피</button>
