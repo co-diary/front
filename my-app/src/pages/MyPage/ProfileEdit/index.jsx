@@ -2,6 +2,7 @@ import React from 'react';
 import * as S from './style';
 import Button from '../../../components/common/Button';
 import Header from '../../../components/common/Header';
+import InputWithLabel from '../../../components/common/InputWithLabel';
 
 function ProfileEdit() {
   return (
@@ -12,15 +13,8 @@ function ProfileEdit() {
           <S.Title>내 정보 수정하기</S.Title>
         </S.HeaderContainer>
         <S.Form>
-          <S.InputContainer>
-            <S.Label>이메일</S.Label>
-            <S.Input type='email' value='본인 계정' readOnly />
-          </S.InputContainer>
-          <S.InputContainer>
-            <S.Label>닉네임</S.Label>
-            <S.Input type='text' value='본인 닉네임' required />
-            <S.ErrorMessage>2~6자 한글, 영문을 사용하세요.</S.ErrorMessage>
-          </S.InputContainer>
+          <InputWithLabel id='userEmail' labelText='이메일' type='email' />
+          <InputWithLabel id='userNick' labelText='닉네임' type='text' />
           <Button size='lg' text='저장' />
         </S.Form>
       </S.Container>
