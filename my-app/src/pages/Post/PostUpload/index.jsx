@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import useOutsideDetect from '../../../hooks/useOutsideDetect';
 import Header from '../../../components/common/Header';
 import NavBar from '../../../components/common/NavBar';
 import Button from '../../../components/common/Button';
@@ -20,11 +21,7 @@ function PostUpload() {
   ];
 
   const [currentDrink, setCurrentDrink] = useState('커피');
-  const [isShowOption, setIsShowOption] = useState(false);
-
-  const handleDisplayList = useCallback(() => {
-    setIsShowOption((prev) => !prev);
-  }, []);
+  const [isShowOption, setIsShowOption, ref, handleDisplayList] = useOutsideDetect(false);
 
   const handleClickList = useCallback((e) => {
     setCurrentDrink(e.target.innerText);
@@ -38,7 +35,7 @@ function PostUpload() {
       <S.Container>
         <S.Form>
           <S.SelectBoxWrapper>
-            <S.SelectBox options={isShowOption} onClick={handleDisplayList}>
+            <S.SelectBox options={isShowOption} onClick={handleDisplayList} ref={ref}>
               <S.CurrentSelect type='button' options={isShowOption}>
                 {currentDrink}
               </S.CurrentSelect>
