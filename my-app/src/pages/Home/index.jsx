@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react'; // eslint-disable-line no-unused-vars
-
-import { useRecoilState, useSetRecoilState } from 'recoil'; // eslint-disable-line no-unused-vars
-import { getAuth, onAuthStateChanged } from 'firebase/auth'; // eslint-disable-line no-unused-vars
-import { authState } from '../../atom/authRecoil'; // eslint-disable-line no-unused-vars
-import { appAuth, firestore } from '../../firebase'; // eslint-disable-line no-unused-vars
+import React, { useState, useEffect } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { authState } from '../../atom/authRecoil';
+import { appAuth, firestore } from '../../firebase';
 
 import * as S from './style';
 import Header from '../../components/common/Header';
@@ -20,6 +19,21 @@ function Home() {
   const [drinkCount, setDrinkCount] = useState(0);
   const [dessertCount, setdessertCount] = useState(0);
 
+  const cards = [
+    {
+      categoryId: 'drink',
+      title: '음료',
+      icon: DrinkIcon,
+      count: drinkCount,
+    },
+    {
+      categoryId: 'dessert',
+      title: '디저트',
+      icon: DessertIcon,
+      count: dessertCount,
+    },
+  ];
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(appAuth, (user) => {
       setUserState(user);
@@ -28,8 +42,6 @@ function Home() {
 
     return unsubscribe;
   }, []);
-
-  console.log(userState);
 
   useEffect(() => {
     firestore
@@ -69,13 +81,14 @@ function Home() {
         <section>
           <S.SubTitle>{userName}님의 기록 앨범</S.SubTitle>
           <S.CategoryCards>
-            <CategoryCard to='/post/drink' title={'음료'} Icon={DrinkIcon} count={drinkCount} />
-            <CategoryCard
-              to='/post/dessert'
-              title={'디저트'}
-              Icon={DessertIcon}
-              count={dessertCount}
-            />
+            {cards.map((card) => (
+              <CategoryCard
+                key={card.categoryId}
+                title={card.title}
+                Icon={card.icon}
+                count={card.count}
+              />
+            ))}
           </S.CategoryCards>
         </section>
         <section>
