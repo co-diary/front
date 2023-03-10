@@ -13,7 +13,7 @@ export const Form = styled.form`
   width: 100%;
 `;
 
-export const SelectBoxWrapper = styled.div`
+export const SelectBoxWrapper = styled.article`
   display: flex;
   gap: 1.2rem;
   margin: 2.6rem 0 2.4rem;
@@ -21,7 +21,7 @@ export const SelectBoxWrapper = styled.div`
 
 export const SelectBox = styled.div`
   position: relative;
-  width: 8rem;
+  width: 8.8rem;
   font-size: 1.4rem;
   border: 1px solid ${Theme.BORDER};
   border-radius: 3.8rem;
