@@ -9,25 +9,36 @@ import IconLocationOff from '../../../assets/Icon-Nav-Map-off.png';
 import IconCalendar from '../../../assets/Icon-Calendar.png';
 import IconAddInput from '../../../assets/Icon-AddInput.png';
 import IconAddPhoto from '../../../assets/Icon-AddPhoto.png';
+import SELECTBOX_DATA from '../SELECTBOX_DATA';
 import * as S from './style';
 
 function PostUpload() {
-  const drink = [
-    { id: 1, option: '커피' },
-    { id: 2, option: '논커피' },
-    { id: 3, option: '스무디' },
-    { id: 4, option: '주스' },
-    { id: 5, option: '기타' },
-  ];
+  const [isShowOptionCategory, setIsShowOptionCategory, categoryRef, handleDisplayCategory] =
+    useOutsideDetect(false);
+  const [isShowOptionTheme, setIsShowOptionTheme, themeRef, handleDisplayTheme] =
+    useOutsideDetect(false);
+  const [currentCategory, setCurrentCategory] = useState(SELECTBOX_DATA[0].name);
+  const [currentTheme, setCurrentTheme] = useState(SELECTBOX_DATA[0].option[0].subName);
+  const [currentSelect, setCurrentSelect] = useState(1);
 
-  const [currentDrink, setCurrentDrink] = useState('커피');
-  const [isShowOption, setIsShowOption, ref, handleDisplayList] = useOutsideDetect(false);
-
-  const handleClickList = useCallback((e) => {
-    setCurrentDrink(e.target.innerText);
-    setIsShowOption(false);
+  const handleClickListCategory = useCallback((e) => {
+    setCurrentCategory(e.target.innerText);
+    setCurrentTheme(
+      e.target.innerText === '음료'
+        ? SELECTBOX_DATA[0].option[0].subName
+        : SELECTBOX_DATA[1].option[0].subName,
+    );
+    setIsShowOptionCategory(false);
     e.stopPropagation();
   }, []);
+
+  const handleClickListTheme = useCallback((e) => {
+    setCurrentTheme(e.target.innerText);
+    setIsShowOptionTheme(false);
+    e.stopPropagation();
+  }, []);
+
+  const subOption = SELECTBOX_DATA.find((category) => category.id === currentSelect).option;
 
   return (
     <>
@@ -35,20 +46,36 @@ function PostUpload() {
       <S.Container>
         <S.Form>
           <S.SelectBoxWrapper>
-            <S.SelectBox options={isShowOption} onClick={handleDisplayList} ref={ref}>
-              <S.CurrentSelect type='button' options={isShowOption}>
-                {currentDrink}
+            <h1 className='ir'>카테고리 선택</h1>
+            <S.SelectBox
+              options={isShowOptionCategory}
+              onClick={handleDisplayCategory}
+              ref={categoryRef}
+            >
+              <S.CurrentSelect type='button' options={isShowOptionCategory}>
+                {currentCategory}
               </S.CurrentSelect>
-              {isShowOption && (
-                <S.ListBox options={isShowOption} onClick={handleClickList}>
-                  {drink.map((drinks) => (
-                    <S.ListOption key={drinks.id}>{drinks.option}</S.ListOption>
+              {isShowOptionCategory && (
+                <S.ListBox options={isShowOptionCategory} onClick={handleClickListCategory}>
+                  {SELECTBOX_DATA.map((category) => (
+                    <S.ListOption key={category.id} onClick={() => setCurrentSelect(category.id)}>
+                      {category.name}
+                    </S.ListOption>
                   ))}
                 </S.ListBox>
               )}
             </S.SelectBox>
-            <S.SelectBox>
-              <button>논커피</button>
+            <S.SelectBox options={isShowOptionTheme} onClick={handleDisplayTheme} ref={themeRef}>
+              <S.CurrentSelect type='button' options={isShowOptionTheme}>
+                {currentTheme}
+              </S.CurrentSelect>
+              {isShowOptionTheme && (
+                <S.ListBox options={isShowOptionTheme} onClick={handleClickListTheme}>
+                  {subOption.map((option) => (
+                    <S.ListOption key={option.subId}>{option.subName}</S.ListOption>
+                  ))}
+                </S.ListBox>
+              )}
             </S.SelectBox>
           </S.SelectBoxWrapper>
           <S.InputBox length='1.2rem'>
