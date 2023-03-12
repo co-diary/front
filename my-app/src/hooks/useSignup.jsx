@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useNavigate } from 'react-router';
-import { appAuth } from '../firebase.js';
+import { setDoc, doc } from 'firebase/firestore';
+import { appAuth, firestore } from '../firebase.js';
 import { authState } from '../atom/authRecoil.js';
 
 const useSignup = () => {
@@ -18,17 +19,25 @@ const useSignup = () => {
     createUserWithEmailAndPassword(appAuth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        const uid = user.uid;
 
         if (!user) {
           throw new Error('회원가입에 실패했습니다.');
         }
 
         updateProfile(appAuth.currentUser, { displayName })
-          .then(() => {
+          .then(async () => {
             setAuth(user);
             setError(null);
             setIsPending(false);
             navigate('/home');
+
+            await setDoc(doc(firestore, 'users', uid), {
+              uid,
+              email,
+              password,
+              displayName,
+            });
           })
           .catch((err) => {
             setError(err.message);
