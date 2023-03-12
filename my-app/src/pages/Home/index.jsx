@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { authState } from '../../atom/authRecoil';
@@ -9,7 +10,7 @@ import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import DrinkIcon from '../../assets/Icon-beverage.png';
 import DessertIcon from '../../assets/Icon-dessert.png';
-import CategoryCard from '../../components/home/CategoryCard/CategoryCard';
+import CategoryCard from '../../components/home/CategoryCard';
 import PostCard from '../../components/common/PostCard';
 
 function Home() {
@@ -18,6 +19,8 @@ function Home() {
   const [postCount, setPostCount] = useState();
   const [drinkCount, setDrinkCount] = useState(0);
   const [dessertCount, setdessertCount] = useState(0);
+
+  const navigate = useNavigate();
 
   const cards = [
     {
@@ -57,6 +60,12 @@ function Home() {
       });
   }, []);
 
+  const onClickCard = () => {
+    navigate('/post', {
+      state: { ...cards },
+    });
+  };
+
   return (
     <>
       <Header
@@ -87,6 +96,7 @@ function Home() {
                 title={card.title}
                 Icon={card.icon}
                 count={card.count}
+                onClickCard={onClickCard}
               />
             ))}
           </S.CategoryCards>
