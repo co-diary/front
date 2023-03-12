@@ -7,6 +7,8 @@ import useLogin from '../../hooks/useLogin';
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isLoginAllow, setIsLoginAllow] = useState(null);
   const [loginError, setLoginError] = useState('');
   const [btnDisabled, setBtnDisabled] = useState(true);
@@ -15,10 +17,23 @@ function Login() {
 
   const handleEmailChange = useCallback((e) => {
     setEmail(e.target.value);
+
+    const emailRegExp =
+      /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{2,3}$/;
+
+    if (!emailRegExp.test(e.target.value)) {
+      setIsEmailValid(false);
+    } else {
+      setIsEmailValid(true);
+    }
   }, []);
 
   const handlePasswordChange = useCallback((e) => {
     setPassword(e.target.value);
+
+    if (e.target.value) {
+      setIsPasswordValid(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -32,12 +47,10 @@ function Login() {
 
   useEffect(() => {
     if (error) {
-      setIsLoginAllow(false);
       setBtnDisabled(true);
+      setIsLoginAllow(false);
       setLoginError('이메일 또는 비밀번호가 일치하지 않습니다.');
       emailRef.current.focus();
-    } else {
-      setLoginError('');
     }
   }, [error]);
 
