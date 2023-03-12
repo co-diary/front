@@ -33,13 +33,19 @@ function Login() {
 
     if (e.target.value) {
       setIsPasswordValid(true);
+    } else {
+      setIsPasswordValid(false);
     }
   }, []);
 
   useEffect(() => {
-    if (!!email.length && !!password.length) {
-      setIsLoginAllow(true);
+    if (isEmailValid && isPasswordValid) {
       setBtnDisabled(false);
+      setIsLoginAllow(true);
+
+      if (error) {
+        setIsLoginAllow(false);
+      }
     } else {
       setBtnDisabled(true);
     }
