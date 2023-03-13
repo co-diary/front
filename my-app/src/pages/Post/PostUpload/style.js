@@ -117,6 +117,7 @@ export const Input = styled.input`
   outline: none;
 
   &::placeholder {
+    font-family: 'LINESeedKR-Rg';
     color: ${Theme.PLACEHOLDER};
   }
 
@@ -128,9 +129,8 @@ export const Input = styled.input`
 export const CalendarBtn = styled.img`
   position: absolute;
   top: 0.2rem;
-  left: 12.4rem;
+  left: 14.6rem;
   width: 2rem;
-  cursor: pointer;
 `;
 
 export const LocationBtn = styled.img`
