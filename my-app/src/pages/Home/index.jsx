@@ -39,6 +39,7 @@ function Home() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(appAuth, (user) => {
+      console.log(userState);
       setUserState(user);
       setUserName(user.displayName);
     });
@@ -61,6 +62,7 @@ function Home() {
   }, []);
 
   const onClickCard = () => {
+    console.log('onClickCard 실행');
     navigate('/post', {
       state: { ...cards },
     });
