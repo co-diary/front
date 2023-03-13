@@ -20,8 +20,6 @@ function Home() {
   const [drinkCount, setDrinkCount] = useState(0);
   const [dessertCount, setdessertCount] = useState(0);
 
-  const navigate = useNavigate();
-
   const cards = [
     {
       categoryId: 'drink',
@@ -61,13 +59,6 @@ function Home() {
       });
   }, []);
 
-  const onClickCard = () => {
-    console.log('onClickCard 실행');
-    navigate('/post', {
-      state: { ...cards },
-    });
-  };
-
   return (
     <>
       <Header
@@ -98,7 +89,6 @@ function Home() {
                 title={card.title}
                 Icon={card.icon}
                 count={card.count}
-                onClickCard={onClickCard}
               />
             ))}
           </S.CategoryCards>
