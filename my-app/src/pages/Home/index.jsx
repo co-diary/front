@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useRecoilState } from 'recoil';
+import { onAuthStateChanged } from 'firebase/auth';
 import { authState } from '../../atom/authRecoil';
 import { appAuth, firestore } from '../../firebase';
 
@@ -35,15 +34,16 @@ function Home() {
     },
   ];
 
+  console.log(userState);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(appAuth, (user) => {
-      console.log(userState);
       setUserState(user);
       setUserName(user.displayName);
     });
 
     return unsubscribe;
-  }, []);
+  }, [setUserState]);
 
   useEffect(() => {
     firestore
@@ -57,6 +57,7 @@ function Home() {
             : setdessertCount(dessertCount + 1);
         });
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
