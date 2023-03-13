@@ -1,4 +1,4 @@
-const CATEGORIES = [
+const SELECTBOX_DATA = [
   {
     id: 1,
     name: '음료',
@@ -22,4 +22,4 @@ const CATEGORIES = [
   },
 ];
 
-export default CATEGORIES;
+export default SELECTBOX_DATA;
