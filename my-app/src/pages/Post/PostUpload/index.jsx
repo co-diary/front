@@ -1,7 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale';
+import { format } from 'date-fns';
 import useOutsideDetect from '../../../hooks/useOutsideDetect';
 import Header from '../../../components/common/Header';
 import NavBar from '../../../components/common/NavBar';
@@ -25,8 +26,7 @@ function PostUpload() {
   const [currentTheme, setCurrentTheme] = useState(SELECTBOX_DATA[0].option[0].subName);
   const [currentSelect, setCurrentSelect] = useState(1);
   const [startDate, setStartDate] = useState(null);
-
-  console.log(startDate);
+  // const [submitDate, setSubmitDate] = useState(new Date());
 
   const handleClickListCategory = useCallback((e) => {
     setCurrentCategory(e.target.innerText);
@@ -46,6 +46,14 @@ function PostUpload() {
   }, []);
 
   const subOption = SELECTBOX_DATA.find((category) => category.id === currentSelect).option;
+
+  useEffect(() => {
+    if (!startDate) return;
+
+    const form = new FormData();
+
+    form.append('date', format(startDate, 'yyyy.MM.dd'));
+  }, [startDate]);
 
   return (
     <>
@@ -88,14 +96,16 @@ function PostUpload() {
           <S.InputBox length='1.2rem'>
             <S.Label htmlFor='date'>날짜</S.Label>
             <DatePicker
-              showIcon
               dateFormat='yyyy.MM.dd'
               selected={startDate}
-              onChange={(date) => setStartDate(date)}
+              onChange={(date) => {
+                setStartDate(date);
+              }}
               placeholderText='0000.00.00'
               locale={ko}
               closeOnScroll={true}
               showPopperArrow={false}
+              disabledKeyboardNavigation
             />
             <S.CalendarBtn src={IconCalendar} alt='달력 버튼' />
           </S.InputBox>
