@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { useLocation } from 'react-router';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import IconSearch from '../../assets/Icon-Search.png';
@@ -8,6 +9,10 @@ import * as S from './style';
 function Post() {
   const [currentOrder, setCurrentOrder] = useState('최신순');
   const [displayOptions, setDisplayOptions] = useState(false);
+
+  const location = useLocation();
+
+  console.log('state', location.state);
 
   const handleDisplayList = useCallback(() => {
     setDisplayOptions((prev) => !prev);

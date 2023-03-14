@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
 import Theme from '../../styles/Theme';
 
 import IconTag from '../../assets/Icon-tag.png';
@@ -16,7 +18,7 @@ export const Container = styled.main`
   height: fit-content;
 `;
 
-export const HashBtn = styled.button`
+export const HashLink = styled(Link)`
   position: relative;
   width: 2.4rem;
   height: 2.4rem;
@@ -28,7 +30,7 @@ export const HashBtn = styled.button`
   }
 `;
 
-export const SearchBtn = styled.button`
+export const SearchLink = styled(Link)`
   position: relative;
   width: 2.4rem;
   height: 2.4rem;

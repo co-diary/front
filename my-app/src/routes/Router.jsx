@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Hashtag from '../pages/Hashtag';
 import HashtagResult from '../pages/Hashtag/HashtagResult';
-import Home from '../pages/Home/Home';
+import Home from '../pages/Home';
 import LikePosts from '../pages/LikePosts/';
 import Login from '../pages/Login';
 import Location from '../pages/Location';
@@ -27,8 +27,8 @@ function Router() {
         <Route path='/home' element={<Home />} />
         <Route path='/location' element={<Location />} />
         <Route path='/post' element={<Post />} />
-        <Route path='/post/:postId' element={<PostDetail />} />
-        <Route path='/post/:postId/edit' element={<PostEdit />} />
+        <Route path='/post/:id' element={<PostDetail />} />
+        <Route path='/post/edit' element={<PostEdit />} />
         <Route path='/upload' element={<PostUpload />} />
         <Route path='/likeposts' element={<LikePosts />} />
         <Route path='/mypage' element={<MyPage />} />

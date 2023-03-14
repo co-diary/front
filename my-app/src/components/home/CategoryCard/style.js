@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Theme from '../../../styles/Theme';
 
-export const Container = styled.button`
+export const Container = styled.div`
   position: relative;
   display: flex;
   align-items: center;
@@ -13,6 +13,8 @@ export const Container = styled.button`
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.14);
   font-family: 'LINESeedKR-Bd';
   background-color: ${Theme.WHITE};
+
+  cursor: pointer;
 `;
 
 export const Count = styled.p`
