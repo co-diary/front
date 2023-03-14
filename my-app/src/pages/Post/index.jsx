@@ -1,5 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router';
+
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import IconSearch from '../../assets/Icon-Search.png';
@@ -9,10 +10,16 @@ import * as S from './style';
 function Post() {
   const [currentOrder, setCurrentOrder] = useState('최신순');
   const [displayOptions, setDisplayOptions] = useState(false);
+  const [categoryTitle, setCategoryTitle] = useState('');
 
   const location = useLocation();
 
   console.log('state', location.state);
+
+  useEffect(() => {
+    setCategoryTitle(location.state);
+    console.log(categoryTitle);
+  }, []);
 
   const handleDisplayList = useCallback(() => {
     setDisplayOptions((prev) => !prev);
@@ -27,7 +34,7 @@ function Post() {
   return (
     <>
       <Header
-        title='음료props'
+        title={categoryTitle}
         rightChild={
           <S.HeaderBtn>
             <img src={IconSearch} alt='검색' />
@@ -36,7 +43,7 @@ function Post() {
       />
       <S.Container>
         <header>
-          <h1 className='ir'>음료/props 게시글 페이지</h1>
+          <h1 className='ir'>{categoryTitle} 게시글 페이지</h1>
         </header>
         <nav>
           <S.CategoryContainer>
