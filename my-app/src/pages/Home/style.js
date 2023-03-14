@@ -93,15 +93,8 @@ export const CategoryContainer = styled.div`
   gap: 2.2rem;
 `;
 
-export const Cards = styled.div`
+export const Cards = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
-`;
-
-export const Card = styled.div`
-  width: 100%;
-  height: 18.4rem;
-  border: 1px solid black;
-  border-radius: 1rem;
 `;

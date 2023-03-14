@@ -4,7 +4,7 @@ import Theme from '../../styles/Theme';
 import IconHeartOff from '../../assets/Icon-Heart-off.png';
 import IconStarOn from '../../assets/Icon-star-on.png';
 
-const PostCardBox = styled.div`
+const PostCardBox = styled.li`
   position: relative;
   display: flex;
   width: 100%;

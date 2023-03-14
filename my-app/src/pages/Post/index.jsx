@@ -72,24 +72,7 @@ function Post() {
           </S.ListBox>
         </S.SelectBox>
         <S.PostContainer>
-          <li>
-            <PostCard />
-          </li>
-          <li>
-            <PostCard />
-          </li>
-          <li>
-            <PostCard />
-          </li>
-          <li>
-            <PostCard />
-          </li>
-          <li>
-            <PostCard />
-          </li>
-          <li>
-            <PostCard />
-          </li>
+          <PostCard />
         </S.PostContainer>
       </S.Container>
       <NavBar />
