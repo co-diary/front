@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
 import * as S from './style';
 import Header from '../../components/common/Header';
@@ -46,9 +46,7 @@ function MyPage() {
           <S.UserEmail>{user?.email || 'email@abc.com'}</S.UserEmail>
         </div>
         <S.ButtonContainer>
-          <Button size='default' text='프로필 수정'>
-            <Link to ={'/profile/:userId/edit'} alt='프로필수정버튼'></Link>
-          </Button>
+          <Button size='default' text='프로필 수정' onClick={() => navigate(`/profile/${user.id}/edit`)} />
         </S.ButtonContainer>
       </S.BoxOne>
       <S.BoxTwo>

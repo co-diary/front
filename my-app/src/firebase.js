@@ -2,6 +2,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 
+
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -20,3 +21,4 @@ const appAuth = firebase.auth();
 
 // 필요한 곳에서 사용할 수 있도록 내보내기
 export { firestore, appAuth };
+
