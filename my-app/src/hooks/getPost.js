@@ -9,7 +9,11 @@ async function getPost() {
 
   postSnapshot.forEach((doc) => {
     console.log(doc.id, '=>', doc.data());
-    postList.push(doc.data());
+    let data = doc.data();
+
+    data = { ...data, ...{ key: doc.id } };
+
+    postList.push(data);
   });
 
   console.log(postList);
