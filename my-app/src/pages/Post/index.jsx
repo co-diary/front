@@ -10,18 +10,13 @@ import getPost from '../../hooks/getPost';
 function Post() {
   const [currentOrder, setCurrentOrder] = useState('최신순');
   const [displayOptions, setDisplayOptions] = useState(false);
-  const [categoryTitle, setCategoryTitle] = useState('');
-  const [postList, setPostList] = useState([]); // eslint-disable-line no-unused-vars
-
-  useEffect(() => {
-    getPost().then((data) => setPostList(data));
-  }, []);
+  const [postList, setPostList] = useState([]);
 
   const location = useLocation();
+  const categoryTitle = location.state;
 
   useEffect(() => {
-    setCategoryTitle(location.state);
-    console.log(categoryTitle);
+    getPost(categoryTitle).then((data) => setPostList(data));
   }, []);
 
   const handleDisplayList = useCallback(() => {
@@ -75,7 +70,20 @@ function Post() {
           </S.ListBox>
         </S.SelectBox>
         <S.PostContainer>
-          <PostCard />
+          {postList.map((post) => (
+            <PostCard
+              key={post.key}
+              date={post.date}
+              like={post.like}
+              location={post.location}
+              menu={post.menu}
+              photo={post.photo}
+              review={post.review}
+              score={post.score}
+              shop={post.shop}
+              tag={post.tag}
+            />
+          ))}
         </S.PostContainer>
       </S.Container>
       <NavBar />

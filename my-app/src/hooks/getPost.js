@@ -1,10 +1,12 @@
-import { getDocs, collection } from 'firebase/firestore';
+import { getDocs, query, collection, where } from 'firebase/firestore';
 import { db } from '../firebase';
 
 // 재사용 가능하도록 디벨롭 예정
 
-async function getPost() {
-  const postSnapshot = await getDocs(collection(db, 'post'));
+async function getPost(categoryTitle) {
+  const q = query(collection(db, 'post'), where('theme', '==', categoryTitle));
+
+  const postSnapshot = await getDocs(q);
   const postList = [];
 
   postSnapshot.forEach((doc) => {
