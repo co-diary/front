@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router';
-
-import { getDoc, doc } from 'firebase/firestore/lite'; // eslint-disable-line no-unused-vars
-import { collection, query, where, getDocs } from 'firebase/firestore'; // eslint-disable-line no-unused-vars
-import { db, firestore } from '../../firebase'; // eslint-disable-line no-unused-vars
-
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import IconSearch from '../../assets/Icon-Search.png';
@@ -19,9 +14,7 @@ function Post() {
   const [postList, setPostList] = useState([]); // eslint-disable-line no-unused-vars
 
   useEffect(() => {
-    console.log('useEffect 작동');
-
-    getPost();
+    getPost().then((data) => setPostList(data));
   }, []);
 
   const location = useLocation();

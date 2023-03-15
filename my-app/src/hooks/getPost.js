@@ -1,16 +1,19 @@
-import { getDocs, collection, query, where } from 'firebase/firestore'; // eslint-disable-line no-unused-vars
-import { firestore, db } from '../firebase'; // eslint-disable-line no-unused-vars
+import { getDocs, collection } from 'firebase/firestore';
+import { db } from '../firebase';
+
+// 재사용 가능하도록 디벨롭 예정
 
 async function getPost() {
-  console.log(db);
-
   const postSnapshot = await getDocs(collection(db, 'post'));
-
-  console.log(postSnapshot);
+  const postList = [];
 
   postSnapshot.forEach((doc) => {
     console.log(doc.id, '=>', doc.data());
+    postList.push(doc.data());
   });
+
+  console.log(postList);
+  return postList;
 }
 
 export default getPost;
