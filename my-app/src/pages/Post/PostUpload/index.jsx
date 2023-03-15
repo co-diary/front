@@ -25,8 +25,18 @@ function PostUpload() {
   const [currentCategory, setCurrentCategory] = useState(SELECTBOX_DATA[0].name);
   const [currentTheme, setCurrentTheme] = useState(SELECTBOX_DATA[0].option[0].subName);
   const [currentSelect, setCurrentSelect] = useState(1);
+
   const [startDate, setStartDate] = useState(null);
-  // const [submitDate, setSubmitDate] = useState(new Date());
+  const [dateValid, setDateValid] = useState(false);
+
+  const [menuName, setMenuName] = useState('');
+  const [menuNameValid, setMenuNameValid] = useState(false);
+
+  useEffect(() => {
+    if (menuNameValid && dateValid) {
+      console.log('버튼활성화 조건');
+    }
+  }, [menuNameValid, dateValid]);
 
   const handleClickListCategory = useCallback((e) => {
     setCurrentCategory(e.target.innerText);
@@ -48,12 +58,29 @@ function PostUpload() {
   const subOption = SELECTBOX_DATA.find((category) => category.id === currentSelect).option;
 
   useEffect(() => {
-    if (!startDate) return;
+    if (!startDate) {
+      setDateValid(false);
+      return;
+    }
 
     const form = new FormData();
 
     form.append('date', format(startDate, 'yyyy.MM.dd'));
   }, [startDate]);
+
+  const handleValidCheck = useCallback((e) => {
+    if (e.target.value === '') {
+      setMenuNameValid(false);
+      setDateValid(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const result = !!menuName.length;
+
+    setMenuNameValid(result);
+    if (menuName === '') setMenuNameValid(false);
+  }, [menuName]);
 
   return (
     <>
@@ -100,18 +127,28 @@ function PostUpload() {
               selected={startDate}
               onChange={(date) => {
                 setStartDate(date);
+                setDateValid(true);
               }}
               placeholderText='0000.00.00'
               locale={ko}
               closeOnScroll={true}
               showPopperArrow={false}
               disabledKeyboardNavigation
+              onBlur={handleValidCheck}
             />
             <S.CalendarBtn src={IconCalendar} alt='달력 버튼' />
           </S.InputBox>
           <S.InputBox length='1.2rem'>
             <S.Label htmlFor='menuName'>메뉴명</S.Label>
-            <S.Input type='text' placeholder='메뉴명을 적어주세요.' id='menuName' />
+            <S.Input
+              type='text'
+              placeholder='메뉴명을 적어주세요.'
+              id='menuName'
+              maxLength={20}
+              value={menuName}
+              onChange={(e) => setMenuName(e.target.value)}
+              onBlur={handleValidCheck}
+            />
           </S.InputBox>
           <S.InputBox length='1.2rem'>
             <S.Label htmlFor='price'>가격</S.Label>
