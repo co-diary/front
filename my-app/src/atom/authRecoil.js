@@ -6,9 +6,14 @@ const authState = atom({
   dangerouslyAllowMutability: true,
 });
 
+const isAuthReady = atom({
+  key: 'isAuthReady',
+  default: false,
+});
+
 const isLoggedIn = atom({
   key: 'isLoggedIn',
   default: false,
 });
 
-export { authState, isLoggedIn };
+export { authState, isAuthReady, isLoggedIn };
