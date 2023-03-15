@@ -8,8 +8,8 @@ import useSignup from '../../hooks/useSignup';
 function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [displayName, setDisplayName] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
+  const [displayName, setDisplayName] = useState('');
 
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -25,6 +25,9 @@ function SignUp() {
   const { error, isPending, signup } = useSignup();
   const emailRef = useRef(null);
 
+  const [alreadyError, setAlreadyError] = useState(false);
+  const [alreadyErrorMessage, setAlreadyErrorMessage] = useState('');
+
   useEffect(() => {
     if (isEmailValid && isPasswordValid && isPasswordCheckValid && isDisplayNameValid) {
       setBtnDisabled(false);
@@ -35,28 +38,40 @@ function SignUp() {
 
   useEffect(() => {
     if (error) {
-      setIsEmailValid(false);
-      setBtnDisabled(true);
-      setEmailError('이미 가입된 이메일입니다.');
+      setAlreadyError(true);
+      setAlreadyErrorMessage('이미 가입된 이메일입니다.');
       emailRef.current.focus();
-    } else if (isPending) {
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (isPending) {
       setBtnDisabled(true);
-    }
-  }, [error, isPending]);
-
-  const handleEmailChange = useCallback((e) => {
-    setEmail(e.target.value);
-    const emailRegExp =
-      /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{2,3}$/;
-
-    if (!emailRegExp.test(e.target.value)) {
-      setIsEmailValid(false);
-      setEmailError('이메일 형식이 올바르지 않습니다.');
     } else {
-      setIsEmailValid(true);
-      setEmailError(null);
+      setBtnDisabled(false);
     }
-  }, []);
+  }, [isPending]);
+
+  const handleEmailChange = useCallback(
+    (e) => {
+      setEmail(e.target.value);
+      const emailRegExp =
+        /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{2,3}$/;
+
+      if (!emailRegExp.test(e.target.value)) {
+        setIsEmailValid(false);
+        setEmailError('이메일 형식이 올바르지 않습니다.');
+      } else {
+        setIsEmailValid(true);
+        setEmailError(null);
+      }
+
+      if (error) {
+        setEmailError(null);
+      }
+    },
+    [error],
+  );
 
   const handlePasswordChange = useCallback((e) => {
     setPassword(e.target.value);
@@ -99,12 +114,19 @@ function SignUp() {
     }
   }, []);
 
-  const handleEmailRequired = useCallback((e) => {
-    if (e.target.value === '') {
-      setIsEmailValid(false);
-      setEmailError('필수 입력 항목입니다.');
-    }
-  }, []);
+  const handleEmailRequired = useCallback(
+    (e) => {
+      if (e.target.value === '') {
+        setIsEmailValid(false);
+        setEmailError('필수 입력 항목입니다.');
+      }
+
+      if (error) {
+        setEmailError(null);
+      }
+    },
+    [error],
+  );
 
   const handlePasswordRequired = useCallback((e) => {
     if (e.target.value === '') {
@@ -154,6 +176,8 @@ function SignUp() {
             ref={emailRef}
             inputValid={isEmailValid}
             errorMessage={emailError}
+            alreadyError={alreadyError}
+            alreadyErrorMessage={alreadyErrorMessage}
           />
           <InputWithLabel
             id='userPw'
