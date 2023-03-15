@@ -12,7 +12,7 @@ function Login() {
   const [isLoginAllow, setIsLoginAllow] = useState(null);
   const [loginError, setLoginError] = useState('');
   const [btnDisabled, setBtnDisabled] = useState(true);
-  const { error, login } = useLogin();
+  const { error, isPending, login } = useLogin();
   const emailRef = useRef(null);
 
   const handleEmailChange = useCallback((e) => {
@@ -51,15 +51,6 @@ function Login() {
     }
   }, [email, password]);
 
-  useEffect(() => {
-    if (error) {
-      setBtnDisabled(true);
-      setIsLoginAllow(false);
-      setLoginError('이메일 또는 비밀번호가 일치하지 않습니다.');
-      emailRef.current.focus();
-    }
-  }, [error]);
-
   const handleLoginSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -67,6 +58,17 @@ function Login() {
     },
     [email, password],
   );
+
+  useEffect(() => {
+    if (error) {
+      setBtnDisabled(true);
+      setIsLoginAllow(false);
+      setLoginError('이메일 또는 비밀번호가 일치하지 않습니다.');
+      emailRef.current.focus();
+    }else if(isPending) {
+      setBtnDisabled(true);
+    }
+  }, [error, isPending]);
 
   return (
     <S.Container>

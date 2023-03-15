@@ -22,7 +22,7 @@ function SignUp() {
   const [isDisplayNameValid, setIsDisplayNameValid] = useState(null);
 
   const [btnDisabled, setBtnDisabled] = useState(true);
-  const { error, signup } = useSignup();
+  const { error, isPending, signup } = useSignup();
   const emailRef = useRef(null);
 
   useEffect(() => {
@@ -39,8 +39,10 @@ function SignUp() {
       setBtnDisabled(true);
       setEmailError('이미 가입된 이메일입니다.');
       emailRef.current.focus();
+    } else if (isPending) {
+      setBtnDisabled(true);
     }
-  }, [error]);
+  }, [error, isPending]);
 
   const handleEmailChange = useCallback((e) => {
     setEmail(e.target.value);
