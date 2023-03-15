@@ -124,6 +124,10 @@ export const Input = styled.input`
   &:focus {
     border-bottom: 1px solid ${Theme.MAIN};
   }
+
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #fff inset;
+  }
 `;
 
 export const CalendarBtn = styled.img`
@@ -200,6 +204,10 @@ export const TagInput = styled.input`
 
   &::placeholder {
     color: ${Theme.PLACEHOLDER};
+  }
+
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #fff inset;
   }
 `;
 

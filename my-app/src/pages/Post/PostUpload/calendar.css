@@ -15,6 +15,7 @@
   border: none;
   border-bottom: 1px solid #bdbdbd;
   outline: none;
+  cursor: pointer;
 }
 
 .react-datepicker__input-container > input::placeholder {
