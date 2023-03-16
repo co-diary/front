@@ -25,16 +25,20 @@ export const Input = styled.input`
     color: ${Theme.PLACEHOLDER};
   }
 
-  ${({ inputValid, isLoginAllow }) => borderState(inputValid, isLoginAllow)}
+  ${({ inputValid, isLoginAllow, alreadyError }) =>
+    borderState(inputValid, isLoginAllow, alreadyError)}
 `;
 
-function borderState(inputValid, isLoginAllow) {
+function borderState(inputValid, isLoginAllow, alreadyError) {
   if (inputValid === false) {
     return css`
       border-bottom: 1px solid ${Theme.ERROR};
     `;
-  }
-  if (isLoginAllow === false) {
+  } else if (isLoginAllow === false) {
+    return css`
+      border-bottom: 1px solid ${Theme.ERROR};
+    `;
+  } else if (alreadyError) {
     return css`
       border-bottom: 1px solid ${Theme.ERROR};
     `;
@@ -69,6 +73,8 @@ const InputWithLabel = forwardRef(
       inputValid,
       errorMessage,
       isLoginAllow,
+      alreadyError,
+      alreadyErrorMessage,
     },
     ref,
   ) => (
@@ -83,11 +89,13 @@ const InputWithLabel = forwardRef(
         onBlur={onBlur}
         ref={ref}
         inputValid={inputValid}
+        alreadyError={alreadyError}
         isLoginAllow={isLoginAllow}
         maxLength='30'
         required
       />
       {!inputValid && <ErrorMessage>{errorMessage}</ErrorMessage>}
+      {alreadyErrorMessage && <ErrorMessage>{alreadyErrorMessage}</ErrorMessage>}
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </InputContainer>
   ),
