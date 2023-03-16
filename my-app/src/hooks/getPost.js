@@ -3,8 +3,8 @@ import { db } from '../firebase';
 
 // 재사용 가능하도록 디벨롭 예정
 
-async function getPost(categoryTitle) {
-  const q = query(collection(db, 'post'), where('theme', '==', categoryTitle));
+async function getPost(keyOption, target) {
+  const q = query(collection(db, 'post'), where(keyOption, '==', target));
 
   const postSnapshot = await getDocs(q);
   const postList = [];
