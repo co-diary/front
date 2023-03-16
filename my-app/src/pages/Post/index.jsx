@@ -12,6 +12,14 @@ function Post() {
   const [displayOptions, setDisplayOptions] = useState(false);
   const [postList, setPostList] = useState([]);
 
+  const categoryContents = [
+    { menuName: '전체' },
+    { menuName: '커피' },
+    { menuName: '논커피' },
+    { menuName: '주스' },
+    { menuName: '기타' },
+  ];
+
   const location = useLocation();
   const categoryTitle = location.state;
 
@@ -45,7 +53,13 @@ function Post() {
         </header>
         <nav>
           <S.CategoryContainer>
-            <li>
+            {categoryContents.map((content) => (
+              <li>
+                <S.CategoryBtn>{content.menuName}</S.CategoryBtn>
+              </li>
+            ))}
+
+            {/* <li>
               <S.CategoryBtn>전체</S.CategoryBtn>
             </li>
             <li>
@@ -59,7 +73,7 @@ function Post() {
             </li>
             <li>
               <S.CategoryBtn>기타</S.CategoryBtn>
-            </li>
+            </li> */}
           </S.CategoryContainer>
         </nav>
         <S.SelectBox onClick={handleDisplayList} options={displayOptions}>
