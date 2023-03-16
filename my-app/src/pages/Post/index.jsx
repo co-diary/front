@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router';
+import { v4 as uuidv4 } from 'uuid';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import IconSearch from '../../assets/Icon-Search.png';
@@ -54,26 +55,10 @@ function Post() {
         <nav>
           <S.CategoryContainer>
             {categoryContents.map((content) => (
-              <li>
+              <li key={uuidv4()}>
                 <S.CategoryBtn>{content.menuName}</S.CategoryBtn>
               </li>
             ))}
-
-            {/* <li>
-              <S.CategoryBtn>전체</S.CategoryBtn>
-            </li>
-            <li>
-              <S.CategoryBtn>커피</S.CategoryBtn>
-            </li>
-            <li>
-              <S.CategoryBtn>논커피</S.CategoryBtn>
-            </li>
-            <li>
-              <S.CategoryBtn>주스</S.CategoryBtn>
-            </li>
-            <li>
-              <S.CategoryBtn>기타</S.CategoryBtn>
-            </li> */}
           </S.CategoryContainer>
         </nav>
         <S.SelectBox onClick={handleDisplayList} options={displayOptions}>
