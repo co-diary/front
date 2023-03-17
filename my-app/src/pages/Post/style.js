@@ -15,14 +15,10 @@ export const CategoryContainer = styled.ul`
 `;
 
 export const CategoryBtn = styled.button`
-  color: ${Theme.MAIN_GRAY};
+  color: ${({ isActive }) => (isActive ? `${Theme.MAIN_FONT}` : `${Theme.MAIN_GRAY}`)};
+
   font-family: 'LINESeedKR-Bd';
   font-size: 1.4rem;
-
-  &:hover,
-  &:active {
-    color: ${Theme.MAIN_FONT};
-  }
 `;
 
 export const SelectBox = styled.div`

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useLocation } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import Header from '../../components/common/Header';
@@ -12,20 +12,35 @@ function Post() {
   const [currentOrder, setCurrentOrder] = useState('최신순');
   const [displayOptions, setDisplayOptions] = useState(false);
   const [postList, setPostList] = useState([]);
+  const [btnStyle, setBtnStyle] = useState('');
+
+  const menuRef = useRef({});
 
   const categoryContents = [
-    { menuName: '전체' },
-    { menuName: '커피' },
-    { menuName: '논커피' },
-    { menuName: '주스' },
-    { menuName: '기타' },
+    { menuName: '전체', active: false },
+    { menuName: '커피', active: false },
+    { menuName: '논커피', active: false },
+    { menuName: '주스', active: false },
+    { menuName: '기타', active: false },
   ];
 
   const location = useLocation();
-  const categoryTitle = location.state;
+  const ThemeTitle = location.state;
+
+  const onClickMenu = (카테고리명) => {
+    setBtnStyle(카테고리명);
+
+    // 예외처리하기
+    if (카테고리명 === '전체') {
+      getPost('theme', ThemeTitle).then((data) => setPostList(data));
+    } else {
+      // 해당 카테고리명 docs 불러옴
+      getPost('category', 카테고리명).then((data) => setPostList(data));
+    }
+  };
 
   useEffect(() => {
-    getPost(categoryTitle).then((data) => setPostList(data));
+    getPost('theme', ThemeTitle).then((data) => setPostList(data));
   }, []);
 
   const handleDisplayList = useCallback(() => {
@@ -41,7 +56,7 @@ function Post() {
   return (
     <>
       <Header
-        title={categoryTitle}
+        title={ThemeTitle}
         rightChild={
           <S.HeaderBtn>
             <img src={IconSearch} alt='검색' />
@@ -50,13 +65,15 @@ function Post() {
       />
       <S.Container>
         <header>
-          <h1 className='ir'>{categoryTitle} 게시글 페이지</h1>
+          <h1 className='ir'>{ThemeTitle} 게시글 페이지</h1>
         </header>
         <nav>
           <S.CategoryContainer>
-            {categoryContents.map((content) => (
-              <li key={uuidv4()}>
-                <S.CategoryBtn>{content.menuName}</S.CategoryBtn>
+            {categoryContents.map((content, i) => (
+              <li onClick={() => onClickMenu(`${content.menuName}`, i)} key={uuidv4()}>
+                <S.CategoryBtn isActive={content.menuName === btnStyle}>
+                  {content.menuName}
+                </S.CategoryBtn>
               </li>
             ))}
           </S.CategoryContainer>
