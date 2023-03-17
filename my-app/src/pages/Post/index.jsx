@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import Header from '../../components/common/Header';
@@ -14,20 +14,18 @@ function Post() {
   const [postList, setPostList] = useState([]);
   const [btnStyle, setBtnStyle] = useState('');
 
-  const menuRef = useRef({});
-
   const categoryContents = [
-    { menuName: '전체', active: false },
-    { menuName: '커피', active: false },
-    { menuName: '논커피', active: false },
-    { menuName: '주스', active: false },
-    { menuName: '기타', active: false },
+    { categoryName: '전체', active: false },
+    { categoryName: '커피', active: false },
+    { categoryName: '논커피', active: false },
+    { categoryName: '주스', active: false },
+    { categoryName: '기타', active: false },
   ];
 
   const location = useLocation();
   const ThemeTitle = location.state;
 
-  const onClickMenu = (카테고리명) => {
+  const onClickCategory = (카테고리명) => {
     setBtnStyle(카테고리명);
 
     // 예외처리하기
@@ -70,9 +68,9 @@ function Post() {
         <nav>
           <S.CategoryContainer>
             {categoryContents.map((content, i) => (
-              <li onClick={() => onClickMenu(`${content.menuName}`, i)} key={uuidv4()}>
-                <S.CategoryBtn isActive={content.menuName === btnStyle}>
-                  {content.menuName}
+              <li onClick={() => onClickCategory(`${content.categoryName}`, i)} key={uuidv4()}>
+                <S.CategoryBtn isActive={content.categoryName === btnStyle}>
+                  {content.categoryName}
                 </S.CategoryBtn>
               </li>
             ))}
