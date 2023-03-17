@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, Navigate, useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
@@ -23,6 +23,7 @@ function Post() {
   ];
 
   const location = useLocation();
+  const navigate = useNavigate();
   const ThemeTitle = location.state;
 
   const onClickCategory = (카테고리명) => {
@@ -56,7 +57,7 @@ function Post() {
       <Header
         title={ThemeTitle}
         rightChild={
-          <S.HeaderBtn>
+          <S.HeaderBtn onClick={() => navigate('/search')}>
             <img src={IconSearch} alt='검색' />
           </S.HeaderBtn>
         }
