@@ -8,33 +8,38 @@ import PostCard from '../../components/common/PostCard';
 import * as S from './style';
 import getPost from '../../hooks/getPost';
 
+const categoryContentsAll = [
+  {
+    Theme: '음료',
+    categories: ['전체', '커피', '논커피', '주스', '기타'],
+  },
+  {
+    Theme: '디저트',
+    categories: [],
+  },
+];
+
 function Post() {
   const [currentOrder, setCurrentOrder] = useState('최신순');
   const [displayOptions, setDisplayOptions] = useState(false);
   const [postList, setPostList] = useState([]);
   const [btnStyle, setBtnStyle] = useState('');
 
-  const categoryContents = [
-    { categoryName: '전체', active: false },
-    { categoryName: '커피', active: false },
-    { categoryName: '논커피', active: false },
-    { categoryName: '주스', active: false },
-    { categoryName: '기타', active: false },
-  ];
-
   const location = useLocation();
   const navigate = useNavigate();
   const ThemeTitle = location.state;
 
-  const onClickCategory = (카테고리명) => {
-    setBtnStyle(카테고리명);
+  const categoryContents = categoryContentsAll.filter((v) => v.Theme === ThemeTitle)[0];
+
+  const onClickCategory = (categoryName) => {
+    setBtnStyle(categoryName);
 
     // 예외처리하기
-    if (카테고리명 === '전체') {
+    if (categoryName === '전체') {
       getPost('theme', ThemeTitle).then((data) => setPostList(data));
     } else {
-      // 해당 카테고리명 docs 불러옴
-      getPost('category', 카테고리명).then((data) => setPostList(data));
+      // 해당 categoryName docs 불러옴
+      getPost('category', categoryName).then((data) => setPostList(data));
     }
   };
 
@@ -68,11 +73,9 @@ function Post() {
         </header>
         <nav>
           <S.CategoryContainer>
-            {categoryContents.map((content, i) => (
-              <li onClick={() => onClickCategory(`${content.categoryName}`, i)} key={uuidv4()}>
-                <S.CategoryBtn isActive={content.categoryName === btnStyle}>
-                  {content.categoryName}
-                </S.CategoryBtn>
+            {categoryContents.categories.map((content, i) => (
+              <li onClick={() => onClickCategory(`${content}`)} key={uuidv4()}>
+                <S.CategoryBtn isActive={content === btnStyle}>{content}</S.CategoryBtn>
               </li>
             ))}
           </S.CategoryContainer>
