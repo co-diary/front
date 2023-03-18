@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { onAuthStateChanged } from 'firebase/auth';
 import { authState } from '../../atom/authRecoil';
-import { appAuth, firestore } from '../../firebase';
+import { appAuth } from '../../firebase';
 
 import * as S from './style';
 import Header from '../../components/common/Header';
@@ -12,12 +12,14 @@ import DessertIcon from '../../assets/Icon-dessert.png';
 import CategoryCard from '../../components/home/CategoryCard';
 // import PostCard from '../../components/common/PostCard';
 
+import getPost from '../../hooks/getPost';
+
 function Home() {
   const [userState, setUserState] = useRecoilState(authState);
   const [userName, setUserName] = useState('');
-  const [postCount, setPostCount] = useState();
+  const [postCount, setPostCount] = useState(0);
   const [drinkCount, setDrinkCount] = useState(0);
-  const [dessertCount, setdessertCount] = useState(0);
+  const [dessertCount, setDessertCount] = useState(0);
 
   const cards = [
     {
@@ -46,19 +48,14 @@ function Home() {
   }, [setUserState]);
 
   useEffect(() => {
-    firestore
-      .collection('post')
-      .get()
-      .then((result) => {
-        result.forEach((doc) => {
-          setPostCount(doc.data.length);
-          doc.data().theme === '음료'
-            ? setDrinkCount(drinkCount + 1)
-            : setdessertCount(dessertCount + 1);
-        });
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getPost('theme', '음료').then((data) => setDrinkCount(data.length));
+
+    getPost('theme', '디저트').then((data) => setDessertCount(data.length));
   }, []);
+
+  useEffect(() => {
+    setPostCount(drinkCount + dessertCount);
+  }, [drinkCount, dessertCount]);
 
   return (
     <>
