@@ -10,7 +10,7 @@ import NavBar from '../../components/common/NavBar';
 import DrinkIcon from '../../assets/Icon-beverage.png';
 import DessertIcon from '../../assets/Icon-dessert.png';
 import CategoryCard from '../../components/home/CategoryCard';
-import PostCard from '../../components/common/PostCard';
+// import PostCard from '../../components/common/PostCard';
 
 function Home() {
   const [userState, setUserState] = useRecoilState(authState);
@@ -96,11 +96,7 @@ function Home() {
         </section>
         <section>
           <S.SubTitle>최근 추가된 기록</S.SubTitle>
-          <S.Cards>
-            <PostCard />
-            <PostCard />
-            <PostCard />
-          </S.Cards>
+          <S.Cards>PostCard 컴포넌트</S.Cards>
         </section>
       </S.Container>
       <NavBar page='home' />

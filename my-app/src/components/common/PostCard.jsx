@@ -4,7 +4,7 @@ import Theme from '../../styles/Theme';
 import IconHeartOff from '../../assets/Icon-Heart-off.png';
 import IconStarOn from '../../assets/Icon-star-on.png';
 
-const PostCardBox = styled.div`
+const PostCardBox = styled.li`
   position: relative;
   display: flex;
   width: 100%;
@@ -124,15 +124,12 @@ const Tag = styled.span`
   }
 `;
 
-function PostCard() {
+function PostCard({ date, like, location, menu, photo, review, score, shop, tag }) {
   return (
     <PostCardBox>
       <PostCover>
-        <span>02.01</span>
-        <img
-          src='https://raw.githubusercontent.com/christianB053/likelion/develop/coffee-2139592_960_720.jpg'
-          alt='메뉴 썸네일 사진'
-        />
+        <span>{date && date.slice(5)}</span>
+        <img src={photo} alt='메뉴 썸네일 사진' />
       </PostCover>
       <PostContent>
         <PostInfo>
@@ -146,15 +143,13 @@ function PostCard() {
             <img src={IconStarOn} alt='별점' />
             <img src={IconStarOn} alt='별점' />
           </StarRatingContainer>
-          <MenuInfo>촉촉한 쇼콜라퐁당</MenuInfo>
-          <StoreInfo>상호명 스벅 송파점</StoreInfo>
+          <MenuInfo>{menu}</MenuInfo>
+          <StoreInfo>
+            {shop}&nbsp;{location}
+          </StoreInfo>
         </PostInfo>
         <PostReview>
-          <p>
-            각급 선거관리위원회는 선거인명부의 작성등 선거사무와 국민투표사무에 관하여 관계
-            행정기관에 필요한 지시를 할 수 있다. 정부는 예산에 변경을 가할 필요가 있을 때에는
-            추가경정예산안을
-          </p>
+          <p>{review}</p>
           <TagContainer>
             <Tag to='#'>#넘맛탱</Tag>
             <Tag to='#'>#넘맛탱구리</Tag>
