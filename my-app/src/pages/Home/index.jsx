@@ -48,14 +48,12 @@ function Home() {
   }, [setUserState]);
 
   useEffect(() => {
-    getPost('theme', '음료').then((data) => setDrinkCount(data.length));
-
-    getPost('theme', '디저트').then((data) => setDessertCount(data.length));
-  }, []);
-
-  useEffect(() => {
-    setPostCount(drinkCount + dessertCount);
-  }, [drinkCount, dessertCount]);
+    getPost('ALL').then((data) => {
+      setPostCount(data.length);
+      setDrinkCount(data.filter((v) => v.theme === '음료').length);
+      setDessertCount(data.filter((v) => v.theme === '디저트').length);
+    });
+  });
 
   return (
     <>
