@@ -4,22 +4,34 @@ import { db } from '../firebase';
 // 재사용 가능하도록 디벨롭 예정
 
 async function getPost(keyOption, target) {
-  const q = query(collection(db, 'post'), where(keyOption, '==', target));
-
-  const postSnapshot = await getDocs(q);
   const postList = [];
 
-  postSnapshot.forEach((doc) => {
-    console.log(doc.id, '=>', doc.data());
-    let data = doc.data();
+  const getData = (postSnapshot) => {
+    postSnapshot.forEach((doc) => {
+      console.log(doc.id, '=>', doc.data());
+      let data = doc.data();
 
-    data = { ...data, ...{ key: doc.id } };
+      data = { ...data, ...{ key: doc.id } };
 
-    postList.push(data);
-  });
+      postList.push(data);
+    });
+  };
 
-  console.log(postList);
-  return postList;
+  if (keyOption === 'ALL') {
+    const q = query(collection(db, 'post'));
+    const postSnapshot = await getDocs(q);
+
+    getData(postSnapshot);
+    console.log(postList);
+    return postList;
+  } else {
+    const q = query(collection(db, 'post'), where(keyOption, '==', target));
+    const postSnapshot = await getDocs(q);
+
+    getData(postSnapshot);
+    console.log(postList);
+    return postList;
+  }
 }
 
 export default getPost;
