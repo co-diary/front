@@ -1,7 +1,7 @@
-import { getDocs, query, collection, where } from 'firebase/firestore';
+import { getDocs, query, collection, where, orderBy } from 'firebase/firestore';
 import { db } from '../firebase';
 
-async function getPost(keyOption, target) {
+async function getPost(queryOption, target, option) {
   const postList = [];
   const q = query(collection(db, 'post'));
 
@@ -16,15 +16,22 @@ async function getPost(keyOption, target) {
     });
   };
 
-  if (keyOption === 'ALL') {
+  if (queryOption === 'ALL') {
     const postSnapshot = await getDocs(q);
 
     getData(postSnapshot);
+  } else if (queryOption === 'ORDER_BY') {
+    const postSnapshot = await getDocs(query(q, orderBy(target, option)));
+
+    console.log('orderby', postSnapshot);
+
+    getData(postSnapshot);
   } else {
-    const postSnapshot = await getDocs(query(q, where(keyOption, '==', target)));
+    const postSnapshot = await getDocs(query(q, where(queryOption, '==', target)));
 
     getData(postSnapshot);
   }
+
   console.log(postList);
   return postList;
 }
