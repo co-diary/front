@@ -13,7 +13,7 @@ import IconLocationOff from '../../../assets/Icon-Nav-Map-off.png';
 import IconCalendar from '../../../assets/Icon-Calendar.png';
 import IconAddInput from '../../../assets/Icon-AddInput.png';
 import IconAddPhoto from '../../../assets/Icon-AddPhoto.png';
-import SELECTBOX_DATA from '../SELECTBOX_DATA';
+import SELECTBOX_DATA from './SELECTBOX_DATA';
 import * as S from './style';
 import './calendar.css';
 
