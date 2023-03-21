@@ -1,22 +1,36 @@
-import { getDocs, query, collection, where } from 'firebase/firestore';
+import { getDocs, query, collection, where, orderBy } from 'firebase/firestore';
 import { db } from '../firebase';
 
-// 재사용 가능하도록 디벨롭 예정
-
-async function getPost(keyOption, target) {
-  const q = query(collection(db, 'post'), where(keyOption, '==', target));
-
-  const postSnapshot = await getDocs(q);
+async function getPost(queryOption, target, option) {
   const postList = [];
+  const q = query(collection(db, 'post'));
 
-  postSnapshot.forEach((doc) => {
-    console.log(doc.id, '=>', doc.data());
-    let data = doc.data();
+  const getData = (postSnapshot) => {
+    postSnapshot.forEach((doc) => {
+      console.log(doc.id, '=>', doc.data());
+      let data = doc.data();
 
-    data = { ...data, ...{ key: doc.id } };
+      data = { ...data, ...{ key: doc.id } };
 
-    postList.push(data);
-  });
+      postList.push(data);
+    });
+  };
+
+  if (queryOption === 'ALL') {
+    const postSnapshot = await getDocs(q);
+
+    getData(postSnapshot);
+  } else if (queryOption === 'ORDER_BY') {
+    const postSnapshot = await getDocs(query(q, orderBy(target, option)));
+
+    console.log('orderby', postSnapshot);
+
+    getData(postSnapshot);
+  } else {
+    const postSnapshot = await getDocs(query(q, where(queryOption, '==', target)));
+
+    getData(postSnapshot);
+  }
 
   console.log(postList);
   return postList;

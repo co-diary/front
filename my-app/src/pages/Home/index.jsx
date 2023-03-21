@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { onAuthStateChanged } from 'firebase/auth';
 import { authState } from '../../atom/authRecoil';
-import { appAuth, firestore } from '../../firebase';
+import { appAuth } from '../../firebase';
 
 import * as S from './style';
 import Header from '../../components/common/Header';
@@ -10,14 +10,18 @@ import NavBar from '../../components/common/NavBar';
 import DrinkIcon from '../../assets/Icon-beverage.png';
 import DessertIcon from '../../assets/Icon-dessert.png';
 import CategoryCard from '../../components/home/CategoryCard';
-// import PostCard from '../../components/common/PostCard';
+import PostCard from '../../components/common/PostCard';
+
+import getPost from '../../hooks/getPost';
 
 function Home() {
   const [userState, setUserState] = useRecoilState(authState);
   const [userName, setUserName] = useState('');
-  const [postCount, setPostCount] = useState();
+  const [postCount, setPostCount] = useState(0);
   const [drinkCount, setDrinkCount] = useState(0);
-  const [dessertCount, setdessertCount] = useState(0);
+  const [dessertCount, setDessertCount] = useState(0);
+
+  const [recentPosts, setRecentPosts] = useState([]);
 
   const cards = [
     {
@@ -46,18 +50,17 @@ function Home() {
   }, [setUserState]);
 
   useEffect(() => {
-    firestore
-      .collection('post')
-      .get()
-      .then((result) => {
-        result.forEach((doc) => {
-          setPostCount(doc.data.length);
-          doc.data().theme === '음료'
-            ? setDrinkCount(drinkCount + 1)
-            : setdessertCount(dessertCount + 1);
-        });
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getPost('ALL').then((data) => {
+      setPostCount(data.length);
+      setDrinkCount(data.filter((v) => v.theme === '음료').length);
+      setDessertCount(data.filter((v) => v.theme === '디저트').length);
+    });
+  }, []);
+
+  useEffect(() => {
+    getPost('ORDER_BY', 'createAt', 'desc').then((data) => {
+      setRecentPosts(data.slice(0, 3));
+    });
   }, []);
 
   return (
@@ -96,7 +99,21 @@ function Home() {
         </section>
         <section>
           <S.SubTitle>최근 추가된 기록</S.SubTitle>
-          <S.Cards>PostCard 컴포넌트</S.Cards>
+          <S.Cards>
+            {recentPosts.map((post) => (
+              <PostCard
+                key={post.key}
+                date={post.date}
+                like={post.like}
+                location={post.location}
+                menu={post.menu}
+                photo={post.photo}
+                review={post.review}
+                score={post.score}
+                shop={post.shop}
+              />
+            ))}
+          </S.Cards>
         </section>
       </S.Container>
       <NavBar page='home' />

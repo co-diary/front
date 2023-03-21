@@ -128,7 +128,7 @@ function PostCard({ date, like, location, menu, photo, review, score, shop, tag 
   return (
     <PostCardBox>
       <PostCover>
-        <span>{date && date.slice(5)}</span>
+        <span>01.00</span>
         <img src={photo} alt='메뉴 썸네일 사진' />
       </PostCover>
       <PostContent>
