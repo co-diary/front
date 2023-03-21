@@ -32,11 +32,14 @@ function PostUpload() {
   const [menuName, setMenuName] = useState('');
   const [menuNameValid, setMenuNameValid] = useState(false);
 
+  const [menuPrice, setMenuPrice] = useState('');
+  const [menuPriceValid, setMenuPriceValid] = useState(false);
+
   useEffect(() => {
-    if (menuNameValid && dateValid) {
+    if (menuNameValid && dateValid && menuPriceValid) {
       console.log('버튼활성화 조건');
     }
-  }, [menuNameValid, dateValid]);
+  }, [menuNameValid, dateValid, menuPriceValid]);
 
   const handleClickListCategory = useCallback((e) => {
     setCurrentCategory(e.target.innerText);
@@ -72,6 +75,7 @@ function PostUpload() {
     if (e.target.value === '') {
       setMenuNameValid(false);
       setDateValid(false);
+      setMenuPriceValid(false);
     }
   }, []);
 
@@ -81,6 +85,35 @@ function PostUpload() {
     setMenuNameValid(result);
     if (menuName === '') setMenuNameValid(false);
   }, [menuName]);
+
+  const handlePriceChange = useCallback(
+    (e) => {
+      const priceRegExp = /^[0-9,]+$/.test(e.target.value);
+
+      if (!priceRegExp && menuPrice === '') return;
+
+      const uncomma = e.target.value.replace(/[^\d]+/g, '');
+      const comma = uncomma.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+
+      setMenuPrice(comma);
+      setMenuPriceValid(priceRegExp);
+
+      if (comma.length > 3) {
+        const unitsNum = comma.slice(-1);
+        const tensNum = comma.slice(-2, -1);
+        const checkNum = parseInt(tensNum, 10) > 0 && parseInt(unitsNum, 10) > 0;
+
+        if (!checkNum) {
+          setMenuPrice(comma);
+          setMenuPriceValid(true);
+        } else {
+          alert('금액을 10원 단위로 입력해 주세요.');
+          setMenuPrice('');
+        }
+      }
+    },
+    [menuPrice],
+  );
 
   return (
     <>
@@ -152,7 +185,15 @@ function PostUpload() {
           </S.InputBox>
           <S.InputBox length='1.2rem'>
             <S.Label htmlFor='price'>가격</S.Label>
-            <S.Input type='number' placeholder='가격을 적어주세요.' id='price' />
+            <S.Input
+              type='text'
+              placeholder='가격을 적어주세요.'
+              id='price'
+              maxLength={7}
+              value={menuPrice}
+              onChange={handlePriceChange}
+              onBlur={handleValidCheck}
+            />
           </S.InputBox>
           <S.InputBox length='1.2rem'>
             <S.Label htmlFor='rating'>맛 평가</S.Label>
