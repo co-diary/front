@@ -100,7 +100,7 @@ function Post() {
               review={post.review}
               score={post.score}
               shop={post.shop}
-              tag={post.tag}
+              tags={post.tag}
             />
           ))}
         </S.PostContainer>

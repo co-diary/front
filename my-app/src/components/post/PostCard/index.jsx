@@ -1,16 +1,15 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import * as S from './style';
 import IconHeartOn from '../../../assets/Icon-Heart-on.png';
 import IconHeartOff from '../../../assets/Icon-Heart-off.png';
 import IconStarOn from '../../../assets/Icon-star-on.png';
 import IconStarOff from '../../../assets/Icon-star-off.png';
 
-function PostCard({ date, like, location, menu, photo, review, score, shop, tag }) {
+function PostCard({ date, like, location, menu, photo, review, score, shop, tags }) {
   const slicedDate = date.toDate().toISOString().slice(5, 10).replace('-', '.');
   const scoreIndexs = [0, 1, 2, 3, 4];
 
-  console.log(like);
-  
   return (
     <S.PostCardBox>
       <S.PostCover>
@@ -20,9 +19,11 @@ function PostCard({ date, like, location, menu, photo, review, score, shop, tag 
       <S.PostContent>
         <S.PostInfo>
           <S.PostLike>
-            {like ? 
-            <img src={IconHeartOn} alt='좋아요 표시' />:
-            <img src={IconHeartOff} alt='좋아요 표시하지 않음' />}
+            {like ? (
+              <img src={IconHeartOn} alt='좋아요 표시' />
+            ) : (
+              <img src={IconHeartOff} alt='좋아요 표시하지 않음' />
+            )}
           </S.PostLike>
           <S.StarRatingContainer>
             {scoreIndexs.map((index) =>
@@ -41,8 +42,11 @@ function PostCard({ date, like, location, menu, photo, review, score, shop, tag 
         <S.PostReview>
           <p>{review}</p>
           <S.TagContainer>
-            <S.Tag to='#'>#넘맛탱</S.Tag>
-            <S.Tag to='#'>#넘맛탱구리</S.Tag>
+            {tags.map((tag) => (
+              <S.Tag to='#' key={uuidv4()}>
+                #{tag}
+              </S.Tag>
+            ))}
           </S.TagContainer>
         </S.PostReview>
       </S.PostContent>

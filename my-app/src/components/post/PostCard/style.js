@@ -19,7 +19,7 @@ export const PostCover = styled.div`
     position: absolute;
     top: 1rem;
     left: 1.2rem;
-    padding: 0.4rem 1rem 0.2rem;
+    padding: 0.3rem 1rem;
     font-size: 1.2rem;
     line-height: 1.6rem;
     font-family: 'LINESeedKR-Bd';
@@ -110,7 +110,7 @@ export const TagContainer = styled.div`
 
 export const Tag = styled.span`
   display: inline-block;
-  padding: 0.5rem 0.6rem 0.3rem;
+  padding: 0.5rem 0.6rem;
   border-radius: 3rem;
   color: ${Theme.WHITE};
   background-color: ${Theme.SUB_ORANGE};

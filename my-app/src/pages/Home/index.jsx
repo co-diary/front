@@ -111,6 +111,7 @@ function Home() {
                 review={post.review}
                 score={post.score}
                 shop={post.shop}
+                tags={post.tag}
               />
             ))}
           </S.Cards>
