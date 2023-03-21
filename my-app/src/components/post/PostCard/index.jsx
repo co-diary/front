@@ -2,9 +2,12 @@ import React from 'react';
 import * as S from './style';
 import IconHeartOff from '../../../assets/Icon-Heart-off.png';
 import IconStarOn from '../../../assets/Icon-star-on.png';
+import IconStarOff from '../../../assets/Icon-star-off.png';
 
 function PostCard({ date, like, location, menu, photo, review, score, shop, tag }) {
   const slicedDate = date.toDate().toISOString().slice(5, 10).replace('-', '.');
+
+  const scoreIndexs = [0, 1, 2, 3, 4];
 
   return (
     <S.PostCardBox>
@@ -18,11 +21,13 @@ function PostCard({ date, like, location, menu, photo, review, score, shop, tag 
             <img src={IconHeartOff} alt='좋아요 on/off' />
           </S.PostLike>
           <S.StarRatingContainer>
-            <img src={IconStarOn} alt='별점(더 자세한 설명?)' />
-            <img src={IconStarOn} alt='별점' />
-            <img src={IconStarOn} alt='별점' />
-            <img src={IconStarOn} alt='별점' />
-            <img src={IconStarOn} alt='별점' />
+            {scoreIndexs.map((index) =>
+              score > index ? (
+                <img src={IconStarOn} alt='별점' key={index} />
+              ) : (
+                <img src={IconStarOff} alt='체크되지 않은 별점' aria-hidden='true' key={index} />
+              ),
+            )}
           </S.StarRatingContainer>
           <S.MenuInfo>{menu}</S.MenuInfo>
           <S.StoreInfo>
