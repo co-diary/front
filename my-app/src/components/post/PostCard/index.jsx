@@ -4,10 +4,12 @@ import IconHeartOff from '../../../assets/Icon-Heart-off.png';
 import IconStarOn from '../../../assets/Icon-star-on.png';
 
 function PostCard({ date, like, location, menu, photo, review, score, shop, tag }) {
+  const slicedDate = date.toDate().toISOString().slice(5, 10).replace('-', '.');
+
   return (
     <S.PostCardBox>
       <S.PostCover>
-        <span>01.00</span>
+        <span>{slicedDate}</span>
         <img src={photo} alt='메뉴 썸네일 사진' />
       </S.PostCover>
       <S.PostContent>
