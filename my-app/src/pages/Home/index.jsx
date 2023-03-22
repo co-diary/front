@@ -10,7 +10,7 @@ import NavBar from '../../components/common/NavBar';
 import DrinkIcon from '../../assets/Icon-beverage.png';
 import DessertIcon from '../../assets/Icon-dessert.png';
 import CategoryCard from '../../components/home/CategoryCard';
-import PostCard from '../../components/common/PostCard';
+import PostCard from '../../components/post/PostCard';
 
 import getPost from '../../hooks/getPost';
 
@@ -111,6 +111,7 @@ function Home() {
                 review={post.review}
                 score={post.score}
                 shop={post.shop}
+                tags={post.tag}
               />
             ))}
           </S.Cards>

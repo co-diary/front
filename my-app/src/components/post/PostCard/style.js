@@ -1,10 +1,7 @@
-import React from 'react';
 import styled from 'styled-components';
-import Theme from '../../styles/Theme';
-import IconHeartOff from '../../assets/Icon-Heart-off.png';
-import IconStarOn from '../../assets/Icon-star-on.png';
+import Theme from '../../../styles/Theme';
 
-const PostCardBox = styled.li`
+export const PostCardBox = styled.li`
   position: relative;
   display: flex;
   width: 100%;
@@ -14,7 +11,7 @@ const PostCardBox = styled.li`
   overflow: hidden;
 `;
 
-const PostCover = styled.div`
+export const PostCover = styled.div`
   flex-basis: 13.6rem;
   flex-shrink: 0;
 
@@ -22,7 +19,7 @@ const PostCover = styled.div`
     position: absolute;
     top: 1rem;
     left: 1.2rem;
-    padding: 0.4rem 1rem 0.2rem;
+    padding: 0.3rem 1rem;
     font-size: 1.2rem;
     line-height: 1.6rem;
     font-family: 'LINESeedKR-Bd';
@@ -38,20 +35,20 @@ const PostCover = styled.div`
   }
 `;
 
-const PostContent = styled.div`
+export const PostContent = styled.div`
   flex-grow: 1;
   padding: 2.4rem 1.6rem;
   display: flex;
   flex-direction: column;
 `;
 
-const PostInfo = styled.div`
+export const PostInfo = styled.div`
   flex-basis: 6.9rem;
   min-height: 0;
   padding-bottom: 0.8rem;
 `;
 
-const PostLike = styled.div`
+export const PostLike = styled.div`
   position: absolute;
   top: 0.8rem;
   right: 1rem;
@@ -62,13 +59,13 @@ const PostLike = styled.div`
   }
 `;
 
-const StarRatingContainer = styled.div`
+export const StarRatingContainer = styled.div`
   img {
     width: 1.8rem;
   }
 `;
 
-const MenuInfo = styled.strong`
+export const MenuInfo = styled.strong`
   display: inline-block;
   font-size: 1.8rem;
   font-family: 'LINESeedKR-Bd';
@@ -80,7 +77,7 @@ const MenuInfo = styled.strong`
   white-space: nowrap;
 `;
 
-const StoreInfo = styled.p`
+export const StoreInfo = styled.p`
   font-size: 1.2rem;
   line-height: 1.6rem;
   color: ${Theme.MAIN_GRAY};
@@ -91,7 +88,7 @@ const StoreInfo = styled.p`
   white-space: nowrap;
 `;
 
-const PostReview = styled.div`
+export const PostReview = styled.div`
   flex-grow: 1;
   padding-top: 1rem;
   border-top: 1px solid ${Theme.SHADOW_BORDER};
@@ -107,13 +104,13 @@ const PostReview = styled.div`
   }
 `;
 
-const TagContainer = styled.div`
+export const TagContainer = styled.div`
   margin-top: 0.6rem;
 `;
 
-const Tag = styled.span`
+export const Tag = styled.span`
   display: inline-block;
-  padding: 0.5rem 0.6rem 0.3rem;
+  padding: 0.5rem 0.6rem;
   border-radius: 3rem;
   color: ${Theme.WHITE};
   background-color: ${Theme.SUB_ORANGE};
@@ -123,41 +120,3 @@ const Tag = styled.span`
     background-color: ${Theme.SUB_PINK};
   }
 `;
-
-function PostCard({ date, like, location, menu, photo, review, score, shop, tag }) {
-  return (
-    <PostCardBox>
-      <PostCover>
-        <span>01.00</span>
-        <img src={photo} alt='메뉴 썸네일 사진' />
-      </PostCover>
-      <PostContent>
-        <PostInfo>
-          <PostLike>
-            <img src={IconHeartOff} alt='좋아요 on/off' />
-          </PostLike>
-          <StarRatingContainer>
-            <img src={IconStarOn} alt='별점(더 자세한 설명?)' />
-            <img src={IconStarOn} alt='별점' />
-            <img src={IconStarOn} alt='별점' />
-            <img src={IconStarOn} alt='별점' />
-            <img src={IconStarOn} alt='별점' />
-          </StarRatingContainer>
-          <MenuInfo>{menu}</MenuInfo>
-          <StoreInfo>
-            {shop}&nbsp;{location}
-          </StoreInfo>
-        </PostInfo>
-        <PostReview>
-          <p>{review}</p>
-          <TagContainer>
-            <Tag to='#'>#넘맛탱</Tag>
-            <Tag to='#'>#넘맛탱구리</Tag>
-          </TagContainer>
-        </PostReview>
-      </PostContent>
-    </PostCardBox>
-  );
-}
-
-export default PostCard;

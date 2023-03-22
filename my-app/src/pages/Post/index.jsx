@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import IconSearch from '../../assets/Icon-Search.png';
-import PostCard from '../../components/common/PostCard';
+import PostCard from '../../components/post/PostCard';
 import * as S from './style';
 import getPost from '../../hooks/getPost';
 
@@ -15,7 +15,7 @@ const categoryContentsAll = [
   },
   {
     Theme: '디저트',
-    categories: [],
+    categories: ['전체'],
   },
 ];
 
@@ -100,7 +100,7 @@ function Post() {
               review={post.review}
               score={post.score}
               shop={post.shop}
-              tag={post.tag}
+              tags={post.tag}
             />
           ))}
         </S.PostContainer>
