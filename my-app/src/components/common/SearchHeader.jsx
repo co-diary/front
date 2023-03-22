@@ -11,7 +11,7 @@ const Container = styled.header`
   left: 0;
   right: 0;
   display: flex;
-  justify-content: space-between;
+
   align-items: center;
   height: 4.8rem;
   background-color: ${Theme.WHITE};
@@ -32,12 +32,18 @@ const SButton = styled.button`
   }
 `;
 
+const SSearchForm = styled.form`
+  display: flex;
+  flex-basis: 100%;
+`;
+
 const SInput = styled.input`
-  width: 25.4rem;
+  width: 100%;
   height: 3.2rem;
   padding: 1rem 0 1rem 1.4rem;
   border: 1px solid ${Theme.BORDER};
   border-radius: 3.2rem;
+  margin-right: 0.6rem;
 
   &:focus {
     /* 임시로 설정 */
@@ -66,8 +72,10 @@ function SearchHeader({
       <SButton onClick={handlePageBack}>
         <img src={IconBack} alt='뒤로가기' />
       </SButton>
-      <SInput type='text' placeholder='검색어를 입력하세요.' />
-      <Button size='sm' text='검색' />
+      <SSearchForm action=''>
+        <SInput type='text' placeholder='검색어를 입력하세요.' />
+        <Button size='sm' text='검색' />
+      </SSearchForm>
     </Container>
   );
 }
