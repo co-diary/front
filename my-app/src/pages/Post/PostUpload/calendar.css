@@ -1,0 +1,91 @@
+.react-datepicker-wrapper {
+  width: calc(100% - 5.6rem);
+}
+
+.react-datepicker {
+  font-size: 1.2rem;
+}
+
+.react-datepicker__input-container > input {
+  width: 100%;
+  padding: 0.4rem 0;
+  font-family: 'LINESeedKR-Rg';
+  font-size: 1.4rem;
+  line-height: 1.8rem;
+  border: none;
+  border-bottom: 1px solid #bdbdbd;
+  outline: none;
+  cursor: pointer;
+}
+
+.react-datepicker__input-container > input::placeholder {
+  font-family: 'LINESeedKR-Rg';
+  color: #bdbdbd;
+}
+
+.react-datepicker__input-container > input:focus {
+  border-bottom: 1px solid #f7da76;
+}
+
+.react-datepicker__header {
+  background-color: #ffffff;
+  border-bottom: none;
+}
+
+.react-datepicker__day-names {
+  font-family: 'LINESeedKR-Bd';
+}
+
+.react-datepicker__current-month {
+  font-size: 1.4rem;
+  margin-top: 0.4rem;
+}
+
+.react-datepicker__day-names {
+  margin-top: 1rem;
+}
+
+.react-datepicker {
+  font-family: 'LINESeedKR-Rg';
+}
+
+.react-datepicker__navigation-icon--next {
+  left: 0;
+}
+
+.react-datepicker__navigation-icon--previous {
+  rigth: 0;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range,
+.react-datepicker__month-text--selected,
+.react-datepicker__month-text--in-selecting-range,
+.react-datepicker__month-text--in-range,
+.react-datepicker__quarter-text--selected,
+.react-datepicker__quarter-text--in-selecting-range,
+.react-datepicker__quarter-text--in-range,
+.react-datepicker__year-text--selected,
+.react-datepicker__year-text--in-selecting-range,
+.react-datepicker__year-text--in-range,
+.react-datepicker__day--keyboard-selected,
+.react-datepicker__month-text--keyboard-selected,
+.react-datepicker__quarter-text--keyboard-selected,
+.react-datepicker__year-text--keyboard-selected {
+  background-color: #f7da76;
+  color: #000000;
+  font-family: 'LINESeedKR-Bd';
+}
+
+.react-datepicker__day--selected:hover {
+  background-color: #f7da76;
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+  width: 2.4rem;
+  margin-bottom: 0.4rem;
+  line-height: 2.4rem;
+}
