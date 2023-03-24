@@ -1,14 +1,12 @@
 import React from 'react';
-import SearchHeader from '../../components/common/SearchHeader';
+import SearchHeader from '../../components/search/index';
 import * as S from './style';
 
 function Search() {
   return (
     <>
       <SearchHeader />
-      <S.Container>
-        <S.logo>로고</S.logo>
-      </S.Container>
+      <S.Container></S.Container>
     </>
   );
 }
