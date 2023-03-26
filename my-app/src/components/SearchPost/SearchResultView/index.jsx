@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import * as S from './style';
 import PostCard from '../../post/PostCard';
 import getPost from '../../../hooks/getPost';
 
 function SearchResultView({ keyword }) {
-  const [post, setPost] = useState([]);
+  const [postList, setPostList] = useState([]);
 
   console.log(keyword);
   console.log(getPost);
@@ -12,17 +13,29 @@ function SearchResultView({ keyword }) {
     getPost('ALL').then((data) => {
       const filtered = data.filter((item) => item.menu.includes(keyword));
 
-      setPost(filtered);
+      setPostList(filtered);
     });
   }, []);
 
-  console.log(post);
+  console.log(postList);
 
   return (
-    <>
-      View
-      {/* <PostCard /> */}
-    </>
+    <S.Cards>
+      {postList.map((post) => (
+        <PostCard
+          key={post.key}
+          date={post.date}
+          like={post.like}
+          location={post.location}
+          menu={post.menu}
+          photo={post.photo}
+          review={post.review}
+          score={post.score}
+          shop={post.shop}
+          tags={post.tag}
+        />
+      ))}
+    </S.Cards>
   );
 }
 
