@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as S from './style';
 import IconBack from '../../assets/Icon-Back.png';
@@ -15,7 +15,10 @@ function SearchHeader({
   onClickTwo,
 }) {
   const [search, setSearch] = useState('');
-  const [focus, setFocus] = useToggle(false);
+  const [focus, setFocus] = useState(false);
+
+  const focusRef = useRef();
+
   const navigate = useNavigate();
   const handlePageBack = () => {
     navigate(-1);
@@ -26,24 +29,31 @@ function SearchHeader({
     setSearch(e.target.value);
   };
 
-  console.log(focus);
+  console.log(focusRef);
   return (
     <S.Container>
       <S.Button onClick={handlePageBack}>
         <img src={IconBack} alt='뒤로가기' />
       </S.Button>
       <S.SearchForm action=''>
-        <S.Input
-          value={search}
-          onChange={onChangeSearch}
-          onFocus={() => {
-            console.log('focus됨');
-          }}
-          type='text'
-          placeholder='검색어를 입력하세요.'
-        />
+        <S.SearchFormContainer>
+          <S.Input
+            value={search}
+            onChange={onChangeSearch}
+            type='text'
+            placeholder='검색어를 입력하세요.'
+            onFocus={() => {
+              setFocus(true);
+            }}
+            onBlur={() => {
+              setFocus(!focus);
+            }}
+          />
+          {focus && <S.ClearBtn />}
+        </S.SearchFormContainer>
       </S.SearchForm>
-      <S.CancelBtn>취소</S.CancelBtn>
+
+      {focus && <S.CancelBtn>취소</S.CancelBtn>}
     </S.Container>
   );
 }

@@ -1,5 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import Theme from '../../styles/Theme';
+import ClearIcon from '../../assets/Icon-CancelSearch.png';
 
 export const Container = styled.header`
   position: fixed;
@@ -35,7 +36,6 @@ export const inputSizing = keyframes`
 `;
 
 export const SearchForm = styled.form`
-  display: flex;
   flex-basis: 100%;
 `;
 
@@ -48,20 +48,32 @@ export const Input = styled.input`
 
   transition: all linear 0.4s;
   &:focus {
-    width: 90%;
     /* 임시로 설정 */
-    border: 1px solid ${Theme.MAIN_FONT};
+    /* animation: ${inputSizing} 0.4s linear; */
     outline: none;
   }
+`;
 
-  /* animation: ${inputSizing} 0.3s linear alternate; */
+export const SearchFormContainer = styled.div`
+  position: relative;
+  display: flex;
+`;
+
+export const ClearBtn = styled.button`
+  position: absolute;
+  top: 20%;
+  right: 0.6rem;
+  width: 2rem;
+  height: 2rem;
+  background-image: url(${ClearIcon});
+  background-size: cover;
 `;
 
 export const CancelBtn = styled.button`
   width: 5rem;
   color: #3d3d3d;
   padding: 1.3rem 0 1.3rem 0;
-  border: 1px solid red;
   font-size: 1.4rem;
   font-family: 'LINESeedKR-Bd';
+  margin-left: 0.6rem;
 `;
