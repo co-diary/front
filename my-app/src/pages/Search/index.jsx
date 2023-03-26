@@ -1,14 +1,8 @@
 import React from 'react';
-import SearchHeader from '../../components/search/index';
-import * as S from './style';
+import SearchPost from '../../components/SearchPost/index';
 
 function Search() {
-  return (
-    <>
-      <SearchHeader />
-      <S.Container></S.Container>
-    </>
-  );
+  return <SearchPost />;
 }
 
 export default Search;

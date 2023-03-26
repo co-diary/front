@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components';
-import Theme from '../../styles/Theme';
-import ClearIcon from '../../assets/Icon-CancelSearch.png';
+import Theme from '../../../styles/Theme';
+import ClearIcon from '../../../assets/Icon-CancelSearch.png';
 
 export const Container = styled.header`
   position: fixed;

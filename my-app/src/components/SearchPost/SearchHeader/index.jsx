@@ -1,23 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as S from './style';
-import IconBack from '../../assets/Icon-Back.png';
-import useToggle from '../../hooks/useToggle';
+import IconBack from '../../../assets/Icon-Back.png';
 
-function SearchHeader({
-  isHome,
-  title,
-  rightIconOne,
-  altOne,
-  onClickOne,
-  rightIconTwo,
-  altTwo,
-  onClickTwo,
-}) {
+function SearchHeader() {
   const [search, setSearch] = useState('');
   const [focus, setFocus] = useState(false);
-
-  const focusRef = useRef();
 
   const navigate = useNavigate();
   const handlePageBack = () => {
@@ -27,9 +15,9 @@ function SearchHeader({
   const onChangeSearch = async (e) => {
     e.preventDefault();
     setSearch(e.target.value);
+    console.log(search.toLowerCase);
   };
 
-  console.log(focusRef);
   return (
     <S.Container>
       <S.Button onClick={handlePageBack}>
