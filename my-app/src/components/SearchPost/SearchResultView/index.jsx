@@ -4,18 +4,22 @@ import PostCard from '../../post/PostCard';
 import getPost from '../../../hooks/getPost';
 
 function SearchResultView({ keyword }) {
+  const [data, setData] = useState([]);
   const [postList, setPostList] = useState([]);
 
   console.log(keyword);
-  console.log(getPost);
 
   useEffect(() => {
-    getPost('ALL').then((data) => {
-      const filtered = data.filter((item) => item.menu.includes(keyword));
-
-      setPostList(filtered);
+    getPost('ALL').then((res) => {
+      setData(res);
     });
   }, []);
+
+  useEffect(() => {
+    const filtered = data.filter((item) => item.menu.includes(keyword));
+
+    setPostList(filtered);
+  }, [keyword]);
 
   console.log(postList);
 
