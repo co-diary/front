@@ -16,9 +16,13 @@ function SearchResultView({ keyword }) {
   }, []);
 
   useEffect(() => {
-    const filtered = data.filter((item) => item.menu.includes(keyword));
+    if (keyword) {
+      const filtered = data.filter((item) => item.menu.includes(keyword));
 
-    setPostList(filtered);
+      setPostList(filtered);
+    } else {
+      setPostList([]);
+    }
   }, [keyword]);
 
   console.log(postList);
