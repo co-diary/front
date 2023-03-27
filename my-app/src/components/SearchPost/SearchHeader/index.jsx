@@ -5,16 +5,19 @@ import IconBack from '../../../assets/Icon-Back.png';
 function SearchHeader({ keyword, setKeyword, onChange, leftOnClick }) {
   const [focus, setFocus] = useState(false);
 
-  // const 블러함수 = () => {
-  //   if () {
-  //     console.log('이거실행');
-  //   }
-  //   console.log('블러됨');
-  //   setFocus(!focus);
-  // };
+  const handleFormBlur = () => {
+    if (keyword) {
+      console.log('이거실행');
+    }
+    setFocus(false);
+  };
 
-  const clearText = (e) => {
-    console.log('버튼');
+  const handleCancelBtn = () => {
+    setFocus(false);
+    setKeyword('');
+  };
+
+  const handleClearBtn = (e) => {
     setKeyword('');
   };
 
@@ -34,10 +37,7 @@ function SearchHeader({ keyword, setKeyword, onChange, leftOnClick }) {
           onFocus={() => {
             setFocus(true);
           }}
-          onBlur={(e) => {
-            console.log('블러');
-            setFocus(false);
-          }}
+          onBlur={() => handleFormBlur()}
         >
           <S.Input
             value={keyword}
@@ -45,11 +45,11 @@ function SearchHeader({ keyword, setKeyword, onChange, leftOnClick }) {
             type='text'
             placeholder='검색어를 입력하세요.'
           />
-          {keyword && <S.ClearBtn type='button' onClick={clearText} />}
+          {keyword && <S.ClearBtn type='button' onClick={() => handleClearBtn()} />}
         </S.SearchFormContainer>
       </S.SearchForm>
 
-      {focus && <S.CancelBtn>취소</S.CancelBtn>}
+      {focus && <S.CancelBtn onMouseDown={() => handleCancelBtn()}>취소</S.CancelBtn>}
     </S.Container>
   );
 }
