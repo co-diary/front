@@ -1,16 +1,8 @@
 import React from 'react';
-import SearchHeader from '../../components/common/SearchHeader';
-import * as S from './style';
+import SearchPost from '../../components/SearchPost/index';
 
 function Search() {
-  return (
-    <>
-      <SearchHeader />
-      <S.Container>
-        <S.logo>로고</S.logo>
-      </S.Container>
-    </>
-  );
+  return <SearchPost />;
 }
 
 export default Search;
