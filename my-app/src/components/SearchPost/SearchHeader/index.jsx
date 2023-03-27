@@ -45,7 +45,7 @@ function SearchHeader({ keyword, setKeyword, onChange, leftOnClick }) {
             type='text'
             placeholder='검색어를 입력하세요.'
           />
-          {keyword && <S.ClearBtn type='button' onClick={() => handleClearBtn()} />}
+          {keyword && <S.ClearBtn type='button' onMouseDown={() => handleClearBtn()} />}
         </S.SearchFormContainer>
       </S.SearchForm>
 
