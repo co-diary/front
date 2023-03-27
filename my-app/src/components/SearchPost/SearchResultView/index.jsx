@@ -15,9 +15,20 @@ function SearchResultView({ keyword }) {
     });
   }, []);
 
+  const filtering = (key) => {
+    const option = data.filter((item) => item[key].includes(keyword));
+
+    return option;
+  };
+
   useEffect(() => {
     if (keyword) {
-      const filtered = data.filter((item) => item.menu.includes(keyword));
+      const option = filtering('menu');
+      const option2 = filtering('shop');
+      const option3 = filtering('location');
+      const option4 = filtering('review');
+
+      const filtered = [...option, ...option2, ...option3, ...option4];
 
       setPostList(filtered);
     } else {
