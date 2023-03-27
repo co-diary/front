@@ -6,9 +6,6 @@ function SearchHeader({ keyword, setKeyword, onChange, leftOnClick }) {
   const [focus, setFocus] = useState(false);
 
   const handleFormBlur = () => {
-    if (keyword) {
-      console.log('이거실행');
-    }
     setFocus(false);
   };
 
@@ -44,6 +41,7 @@ function SearchHeader({ keyword, setKeyword, onChange, leftOnClick }) {
             onChange={onChange}
             type='text'
             placeholder='검색어를 입력하세요.'
+            focus={focus}
           />
           {keyword && <S.ClearBtn type='button' onMouseDown={() => handleClearBtn()} />}
         </S.SearchFormContainer>

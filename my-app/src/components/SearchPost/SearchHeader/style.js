@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { css } from 'styled-components';
 import Theme from '../../../styles/Theme';
 import ClearIcon from '../../../assets/Icon-CancelSearch.png';
 
@@ -26,37 +26,53 @@ export const Button = styled.button`
   }
 `;
 
-export const inputSizing = keyframes`
-  0% {
-    width: 100%;
-  }
-  100% {
-    width: 80%;
-  }
-`;
-
 export const SearchForm = styled.form`
   flex-basis: 100%;
-`;
-
-export const Input = styled.input`
-  width: 100%;
-  height: 3.2rem;
-  padding: 1rem 0 1rem 1.4rem;
-  border: 1px solid ${Theme.BORDER};
-  border-radius: 3.2rem;
-
-  transition: all linear 0.4s;
-  &:focus {
-    /* 임시로 설정 */
-    /* animation: ${inputSizing} 0.4s linear; */
-    outline: none;
-  }
 `;
 
 export const SearchFormContainer = styled.div`
   position: relative;
   display: flex;
+  transition: all 0.4s linear;
+`;
+
+export const Input = styled.input`
+  width: ${({ focus }) => (focus ? 'calc(100% - 5rem)' : '100%')};
+  height: 3.2rem;
+  padding: 1rem 0 1rem 1.4rem;
+  border: 1px solid ${Theme.BORDER};
+  border-radius: 3.2rem;
+  transition: all 0.3s linear;
+
+  /* ${({ focus }) =>
+    focus
+      ? css`
+          animation: inputReSizing 0.3s;
+        `
+      : css`
+          animation: inputSizing 0.3s;
+        `} */
+
+  /* @keyframes inputReSizing {
+    from {
+      width: 100%;
+    }
+    to {
+      width: calc(100% - 5rem);
+    }
+  }
+  @keyframes inputSizing {
+    from {
+      width: calc(100% - 5rem);
+    }
+    to {
+      width: 100%;
+    }
+  } */
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const ClearBtn = styled.button`
@@ -70,6 +86,8 @@ export const ClearBtn = styled.button`
 `;
 
 export const CancelBtn = styled.button`
+  position: absolute;
+  right: 2rem;
   width: 5rem;
   color: #3d3d3d;
   padding: 1.3rem 0 1.3rem 0;
