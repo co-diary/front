@@ -13,6 +13,11 @@ function SearchHeader({ keyword, setKeyword, onChange, leftOnClick }) {
   //   setFocus(!focus);
   // };
 
+  const clearText = (e) => {
+    console.log('버튼');
+    setKeyword('');
+  };
+
   useEffect(() => {
     if (!keyword) {
       setKeyword('');
@@ -25,20 +30,22 @@ function SearchHeader({ keyword, setKeyword, onChange, leftOnClick }) {
         <img src={IconBack} alt='뒤로가기' />
       </S.Button>
       <S.SearchForm action=''>
-        <S.SearchFormContainer>
+        <S.SearchFormContainer
+          onFocus={() => {
+            setFocus(true);
+          }}
+          onBlur={(e) => {
+            console.log('블러');
+            setFocus(false);
+          }}
+        >
           <S.Input
             value={keyword}
             onChange={onChange}
             type='text'
             placeholder='검색어를 입력하세요.'
-            onFocus={() => {
-              setFocus(true);
-            }}
-            onBlur={() => {
-              setFocus(!focus);
-            }}
           />
-          {keyword && <S.ClearBtn />}
+          {keyword && <S.ClearBtn type='button' onClick={clearText} />}
         </S.SearchFormContainer>
       </S.SearchForm>
 
