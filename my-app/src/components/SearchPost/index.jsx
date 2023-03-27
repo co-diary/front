@@ -20,7 +20,12 @@ function SearchPost() {
 
   return (
     <S.Container>
-      <SearchHeader leftOnClick={handlePageBack} onChange={onChange} />
+      <SearchHeader
+        leftOnClick={handlePageBack}
+        onChange={onChange}
+        keyword={keyword}
+        setKeyword={setKeyword}
+      />
       <SearchResultView keyword={keyword} />
     </S.Container>
   );

@@ -1,9 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as S from './style';
 import IconBack from '../../../assets/Icon-Back.png';
 
-function SearchHeader({ keyword, onChange, leftOnClick }) {
+function SearchHeader({ keyword, setKeyword, onChange, leftOnClick }) {
   const [focus, setFocus] = useState(false);
+
+  // const 블러함수 = () => {
+  //   if () {
+  //     console.log('이거실행');
+  //   }
+  //   console.log('블러됨');
+  //   setFocus(!focus);
+  // };
+
+  useEffect(() => {
+    if (!keyword) {
+      setKeyword('');
+    }
+  }, []);
 
   return (
     <S.Container>
@@ -24,7 +38,7 @@ function SearchHeader({ keyword, onChange, leftOnClick }) {
               setFocus(!focus);
             }}
           />
-          {focus && <S.ClearBtn />}
+          {keyword && <S.ClearBtn />}
         </S.SearchFormContainer>
       </S.SearchForm>
 
