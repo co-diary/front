@@ -78,7 +78,7 @@ export const Input = styled.input`
 export const ClearBtn = styled.button`
   position: absolute;
   top: 20%;
-  right: ${({ focus }) => (focus ? '5rem' : '0.6rem')};
+  right: ${({ focus }) => (focus ? '5rem' : '1rem')};
   transition: all 0.2s linear;
   width: 2rem;
   height: 2rem;
