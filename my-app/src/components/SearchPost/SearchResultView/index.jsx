@@ -7,6 +7,8 @@ function SearchResultView({ keyword }) {
   const [data, setData] = useState([]);
   const [postList, setPostList] = useState([]);
 
+  console.log(keyword);
+
   useEffect(() => {
     getPost('ALL').then((res) => {
       setData(res);
