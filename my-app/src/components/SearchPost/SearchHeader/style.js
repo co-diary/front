@@ -38,7 +38,8 @@ export const SearchFormContainer = styled.div`
 export const Input = styled.input`
   width: ${({ focus }) => (focus ? 'calc(100% - 4rem)' : '100%')};
   height: 3.2rem;
-  padding: 1rem 0 1rem 1.4rem;
+  line-height: 3.2rem;
+  padding: 1rem 3.5rem 1rem 1.4rem;
   border: 1px solid ${Theme.BORDER};
   border-radius: 3.2rem;
   transition: all 0.2s linear;
