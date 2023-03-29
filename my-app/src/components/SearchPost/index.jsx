@@ -19,7 +19,7 @@ function SearchPost() {
     setKeyword(e.target.value);
   };
 
-  const debouncedSearchTxt = useDebounce(keyword, 300);
+  const debouncedSearchTxt = useDebounce(keyword, 400);
 
   return (
     <S.Container>
