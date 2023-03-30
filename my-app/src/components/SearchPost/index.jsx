@@ -4,6 +4,7 @@ import * as S from './style';
 
 import SearchHeader from './SearchHeader';
 import SearchResultView from './SearchResultView';
+import useDebounce from '../../hooks/useDebounce';
 
 function SearchPost() {
   const [keyword, setKeyword] = useState('');
@@ -18,6 +19,8 @@ function SearchPost() {
     setKeyword(e.target.value);
   };
 
+  const debouncedSearchTxt = useDebounce(keyword, 400);
+
   return (
     <S.Container>
       <SearchHeader
@@ -26,7 +29,7 @@ function SearchPost() {
         keyword={keyword}
         setKeyword={setKeyword}
       />
-      <SearchResultView keyword={keyword} />
+      <SearchResultView keyword={debouncedSearchTxt} />
     </S.Container>
   );
 }

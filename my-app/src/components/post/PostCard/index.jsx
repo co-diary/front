@@ -14,7 +14,7 @@ function PostCard({ date, like, location, menu, photo, review, score, shop, tags
     <S.PostCardBox>
       <S.PostCover>
         <span>{slicedDate}</span>
-        <img src={photo} alt='메뉴 썸네일 사진' />
+        {photo && <img src={photo} alt='메뉴 썸네일 사진' />}
       </S.PostCover>
       <S.PostContent>
         <S.PostInfo>
@@ -40,13 +40,14 @@ function PostCard({ date, like, location, menu, photo, review, score, shop, tags
           </S.StoreInfo>
         </S.PostInfo>
         <S.PostReview>
-          <p>{review}</p>
+          {review && <p>{review}</p>}
           <S.TagContainer>
-            {tags.map((tag) => (
-              <S.Tag to='#' key={uuidv4()}>
-                #{tag}
-              </S.Tag>
-            ))}
+            {tags &&
+              tags.map((tag) => (
+                <S.Tag to='#' key={uuidv4()}>
+                  #{tag}
+                </S.Tag>
+              ))}
           </S.TagContainer>
         </S.PostReview>
       </S.PostContent>
