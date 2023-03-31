@@ -59,6 +59,10 @@ function Post() {
     e.stopPropagation();
   }, []);
 
+  const handleOnBlur = () => {
+    setDisplayOptions(false);
+  };
+
   console.log(selected);
   console.log(displayOptions);
 
@@ -76,7 +80,7 @@ function Post() {
       <S.Container>
         <nav>
           <S.CategoryContainer>
-            {categoryContents.categories.map((content, i) => (
+            {categoryContents.categories.map((content) => (
               <li onClick={() => onClickCategory(`${content}`)} key={uuidv4()}>
                 <S.CategoryBtn isActive={content === btnStyle}>{content}</S.CategoryBtn>
               </li>
@@ -84,6 +88,7 @@ function Post() {
           </S.CategoryContainer>
         </nav>
         <SelectBox
+          onBlur={handleOnBlur}
           handleDisplayList={handleDisplayList}
           handleClickList={handleClickList}
           selected={selected}

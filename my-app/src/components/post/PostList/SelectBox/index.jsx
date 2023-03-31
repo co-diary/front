@@ -1,9 +1,9 @@
 import React from 'react';
 import * as S from './style';
 
-function SelectBox({ handleDisplayList, selected, displayOptions, handleClickList }) {
+function SelectBox({ onBlur, handleDisplayList, selected, displayOptions, handleClickList }) {
   return (
-    <S.Container onClick={handleDisplayList} options={displayOptions}>
+    <S.Container onBlur={onBlur} onClick={handleDisplayList} options={displayOptions}>
       <button>{selected}</button>
       <S.Options options={displayOptions}>
         <li onClick={handleClickList}>최신순</li>
