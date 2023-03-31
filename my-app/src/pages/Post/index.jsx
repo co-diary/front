@@ -7,6 +7,7 @@ import IconSearch from '../../assets/Icon-Search.png';
 import * as S from './style';
 import getPost from '../../hooks/getPost';
 import PostList from '../../components/post/PostList';
+import SelectBox from '../../components/post/PostList/SelectBox';
 
 const categoryContentsAll = [
   {
@@ -20,7 +21,7 @@ const categoryContentsAll = [
 ];
 
 function Post() {
-  const [currentOrder, setCurrentOrder] = useState('최신순');
+  const [selected, setSelected] = useState('최신순');
   const [displayOptions, setDisplayOptions] = useState(false);
   const [postList, setPostList] = useState([]);
   const [btnStyle, setBtnStyle] = useState('');
@@ -53,13 +54,17 @@ function Post() {
   }, []);
 
   const handleClickList = useCallback((e) => {
-    setCurrentOrder(e.target.innerText);
+    setSelected(e.target.innerText);
     setDisplayOptions(false);
     e.stopPropagation();
   }, []);
 
+  console.log(selected);
+  console.log(displayOptions);
+
   return (
     <>
+      <h1 className='ir'>{ThemeTitle} 게시글 페이지</h1>
       <Header
         title={ThemeTitle}
         rightChild={
@@ -69,9 +74,6 @@ function Post() {
         }
       />
       <S.Container>
-        <header>
-          <h1 className='ir'>{ThemeTitle} 게시글 페이지</h1>
-        </header>
         <nav>
           <S.CategoryContainer>
             {categoryContents.categories.map((content, i) => (
@@ -81,13 +83,12 @@ function Post() {
             ))}
           </S.CategoryContainer>
         </nav>
-        <S.SelectBox onClick={handleDisplayList} options={displayOptions}>
-          <button>{currentOrder}</button>
-          <S.ListBox options={displayOptions}>
-            <li onClick={handleClickList}>최신순</li>
-            <li onClick={handleClickList}>별점순</li>
-          </S.ListBox>
-        </S.SelectBox>
+        <SelectBox
+          handleDisplayList={handleDisplayList}
+          handleClickList={handleClickList}
+          selected={selected}
+          displayOptions={displayOptions}
+        />
         <PostList postList={postList} />
       </S.Container>
       <NavBar />
