@@ -22,7 +22,7 @@ const categoryContentsAll = [
 
 function Post() {
   const [selected, setSelected] = useState('최신순');
-  const [displayOptions, setDisplayOptions] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [postList, setPostList] = useState([]);
   const [btnStyle, setBtnStyle] = useState('');
 
@@ -45,27 +45,24 @@ function Post() {
   };
 
   useEffect(() => {
-    setDisplayOptions(false);
+    setIsOpen(false);
     setBtnStyle('전체');
     getPost('theme', ThemeTitle).then((data) => setPostList(data));
   }, []);
 
   const handleDisplayList = useCallback(() => {
-    setDisplayOptions((prev) => !prev);
+    setIsOpen((prev) => !prev);
   }, []);
 
   const handleClickList = useCallback((e) => {
     setSelected(e.target.innerText);
-    setDisplayOptions(false);
+    setIsOpen(false);
     e.stopPropagation();
   }, []);
 
   const handleOnBlur = () => {
-    setDisplayOptions(false);
+    setIsOpen(false);
   };
-
-  console.log(selected);
-  console.log(displayOptions);
 
   return (
     <>
@@ -93,7 +90,7 @@ function Post() {
           handleDisplayList={handleDisplayList}
           handleClickList={handleClickList}
           selected={selected}
-          displayOptions={displayOptions}
+          isOpen={isOpen}
         />
         <PostList postList={postList} />
       </S.Container>
