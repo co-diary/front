@@ -4,9 +4,9 @@ import { v4 as uuidv4 } from 'uuid';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import IconSearch from '../../assets/Icon-Search.png';
-import PostCard from '../../components/post/PostCard';
 import * as S from './style';
 import getPost from '../../hooks/getPost';
+import PostList from '../../components/post/PostList';
 
 const categoryContentsAll = [
   {
@@ -88,22 +88,7 @@ function Post() {
             <li onClick={handleClickList}>별점순</li>
           </S.ListBox>
         </S.SelectBox>
-        <S.PostContainer>
-          {postList.map((post) => (
-            <PostCard
-              key={post.key}
-              date={post.date}
-              like={post.like}
-              location={post.location}
-              menu={post.menu}
-              photo={post.photo}
-              review={post.review}
-              score={post.score}
-              shop={post.shop}
-              tags={post.tag}
-            />
-          ))}
-        </S.PostContainer>
+        <PostList postList={postList} />
       </S.Container>
       <NavBar />
     </>

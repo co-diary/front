@@ -86,13 +86,6 @@ export const ListBox = styled.ul`
   }
 `;
 
-export const PostContainer = styled.ol`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.8rem;
-`;
-
 export const HeaderBtn = styled.button`
   background-color: ${Theme.WHITE};
   img {
