@@ -13,9 +13,7 @@ export const Container = styled.div`
   border-radius: 3.8rem;
   cursor: pointer;
 
-  &:hover {
-    border-color: ${Theme.MAIN};
-  }
+  border-color: ${({ selected }) => (selected ? ` ${Theme.MAIN}` : ` ${Theme.BORDER}`)};
 
   button {
     width: 100%;
