@@ -45,6 +45,7 @@ function Post() {
   };
 
   useEffect(() => {
+    setDisplayOptions(false);
     setBtnStyle('전체');
     getPost('theme', ThemeTitle).then((data) => setPostList(data));
   }, []);

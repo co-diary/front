@@ -13,8 +13,7 @@ export const Container = styled.div`
   border-radius: 3.8rem;
   cursor: pointer;
 
-  &:hover,
-  &:focus-within {
+  &:hover {
     border-color: ${Theme.MAIN};
   }
 
@@ -50,20 +49,20 @@ export const Options = styled.ul`
   max-height: ${({ options }) => (options ? 'none' : '0')};
   overflow: hidden;
   z-index: 99;
+`;
 
-  li {
-    margin: 0.4rem;
-    padding: 0.7rem 0.8rem 0.4rem;
-    border-radius: 0.4rem;
-    cursor: pointer;
-    transition: background-color 0.1s ease;
+export const Option = styled.li`
+  margin: 0.4rem;
+  padding: 0.7rem 0.8rem 0.4rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
 
-    &:hover {
-      background-color: ${Theme.MAIN};
-    }
+  &:hover {
+    background-color: ${Theme.MAIN};
+  }
 
-    & + li {
-      margin-top: 0rem;
-    }
+  & + li {
+    margin-top: 0rem;
   }
 `;

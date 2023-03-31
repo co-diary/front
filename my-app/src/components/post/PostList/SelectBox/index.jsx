@@ -6,8 +6,8 @@ function SelectBox({ onBlur, handleDisplayList, selected, displayOptions, handle
     <S.Container onBlur={onBlur} onClick={handleDisplayList} options={displayOptions}>
       <button>{selected}</button>
       <S.Options options={displayOptions}>
-        <li onClick={handleClickList}>최신순</li>
-        <li onClick={handleClickList}>별점순</li>
+        <S.Option onClick={handleClickList}>최신순</S.Option>
+        <S.Option onClick={handleClickList}>별점순</S.Option>
       </S.Options>
     </S.Container>
   );
