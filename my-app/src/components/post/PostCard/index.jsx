@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import * as S from './style';
 import IconHeartOn from '../../../assets/Icon-Heart-on.png';
 import IconHeartOff from '../../../assets/Icon-Heart-off.png';
 import IconStarOn from '../../../assets/Icon-star-on.png';
 import IconStarOff from '../../../assets/Icon-star-off.png';
+import useToggle from '../../../hooks/useToggle';
 
 function PostCard({ date, like, location, menu, photo, review, score, shop, tags }) {
   const slicedDate = date.toDate().toISOString().slice(5, 10).replace('-', '.');
   const scoreIndexs = [0, 1, 2, 3, 4];
+
+  const [liked, setLiked] = useToggle(like);
+
+  const handleLikeButton = () => {
+    console.log('좋아요', liked);
+    setLiked(!liked);
+  };
+
+  console.log(liked);
 
   return (
     <S.PostCardBox>
@@ -18,8 +28,8 @@ function PostCard({ date, like, location, menu, photo, review, score, shop, tags
       </S.PostCover>
       <S.PostContent>
         <S.PostInfo>
-          <S.PostLike>
-            {like ? (
+          <S.PostLike onClick={() => handleLikeButton()}>
+            {liked ? (
               <img src={IconHeartOn} alt='좋아요 표시' />
             ) : (
               <img src={IconHeartOff} alt='좋아요 표시하지 않음' />
