@@ -10,9 +10,8 @@ import NavBar from '../../components/common/NavBar';
 import DrinkIcon from '../../assets/Icon-beverage.png';
 import DessertIcon from '../../assets/Icon-dessert.png';
 import CategoryCard from '../../components/home/CategoryCard';
-import PostCard from '../../components/post/PostCard';
-
 import getPost from '../../hooks/getPost';
+import RecentPosts from '../../components/home/RecentPosts';
 
 function Home() {
   const [userState, setUserState] = useRecoilState(authState);
@@ -20,8 +19,6 @@ function Home() {
   const [postCount, setPostCount] = useState(0);
   const [drinkCount, setDrinkCount] = useState(0);
   const [dessertCount, setDessertCount] = useState(0);
-
-  const [recentPosts, setRecentPosts] = useState([]);
 
   const cards = [
     {
@@ -54,12 +51,6 @@ function Home() {
       setPostCount(data.length);
       setDrinkCount(data.filter((v) => v.theme === '음료').length);
       setDessertCount(data.filter((v) => v.theme === '디저트').length);
-    });
-  }, []);
-
-  useEffect(() => {
-    getPost('ORDER_BY', 'createAt', 'desc').then((data) => {
-      setRecentPosts(data.slice(0, 3));
     });
   }, []);
 
@@ -98,23 +89,7 @@ function Home() {
           </S.CategoryCards>
         </section>
         <section>
-          <S.SubTitle>최근 추가된 기록</S.SubTitle>
-          <S.Cards>
-            {recentPosts.map((post) => (
-              <PostCard
-                key={post.key}
-                date={post.date}
-                like={post.like}
-                location={post.location}
-                menu={post.menu}
-                photo={post.photo}
-                review={post.review}
-                score={post.score}
-                shop={post.shop}
-                tags={post.tag}
-              />
-            ))}
-          </S.Cards>
+          <RecentPosts />
         </section>
       </S.Container>
       <NavBar page='home' />
