@@ -6,12 +6,14 @@ import IconHeartOff from '../../../assets/Icon-Heart-off.png';
 import IconStarOn from '../../../assets/Icon-star-on.png';
 import IconStarOff from '../../../assets/Icon-star-off.png';
 import useToggle from '../../../hooks/useToggle';
+import ConfirmModal from '../../modal/ConfirmModal';
+import Portal from '../../modal/Portal';
 
 function PostCard({ date, like, location, menu, photo, review, score, shop, tags }) {
+  const [liked, setLiked] = useToggle(like);
+
   const slicedDate = date.toDate().toISOString().slice(5, 10).replace('-', '.');
   const scoreIndexs = [0, 1, 2, 3, 4];
-
-  const [liked, setLiked] = useToggle(like);
 
   const handleLikeButton = () => {
     console.log('좋아요', liked);
@@ -30,7 +32,12 @@ function PostCard({ date, like, location, menu, photo, review, score, shop, tags
         <S.PostInfo>
           <S.PostLike onClick={() => handleLikeButton()}>
             {liked ? (
-              <img src={IconHeartOn} alt='좋아요 표시' />
+              <>
+                <Portal>
+                  <ConfirmModal />
+                </Portal>
+                <img src={IconHeartOn} alt='좋아요 표시' />
+              </>
             ) : (
               <img src={IconHeartOff} alt='좋아요 표시하지 않음' />
             )}
