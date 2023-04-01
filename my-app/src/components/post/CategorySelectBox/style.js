@@ -3,7 +3,7 @@ import Theme from '../../../styles/Theme';
 import IconSelectOn from '../../../assets/Icon-Select-on.png';
 import IconSelectOff from '../../../assets/Icon-Select-off.png';
 
-export const SSelectBox = styled.div`
+export const SelectBox = styled.div`
   position: relative;
   width: 8.8rem;
   font-size: 1.4rem;
@@ -16,7 +16,7 @@ export const SSelectBox = styled.div`
   }
 `;
 
-export const SCurrentSelect = styled.button`
+export const CurrentSelect = styled.button`
   width: 100%;
   padding: 0.8rem 1.2rem;
   text-align: start;
@@ -35,7 +35,7 @@ export const SCurrentSelect = styled.button`
   }
 `;
 
-export const SListBox = styled.ul`
+export const ListBox = styled.ul`
   position: absolute;
   width: 100%;
   top: 4rem;
@@ -49,7 +49,7 @@ export const SListBox = styled.ul`
   z-index: 99;
 `;
 
-export const SListOption = styled.li`
+export const ListOption = styled.li`
   margin: 0.4rem;
   padding: 0.7rem 0.8rem;
   border-radius: 0.4rem;
