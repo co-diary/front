@@ -51,6 +51,13 @@ function PostForm() {
     e.stopPropagation();
   }, []);
 
+  const handleCheckCategory = useCallback(
+    (id) => {
+      setCurrentSelect(id);
+    },
+    [currentSelect],
+  );
+
   const subOption = SELECTBOX_DATA.find((category) => category.id === currentSelect).option;
 
   useEffect(() => {
@@ -121,15 +128,17 @@ function PostForm() {
           <S.SelectBoxWrapper>
             <h1 className='ir'>카테고리 선택</h1>
             <CategorySelectBox
+              boxOption={'category'}
               optiondata={SELECTBOX_DATA}
               categoryRef={categoryRef}
               isShowOptionCategory={isShowOptionCategory}
               handleClickListCategory={handleClickListCategory}
               currentCategory={currentCategory}
               handleDisplayCategory={handleDisplayCategory}
-              setCurrentSelect={setCurrentSelect}
+              handleCheckCategory={handleCheckCategory}
             />
             <CategorySelectBox
+              boxOption={'theme'}
               subOption={subOption}
               themeRef={themeRef}
               isShowOptionTheme={isShowOptionTheme}
