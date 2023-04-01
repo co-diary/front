@@ -2,57 +2,39 @@ import React from 'react';
 import * as S from './style';
 
 function CategorySelectBox({
-  boxOption,
+  boxValue,
   optiondata,
-  categoryRef,
-  isShowOptionCategory,
-  handleClickListCategory,
-  currentCategory,
-  handleDisplayCategory,
+  selectedRef,
+  isShowOption,
+  handleClickList,
+  currentSelected,
+  handleDisplay,
   handleCheckCategory,
   subOption,
-  themeRef,
-  isShowOptionTheme,
-  handleClickListTheme,
-  handleDisplayTheme,
-  currentTheme,
 }) {
   return (
-    <>
-      {boxOption === 'category' ? (
-        <S.SelectBox
-          options={isShowOptionCategory}
-          onClick={handleDisplayCategory}
-          ref={categoryRef}
-        >
-          <S.CurrentSelect type='button' options={isShowOptionCategory}>
-            {currentCategory}
-          </S.CurrentSelect>
-          {isShowOptionCategory && (
-            <S.ListBox options={isShowOptionCategory} onClick={handleClickListCategory}>
+    <S.SelectBox options={isShowOption} onClick={handleDisplay} ref={selectedRef}>
+      <S.CurrentSelect type='button' options={isShowOption}>
+        {currentSelected}
+      </S.CurrentSelect>
+      {boxValue === true
+        ? isShowOption && (
+            <S.ListBox onClick={(e) => handleClickList(e)} options={isShowOption}>
               {optiondata.map((option) => (
                 <S.ListOption key={option.id} onClick={() => handleCheckCategory(option.id)}>
                   {option.name}
                 </S.ListOption>
               ))}
             </S.ListBox>
-          )}
-        </S.SelectBox>
-      ) : (
-        <S.SelectBox options={isShowOptionTheme} onClick={handleDisplayTheme} ref={themeRef}>
-          <S.CurrentSelect type='button' options={isShowOptionTheme}>
-            {currentTheme}
-          </S.CurrentSelect>
-          {isShowOptionTheme && (
-            <S.ListBox options={isShowOptionTheme} onClick={handleClickListTheme}>
+          )
+        : isShowOption && (
+            <S.ListBox onClick={(e) => handleClickList(e)} options={isShowOption}>
               {subOption.map((option) => (
                 <S.ListOption key={option.subId}>{option.subName}</S.ListOption>
               ))}
             </S.ListBox>
           )}
-        </S.SelectBox>
-      )}
-    </>
+    </S.SelectBox>
   );
 }
 

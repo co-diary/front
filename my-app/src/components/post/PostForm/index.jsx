@@ -128,23 +128,23 @@ function PostForm() {
           <S.SelectBoxWrapper>
             <h1 className='ir'>카테고리 선택</h1>
             <CategorySelectBox
-              boxOption={'category'}
+              boxValue={true}
               optiondata={SELECTBOX_DATA}
-              categoryRef={categoryRef}
-              isShowOptionCategory={isShowOptionCategory}
-              handleClickListCategory={handleClickListCategory}
-              currentCategory={currentCategory}
-              handleDisplayCategory={handleDisplayCategory}
+              selectedRef={categoryRef}
+              isShowOption={isShowOptionCategory}
+              handleClickList={handleClickListCategory}
+              currentSelected={currentCategory}
+              handleDisplay={handleDisplayCategory}
               handleCheckCategory={handleCheckCategory}
             />
             <CategorySelectBox
-              boxOption={'theme'}
+              boxValue={false}
               subOption={subOption}
-              themeRef={themeRef}
-              isShowOptionTheme={isShowOptionTheme}
-              handleClickListTheme={handleClickListTheme}
-              currentTheme={currentTheme}
-              handleDisplayTheme={handleDisplayTheme}
+              selectedRef={themeRef}
+              isShowOption={isShowOptionTheme}
+              handleClickList={handleClickListTheme}
+              currentSelected={currentTheme}
+              handleDisplay={handleDisplayTheme}
             />
           </S.SelectBoxWrapper>
           <S.InputBox length='1.2rem'>
