@@ -17,7 +17,6 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
   const [liked, setLiked] = useToggle(like);
 
   const updatePost = async (postId, newLiked) => {
-    console.log(postId, newLiked);
     const postDoc = doc(db, 'post', postId);
     const newField = { like: newLiked };
 
@@ -31,8 +30,6 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
 
   useEffect(() => {
     const postDB = collection(db, 'post');
-
-    console.log(postDB);
   }, []);
 
   return (
