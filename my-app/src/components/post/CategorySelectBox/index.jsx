@@ -1,72 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
-import Theme from '../../../styles/Theme';
 import useOutsideDetect from '../../../hooks/useOutsideDetect';
-import IconSelectOn from '../../../assets/Icon-Select-on.png';
-import IconSelectOff from '../../../assets/Icon-Select-off.png';
-
-export const SSelectBox = styled.div`
-  position: relative;
-  width: 8.8rem;
-  font-size: 1.4rem;
-  border: 1px solid ${Theme.BORDER};
-  border-radius: 3.8rem;
-  cursor: pointer;
-
-  &:hover {
-    border-color: ${Theme.MAIN};
-  }
-`;
-
-export const SCurrentSelect = styled.button`
-  width: 100%;
-  padding: 0.8rem 1.2rem;
-  text-align: start;
-
-  &::before {
-    content: ' ';
-    display: block;
-    position: absolute;
-    width: 1.6rem;
-    height: 1.6rem;
-    top: 0.6rem;
-    right: 0.8rem;
-    background: center / contain no-repeat;
-    background-image: ${({ options }) =>
-      options ? `url(${IconSelectOn})` : `url(${IconSelectOff})`};
-  }
-`;
-
-export const SListBox = styled.ul`
-  position: absolute;
-  width: 100%;
-  top: 4rem;
-  left: 0;
-  background-color: ${Theme.WHITE};
-  border: 1px solid ${Theme.MAIN};
-  border-radius: 0.8rem;
-  border-width: ${({ options }) => (options ? '1px' : '0')};
-  max-height: ${({ options }) => (options ? 'none' : '0')};
-  overflow: hidden;
-  z-index: 99;
-`;
-
-export const SListOption = styled.li`
-  margin: 0.4rem;
-  padding: 0.7rem 0.8rem;
-  border-radius: 0.4rem;
-  cursor: pointer;
-  transition: background-color 0.1s ease;
-
-  &:hover {
-    font-family: 'LINESeedKR-Bd';
-    background-color: ${Theme.MAIN};
-  }
-
-  & + li {
-    margin-top: 0rem;
-  }
-`;
+import * as S from './style';
 
 function CustomSelectbox({ optiondata }) {
   const [isShowOptionCategory, setIsShowOptionCategory, categoryRef, handleDisplayCategory] =
@@ -99,32 +33,32 @@ function CustomSelectbox({ optiondata }) {
 
   return (
     <>
-      <SSelectBox options={isShowOptionCategory} onClick={handleDisplayCategory} ref={categoryRef}>
-        <SCurrentSelect type='button' options={isShowOptionCategory}>
+      <S.SelectBox options={isShowOptionCategory} onClick={handleDisplayCategory} ref={categoryRef}>
+        <S.CurrentSelect type='button' options={isShowOptionCategory}>
           {currentCategory}
-        </SCurrentSelect>
+        </S.CurrentSelect>
         {isShowOptionCategory && (
-          <SListBox options={isShowOptionCategory} onClick={handleClickListCategory}>
+          <S.ListBox options={isShowOptionCategory} onClick={handleClickListCategory}>
             {optiondata.map((option) => (
-              <SListOption key={option.id} onClick={() => setCurrentSelect(option.id)}>
+              <S.ListOption key={option.id} onClick={() => setCurrentSelect(option.id)}>
                 {option.name}
-              </SListOption>
+              </S.ListOption>
             ))}
-          </SListBox>
+          </S.ListBox>
         )}
-      </SSelectBox>
-      <SSelectBox options={isShowOptionTheme} onClick={handleDisplayTheme} ref={themeRef}>
-        <SCurrentSelect type='button' options={isShowOptionTheme}>
+      </S.SelectBox>
+      <S.SelectBox options={isShowOptionTheme} onClick={handleDisplayTheme} ref={themeRef}>
+        <S.CurrentSelect type='button' options={isShowOptionTheme}>
           {currentTheme}
-        </SCurrentSelect>
+        </S.CurrentSelect>
         {isShowOptionTheme && (
-          <SListBox options={isShowOptionTheme} onClick={handleClickListTheme}>
+          <S.ListBox options={isShowOptionTheme} onClick={handleClickListTheme}>
             {subOption.map((option) => (
-              <SListOption key={option.subId}>{option.subName}</SListOption>
+              <S.ListOption key={option.subId}>{option.subName}</S.ListOption>
             ))}
-          </SListBox>
+          </S.ListBox>
         )}
-      </SSelectBox>
+      </S.SelectBox>
     </>
   );
 }
