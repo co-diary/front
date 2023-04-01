@@ -10,8 +10,8 @@ import IconLocationOff from '../../../assets/Icon-Nav-Map-off.png';
 import IconCalendar from '../../../assets/Icon-Calendar.png';
 import IconAddInput from '../../../assets/Icon-AddInput.png';
 import IconAddPhoto from '../../../assets/Icon-AddPhoto.png';
-import SELECTBOX_DATA from '../Category/SELECTBOX_DATA';
-import Category from '../Category';
+import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
+import CategorySelectBox from '../CategorySelectBox';
 import * as S from './style';
 
 function PostForm() {
@@ -91,7 +91,7 @@ function PostForm() {
         <S.Form>
           <S.SelectBoxWrapper>
             <h1 className='ir'>카테고리 선택</h1>
-            <Category optiondata={SELECTBOX_DATA} />
+            <CategorySelectBox optiondata={SELECTBOX_DATA} />
           </S.SelectBoxWrapper>
           <S.InputBox length='1.2rem'>
             <S.Label htmlFor='date'>날짜</S.Label>
