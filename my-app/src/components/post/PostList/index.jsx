@@ -15,6 +15,7 @@ function PostList({ postList }) {
       {postList.map((post) => (
         <PostCard
           key={post.key}
+          id={post.key}
           date={post.date}
           like={post.like}
           location={post.location}
