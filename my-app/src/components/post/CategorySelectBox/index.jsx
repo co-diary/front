@@ -1,36 +1,21 @@
-import React, { useCallback, useState } from 'react';
-import useOutsideDetect from '../../../hooks/useOutsideDetect';
+import React from 'react';
 import * as S from './style';
 
-function CustomSelectbox({ optiondata }) {
-  const [isShowOptionCategory, setIsShowOptionCategory, categoryRef, handleDisplayCategory] =
-    useOutsideDetect(false);
-  const [isShowOptionTheme, setIsShowOptionTheme, themeRef, handleDisplayTheme] =
-    useOutsideDetect(false);
-
-  const [currentCategory, setCurrentCategory] = useState(optiondata[0].name);
-  const [currentTheme, setCurrentTheme] = useState(optiondata[0].option[0].subName);
-  const [currentSelect, setCurrentSelect] = useState(1);
-
-  const handleClickListCategory = useCallback((e) => {
-    setCurrentCategory(e.target.innerText);
-    setCurrentTheme(
-      e.target.innerText === '음료'
-        ? optiondata[0].option[0].subName
-        : optiondata[1].option[0].subName,
-    );
-    setIsShowOptionCategory(false);
-    e.stopPropagation();
-  }, []);
-
-  const handleClickListTheme = useCallback((e) => {
-    setCurrentTheme(e.target.innerText);
-    setIsShowOptionTheme(false);
-    e.stopPropagation();
-  }, []);
-
-  const subOption = optiondata.find((category) => category.id === currentSelect).option;
-
+function CategorySelectBox({
+  optiondata,
+  categoryRef,
+  isShowOptionCategory,
+  handleClickListCategory,
+  currentCategory,
+  handleDisplayCategory,
+  subOption,
+  themeRef,
+  isShowOptionTheme,
+  handleClickListTheme,
+  handleDisplayTheme,
+  currentTheme,
+  setCurrentSelect,
+}) {
   return (
     <>
       <S.SelectBox options={isShowOptionCategory} onClick={handleDisplayCategory} ref={categoryRef}>
@@ -63,4 +48,4 @@ function CustomSelectbox({ optiondata }) {
   );
 }
 
-export default CustomSelectbox;
+export default CategorySelectBox;

@@ -12,9 +12,19 @@ import IconAddInput from '../../../assets/Icon-AddInput.png';
 import IconAddPhoto from '../../../assets/Icon-AddPhoto.png';
 import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
 import CategorySelectBox from '../CategorySelectBox';
+import useOutsideDetect from '../../../hooks/useOutsideDetect';
 import * as S from './style';
 
 function PostForm() {
+  const [isShowOptionCategory, setIsShowOptionCategory, categoryRef, handleDisplayCategory] =
+    useOutsideDetect(false);
+  const [isShowOptionTheme, setIsShowOptionTheme, themeRef, handleDisplayTheme] =
+    useOutsideDetect(false);
+
+  const [currentCategory, setCurrentCategory] = useState(SELECTBOX_DATA[0].name);
+  const [currentTheme, setCurrentTheme] = useState(SELECTBOX_DATA[0].option[0].subName);
+  const [currentSelect, setCurrentSelect] = useState(1);
+
   const [startDate, setStartDate] = useState(null);
   const [dateValid, setDateValid] = useState(false);
 
@@ -23,6 +33,25 @@ function PostForm() {
 
   const [menuPrice, setMenuPrice] = useState('');
   const [menuPriceValid, setMenuPriceValid] = useState(false);
+
+  const handleClickListCategory = useCallback((e) => {
+    setCurrentCategory(e.target.innerText);
+    setCurrentTheme(
+      e.target.innerText === '음료'
+        ? SELECTBOX_DATA[0].option[0].subName
+        : SELECTBOX_DATA[1].option[0].subName,
+    );
+    setIsShowOptionCategory(false);
+    e.stopPropagation();
+  }, []);
+
+  const handleClickListTheme = useCallback((e) => {
+    setCurrentTheme(e.target.innerText);
+    setIsShowOptionTheme(false);
+    e.stopPropagation();
+  }, []);
+
+  const subOption = SELECTBOX_DATA.find((category) => category.id === currentSelect).option;
 
   useEffect(() => {
     if (menuNameValid && dateValid && menuPriceValid) {
@@ -91,7 +120,23 @@ function PostForm() {
         <S.Form>
           <S.SelectBoxWrapper>
             <h1 className='ir'>카테고리 선택</h1>
-            <CategorySelectBox optiondata={SELECTBOX_DATA} />
+            <CategorySelectBox
+              optiondata={SELECTBOX_DATA}
+              categoryRef={categoryRef}
+              isShowOptionCategory={isShowOptionCategory}
+              handleClickListCategory={handleClickListCategory}
+              currentCategory={currentCategory}
+              handleDisplayCategory={handleDisplayCategory}
+              setCurrentSelect={setCurrentSelect}
+            />
+            <CategorySelectBox
+              subOption={subOption}
+              themeRef={themeRef}
+              isShowOptionTheme={isShowOptionTheme}
+              handleClickListTheme={handleClickListTheme}
+              currentTheme={currentTheme}
+              handleDisplayTheme={handleDisplayTheme}
+            />
           </S.SelectBoxWrapper>
           <S.InputBox length='1.2rem'>
             <S.Label htmlFor='date'>날짜</S.Label>
