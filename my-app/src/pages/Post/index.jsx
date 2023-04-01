@@ -4,9 +4,10 @@ import { v4 as uuidv4 } from 'uuid';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import IconSearch from '../../assets/Icon-Search.png';
-import PostCard from '../../components/post/PostCard';
 import * as S from './style';
 import getPost from '../../hooks/getPost';
+import PostList from '../../components/post/PostList';
+import SelectBox from '../../components/post/PostList/SelectBox';
 
 const categoryContentsAll = [
   {
@@ -20,8 +21,8 @@ const categoryContentsAll = [
 ];
 
 function Post() {
-  const [currentOrder, setCurrentOrder] = useState('최신순');
-  const [displayOptions, setDisplayOptions] = useState(false);
+  const [selected, setSelected] = useState('최신순');
+  const [isOpen, setIsOpen] = useState(false);
   const [postList, setPostList] = useState([]);
   const [btnStyle, setBtnStyle] = useState('');
 
@@ -44,22 +45,28 @@ function Post() {
   };
 
   useEffect(() => {
+    setIsOpen(false);
     setBtnStyle('전체');
     getPost('theme', ThemeTitle).then((data) => setPostList(data));
   }, []);
 
   const handleDisplayList = useCallback(() => {
-    setDisplayOptions((prev) => !prev);
+    setIsOpen((prev) => !prev);
   }, []);
 
   const handleClickList = useCallback((e) => {
-    setCurrentOrder(e.target.innerText);
-    setDisplayOptions(false);
+    setSelected(e.target.innerText);
+    setIsOpen(false);
     e.stopPropagation();
   }, []);
 
+  const handleOnBlur = () => {
+    setIsOpen(false);
+  };
+
   return (
     <>
+      <h1 className='ir'>{ThemeTitle} 게시글 페이지</h1>
       <Header
         title={ThemeTitle}
         rightChild={
@@ -69,41 +76,23 @@ function Post() {
         }
       />
       <S.Container>
-        <header>
-          <h1 className='ir'>{ThemeTitle} 게시글 페이지</h1>
-        </header>
         <nav>
           <S.CategoryContainer>
-            {categoryContents.categories.map((content, i) => (
+            {categoryContents.categories.map((content) => (
               <li onClick={() => onClickCategory(`${content}`)} key={uuidv4()}>
                 <S.CategoryBtn isActive={content === btnStyle}>{content}</S.CategoryBtn>
               </li>
             ))}
           </S.CategoryContainer>
         </nav>
-        <S.SelectBox onClick={handleDisplayList} options={displayOptions}>
-          <button>{currentOrder}</button>
-          <S.ListBox options={displayOptions}>
-            <li onClick={handleClickList}>최신순</li>
-            <li onClick={handleClickList}>별점순</li>
-          </S.ListBox>
-        </S.SelectBox>
-        <S.PostContainer>
-          {postList.map((post) => (
-            <PostCard
-              key={post.key}
-              date={post.date}
-              like={post.like}
-              location={post.location}
-              menu={post.menu}
-              photo={post.photo}
-              review={post.review}
-              score={post.score}
-              shop={post.shop}
-              tags={post.tag}
-            />
-          ))}
-        </S.PostContainer>
+        <SelectBox
+          onBlur={handleOnBlur}
+          handleDisplayList={handleDisplayList}
+          handleClickList={handleClickList}
+          selected={selected}
+          isOpen={isOpen}
+        />
+        <PostList postList={postList} />
       </S.Container>
       <NavBar />
     </>
