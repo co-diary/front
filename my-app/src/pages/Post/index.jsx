@@ -24,6 +24,7 @@ function Post() {
   const [selected, setSelected] = useState('최신순');
   const [isOpen, setIsOpen] = useState(false);
   const [postList, setPostList] = useState([]);
+
   const [btnStyle, setBtnStyle] = useState('');
 
   const location = useLocation();
@@ -63,6 +64,23 @@ function Post() {
   const handleOnBlur = () => {
     setIsOpen(false);
   };
+
+  console.log(selected);
+
+  useEffect(() => {
+    console.log('정렬 바꿀거임');
+    if (selected === '최신순') {
+      console.log('최신순임');
+      getPost('ORDER_BY', 'createAt', 'desc').then((data) => {
+        setPostList(data);
+      });
+    } else if (selected === '별점순') {
+      console.log('별점순임');
+      getPost('ORDER_BY', 'createAt', 'desc').then((data) => {
+        setPostList(data);
+      });
+    }
+  }, [selected]);
 
   return (
     <>
