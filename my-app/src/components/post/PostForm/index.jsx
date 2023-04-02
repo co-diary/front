@@ -10,11 +10,21 @@ import IconLocationOff from '../../../assets/Icon-Nav-Map-off.png';
 import IconCalendar from '../../../assets/Icon-Calendar.png';
 import IconAddInput from '../../../assets/Icon-AddInput.png';
 import IconAddPhoto from '../../../assets/Icon-AddPhoto.png';
-import SELECTBOX_DATA from '../Category/SELECTBOX_DATA';
-import Category from '../Category';
+import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
+import CategorySelectBox from '../CategorySelectBox';
+import useOutsideDetect from '../../../hooks/useOutsideDetect';
 import * as S from './style';
 
 function PostForm() {
+  const [isShowOptionCategory, setIsShowOptionCategory, categoryRef, handleDisplayCategory] =
+    useOutsideDetect(false);
+  const [isShowOptionTheme, setIsShowOptionTheme, themeRef, handleDisplayTheme] =
+    useOutsideDetect(false);
+
+  const [currentCategory, setCurrentCategory] = useState(SELECTBOX_DATA[0].name);
+  const [currentTheme, setCurrentTheme] = useState(SELECTBOX_DATA[0].option[0].subName);
+  const [currentSelect, setCurrentSelect] = useState(1);
+
   const [startDate, setStartDate] = useState(null);
   const [dateValid, setDateValid] = useState(false);
 
@@ -23,6 +33,32 @@ function PostForm() {
 
   const [menuPrice, setMenuPrice] = useState('');
   const [menuPriceValid, setMenuPriceValid] = useState(false);
+
+  const handleClickListCategory = useCallback((e) => {
+    setCurrentCategory(e.target.innerText);
+    setCurrentTheme(
+      e.target.innerText === '음료'
+        ? SELECTBOX_DATA[0].option[0].subName
+        : SELECTBOX_DATA[1].option[0].subName,
+    );
+    setIsShowOptionCategory(false);
+    e.stopPropagation();
+  }, []);
+
+  const handleClickListTheme = useCallback((e) => {
+    setCurrentTheme(e.target.innerText);
+    setIsShowOptionTheme(false);
+    e.stopPropagation();
+  }, []);
+
+  const handleCheckCategory = useCallback(
+    (id) => {
+      setCurrentSelect(id);
+    },
+    [currentSelect],
+  );
+
+  const subOption = SELECTBOX_DATA.find((category) => category.id === currentSelect).option;
 
   useEffect(() => {
     if (menuNameValid && dateValid && menuPriceValid) {
@@ -91,7 +127,25 @@ function PostForm() {
         <S.Form>
           <S.SelectBoxWrapper>
             <h1 className='ir'>카테고리 선택</h1>
-            <Category optiondata={SELECTBOX_DATA} />
+            <CategorySelectBox
+              boxValue={true}
+              optiondata={SELECTBOX_DATA}
+              selectedRef={categoryRef}
+              isShowOption={isShowOptionCategory}
+              handleClickList={handleClickListCategory}
+              currentSelected={currentCategory}
+              handleDisplay={handleDisplayCategory}
+              handleCheckCategory={handleCheckCategory}
+            />
+            <CategorySelectBox
+              boxValue={false}
+              subOption={subOption}
+              selectedRef={themeRef}
+              isShowOption={isShowOptionTheme}
+              handleClickList={handleClickListTheme}
+              currentSelected={currentTheme}
+              handleDisplay={handleDisplayTheme}
+            />
           </S.SelectBoxWrapper>
           <S.InputBox length='1.2rem'>
             <S.Label htmlFor='date'>날짜</S.Label>
