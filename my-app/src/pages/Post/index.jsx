@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { orderBy } from 'firebase/firestore';
 import { useLocation, useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import Header from '../../components/common/Header';
@@ -36,12 +37,18 @@ function Post() {
   const onClickCategory = (categoryName) => {
     setBtnStyle(categoryName);
 
-    // 예외처리하기
     if (categoryName === '전체') {
-      getPost('theme', ThemeTitle).then((data) => setPostList(data));
+      getPost('theme', ThemeTitle).then((data) => {
+        const sortedByRecent = data.sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
+
+        setPostList(sortedByRecent);
+      });
     } else {
-      // 해당 categoryName docs 불러옴
-      getPost('category', categoryName).then((data) => setPostList(data));
+      getPost('category', categoryName).then((data) => {
+        const sortedByRecent = data.sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
+
+        setPostList(sortedByRecent);
+      });
     }
   };
 
