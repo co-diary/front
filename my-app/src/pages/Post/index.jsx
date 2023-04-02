@@ -71,14 +71,19 @@ function Post() {
     console.log('정렬 바꿀거임');
     if (selected === '최신순') {
       console.log('최신순임');
-      getPost('ORDER_BY', 'createAt', 'desc').then((data) => {
-        setPostList(data);
-      });
+
+      const sortedByRecent = postList.sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
+
+      console.log(sortedByRecent);
+
+      setPostList(sortedByRecent);
     } else if (selected === '별점순') {
       console.log('별점순임');
-      getPost('ORDER_BY', 'createAt', 'desc').then((data) => {
-        setPostList(data);
-      });
+
+      const sortedByRecent = postList.sort((a, b) => b.score - a.score);
+
+      setPostList(sortedByRecent);
+      console.log(postList);
     }
   }, [selected]);
 
