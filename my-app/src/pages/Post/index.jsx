@@ -22,6 +22,8 @@ const categoryContentsAll = [
 
 function Post() {
   const [selected, setSelected] = useState('최신순');
+  const options = ['별점순', '최신순'];
+
   const [isOpen, setIsOpen] = useState(false);
   const [postList, setPostList] = useState([]);
 
@@ -76,6 +78,8 @@ function Post() {
   }, []);
 
   const handleSelectedOption = (option) => {
+    console.log(option);
+
     if (option === '최신순') {
       const sortedByRecent = postList.sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
 
@@ -87,10 +91,10 @@ function Post() {
     }
   };
 
-  useEffect(() => {
-    // postList state가 업데이트될 때마다 실행되는 코드
-    handleSelectedOption(selected);
-  }, [postList, selected]);
+  // useEffect(() => {
+  //   // postList state가 업데이트될 때마다 실행되는 코드
+  //   handleSelectedOption(selected);
+  // }, [postList, selected]);
 
   const handleOnBlur = () => {
     setIsOpen(false);
@@ -118,6 +122,7 @@ function Post() {
           </S.CategoryContainer>
         </nav>
         <SelectBox
+          options={options}
           onBlur={handleOnBlur}
           handleDisplayList={handleDisplayList}
           handleClickList={handleClickList}
