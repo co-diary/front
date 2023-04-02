@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { orderBy } from 'firebase/firestore';
 import { useLocation, useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import Header from '../../components/common/Header';
@@ -34,6 +33,16 @@ function Post() {
 
   const categoryContents = categoryContentsAll.filter((v) => v.Theme === ThemeTitle)[0];
 
+  useEffect(() => {
+    setIsOpen(false);
+    setBtnStyle('전체');
+    getPost('theme', ThemeTitle).then((data) => {
+      const sortedByRecent = data.sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
+
+      setPostList(sortedByRecent);
+    });
+  }, []);
+
   const onClickCategory = (categoryName) => {
     setBtnStyle(categoryName);
 
@@ -52,47 +61,40 @@ function Post() {
     }
   };
 
-  useEffect(() => {
-    setIsOpen(false);
-    setBtnStyle('전체');
-    getPost('theme', ThemeTitle).then((data) => setPostList(data));
-  }, []);
-
   const handleDisplayList = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, []);
 
   const handleClickList = useCallback((e) => {
-    setSelected(e.target.innerText);
-    setIsOpen(false);
+    const option = e.target.innerText;
+
+    setSelected(option);
+
+    handleSelectedOption(option);
     e.stopPropagation();
+    setIsOpen(false);
   }, []);
+
+  const handleSelectedOption = (option) => {
+    if (option === '최신순') {
+      const sortedByRecent = postList.sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
+
+      setPostList(sortedByRecent);
+    } else if (option === '별점순') {
+      const sortedByScore = postList.sort((a, b) => b.score - a.score);
+
+      setPostList(sortedByScore);
+    }
+  };
+
+  useEffect(() => {
+    // postList state가 업데이트될 때마다 실행되는 코드
+    handleSelectedOption(selected);
+  }, [postList, selected]);
 
   const handleOnBlur = () => {
     setIsOpen(false);
   };
-
-  console.log(selected);
-
-  useEffect(() => {
-    console.log('정렬 바꿀거임');
-    if (selected === '최신순') {
-      console.log('최신순임');
-
-      const sortedByRecent = postList.sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
-
-      console.log(sortedByRecent);
-
-      setPostList(sortedByRecent);
-    } else if (selected === '별점순') {
-      console.log('별점순임');
-
-      const sortedByRecent = postList.sort((a, b) => b.score - a.score);
-
-      setPostList(sortedByRecent);
-      console.log(postList);
-    }
-  }, [selected]);
 
   return (
     <>
