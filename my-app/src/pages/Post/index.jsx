@@ -23,8 +23,6 @@ const categoryContentsAll = [
 function Post() {
   const [selectedOption, setSelectedOption] = useState('별점순');
   const options = ['별점순', '최신순'];
-
-  const [isOpen, setIsOpen] = useState(false);
   const [postList, setPostList] = useState([]);
 
   const [btnStyle, setBtnStyle] = useState('');
@@ -36,7 +34,6 @@ function Post() {
   const categoryContents = categoryContentsAll.filter((v) => v.Theme === ThemeTitle)[0];
 
   useEffect(() => {
-    setIsOpen(false);
     setBtnStyle('전체');
     getPost('theme', ThemeTitle).then((data) => {
       const sortedByRecent = data.sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
@@ -63,44 +60,25 @@ function Post() {
     }
   };
 
-  // const handleDisplayList = useCallback(() => {
-  //   setIsOpen((prev) => !prev);
-  // }, []);
+  const handleSelectedOption = (option) => {
+    console.log('판단중', option);
 
-  // const handleClickList = useCallback((e) => {
-  //   const option = e.target.innerText;
+    if (option === '최신순') {
+      const sortedByRecent = [...postList].sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
 
-  //   setSelected(option);
+      setPostList(sortedByRecent);
+    } else if (option === '별점순') {
+      const sortedByScore = [...postList].sort((a, b) => b.score - a.score);
 
-  //   handleSelectedOption(option);
-  //   e.stopPropagation();
-  //   setIsOpen(false);
-  // }, []);
+      setPostList(sortedByScore);
+    }
+  };
 
-  // const handleSelectedOption = (option) => {
-  //   console.log(option);
-
-  //   if (option === '최신순') {
-  //     const sortedByRecent = postList.sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
-
-  //     setPostList(sortedByRecent);
-  //   } else if (option === '별점순') {
-  //     const sortedByScore = postList.sort((a, b) => b.score - a.score);
-
-  //     setPostList(sortedByScore);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   // postList state가 업데이트될 때마다 실행되는 코드
-  //   handleSelectedOption(selected);
-  // }, [postList, selected]);
+  useEffect(() => {
+    handleSelectedOption(selectedOption);
+  }, [selectedOption]);
 
   console.log(selectedOption);
-
-  const handleOnBlur = () => {
-    setIsOpen(false);
-  };
 
   const handleOptionSelected = (option) => {
     setSelectedOption(option);
@@ -130,10 +108,8 @@ function Post() {
         </nav>
         <SelectBox
           options={options}
-          onBlur={handleOnBlur}
           onOptionSelected={handleOptionSelected}
           selected={selectedOption}
-          isOpen={isOpen}
         />
         <PostList postList={postList} />
       </S.Container>
