@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import Header from '../../components/common/Header';
@@ -21,7 +21,7 @@ const categoryContentsAll = [
 ];
 
 function Post() {
-  const [selected, setSelected] = useState('최신순');
+  const [selectedOption, setSelectedOption] = useState('별점순');
   const options = ['별점순', '최신순'];
 
   const [isOpen, setIsOpen] = useState(false);
@@ -63,41 +63,48 @@ function Post() {
     }
   };
 
-  const handleDisplayList = useCallback(() => {
-    setIsOpen((prev) => !prev);
-  }, []);
+  // const handleDisplayList = useCallback(() => {
+  //   setIsOpen((prev) => !prev);
+  // }, []);
 
-  const handleClickList = useCallback((e) => {
-    const option = e.target.innerText;
+  // const handleClickList = useCallback((e) => {
+  //   const option = e.target.innerText;
 
-    setSelected(option);
+  //   setSelected(option);
 
-    handleSelectedOption(option);
-    e.stopPropagation();
-    setIsOpen(false);
-  }, []);
+  //   handleSelectedOption(option);
+  //   e.stopPropagation();
+  //   setIsOpen(false);
+  // }, []);
 
-  const handleSelectedOption = (option) => {
-    console.log(option);
+  // const handleSelectedOption = (option) => {
+  //   console.log(option);
 
-    if (option === '최신순') {
-      const sortedByRecent = postList.sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
+  //   if (option === '최신순') {
+  //     const sortedByRecent = postList.sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
 
-      setPostList(sortedByRecent);
-    } else if (option === '별점순') {
-      const sortedByScore = postList.sort((a, b) => b.score - a.score);
+  //     setPostList(sortedByRecent);
+  //   } else if (option === '별점순') {
+  //     const sortedByScore = postList.sort((a, b) => b.score - a.score);
 
-      setPostList(sortedByScore);
-    }
-  };
+  //     setPostList(sortedByScore);
+  //   }
+  // };
 
   // useEffect(() => {
   //   // postList state가 업데이트될 때마다 실행되는 코드
   //   handleSelectedOption(selected);
   // }, [postList, selected]);
 
+  console.log(selectedOption);
+
   const handleOnBlur = () => {
     setIsOpen(false);
+  };
+
+  const handleOptionSelected = (option) => {
+    setSelectedOption(option);
+    console.log(option);
   };
 
   return (
@@ -124,9 +131,8 @@ function Post() {
         <SelectBox
           options={options}
           onBlur={handleOnBlur}
-          handleDisplayList={handleDisplayList}
-          handleClickList={handleClickList}
-          selected={selected}
+          onOptionSelected={handleOptionSelected}
+          selected={selectedOption}
           isOpen={isOpen}
         />
         <PostList postList={postList} />

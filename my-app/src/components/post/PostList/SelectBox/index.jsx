@@ -1,17 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as S from './style';
 
-function SelectBox({ options, onBlur, handleDisplayList, selected, isOpen, handleClickList }) {
+function SelectBox({ options, onOptionSelected, selected }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOnBlur = () => {
+    setIsOpen(false);
+  };
+
+  const toggleSelectBox = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleOptionSelected = (option) => {
+    onOptionSelected(option);
+    toggleSelectBox();
+  };
+
   return (
-    <S.Container onBlur={onBlur} onClick={handleDisplayList} options={isOpen} selected={selected}>
+    <S.Container
+      onBlur={handleOnBlur}
+      onClick={toggleSelectBox}
+      options={isOpen}
+      selected={selected}
+    >
       <button>{selected}</button>
+
       <S.Options options={isOpen}>
         {options.map((option) => (
           <S.Option
             key={option}
             value={option}
-            onMouseDown={(e) => {
-              handleClickList(e);
+            onMouseDown={() => {
+              handleOptionSelected(option);
             }}
           >
             {option}
