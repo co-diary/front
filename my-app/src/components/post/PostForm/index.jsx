@@ -1,9 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale';
 import { format } from 'date-fns';
 import '../PostForm/datepicker.css';
+import { categoryState, themeState } from '../../../atom/postRecoil';
 import IconStarOff from '../../../assets/Icon-star-off.png';
 import IconStarOn from '../../../assets/Icon-star-on.png';
 import IconLocationOff from '../../../assets/Icon-Nav-Map-off.png';
@@ -21,8 +23,8 @@ function PostForm() {
   const [isShowOptionTheme, setIsShowOptionTheme, themeRef, handleDisplayTheme] =
     useOutsideDetect(false);
 
-  const [currentCategory, setCurrentCategory] = useState(SELECTBOX_DATA[0].name);
-  const [currentTheme, setCurrentTheme] = useState(SELECTBOX_DATA[0].option[0].subName);
+  const [currentCategory, setCurrentCategory] = useRecoilState(categoryState);
+  const [currentTheme, setCurrentTheme] = useRecoilState(themeState);
   const [currentSelect, setCurrentSelect] = useState(1);
 
   const [startDate, setStartDate] = useState(null);
