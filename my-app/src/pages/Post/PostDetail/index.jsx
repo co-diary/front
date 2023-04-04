@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRecoilValue } from 'recoil';
 import Header from '../../../components/common/Header';
 import * as S from './style';
 import IconStarOn from '../../../assets/Icon-star-on.png';
@@ -6,12 +7,17 @@ import IconPrev from '../../../assets/Icon-detail-prev.png';
 import IconNext from '../../../assets/Icon-detail-next.png';
 import IconHeartOff from '../../../assets/Icon-Heart-off.png';
 import IconMore from '../../../assets/Icon-More.png';
+import currentPost from '../../../atom/postRecoil';
 
 function PostDetail() {
+  const postState = useRecoilValue(currentPost);
+
+  console.log(postState.category);
+
   return (
     <>
       <Header
-        title='논커피'
+        title={postState.category}
         rightChild={
           <>
             <S.HeaderBtn>
@@ -30,7 +36,7 @@ function PostDetail() {
         <S.Section>
           <h2 className='ir'>게시글 날짜, 메뉴명과 별점</h2>
           <S.DateInfo>23.02.13</S.DateInfo>
-          <S.MenuInfo>촉촉한 쇼콜라 퐁당</S.MenuInfo>
+          <S.MenuInfo>{postState.menu}</S.MenuInfo>
           <S.StarRatingContainer>
             <img src={IconStarOn} alt='별점(더 자세한 설명?)' />
             <img src={IconStarOn} alt='별점' />
@@ -48,26 +54,22 @@ function PostDetail() {
           <S.ListContainer>
             <S.ListItem>
               <S.ListTitle>후기</S.ListTitle>
-              <p>
-                각급 선거관리위원회는 선거인명부의 작성등 선거사무와 국민투표사무에 관하여 관계
-                행정기관에 필요한 지시를 할 수 있다. 정부는 예산에 변경을 가할 필요가 있을 때에는
-                추가경정예산안을
-              </p>
+              <p>{postState.review}</p>
             </S.ListItem>
             <S.ListItem>
               <S.ListTitle>매장 정보</S.ListTitle>
               <S.DlContainer>
                 <S.DlBox>
                   <S.DlTitle>가격</S.DlTitle>
-                  <dd>5,000원</dd>
+                  <dd>{postState.price}</dd>
                 </S.DlBox>
                 <S.DlBox>
                   <S.DlTitle>상호명</S.DlTitle>
-                  <dd>훵브라더스로스터리 송파점</dd>
+                  <dd>{postState.shop}</dd>
                 </S.DlBox>
                 <S.DlBox>
                   <S.DlTitle>위치</S.DlTitle>
-                  <dd>서울시 송파구 송파대로</dd>
+                  <dd>{postState.location}</dd>
                 </S.DlBox>
               </S.DlContainer>
             </S.ListItem>
