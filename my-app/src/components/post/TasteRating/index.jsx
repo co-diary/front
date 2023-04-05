@@ -6,14 +6,21 @@ const SRatingBox = styled.div`
   width: calc(100% - 5.6rem);
 `;
 
-function TasteRating({ fill }) {
+const createArray = (length) => [...Array(length)];
+
+function TasteRating({ totalStars = 5, ratingClicked, setRatingClicked }) {
   return (
     <SRatingBox>
-      <Star fill={fill ? '#F7DA76' : '#BDBDBD'} width='2rem' height='2rem' cursor='pointer' />
-      <Star fill={fill ? '#F7DA76' : '#BDBDBD'} width='2rem' height='2rem' cursor='pointer' />
-      <Star fill={fill ? '#F7DA76' : '#BDBDBD'} width='2rem' height='2rem' cursor='pointer' />
-      <Star fill={fill ? '#F7DA76' : '#BDBDBD'} width='2rem' height='2rem' cursor='pointer' />
-      <Star fill={fill ? '#F7DA76' : '#BDBDBD'} width='2rem' height='2rem' cursor='pointer' />
+      {createArray(totalStars).map((rating, i) => (
+        <Star
+          key={i}
+          fill={ratingClicked > i ? '#F7DA76' : '#BDBDBD'}
+          width='2rem'
+          height='2rem'
+          cursor='pointer'
+          onClick={() => setRatingClicked(i + 1)}
+        />
+      ))}
     </SRatingBox>
   );
 }

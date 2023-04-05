@@ -35,6 +35,8 @@ function PostForm() {
   const [menuPrice, setMenuPrice] = useState('');
   const [menuPriceValid, setMenuPriceValid] = useState(false);
 
+  const [ratingClicked, setRatingClicked] = useState(0);
+
   const handleClickListCategory = useCallback((e) => {
     setCurrentCategory(e.target.innerText);
     setCurrentTheme(
@@ -122,6 +124,8 @@ function PostForm() {
     [menuPrice],
   );
 
+  console.log(ratingClicked);
+
   return (
     <>
       <S.Container>
@@ -192,7 +196,7 @@ function PostForm() {
           </S.InputBox>
           <S.InputBox length='1.2rem'>
             <S.Label htmlFor='rating'>맛 평가</S.Label>
-            <TasteRating fill={false} height='2rem' cursor='pointer' />
+            <TasteRating ratingClicked={ratingClicked} setRatingClicked={setRatingClicked} />
           </S.InputBox>
           <S.InputBox length='1.2rem'>
             <S.Label htmlFor='storeName'>상호명</S.Label>
