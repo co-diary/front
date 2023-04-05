@@ -6,14 +6,13 @@ import { ko } from 'date-fns/locale';
 import { format } from 'date-fns';
 import '../PostForm/datepicker.css';
 import { categoryState, themeState } from '../../../atom/postRecoil';
-import IconStarOff from '../../../assets/Icon-star-off.png';
-import IconStarOn from '../../../assets/Icon-star-on.png';
+import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
+import CategorySelectBox from '../CategorySelectBox';
+import TasteRating from '../TasteRating';
 import IconLocationOff from '../../../assets/Icon-Nav-Map-off.png';
 import IconCalendar from '../../../assets/Icon-Calendar.png';
 import IconAddInput from '../../../assets/Icon-AddInput.png';
 import IconAddPhoto from '../../../assets/Icon-AddPhoto.png';
-import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
-import CategorySelectBox from '../CategorySelectBox';
 import useOutsideDetect from '../../../hooks/useOutsideDetect';
 import * as S from './style';
 
@@ -193,13 +192,7 @@ function PostForm() {
           </S.InputBox>
           <S.InputBox length='1.2rem'>
             <S.Label htmlFor='rating'>맛 평가</S.Label>
-            <S.RatingBox>
-              <img src={IconStarOn} alt='별점 1점' />
-              <img src={IconStarOff} alt='별점 2점' />
-              <img src={IconStarOff} alt='별점 3점' />
-              <img src={IconStarOff} alt='별점 4점' />
-              <img src={IconStarOff} alt='별점 5점' />
-            </S.RatingBox>
+            <TasteRating fill={false} height='2rem' cursor='pointer' />
           </S.InputBox>
           <S.InputBox length='1.2rem'>
             <S.Label htmlFor='storeName'>상호명</S.Label>

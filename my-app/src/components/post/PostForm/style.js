@@ -80,15 +80,6 @@ export const LocationBtn = styled.img`
   cursor: pointer;
 `;
 
-export const RatingBox = styled.div`
-  width: calc(100% - 5.6rem);
-
-  & img {
-    width: 2rem;
-    cursor: pointer;
-  }
-`;
-
 export const SubTitleBox = styled.div`
   display: flex;
   align-items: center;
