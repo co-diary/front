@@ -21,6 +21,8 @@ function PostDetail() {
   const [isLiked, setIsLiked] = useState(false);
   const postRef = doc(db, 'post', postState.postId);
   const scoreIndexs = [0, 1, 2, 3, 4];
+  const menuPrice = postState.price;
+  const priceComma = menuPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   useEffect(() => {
     updatePost();
@@ -107,7 +109,7 @@ function PostDetail() {
               <S.DlContainer>
                 <S.DlBox>
                   <S.DlTitle>가격</S.DlTitle>
-                  <dd>{postState.price}</dd>
+                  <dd>{priceComma}원</dd>
                 </S.DlBox>
                 <S.DlBox>
                   <S.DlTitle>상호명</S.DlTitle>
