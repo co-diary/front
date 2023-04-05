@@ -1,18 +1,57 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { updateDoc, doc, setDoc, deleteField } from 'firebase/firestore';
+import { db } from '../../../firebase';
 import Header from '../../../components/common/Header';
 import * as S from './style';
 import IconStarOn from '../../../assets/Icon-star-on.png';
 import IconPrev from '../../../assets/Icon-detail-prev.png';
 import IconNext from '../../../assets/Icon-detail-next.png';
 import IconHeartOff from '../../../assets/Icon-Heart-off.png';
+import IconHeartOn from '../../../assets/Icon-Heart-on.png';
 import IconMore from '../../../assets/Icon-More.png';
 import currentPost from '../../../atom/postRecoil';
+import { authState } from '../../../atom/authRecoil';
 
 function PostDetail() {
+  const user = useRecoilValue(authState);
+  const userId = user?.uid;
   const postState = useRecoilValue(currentPost);
+  // 추후 리코일에서 liked 값 가져오도록???
+  const [isLiked, setIsLiked] = useState(false);
+  const postRef = doc(db, 'post', postState.postId);
 
-  console.log(postState.category);
+  useEffect(() => {
+    updatePost();
+  }, []);
+
+  const handleLikedBtn = () => {
+    setIsLiked((prev) => !prev);
+    updatePost();
+    console.log('안', isLiked);
+  };
+
+  const updatePost = async () => {
+    await updateDoc(postRef, {
+      like: isLiked,
+    });
+
+    if (isLiked) {
+      await setDoc(doc(db, 'liked', userId), {
+        [postState.postId]: postState,
+      });
+    } else {
+      await updateDoc(doc(db, 'liked', userId), {
+        [postState.postId]: deleteField(),
+      });
+    }
+  };
+
+  console.log('바깥', isLiked);
+
+  const handleModal = () => {
+    console.log('모달 클릭');
+  };
 
   return (
     <>
@@ -20,11 +59,15 @@ function PostDetail() {
         title={postState.category}
         rightChild={
           <>
-            <S.HeaderBtn>
-              <img src={IconHeartOff} alt='' />
+            <S.HeaderBtn onClick={handleLikedBtn}>
+              {isLiked ? (
+                <img src={IconHeartOn} alt='좋아요 활성화' />
+              ) : (
+                <img src={IconHeartOff} alt='좋아요 비활성화' />
+              )}
             </S.HeaderBtn>
-            <S.HeaderBtn>
-              <img src={IconMore} alt='' />
+            <S.HeaderBtn onClick={handleModal}>
+              <img src={IconMore} alt='더보기 버튼' />
             </S.HeaderBtn>
           </>
         }
