@@ -5,6 +5,7 @@ import { db } from '../../../firebase';
 import Header from '../../../components/common/Header';
 import * as S from './style';
 import IconStarOn from '../../../assets/Icon-star-on.png';
+import IconStarOff from '../../../assets/Icon-star-off.png';
 import IconPrev from '../../../assets/Icon-detail-prev.png';
 import IconNext from '../../../assets/Icon-detail-next.png';
 import IconHeartOff from '../../../assets/Icon-Heart-off.png';
@@ -15,11 +16,11 @@ import { authState } from '../../../atom/authRecoil';
 
 function PostDetail() {
   const user = useRecoilValue(authState);
-  const userId = user?.uid;
   const postState = useRecoilValue(currentPost);
   // 추후 리코일에서 liked 값 가져오도록???
   const [isLiked, setIsLiked] = useState(false);
   const postRef = doc(db, 'post', postState.postId);
+  const scoreIndexs = [0, 1, 2, 3, 4];
 
   useEffect(() => {
     updatePost();
@@ -37,11 +38,11 @@ function PostDetail() {
     });
 
     if (isLiked) {
-      await setDoc(doc(db, 'liked', userId), {
+      await setDoc(doc(db, 'liked', user.uid), {
         [postState.postId]: postState,
       });
     } else {
-      await updateDoc(doc(db, 'liked', userId), {
+      await updateDoc(doc(db, 'liked', user.uid), {
         [postState.postId]: deleteField(),
       });
     }
@@ -81,11 +82,13 @@ function PostDetail() {
           <S.DateInfo>23.02.13</S.DateInfo>
           <S.MenuInfo>{postState.menu}</S.MenuInfo>
           <S.StarRatingContainer>
-            <img src={IconStarOn} alt='별점(더 자세한 설명?)' />
-            <img src={IconStarOn} alt='별점' />
-            <img src={IconStarOn} alt='별점' />
-            <img src={IconStarOn} alt='별점' />
-            <img src={IconStarOn} alt='별점' />
+            {scoreIndexs.map((index) =>
+              postState.score > index ? (
+                <img src={IconStarOn} alt='별점' key={index} />
+              ) : (
+                <img src={IconStarOff} alt='체크되지 않은 별점' aria-hidden='true' key={index} />
+              ),
+            )}
           </S.StarRatingContainer>
         </S.Section>
         <S.Section>
