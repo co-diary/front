@@ -23,6 +23,7 @@ function PostDetail() {
   const scoreIndexs = [0, 1, 2, 3, 4];
   const menuPrice = postState.price;
   const priceComma = menuPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const hashtag = postState.tag;
 
   useEffect(() => {
     updatePost();
@@ -123,8 +124,12 @@ function PostDetail() {
             </S.ListItem>
             <S.ListItem>
               <S.ListTitle>태그</S.ListTitle>
-              <S.TagLink to='#'>#넘맛탱</S.TagLink>
-              <S.TagLink to='#'>#또와야지</S.TagLink>
+              {hashtag &&
+                hashtag.map((tag, index) => (
+                  <S.TagLink key={index} to='#'>
+                    #{tag}
+                  </S.TagLink>
+                ))}
             </S.ListItem>
           </S.ListContainer>
           <S.BtnContainer>

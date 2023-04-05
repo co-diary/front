@@ -15,6 +15,7 @@ const currentPost = atom({
     theme: '음료',
     shop: '스타벅스 송파나루역DT점',
     location: '서울 송파구 오금로 142',
+    tag: ['넘맛탱', '달달고리'],
   },
 });
 
