@@ -13,6 +13,7 @@ import IconHeartOn from '../../../assets/Icon-Heart-on.png';
 import IconMore from '../../../assets/Icon-More.png';
 import currentPost from '../../../atom/postRecoil';
 import { authState } from '../../../atom/authRecoil';
+import SimpleSlider from '../../../components/post/SimpleSlider';
 
 function PostDetail() {
   const user = useRecoilValue(authState);
@@ -23,6 +24,7 @@ function PostDetail() {
   const menuPrice = post.price;
   const priceComma = menuPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   const hashtag = post.tag;
+  const images = post.photo;
 
   useEffect(() => {
     addLikedListener();
@@ -104,10 +106,12 @@ function PostDetail() {
         </S.Section>
         <S.Section>
           <h2 className='ir'>메뉴 후기와 매장 정보</h2>
-          <S.MenuImg
-            src='https://raw.githubusercontent.com/christianB053/likelion/develop/coffee-2139592_960_720.jpg'
-            alt='사용자가 올린 음료 사진'
-          />
+          {/* 사진 업로드 없이 게시글 등록할 경우 db에 photo key/value는 저장되지 않는다고 가정 */}
+          {images && (
+            <S.PhotoCarousel>
+              <SimpleSlider images={images} />
+            </S.PhotoCarousel>
+          )}
           <S.ListContainer>
             <S.ListItem>
               <S.ListTitle>후기</S.ListTitle>

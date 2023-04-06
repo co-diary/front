@@ -49,11 +49,19 @@ export const StarRatingContainer = styled.div`
   }
 `;
 
-export const MenuImg = styled.img`
+export const PhotoCarousel = styled.div`
   width: 35rem;
   height: 22rem;
   border-radius: 1rem;
   margin-bottom: 2.6rem;
+  overflow: hidden;
+
+  img {
+    width: 35rem;
+    height: 22rem;
+    border-radius: 1rem;
+    object-fit: fill;
+  }
 `;
 
 export const ListContainer = styled.ul`
