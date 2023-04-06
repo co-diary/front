@@ -5,7 +5,7 @@ const currentPost = atom({
   default: {
     postId: 'WzEEWBftbhIckg6AFkcd',
     uid: 'zOS6kjMQE2V7V69Q2akcS7XIbS32',
-    like: true,
+    like: false,
     category: '커피',
     date: '2023년 4월 4일 오후 2시 19분 0초 UTC+9',
     menu: '아이스 슈크림라떼',

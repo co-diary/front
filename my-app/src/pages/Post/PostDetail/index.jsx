@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { updateDoc, doc, setDoc, deleteField } from 'firebase/firestore';
+import { updateDoc, doc, setDoc, deleteField, onSnapshot } from 'firebase/firestore';
 import { db } from '../../../firebase';
 import Header from '../../../components/common/Header';
 import * as S from './style';
@@ -16,42 +16,42 @@ import { authState } from '../../../atom/authRecoil';
 
 function PostDetail() {
   const user = useRecoilValue(authState);
-  const postState = useRecoilValue(currentPost);
-  // 추후 리코일에서 liked 값 가져오도록???
+  const post = useRecoilValue(currentPost);
   const [isLiked, setIsLiked] = useState(false);
-  const postRef = doc(db, 'post', postState.postId);
+  const postRef = doc(db, 'post', post.postId);
   const scoreIndexs = [0, 1, 2, 3, 4];
-  const menuPrice = postState.price;
+  const menuPrice = post.price;
   const priceComma = menuPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  const hashtag = postState.tag;
+  const hashtag = post.tag;
 
   useEffect(() => {
-    updatePost();
+    addLikedListener();
   }, []);
 
-  const handleLikedBtn = () => {
-    setIsLiked((prev) => !prev);
-    updatePost();
-    console.log('안', isLiked);
+  const addLikedListener = () => {
+    onSnapshot(postRef, (state) => {
+      setIsLiked(state.data().like);
+    });
   };
 
-  const updatePost = async () => {
-    await updateDoc(postRef, {
-      like: isLiked,
-    });
-
+  const handleLikedBtn = async () => {
+    setIsLiked((prev) => !prev);
     if (isLiked) {
-      await setDoc(doc(db, 'liked', user.uid), {
-        [postState.postId]: postState,
+      await updateDoc(postRef, {
+        like: false,
+      });
+      await updateDoc(doc(db, 'liked', user.uid), {
+        [post.postId]: deleteField(),
       });
     } else {
-      await updateDoc(doc(db, 'liked', user.uid), {
-        [postState.postId]: deleteField(),
+      await updateDoc(postRef, {
+        like: true,
+      });
+      await setDoc(doc(db, 'liked', user.uid), {
+        [post.postId]: { ...post, like: true },
       });
     }
   };
-
-  console.log('바깥', isLiked);
 
   const handleModal = () => {
     console.log('모달 클릭');
@@ -60,7 +60,7 @@ function PostDetail() {
   return (
     <>
       <Header
-        title={postState.category}
+        title={post.category}
         rightChild={
           <>
             <S.HeaderBtn onClick={handleLikedBtn}>
@@ -83,10 +83,10 @@ function PostDetail() {
         <S.Section>
           <h2 className='ir'>게시글 날짜, 메뉴명과 별점</h2>
           <S.DateInfo>23.02.13</S.DateInfo>
-          <S.MenuInfo>{postState.menu}</S.MenuInfo>
+          <S.MenuInfo>{post.menu}</S.MenuInfo>
           <S.StarRatingContainer>
             {scoreIndexs.map((index) =>
-              postState.score > index ? (
+              post.score > index ? (
                 <img src={IconStarOn} alt='별점' key={index} />
               ) : (
                 <img src={IconStarOff} alt='체크되지 않은 별점' aria-hidden='true' key={index} />
@@ -103,7 +103,7 @@ function PostDetail() {
           <S.ListContainer>
             <S.ListItem>
               <S.ListTitle>후기</S.ListTitle>
-              <p>{postState.review}</p>
+              <p>{post.review}</p>
             </S.ListItem>
             <S.ListItem>
               <S.ListTitle>매장 정보</S.ListTitle>
@@ -114,11 +114,11 @@ function PostDetail() {
                 </S.DlBox>
                 <S.DlBox>
                   <S.DlTitle>상호명</S.DlTitle>
-                  <dd>{postState.shop}</dd>
+                  <dd>{post.shop}</dd>
                 </S.DlBox>
                 <S.DlBox>
                   <S.DlTitle>위치</S.DlTitle>
-                  <dd>{postState.location}</dd>
+                  <dd>{post.location}</dd>
                 </S.DlBox>
               </S.DlContainer>
             </S.ListItem>
