@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { updateDoc, doc, setDoc, deleteField, onSnapshot } from 'firebase/firestore';
 import { db } from '../../../firebase';
 import Header from '../../../components/common/Header';
@@ -16,8 +16,8 @@ import { authState } from '../../../atom/authRecoil';
 
 function PostDetail() {
   const user = useRecoilValue(authState);
-  const post = useRecoilValue(currentPost);
-  const [isLiked, setIsLiked] = useState(false);
+  const [post, setPost] = useRecoilState(currentPost);
+  const [isLiked, setIsLiked] = useState(post.like);
   const postRef = doc(db, 'post', post.postId);
   const scoreIndexs = [0, 1, 2, 3, 4];
   const menuPrice = post.price;
@@ -31,12 +31,17 @@ function PostDetail() {
   const addLikedListener = () => {
     onSnapshot(postRef, (state) => {
       setIsLiked(state.data().like);
+      // currentPost가 파이어베이스 db 값 반영하게 되면 아래 코드 지우기
+      const value = state.data();
+
+      setPost({ ...post, like: value.like });
     });
   };
 
   const handleLikedBtn = async () => {
     setIsLiked((prev) => !prev);
     if (isLiked) {
+      setPost({ ...post, like: false });
       await updateDoc(postRef, {
         like: false,
       });
@@ -44,6 +49,7 @@ function PostDetail() {
         [post.postId]: deleteField(),
       });
     } else {
+      setPost({ ...post, like: true });
       await updateDoc(postRef, {
         like: true,
       });
@@ -52,6 +58,8 @@ function PostDetail() {
       });
     }
   };
+
+  // console.log(isLiked, post);
 
   const handleModal = () => {
     console.log('모달 클릭');
