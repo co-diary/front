@@ -5,7 +5,14 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale';
 import { format } from 'date-fns';
 import '../PostForm/datepicker.css';
-import { categoryState, themeState } from '../../../atom/postRecoil';
+import {
+  categoryState,
+  themeState,
+  dateState,
+  menuNameState,
+  menuPriceState,
+  starRatingState,
+} from '../../../atom/postRecoil';
 import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
 import CategorySelectBox from '../CategorySelectBox';
 import TasteRating from '../TasteRating';
@@ -26,16 +33,16 @@ function PostForm() {
   const [currentTheme, setCurrentTheme] = useRecoilState(themeState);
   const [currentSelect, setCurrentSelect] = useState(1);
 
-  const [startDate, setStartDate] = useState(null);
+  const [startDate, setStartDate] = useRecoilState(dateState);
   const [dateValid, setDateValid] = useState(false);
 
-  const [menuName, setMenuName] = useState('');
+  const [menuName, setMenuName] = useRecoilState(menuNameState);
   const [menuNameValid, setMenuNameValid] = useState(false);
 
-  const [menuPrice, setMenuPrice] = useState('');
+  const [menuPrice, setMenuPrice] = useRecoilState(menuPriceState);
   const [menuPriceValid, setMenuPriceValid] = useState(false);
 
-  const [ratingClicked, setRatingClicked] = useState(0);
+  const [ratingClicked, setRatingClicked] = useRecoilState(starRatingState);
   const [ratingHovered, setRatingHovered] = useState(0);
 
   const handleClickListCategory = useCallback((e) => {
@@ -138,8 +145,6 @@ function PostForm() {
       console.log('버튼활성화 조건');
     }
   }, [menuNameValid, dateValid, menuPriceValid]);
-
-  console.log(ratingHovered);
 
   return (
     <>

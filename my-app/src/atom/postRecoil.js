@@ -11,4 +11,24 @@ const themeState = atom({
   default: SELECTBOX_DATA[0].option[0].subName,
 });
 
-export { categoryState, themeState };
+const dateState = atom({
+  key: 'dateState',
+  default: null,
+});
+
+const menuNameState = atom({
+  key: 'menuNameState',
+  default: '',
+});
+
+const menuPriceState = atom({
+  key: 'menuPriceState',
+  default: '',
+});
+
+const starRatingState = atom({
+  key: 'starRatingState',
+  default: 0,
+});
+
+export { categoryState, themeState, dateState, menuNameState, menuPriceState, starRatingState };
