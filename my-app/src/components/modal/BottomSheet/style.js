@@ -49,7 +49,7 @@ export const Background = styled.div`
         `}
 `;
 
-export const Box = styled.div`
+export const Box = styled.section`
   position: fixed;
   left: 0;
   right: 0;
@@ -58,10 +58,10 @@ export const Box = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  background: ${Theme.WHITE};
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
-  padding: 3.6rem 0 0.5rem 0;
+  background: ${Theme.WHITE};
+  padding: 0 0 0.5rem 0;
 
   ${(props) => modalSettings(props.visible)};
 `;
