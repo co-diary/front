@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { doc, collection, updateDoc } from 'firebase/firestore';
+import React from 'react';
+import { doc, updateDoc } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import * as S from './style';
 
@@ -27,10 +27,6 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
     setLiked(!liked);
     updatePost(postId, !liked);
   };
-
-  useEffect(() => {
-    const postDB = collection(db, 'post');
-  }, []);
 
   return (
     <S.PostCardBox>
