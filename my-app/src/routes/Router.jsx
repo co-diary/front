@@ -16,6 +16,7 @@ import PostUpload from '../pages/Post/PostUpload';
 import Search from '../pages/Search';
 import SignUp from '../pages/SignUp';
 import Splash from '../pages/Splash/Splash';
+import Test from '../pages/Test';
 
 function Router() {
   return (
@@ -37,6 +38,7 @@ function Router() {
         <Route path='/hashtag/keyword' element={<HashtagResult />} />
         <Route path='/search' element={<Search />} />
         <Route path='*' element={<NotFound />} />
+        <Route path='/test' element={<Test />} />
       </Routes>
     </BrowserRouter>
   );
