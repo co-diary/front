@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
-// import { useRecoilState } from 'recoil';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import IconSearch from '../../assets/Icon-Search.png';
@@ -9,7 +8,6 @@ import * as S from './style';
 import getPost from '../../hooks/getPost';
 import PostList from '../../components/post/PostList';
 import SelectBox from '../../components/post/PostList/SelectBox';
-// import { optionsState } from '../../atom/selectRecoil';
 
 const categoryContentsAll = [
   {
@@ -26,8 +24,6 @@ function Post() {
   const options = ['최신순', '별점순'];
 
   const [selectedOption, setSelectedOption] = useState('최신순');
-
-  // const [selectedOption, setSelectedOption] = useRecoilState(optionsState);
   const [postList, setPostList] = useState([]);
   const [btnStyle, setBtnStyle] = useState('');
 
