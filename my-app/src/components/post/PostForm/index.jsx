@@ -36,6 +36,7 @@ function PostForm() {
   const [menuPriceValid, setMenuPriceValid] = useState(false);
 
   const [ratingClicked, setRatingClicked] = useState(0);
+  const [ratingHovered, setRatingHovered] = useState(0);
 
   const handleClickListCategory = useCallback((e) => {
     setCurrentCategory(e.target.innerText);
@@ -62,12 +63,6 @@ function PostForm() {
   );
 
   const subOption = SELECTBOX_DATA.find((category) => category.id === currentSelect).option;
-
-  useEffect(() => {
-    if (menuNameValid && dateValid && menuPriceValid) {
-      console.log('버튼활성화 조건');
-    }
-  }, [menuNameValid, dateValid, menuPriceValid]);
 
   useEffect(() => {
     if (!startDate) {
@@ -124,7 +119,27 @@ function PostForm() {
     [menuPrice],
   );
 
-  console.log(ratingClicked);
+  const handleStarRatingClicked = useCallback(
+    (rating) => {
+      setRatingClicked(rating);
+    },
+    [onclick],
+  );
+
+  const handleMouseChecked = useCallback(
+    (mouse) => {
+      setRatingHovered(mouse);
+    },
+    [onmouseenter, onmouseleave],
+  );
+
+  useEffect(() => {
+    if (menuNameValid && dateValid && menuPriceValid) {
+      console.log('버튼활성화 조건');
+    }
+  }, [menuNameValid, dateValid, menuPriceValid]);
+
+  console.log(ratingHovered);
 
   return (
     <>
@@ -196,7 +211,12 @@ function PostForm() {
           </S.InputBox>
           <S.InputBox length='1.2rem'>
             <S.Label htmlFor='rating'>맛 평가</S.Label>
-            <TasteRating ratingClicked={ratingClicked} setRatingClicked={setRatingClicked} />
+            <TasteRating
+              ratingClicked={ratingClicked}
+              handleStarRatingClicked={handleStarRatingClicked}
+              ratingHovered={ratingHovered}
+              handleMouseChecked={handleMouseChecked}
+            />
           </S.InputBox>
           <S.InputBox length='1.2rem'>
             <S.Label htmlFor='storeName'>상호명</S.Label>
