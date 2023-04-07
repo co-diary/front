@@ -21,8 +21,9 @@ const categoryContentsAll = [
 ];
 
 function Post() {
-  const [selected, setSelected] = useState('최신순');
-  const [isOpen, setIsOpen] = useState(false);
+  const options = ['최신순', '별점순'];
+
+  const [selectedOption, setSelectedOption] = useState('최신순');
   const [postList, setPostList] = useState([]);
   const [btnStyle, setBtnStyle] = useState('');
 
@@ -32,36 +33,92 @@ function Post() {
 
   const categoryContents = categoryContentsAll.filter((v) => v.Theme === ThemeTitle)[0];
 
+  const initialSet = useCallback(() => {
+    try {
+      console.log('마운트시 상태', selectedOption);
+      setBtnStyle('전체');
+      getPost('theme', ThemeTitle).then((data) => {
+        const postData = data;
+        const sortedByRecent = [...postData].sort(
+          (a, b) => b.date.nanoseconds - a.date.nanoseconds,
+        );
+
+        setPostList(sortedByRecent);
+      });
+    } catch (error) {
+      console.error('initialSet 함수에서 에러 발생');
+      // 리다이렉트
+      history.push('/home');
+    }
+  }, [selectedOption, ThemeTitle]);
+
+  useEffect(() => {
+    initialSet();
+  }, []);
+
+  useEffect(() => {
+    handleSelectedOption(selectedOption);
+  }, [postList, selectedOption]);
+
   const onClickCategory = (categoryName) => {
     setBtnStyle(categoryName);
 
-    // 예외처리하기
     if (categoryName === '전체') {
-      getPost('theme', ThemeTitle).then((data) => setPostList(data));
+      getPost('theme', ThemeTitle).then((data) => {
+        const sortedBySelectedOption = sortPostListBySelectedOption(data);
+
+        setPostList(sortedBySelectedOption);
+      });
     } else {
-      // 해당 categoryName docs 불러옴
-      getPost('category', categoryName).then((data) => setPostList(data));
+      getPost('category', categoryName).then((data) => {
+        const sortedBySelectedOption = sortPostListBySelectedOption(data);
+
+        setPostList(sortedBySelectedOption);
+      });
     }
+
+    // selectedOption에 따라 정렬된 게시글 리스트를 반환하는 함수
+    const sortPostListBySelectedOption = (posts) => {
+      if (selectedOption === '최신순') {
+        return [...posts].sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
+      } else if (selectedOption === '별점순') {
+        return [...posts].sort((a, b) => b.score - a.score);
+      } else {
+        return posts;
+      }
+    };
+
+    // 선택된 카테고리에 대한 게시글 리스트를 setPostList로 업데이트
+    handleSelectedOption(selectedOption);
+  };
+
+  const handleSelectedOption = (option) => {
+    if (option === selectedOption) {
+      return;
+    }
+
+    if (option === '최신순') {
+      console.log('최신순실행');
+      const sortedPost = [...postList].sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
+
+      setPostList(sortedPost);
+    } else if (option === '별점순') {
+      console.log('별점순실행');
+      const sortedPost = [...postList].sort((a, b) => b.score - a.score);
+
+      setPostList(sortedPost);
+    }
+
+    setSelectedOption(option);
   };
 
   useEffect(() => {
-    setIsOpen(false);
-    setBtnStyle('전체');
-    getPost('theme', ThemeTitle).then((data) => setPostList(data));
-  }, []);
+    handleSelectedOption(selectedOption);
+  }, [selectedOption]);
 
-  const handleDisplayList = useCallback(() => {
-    setIsOpen((prev) => !prev);
-  }, []);
-
-  const handleClickList = useCallback((e) => {
-    setSelected(e.target.innerText);
-    setIsOpen(false);
-    e.stopPropagation();
-  }, []);
-
-  const handleOnBlur = () => {
-    setIsOpen(false);
+  const handleOptionSelected = (option) => {
+    handleSelectedOption(option);
+    console.log(option);
   };
 
   return (
@@ -86,11 +143,9 @@ function Post() {
           </S.CategoryContainer>
         </nav>
         <SelectBox
-          onBlur={handleOnBlur}
-          handleDisplayList={handleDisplayList}
-          handleClickList={handleClickList}
-          selected={selected}
-          isOpen={isOpen}
+          options={options}
+          onOptionSelected={handleOptionSelected}
+          selected={selectedOption}
         />
         <PostList postList={postList} />
       </S.Container>
