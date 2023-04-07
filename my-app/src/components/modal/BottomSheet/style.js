@@ -65,10 +65,3 @@ export const Box = styled.section`
 
   ${(props) => modalSettings(props.visible)};
 `;
-
-export const Contents = styled.button`
-  background-color: ${Theme.WHITE};
-  text-align: left;
-  padding: 1.3rem 0 1.4rem 2.7rem;
-  font-size: 1.4rem;
-`;

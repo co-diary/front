@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import * as S from './style';
 import useToggle from '../../../hooks/useToggle';
 import BottomSheetHeader from './BottomSheetHeader/index';
+import ModalStyle from './BottomSheetStyle';
 
-function BottomSheet({ type, visible, onClickClose, onClickEdit, onClickDelete }) {
+function BottomSheet({ type, visible, onClickClose }) {
   const [isOpen, setIsOpen] = useToggle(false);
 
   useEffect(() => {
@@ -29,9 +30,7 @@ function BottomSheet({ type, visible, onClickClose, onClickEdit, onClickDelete }
     <>
       <S.Background visible={visible} onClick={onClickClose} />
       <S.Box visible={visible}>
-        <BottomSheetHeader onClick={onClickClose} />
-        <S.Contents onClick={onClickEdit}>수정</S.Contents>
-        <S.Contents onClick={onClickDelete}>삭제</S.Contents>
+        <ModalStyle type={type} />
       </S.Box>
     </>
   );
