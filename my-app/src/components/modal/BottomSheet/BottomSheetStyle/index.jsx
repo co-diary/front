@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import Theme from '../../../../styles/Theme';
-import BottomSheetForm from '../BottomSheetForm/BottomSheetForm';
+
 import BottomSheetHeader from '../BottomSheetHeader';
+import BottomSheetForm from './BottomSheetForm/BottomSheetForm';
 
 const Contents = styled.button`
   background-color: ${Theme.WHITE};

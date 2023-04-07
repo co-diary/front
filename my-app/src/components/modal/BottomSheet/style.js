@@ -39,7 +39,7 @@ export const Background = styled.div`
   left: 0;
   right: 0;
 
-  ${({ visible }) =>
+  ${({ visible, type }) =>
     visible
       ? css`
           background-color: rgba(0, 0, 0, 0.2);
