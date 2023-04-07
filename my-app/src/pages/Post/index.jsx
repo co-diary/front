@@ -38,14 +38,22 @@ function Post() {
   const categoryContents = categoryContentsAll.filter((v) => v.Theme === ThemeTitle)[0];
 
   const initialSet = () => {
-    console.log('마운트시 상태', selectedOption);
-    setBtnStyle('전체');
-    getPost('theme', ThemeTitle).then((data) => {
-      const postData = data;
-      const sortedByRecent = [...postData].sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
+    try {
+      console.log('마운트시 상태', selectedOption);
+      setBtnStyle('전체');
+      getPost('theme', ThemeTitle).then((data) => {
+        const postData = data;
+        const sortedByRecent = [...postData].sort(
+          (a, b) => b.date.nanoseconds - a.date.nanoseconds,
+        );
 
-      setPostList(sortedByRecent);
-    });
+        setPostList(sortedByRecent);
+      });
+    } catch (error) {
+      console.error('initialSet 함수에서 에러 발생');
+      // 리다이렉트
+      history.push('/home');
+    }
   };
 
   useEffect(() => {
