@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
+// import { useRecoilState } from 'recoil';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import IconSearch from '../../assets/Icon-Search.png';
@@ -8,6 +9,7 @@ import * as S from './style';
 import getPost from '../../hooks/getPost';
 import PostList from '../../components/post/PostList';
 import SelectBox from '../../components/post/PostList/SelectBox';
+// import { optionsState } from '../../atom/selectRecoil';
 
 const categoryContentsAll = [
   {
@@ -21,10 +23,12 @@ const categoryContentsAll = [
 ];
 
 function Post() {
-  const [selectedOption, setSelectedOption] = useState('별점순');
-  const options = ['별점순', '최신순'];
-  const [postList, setPostList] = useState([]);
+  const options = ['최신순', '별점순'];
 
+  const [selectedOption, setSelectedOption] = useState('최신순');
+
+  // const [selectedOption, setSelectedOption] = useRecoilState(optionsState);
+  const [postList, setPostList] = useState([]);
   const [btnStyle, setBtnStyle] = useState('');
 
   const location = useLocation();
@@ -34,54 +38,61 @@ function Post() {
   const categoryContents = categoryContentsAll.filter((v) => v.Theme === ThemeTitle)[0];
 
   useEffect(() => {
+    console.log('마운트시 상태', selectedOption);
     setBtnStyle('전체');
     getPost('theme', ThemeTitle).then((data) => {
-      const sortedByRecent = data.sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
+      const postData = data;
+      const sortedByRecent = [...postData].sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
 
       setPostList(sortedByRecent);
+      handleSelectedOption(selectedOption);
     });
   }, []);
+
+  useEffect(() => {
+    handleSelectedOption(selectedOption);
+  }, [postList, selectedOption]);
 
   const onClickCategory = (categoryName) => {
     setBtnStyle(categoryName);
 
     if (categoryName === '전체') {
       getPost('theme', ThemeTitle).then((data) => {
-        const sortedByRecent = data.sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
-
-        setPostList(sortedByRecent);
+        setPostList(data);
       });
     } else {
       getPost('category', categoryName).then((data) => {
-        const sortedByRecent = data.sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
-
-        setPostList(sortedByRecent);
+        setPostList(data);
       });
     }
   };
 
   const handleSelectedOption = (option) => {
-    console.log('판단중', option);
+    if (option === selectedOption) {
+      return;
+    }
 
     if (option === '최신순') {
+      console.log('최신순실행');
       const sortedByRecent = [...postList].sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
 
       setPostList(sortedByRecent);
     } else if (option === '별점순') {
+      console.log('별점순실행');
       const sortedByScore = [...postList].sort((a, b) => b.score - a.score);
 
       setPostList(sortedByScore);
     }
+
+    setSelectedOption(option);
   };
 
   useEffect(() => {
     handleSelectedOption(selectedOption);
   }, [selectedOption]);
 
-  console.log(selectedOption);
-
   const handleOptionSelected = (option) => {
-    setSelectedOption(option);
+    handleSelectedOption(option);
     console.log(option);
   };
 
