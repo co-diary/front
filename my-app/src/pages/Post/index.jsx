@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 // import { useRecoilState } from 'recoil';
@@ -37,7 +37,7 @@ function Post() {
 
   const categoryContents = categoryContentsAll.filter((v) => v.Theme === ThemeTitle)[0];
 
-  const initialSet = () => {
+  const initialSet = useCallback(() => {
     try {
       console.log('마운트시 상태', selectedOption);
       setBtnStyle('전체');
@@ -54,7 +54,7 @@ function Post() {
       // 리다이렉트
       history.push('/home');
     }
-  };
+  }, [selectedOption, ThemeTitle]);
 
   useEffect(() => {
     initialSet();
