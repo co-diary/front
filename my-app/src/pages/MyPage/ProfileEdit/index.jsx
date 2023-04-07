@@ -6,9 +6,10 @@ import * as S from './style';
 import Button from '../../../components/common/Button';
 import Header from '../../../components/common/Header';
 import InputWithLabel from '../../../components/common/InputWithLabel';
-import ConfirmModal from '../../../components/modal/ConfirmModal';
+
 import Portal from '../../../components/modal/Portal';
 import useToggle from '../../../hooks/useToggle';
+import ConfirmModal from '../../../components/modal/ConfirmModal';
 
 function ProfileEdit() {
   const [isModalOpen, setIsModalOpen] = useToggle(false);
