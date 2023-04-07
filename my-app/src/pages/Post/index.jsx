@@ -37,7 +37,7 @@ function Post() {
 
   const categoryContents = categoryContentsAll.filter((v) => v.Theme === ThemeTitle)[0];
 
-  useEffect(() => {
+  const initialSet = () => {
     console.log('마운트시 상태', selectedOption);
     setBtnStyle('전체');
     getPost('theme', ThemeTitle).then((data) => {
@@ -45,8 +45,11 @@ function Post() {
       const sortedByRecent = [...postData].sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
 
       setPostList(sortedByRecent);
-      handleSelectedOption(selectedOption);
     });
+  };
+
+  useEffect(() => {
+    initialSet();
   }, []);
 
   useEffect(() => {
@@ -58,13 +61,31 @@ function Post() {
 
     if (categoryName === '전체') {
       getPost('theme', ThemeTitle).then((data) => {
-        setPostList(data);
+        const sortedBySelectedOption = sortPostListBySelectedOption(data);
+
+        setPostList(sortedBySelectedOption);
       });
     } else {
       getPost('category', categoryName).then((data) => {
-        setPostList(data);
+        const sortedBySelectedOption = sortPostListBySelectedOption(data);
+
+        setPostList(sortedBySelectedOption);
       });
     }
+
+    // selectedOption에 따라 정렬된 게시글 리스트를 반환하는 함수
+    const sortPostListBySelectedOption = (posts) => {
+      if (selectedOption === '최신순') {
+        return [...posts].sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
+      } else if (selectedOption === '별점순') {
+        return [...posts].sort((a, b) => b.score - a.score);
+      } else {
+        return posts;
+      }
+    };
+
+    // 선택된 카테고리에 대한 게시글 리스트를 setPostList로 업데이트
+    handleSelectedOption(selectedOption);
   };
 
   const handleSelectedOption = (option) => {
@@ -74,14 +95,14 @@ function Post() {
 
     if (option === '최신순') {
       console.log('최신순실행');
-      const sortedByRecent = [...postList].sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
+      const sortedPost = [...postList].sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
 
-      setPostList(sortedByRecent);
+      setPostList(sortedPost);
     } else if (option === '별점순') {
       console.log('별점순실행');
-      const sortedByScore = [...postList].sort((a, b) => b.score - a.score);
+      const sortedPost = [...postList].sort((a, b) => b.score - a.score);
 
-      setPostList(sortedByScore);
+      setPostList(sortedPost);
     }
 
     setSelectedOption(option);
