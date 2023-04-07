@@ -19,12 +19,14 @@ function PostDetail() {
   const user = useRecoilValue(authState);
   const [post, setPost] = useRecoilState(currentPost);
   const [isLiked, setIsLiked] = useState(post.like);
-  const postRef = doc(db, 'post', post.postId);
+  const postRef = doc(db, 'post', 'WzEEWBftbhIckg6AFkcd');
   const scoreIndexs = [0, 1, 2, 3, 4];
   const menuPrice = post.price;
   const priceComma = menuPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   const hashtag = post.tag;
   const images = post.photo;
+  const date = post.date;
+  const slicedDate = date?.toDate().toISOString().slice(2, 10).replaceAll('-', '.');
 
   useEffect(() => {
     addLikedListener();
@@ -33,10 +35,10 @@ function PostDetail() {
   const addLikedListener = () => {
     onSnapshot(postRef, (state) => {
       setIsLiked(state.data().like);
-      // currentPost가 파이어베이스 db 값 반영하게 되면 아래 코드 지우기
+      // currentPost가 파이어베이스 db 값 반영하게 되면 아래 코드 수정
       const value = state.data();
 
-      setPost({ ...post, like: value.like });
+      setPost({ ...post, like: value.like, date: value.date });
     });
   };
 
@@ -92,7 +94,7 @@ function PostDetail() {
         </header>
         <S.Section>
           <h2 className='ir'>게시글 날짜, 메뉴명과 별점</h2>
-          <S.DateInfo>23.02.13</S.DateInfo>
+          <S.DateInfo>{slicedDate}</S.DateInfo>
           <S.MenuInfo>{post.menu}</S.MenuInfo>
           <S.StarRatingContainer>
             {scoreIndexs.map((index) =>
