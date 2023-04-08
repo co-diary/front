@@ -140,7 +140,7 @@ function PostDetail() {
               <S.ListTitle>태그</S.ListTitle>
               {hashtag &&
                 hashtag.map((tag, index) => (
-                  <S.TagLink key={index} to='#'>
+                  <S.TagLink key={index} to={`/hashtag/${tag}`}>
                     #{tag}
                   </S.TagLink>
                 ))}
