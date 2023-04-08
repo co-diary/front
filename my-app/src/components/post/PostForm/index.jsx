@@ -16,7 +16,6 @@ import {
 import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
 import CategorySelectBox from '../CategorySelectBox';
 import TasteRating from '../TasteRating';
-import IconLocationOff from '../../../assets/Icon-Nav-Map-off.png';
 import IconCalendar from '../../../assets/Icon-Calendar.png';
 import IconAddInput from '../../../assets/Icon-AddInput.png';
 import IconAddPhoto from '../../../assets/Icon-AddPhoto.png';
@@ -228,7 +227,7 @@ function PostForm() {
           <S.InputBox length='1.2rem'>
             <S.Label htmlFor='storeName'>상호명</S.Label>
             <S.Input type='text' placeholder='상호명을 입력해주세요.' id='storeName' />
-            <S.LocationBtn src={IconLocationOff} alt='지도맵 버튼' />
+            <S.LocationBtn type='button'></S.LocationBtn>
           </S.InputBox>
           <S.InputBox length='2rem'>
             <S.Label htmlFor='storeLocation'>위치</S.Label>

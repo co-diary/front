@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import Theme from '../../../styles/Theme';
+import IconLocationOff from '../../../assets/Icon-Nav-Map-off.png';
+import IconLocationHover from '../../../assets/Icon-Map-hover.png';
 
 export const Container = styled.div`
   padding: 4.8rem 0 6rem;
@@ -72,12 +74,20 @@ export const CalendarBtn = styled.img`
   width: 2rem;
 `;
 
-export const LocationBtn = styled.img`
+export const LocationBtn = styled.button`
+  background: url(${IconLocationOff}) no-repeat;
+  background-size: 2.2rem;
   position: absolute;
   top: 0rem;
   right: 0;
   width: 2.2rem;
+  height: 2.2rem;
   cursor: pointer;
+
+  &:hover {
+    background: url(${IconLocationHover}) no-repeat;
+    background-size: 2.2rem;
+  }
 `;
 
 export const SubTitleBox = styled.div`
