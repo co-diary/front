@@ -44,6 +44,7 @@ function PostForm() {
 
   const [ratingClicked, setRatingClicked] = useRecoilState(starRatingState);
   const [ratingHovered, setRatingHovered] = useState(0);
+  const [ratingValid, setRatingValid] = useState(false);
 
   const handleClickListCategory = useCallback((e) => {
     setCurrentCategory(e.target.innerText);
@@ -81,14 +82,6 @@ function PostForm() {
 
     form.append('date', format(startDate, 'yyyy.MM.dd'));
   }, [startDate]);
-
-  const handleValidCheck = useCallback((e) => {
-    if (e.target.value === '') {
-      setMenuNameValid(false);
-      setDateValid(false);
-      setMenuPriceValid(false);
-    }
-  }, []);
 
   useEffect(() => {
     const result = !!menuName.length;
@@ -129,6 +122,7 @@ function PostForm() {
   const handleStarRatingClicked = useCallback(
     (rating) => {
       setRatingClicked(rating);
+      setRatingValid(true);
     },
     [onclick],
   );
@@ -140,11 +134,19 @@ function PostForm() {
     [onmouseenter, onmouseleave],
   );
 
+  const handleValidCheck = useCallback((e) => {
+    if (e.target.value === '') {
+      setMenuNameValid(false);
+      setDateValid(false);
+      setMenuPriceValid(false);
+    }
+  }, []);
+
   useEffect(() => {
-    if (menuNameValid && dateValid && menuPriceValid) {
+    if (menuNameValid && dateValid && menuPriceValid && ratingValid) {
       console.log('버튼활성화 조건');
     }
-  }, [menuNameValid, dateValid, menuPriceValid]);
+  }, [menuNameValid, dateValid, menuPriceValid, ratingValid]);
 
   return (
     <>
