@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import * as S from './style';
 import useToggle from '../../../hooks/useToggle';
-import ModalStyle from './BottomSheetStyle';
+import BottomSheetForm from './BottomSheetStyle/BottomSheetForm';
 
-function BottomSheet({ type, visible, onClickClose }) {
+function BottomSheet({ visible, onClickClose, child }) {
   const [isOpen, setIsOpen] = useToggle(false);
 
   useEffect(() => {
@@ -28,9 +28,7 @@ function BottomSheet({ type, visible, onClickClose }) {
   return (
     <>
       <S.Background visible={visible} onClick={onClickClose} />
-      <S.Box visible={visible}>
-        <ModalStyle type={type} />
-      </S.Box>
+      <S.Box visible={visible}>{child}</S.Box>
     </>
   );
 }

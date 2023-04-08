@@ -17,11 +17,13 @@ const fadeOut = keyframes`
   from{
     opacity: 1;
     transform: translateY(3rem);
+
   }
 
   to{
     opacity: 0;
     transform: translateY(0rem);
+
   }
 `;
 
@@ -39,7 +41,7 @@ export const Background = styled.div`
   left: 0;
   right: 0;
 
-  ${({ visible, type }) =>
+  ${({ visible }) =>
     visible
       ? css`
           background-color: rgba(0, 0, 0, 0.2);

@@ -1,24 +1,5 @@
 import styled from 'styled-components';
-import Theme from '../../../../styles/Theme';
-
-export const CloseHandler = styled.button`
-  width: 5rem;
-  height: 0.4rem;
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 0.5rem;
-  background-color: ${Theme.SHADOW_BORDER};
-
-  &::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 2.5rem;
-    margin-top: -1rem;
-  }
-`;
+import Theme from '../../../../../styles/Theme';
 
 export const Container = styled.div`
   position: relative;
@@ -45,4 +26,23 @@ export const Button = styled.button`
     width: 100%;
     height: 100%;
   }
+`;
+
+export const MainContainer = styled.div`
+  height: 83vh;
+  border-top: 1px solid #bdbdbd;
+`;
+
+export const Section = styled.div`
+  height: 12rem;
+`;
+
+export const Result = styled.div`
+  background-color: tomato;
+`;
+
+export const SectionBorder = styled.div`
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  border-bottom: 6px solid ${Theme.SECTION_BG};
 `;
