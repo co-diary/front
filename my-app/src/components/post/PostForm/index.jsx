@@ -12,6 +12,7 @@ import {
   menuNameState,
   menuPriceState,
   starRatingState,
+  reviewState,
 } from '../../../atom/postRecoil';
 import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
 import CategorySelectBox from '../CategorySelectBox';
@@ -44,6 +45,10 @@ function PostForm() {
   const [ratingClicked, setRatingClicked] = useRecoilState(starRatingState);
   const [ratingHovered, setRatingHovered] = useState(0);
   const [ratingValid, setRatingValid] = useState(false);
+
+  const [review, setReview] = useRecoilState(reviewState);
+
+  console.log(review, setReview);
 
   const handleClickListCategory = useCallback((e) => {
     setCurrentCategory(e.target.innerText);

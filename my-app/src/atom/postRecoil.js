@@ -31,4 +31,17 @@ const starRatingState = atom({
   default: 0,
 });
 
-export { categoryState, themeState, dateState, menuNameState, menuPriceState, starRatingState };
+const reviewState = atom({
+  key: 'reviewState',
+  default: '',
+});
+
+export {
+  categoryState,
+  themeState,
+  dateState,
+  menuNameState,
+  menuPriceState,
+  starRatingState,
+  reviewState,
+};
