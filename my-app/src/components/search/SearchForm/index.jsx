@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as S from './style';
 
 function SearchForm({ keyword, setKeyword, onChange }) {
+  console.log(setKeyword);
   const [focus, setFocus] = useState(false);
 
   const handleFormBlur = () => {

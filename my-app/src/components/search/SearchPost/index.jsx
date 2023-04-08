@@ -5,12 +5,13 @@ import * as S from './style';
 import SearchHeader from './SearchHeader';
 import SearchResultView from './SearchResultView';
 import useDebounce from '../../../hooks/useDebounce';
+import SearchForm from '../SearchForm';
 
 function SearchPost() {
   const [keyword, setKeyword] = useState('');
 
   const navigate = useNavigate();
-  const handlePageBack = () => {
+  const goBack = () => {
     navigate(-1);
   };
 
@@ -23,12 +24,10 @@ function SearchPost() {
 
   return (
     <S.Container>
-      <SearchHeader
-        leftOnClick={handlePageBack}
-        onChange={onChange}
-        keyword={keyword}
-        setKeyword={setKeyword}
-      />
+      <SearchHeader leftOnClick={goBack}>
+        <SearchForm onChange={onChange} keyword={keyword} setKeyword={setKeyword} />
+      </SearchHeader>
+
       <SearchResultView keyword={debouncedSearchTxt} />
     </S.Container>
   );
