@@ -4,7 +4,6 @@ import './slick.css';
 import './slick-theme.css';
 
 export default function SimpleSlider({ images }) {
-
   const settings = {
     dots: true,
     infinite: true,
@@ -16,7 +15,7 @@ export default function SimpleSlider({ images }) {
   return (
     <Slider {...settings}>
       {images.map((image, index) => (
-        <img className='photo' key={index} src={image} alt='사용자가 올린 사진' />
+        <img key={index} src={image} alt='사용자가 올린 사진' />
       ))}
     </Slider>
   );
