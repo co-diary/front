@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import CancelBtnSlide from './CancelButton';
 import * as S from './style';
 
 function SearchForm({ keyword, setKeyword, onChange }) {
@@ -25,7 +26,7 @@ function SearchForm({ keyword, setKeyword, onChange }) {
   }, []);
 
   return (
-    <>
+    <S.Container>
       <S.SearchForm action=''>
         <S.SearchFormContainer
           onFocus={() => {
@@ -45,13 +46,8 @@ function SearchForm({ keyword, setKeyword, onChange }) {
           )}
         </S.SearchFormContainer>
       </S.SearchForm>
-
-      {focus && (
-        <S.CancelBtn focus={focus} onMouseDown={() => handleCancelBtn()}>
-          취소
-        </S.CancelBtn>
-      )}
-    </>
+      <CancelBtnSlide handleCancelBtn={handleCancelBtn} focus={focus} />
+    </S.Container>
   );
 }
 
