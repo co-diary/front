@@ -76,9 +76,17 @@ export const ReviewInput = styled.textarea`
   white-space: pre-wrap;
   resize: none;
   padding: 0.6rem 0;
-  overflow: hidden;
+  overflow-y: scroll;
   outline: none;
+  max-height: 6rem;
   border-bottom: 1px solid ${Theme.BORDER};
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   &:focus {
     border-bottom: 1px solid ${Theme.MAIN};

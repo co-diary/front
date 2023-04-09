@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useRecoilState } from 'recoil';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -46,9 +46,8 @@ function PostForm() {
   const [ratingHovered, setRatingHovered] = useState(0);
   const [ratingValid, setRatingValid] = useState(false);
 
+  const textareaRef = useRef();
   const [review, setReview] = useRecoilState(reviewState);
-
-  console.log(review, setReview);
 
   const handleClickListCategory = useCallback((e) => {
     setCurrentCategory(e.target.innerText);
@@ -138,6 +137,13 @@ function PostForm() {
     [onmouseenter, onmouseleave],
   );
 
+  useEffect(() => {
+    textareaRef.current.style.height = 'auto';
+    const scrollHeight = textareaRef.current.scrollHeight;
+
+    textareaRef.current.style.height = `${scrollHeight}px`;
+  }, [review]);
+
   const handleValidCheck = useCallback((e) => {
     if (e.target.value === '') {
       setMenuNameValid(false);
@@ -214,7 +220,7 @@ function PostForm() {
               type='text'
               placeholder='가격을 적어주세요.'
               id='price'
-              maxLength={7}
+              maxLength='7'
               value={menuPrice}
               onChange={handlePriceChange}
               onBlur={handleValidCheck}
@@ -248,13 +254,19 @@ function PostForm() {
             <img src={IconAddInput} alt='' />
             <span>추가 선택 입력</span>
           </S.SubTitleBox>
-          <S.InputBox length='1.2rem'>
-            <S.Label htmlFor='review'>후기</S.Label>
-            <S.Input
+          <S.InputBox align='start' length='1.2rem'>
+            <S.Label padding='0.86rem 0' htmlFor='review'>
+              후기
+            </S.Label>
+            <S.ReviewInput
               type='text'
               placeholder='간단한 후기를 남겨주세요.(최대 100자)'
-              maxlength='100'
+              maxLength='100'
+              rows={1}
               id='review'
+              value={review}
+              ref={textareaRef}
+              onChange={(e) => setReview(e.target.value)}
             />
           </S.InputBox>
           <S.BoxWrapper length='1.2rem'>
