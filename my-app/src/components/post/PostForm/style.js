@@ -29,7 +29,7 @@ export const SectionBorder = styled.div`
 export const InputBox = styled.div`
   display: flex;
   position: relative;
-  align-items: center;
+  align-items: ${(props) => props.align || 'center'};
   margin-bottom: ${(props) => props.length};
 `;
 
@@ -37,7 +37,7 @@ export const Label = styled.label`
   display: inline-block;
   width: 5.6rem;
   margin-right: 1.2rem;
-  padding: 0.4rem 0;
+  padding: ${(props) => props.padding || '0.4rem 0'};
   font-family: 'LINESeedKR-Bd';
   font-size: 1.4rem;
   color: ${Theme.MAIN_FONT};
@@ -64,6 +64,30 @@ export const Input = styled.input`
 
   &:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 1000px #fff inset;
+  }
+`;
+
+export const ReviewInput = styled.textarea`
+  display: block;
+  width: calc(100% - 5.6rem);
+  font-family: 'LINESeedKR-Rg';
+  border: none;
+  word-break: break-all;
+  white-space: pre-wrap;
+  resize: none;
+  padding: 0.6rem 0;
+  overflow: hidden;
+  outline: none;
+  border-bottom: 1px solid ${Theme.BORDER};
+
+  &:focus {
+    border-bottom: 1px solid ${Theme.MAIN};
+  }
+
+  &::placeholder {
+    font-family: 'LINESeedKR-Rg';
+    font-size: 1.4rem;
+    color: ${Theme.PLACEHOLDER};
   }
 `;
 
