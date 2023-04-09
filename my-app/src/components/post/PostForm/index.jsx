@@ -18,7 +18,6 @@ import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
 import CategorySelectBox from '../CategorySelectBox';
 import TasteRating from '../TasteRating';
 import IconCalendar from '../../../assets/Icon-Calendar.png';
-import IconAddInput from '../../../assets/Icon-AddInput.png';
 import IconAddPhoto from '../../../assets/Icon-AddPhoto.png';
 import useOutsideDetect from '../../../hooks/useOutsideDetect';
 import * as S from './style';
@@ -251,7 +250,6 @@ function PostForm() {
           </S.InputBox>
           <S.SectionBorder></S.SectionBorder>
           <S.SubTitleBox>
-            <img src={IconAddInput} alt='' />
             <span>추가 선택 입력</span>
           </S.SubTitleBox>
           <S.InputBox align='start' length='1.2rem'>

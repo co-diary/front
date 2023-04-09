@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Theme from '../../../styles/Theme';
 import IconLocationOff from '../../../assets/Icon-Nav-Map-off.png';
 import IconLocationHover from '../../../assets/Icon-Map-hover.png';
+import IconAddInput from '../../../assets/Icon-AddInput.png';
 
 export const Container = styled.div`
   padding: 4.8rem 0 6rem;
@@ -123,20 +124,24 @@ export const LocationBtn = styled.button`
 `;
 
 export const SubTitleBox = styled.div`
-  display: flex;
-  align-items: center;
   width: 100%;
-  gap: 0.2rem;
-  margin-bottom: 1.6rem;
-
-  img {
-    width: 2rem;
-  }
+  margin-bottom: 2rem;
 
   span {
     font-family: 'LINESeedKR-Bd';
     font-size: 1.4rem;
     line-height: 1.8rem;
+  }
+
+  span::before {
+    content: '';
+    display: inline-block;
+    background-image: url(${IconAddInput});
+    background-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+    vertical-align: bottom;
+    margin-right: 0.2rem;
   }
 `;
 
