@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './style';
-import PostCard from '../../post/PostCard';
-import getPost from '../../../hooks/getPost';
+import PostCard from '../../../post/PostCard';
+import getPost from '../../../../hooks/getPost';
 
 function SearchResultView({ keyword }) {
   const [data, setData] = useState([]);

@@ -1,6 +1,5 @@
-import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import Theme from '../../styles/Theme';
+import Theme from '../../../styles/Theme';
 
 const fadeIn = keyframes`
   from {
@@ -12,14 +11,14 @@ const fadeIn = keyframes`
   }
 `;
 
-const modalSettings = (visible) => css`
+export const modalSettings = (visible) => css`
   visibility: ${visible ? 'visible' : 'hidden'};
   z-index: 999;
-  animation: ${fadeIn} 0.15s ease-out;
+  animation: ${fadeIn} 0.3s ease-out;
   transition: visibility 0.2s ease-out;
 `;
 
-const Background = styled.div`
+export const Background = styled.div`
   position: fixed;
   left: 0;
   right: 0;
@@ -37,7 +36,7 @@ const Background = styled.div`
         `}
 `;
 
-const Box = styled.div`
+export const Box = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -55,19 +54,19 @@ const Box = styled.div`
   ${(props) => modalSettings(props.visible)};
 `;
 
-const Msg = styled.p`
+export const Msg = styled.p`
   text-align: center;
   font-family: LINESeedKR-bd;
   font-size: 1.6rem;
 `;
 
-const Btns = styled.div`
+export const Btns = styled.div`
   display: flex;
   width: 100%;
   border-top: 1px solid ${Theme.SHADOW_BORDER};
 `;
 
-const Btn = styled.button`
+export const Btn = styled.button`
   width: 50%;
   padding: 1.5rem 0 1.5rem;
   overflow: hidden;
@@ -76,7 +75,7 @@ const Btn = styled.button`
   background-color: ${Theme.WHITE};
 `;
 
-const BtnRed = styled.button`
+export const BtnRed = styled.button`
   width: 50%;
   padding: 1.5rem 0 1.5rem;
   overflow: hidden;
@@ -84,28 +83,3 @@ const BtnRed = styled.button`
   border-bottom-right-radius: 1rem;
   background-color: ${Theme.WHITE};
 `;
-
-function ConfirmModal({
-  visible,
-  onClickClose,
-  msg,
-  leftBtnMsg,
-  leftOnclick,
-  rightBtnMsg,
-  rightOnclick,
-}) {
-  return (
-    <>
-      <Background visible={visible} onClick={onClickClose} />
-      <Box visible={visible}>
-        <Msg>{msg}</Msg>
-        <Btns>
-          <Btn onClick={leftOnclick}>{leftBtnMsg}</Btn>
-          <BtnRed onClick={rightOnclick}>{rightBtnMsg}</BtnRed>
-        </Btns>
-      </Box>
-    </>
-  );
-}
-
-export default ConfirmModal;

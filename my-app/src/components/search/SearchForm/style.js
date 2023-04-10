@@ -2,41 +2,32 @@ import styled, { css } from 'styled-components';
 import Theme from '../../../styles/Theme';
 import ClearIcon from '../../../assets/Icon-CancelSearch.png';
 
-export const Container = styled.header`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+export const Container = styled.div`
   display: flex;
-
   align-items: center;
-  height: 4.8rem;
-  background-color: ${Theme.WHITE};
-  padding: 0 2rem;
+  /* height: 4.8rem; */
+
   z-index: 99;
-  border-bottom: 1px solid ${Theme.BORDER};
-`;
-
-export const Button = styled.button`
-  background-color: ${Theme.WHITE};
-  img {
-    width: 2.4rem;
-    height: 2.4rem;
-    margin-right: 0.6rem;
-  }
-`;
-
-export const SearchForm = styled.form`
-  flex-basis: 100%;
 `;
 
 export const SearchFormContainer = styled.div`
   position: relative;
   display: flex;
+  flex-basis: 100%;
+`;
+
+export const SearchForm = styled.form`
+  width: 100%;
+`;
+
+export const InputContainer = styled.div`
+  position: relative;
+  width: ${({ focus, width }) => (focus ? width : '100%')};
+  transition: all 0.2s linear;
 `;
 
 export const Input = styled.input`
-  width: ${({ focus }) => (focus ? 'calc(100% - 4rem)' : '100%')};
+  width: 100%;
   height: 3.2rem;
   line-height: 3.2rem;
   padding: 1rem 3.5rem 1rem 1.4rem;
@@ -78,7 +69,7 @@ export const Input = styled.input`
 export const ClearBtn = styled.button`
   position: absolute;
   top: 20%;
-  right: ${({ focus }) => (focus ? '5rem' : '1rem')};
+  right: 1rem;
   transition: all 0.2s linear;
   width: 2rem;
   height: 2rem;
@@ -91,10 +82,13 @@ export const CancelBtn = styled.button`
   right: 1rem;
   width: 5rem;
   color: #3d3d3d;
-  padding: 1.3rem 0 1.3rem 0;
+  padding: 1.3rem 0;
   font-size: 1.4rem;
   font-family: 'LINESeedKR-Bd';
-  margin-left: 0.6rem;
+  margin-left: 0.3rem;
+
+  border: none;
+  background-color: transparent;
 
   ${({ focus }) =>
     focus
