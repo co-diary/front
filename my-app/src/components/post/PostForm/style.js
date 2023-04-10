@@ -3,6 +3,8 @@ import Theme from '../../../styles/Theme';
 import IconLocationOff from '../../../assets/Icon-Nav-Map-off.png';
 import IconLocationHover from '../../../assets/Icon-Map-hover.png';
 import IconAddInput from '../../../assets/Icon-AddInput.png';
+import IconAddPhoto from '../../../assets/Icon-AddPhoto.png';
+import IconAddPhotoHover from '../../../assets/Icon-AddPhoto-hover.png';
 
 export const Container = styled.div`
   padding: 4.8rem 0 6rem;
@@ -217,13 +219,36 @@ export const ImgLabel = styled.label`
 `;
 
 export const ImgLabelBtn = styled.label`
+  display: inline-block;
   width: 4.2rem;
   height: 3rem;
+  position: relative;
+  border: 1px solid ${Theme.BORDER};
   border-radius: 3rem;
   cursor: pointer;
+  background-color: ${Theme.WHITE};
 
-  img {
-    width: 4.2rem;
-    height: 3rem;
+  &::before {
+    content: '';
+    background: url(${IconAddPhoto}) no-repeat;
+    background-size: 2rem;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 2rem;
+    height: 1.8rem;
+    vertical-align: middle;
+  }
+
+  &:hover::before {
+    background: url(${IconAddPhotoHover}) no-repeat;
+    background-size: 2rem;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
   }
 `;

@@ -18,7 +18,6 @@ import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
 import CategorySelectBox from '../CategorySelectBox';
 import TasteRating from '../TasteRating';
 import IconCalendar from '../../../assets/Icon-Calendar.png';
-import IconAddPhoto from '../../../assets/Icon-AddPhoto.png';
 import useOutsideDetect from '../../../hooks/useOutsideDetect';
 import * as S from './style';
 
@@ -279,9 +278,7 @@ function PostForm() {
           </S.BoxWrapper>
           <S.BoxWrapper>
             <S.ImgLabel>사진</S.ImgLabel>
-            <S.ImgLabelBtn htmlFor='img'>
-              <img src={IconAddPhoto} alt='사진 등록 버튼' />
-            </S.ImgLabelBtn>
+            <S.ImgLabelBtn htmlFor='img'></S.ImgLabelBtn>
             <input
               style={{ display: 'none' }}
               type='file'
