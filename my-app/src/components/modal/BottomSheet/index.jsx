@@ -3,7 +3,7 @@ import * as S from './style';
 import useToggle from '../../../hooks/useToggle';
 
 function BottomSheet({ visible, onClickClose, children }) {
-  const [isOpen, setIsOpen] = useToggle(false);
+  const [isOpen, setIsOpen] = useToggle(visible);
 
   useEffect(() => {
     let timeoutId;

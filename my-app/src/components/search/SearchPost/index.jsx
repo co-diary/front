@@ -10,6 +10,9 @@ import CancelBtnSlide from '../SearchForm/CancelButton';
 
 function SearchPost() {
   const [keyword, setKeyword] = useState('');
+  const [focus, setFocus] = useState(false);
+
+  console.log(focus);
 
   const navigate = useNavigate();
   const goBack = () => {
@@ -20,8 +23,6 @@ function SearchPost() {
     e.preventDefault();
     setKeyword(e.target.value);
   };
-
-  const [focus, setFocus] = useState(false);
 
   const handleFormBlur = () => {
     setFocus(false);

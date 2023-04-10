@@ -1,12 +1,10 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import Portal from '../../components/modal/Portal';
-import ConfirmModal from '../../components/modal/ConfirmModal';
 
 import IconBack from '../../assets/Icon-X.png';
 import BottomSheetForm from '../../components/modal/BottomSheet/BottomSheetStyle/BottomSheetForm';
 import BottomSheet from '../../components/modal/BottomSheet';
-import BottomSheetDefault from '../../components/modal/BottomSheet/BottomSheetStyle/BottomSheetDefault';
 
 import modalState from '../../atom/modalRecoil';
 
@@ -17,7 +15,7 @@ function Test() {
 
   const onClickIcon = () => {
     console.log('눌렀음');
-    setModal({ ...modal, visible: true });
+    setModal({ ...modal, visible: false });
   };
 
   // 실제 페이지 사용 예시
