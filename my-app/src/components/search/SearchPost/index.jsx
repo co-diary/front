@@ -6,6 +6,7 @@ import SearchHeader from './SearchHeader';
 import SearchResultView from './SearchResultView';
 import useDebounce from '../../../hooks/useDebounce';
 import SearchForm from '../SearchForm';
+import CancelBtnSlide from '../SearchForm/CancelButton';
 
 function SearchPost() {
   const [keyword, setKeyword] = useState('');
@@ -47,7 +48,9 @@ function SearchPost() {
           handleFormBlur={handleFormBlur}
           handleCancelBtn={handleCancelBtn}
           handleClearBtn={handleClearBtn}
-        />
+        >
+          <CancelBtnSlide />
+        </SearchForm>
       </SearchHeader>
 
       <SearchResultView keyword={debouncedSearchTxt} />

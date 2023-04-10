@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import CancelBtnSlide from './CancelButton';
 import * as S from './style';
 
-function SearchForm({ keyword, setKeyword, onChange }) {
+function SearchForm({ keyword, setKeyword, onChange, children }) {
   console.log(setKeyword);
   const [focus, setFocus] = useState(false);
 
@@ -25,6 +24,8 @@ function SearchForm({ keyword, setKeyword, onChange }) {
     }
   }, []);
 
+  const inputWidth = children ? 'calc(100% - 4rem)' : '100%'; // InputContainer의 width를 children의 유무에 따라 조절
+
   return (
     <S.Container>
       <S.SearchFormContainer action=''>
@@ -34,19 +35,23 @@ function SearchForm({ keyword, setKeyword, onChange }) {
           }}
           onBlur={() => handleFormBlur()}
         >
-          <S.Input
-            value={keyword}
-            onChange={onChange}
-            type='text'
-            placeholder='검색어를 입력하세요.'
-            focus={focus}
-          />
-          {keyword && (
-            <S.ClearBtn type='button' onMouseDown={() => handleClearBtn()} focus={focus} />
-          )}
+          <S.InputContainer focus={focus} width={inputWidth}>
+            <S.Input
+              value={keyword}
+              onChange={onChange}
+              type='text'
+              placeholder='검색어를 입력하세요.'
+            />
+            {keyword && (
+              <S.ClearBtn type='button' onMouseDown={() => handleClearBtn()} focus={focus} />
+            )}
+          </S.InputContainer>
         </S.SearchForm>
       </S.SearchFormContainer>
-      <CancelBtnSlide handleCancelBtn={handleCancelBtn} focus={focus} />
+
+      {children && React.cloneElement(children, { handleCancelBtn, focus })}
+
+      {/* <CancelBtnSlide handleCancelBtn={handleCancelBtn} focus={focus} /> */}
     </S.Container>
   );
 }
