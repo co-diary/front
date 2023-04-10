@@ -11,14 +11,12 @@ export const Container = styled.header`
   grid-template-columns: 2.4rem 1fr;
 
   height: 4.8rem;
-  background-color: ${Theme.WHITE};
   padding: 0 2rem;
   z-index: 99;
   border-bottom: 1px solid ${Theme.BORDER};
 `;
 
 export const Button = styled.button`
-  background-color: ${Theme.WHITE};
   img {
     width: 2.4rem;
     height: 2.4rem;

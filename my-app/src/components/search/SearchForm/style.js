@@ -6,7 +6,6 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   height: 4.8rem;
-  background-color: ${Theme.WHITE};
 
   z-index: 99;
 `;
