@@ -5,7 +5,7 @@ import ClearIcon from '../../../assets/Icon-CancelSearch.png';
 export const Container = styled.div`
   display: flex;
   align-items: center;
-  height: 4.8rem;
+  /* height: 4.8rem; */
 
   z-index: 99;
 `;

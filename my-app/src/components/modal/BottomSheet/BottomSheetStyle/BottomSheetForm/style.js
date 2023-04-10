@@ -92,7 +92,14 @@ export const Results = styled.ul`
   display: flex;
   flex-direction: column;
 
+  margin-top: 1rem;
+
+  max-height: calc(83vh - 9.6rem);
   overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const Result = styled.li`
@@ -107,8 +114,7 @@ export const Result = styled.li`
 
   transition: 0.2s ease-out all;
 
-  &:hover,
-  &:active {
+  &:hover {
     border-bottom: 1px solid ${Theme.MAIN_GRAY};
   }
 `;

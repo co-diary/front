@@ -17,7 +17,7 @@ function Test() {
 
   const onClickIcon = () => {
     console.log('눌렀음');
-    setModal({ ...modal, visible: false });
+    setModal({ ...modal, visible: true });
   };
 
   // 실제 페이지 사용 예시

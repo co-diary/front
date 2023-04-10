@@ -24,6 +24,14 @@ function BottomSheet({ visible, onClickClose, children }) {
     return null;
   }
 
+  // 모달 열려있을 때 백그라운드 스크롤 방지
+
+  if (isOpen) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = 'auto';
+  }
+
   return (
     <>
       <S.Background visible={visible} onClick={onClickClose} />

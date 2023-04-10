@@ -31,7 +31,7 @@ export const modalSettings = (visible) => css`
   visibility: ${visible ? 'visible' : 'hidden'};
   z-index: 99;
   animation: ${visible ? fadeIn : fadeOut} 0.15s ease-out;
-  transition: visibility 0.15s ease-out;
+  transition: visibility 0.3s ease-out;
 `;
 
 export const Background = styled.div`
@@ -44,7 +44,7 @@ export const Background = styled.div`
   ${({ visible }) =>
     visible
       ? css`
-          background-color: rgba(0, 0, 0, 0.2);
+          background-color: rgba(0, 0, 0, 0.3);
         `
       : css`
           display: none;
