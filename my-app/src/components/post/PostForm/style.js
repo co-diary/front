@@ -14,6 +14,10 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
+
+  & input[type='file'] {
+    display: none;
+  }
 `;
 
 export const SelectBoxWrapper = styled.article`
@@ -240,7 +244,6 @@ export const ImgLabelBtn = styled.label`
     bottom: 0;
     width: 2rem;
     height: 1.8rem;
-    vertical-align: middle;
   }
 
   &:hover::before {

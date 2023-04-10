@@ -279,12 +279,7 @@ function PostForm() {
           <S.BoxWrapper>
             <S.ImgLabel>사진</S.ImgLabel>
             <S.ImgLabelBtn htmlFor='img'></S.ImgLabelBtn>
-            <input
-              style={{ display: 'none' }}
-              type='file'
-              accept='.jpg, .gif, .png, .jpeg, .bmp, .tif, .heic'
-              id='img'
-            />
+            <input type='file' accept='.jpg, .gif, .png, .jpeg, .bmp, .tif, .heic' id='img' />
           </S.BoxWrapper>
         </S.Form>
       </S.Container>
