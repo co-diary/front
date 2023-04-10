@@ -20,12 +20,34 @@ function SearchPost() {
     setKeyword(e.target.value);
   };
 
+  const [focus, setFocus] = useState(false);
+
+  const handleFormBlur = () => {
+    setFocus(false);
+  };
+
+  const handleCancelBtn = () => {
+    setFocus(false);
+    setKeyword('');
+  };
+
+  const handleClearBtn = (e) => {
+    setKeyword('');
+  };
+
   const debouncedSearchTxt = useDebounce(keyword, 400);
 
   return (
     <S.Container>
       <SearchHeader leftOnClick={goBack}>
-        <SearchForm onChange={onChange} keyword={keyword} setKeyword={setKeyword} />
+        <SearchForm
+          onChange={onChange}
+          keyword={keyword}
+          setKeyword={setKeyword}
+          handleFormBlur={handleFormBlur}
+          handleCancelBtn={handleCancelBtn}
+          handleClearBtn={handleClearBtn}
+        />
       </SearchHeader>
 
       <SearchResultView keyword={debouncedSearchTxt} />

@@ -2,31 +2,23 @@ import styled, { css } from 'styled-components';
 import Theme from '../../../styles/Theme';
 import ClearIcon from '../../../assets/Icon-CancelSearch.png';
 
-export const Container = styled.header`
+export const Container = styled.div`
   display: flex;
   align-items: center;
   height: 4.8rem;
   background-color: ${Theme.WHITE};
-  padding: 0 2rem;
+
   z-index: 99;
-`;
-
-export const Button = styled.button`
-  background-color: ${Theme.WHITE};
-  img {
-    width: 2.4rem;
-    height: 2.4rem;
-    margin-right: 0.6rem;
-  }
-`;
-
-export const SearchForm = styled.form`
-  flex-basis: 100%;
 `;
 
 export const SearchFormContainer = styled.div`
   position: relative;
   display: flex;
+  flex-basis: 100%;
+`;
+
+export const SearchForm = styled.form`
+  flex-basis: 100%;
 `;
 
 export const Input = styled.input`

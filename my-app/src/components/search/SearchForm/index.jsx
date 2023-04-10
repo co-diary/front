@@ -27,8 +27,8 @@ function SearchForm({ keyword, setKeyword, onChange }) {
 
   return (
     <S.Container>
-      <S.SearchForm action=''>
-        <S.SearchFormContainer
+      <S.SearchFormContainer action=''>
+        <S.SearchForm
           onFocus={() => {
             setFocus(true);
           }}
@@ -44,8 +44,8 @@ function SearchForm({ keyword, setKeyword, onChange }) {
           {keyword && (
             <S.ClearBtn type='button' onMouseDown={() => handleClearBtn()} focus={focus} />
           )}
-        </S.SearchFormContainer>
-      </S.SearchForm>
+        </S.SearchForm>
+      </S.SearchFormContainer>
       <CancelBtnSlide handleCancelBtn={handleCancelBtn} focus={focus} />
     </S.Container>
   );

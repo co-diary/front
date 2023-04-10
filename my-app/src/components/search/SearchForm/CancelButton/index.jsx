@@ -1,6 +1,5 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import Theme from '../../../../styles/Theme';
 
 function CancelBtnSlide({ handleCancelBtn, focus }) {
   return (
