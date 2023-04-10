@@ -56,6 +56,30 @@ function BottomSheetForm({ title, Icon, IconAlt, onClickIcon }) {
               <S.ResultTitle>이디야</S.ResultTitle>
               <S.ResultDetail>대한민국 서울특별시 숭인동 1054 03111</S.ResultDetail>
             </S.Result>
+            <S.Result>
+              <S.ResultTitle>이디야</S.ResultTitle>
+              <S.ResultDetail>대한민국 서울특별시 숭인동 1054 03111</S.ResultDetail>
+            </S.Result>
+            <S.Result>
+              <S.ResultTitle>이디야</S.ResultTitle>
+              <S.ResultDetail>대한민국 서울특별시 숭인동 1054 03111</S.ResultDetail>
+            </S.Result>
+            <S.Result>
+              <S.ResultTitle>이디야</S.ResultTitle>
+              <S.ResultDetail>대한민국 서울특별시 숭인동 1054 03111</S.ResultDetail>
+            </S.Result>
+            <S.Result>
+              <S.ResultTitle>이디야</S.ResultTitle>
+              <S.ResultDetail>대한민국 서울특별시 숭인동 1054 03111</S.ResultDetail>
+            </S.Result>
+            <S.Result>
+              <S.ResultTitle>이디야</S.ResultTitle>
+              <S.ResultDetail>대한민국 서울특별시 숭인동 1054 03111</S.ResultDetail>
+            </S.Result>
+            <S.Result>
+              <S.ResultTitle>이디야</S.ResultTitle>
+              <S.ResultDetail>대한민국 서울특별시 숭인동 1054 03111</S.ResultDetail>
+            </S.Result>
           </S.Results>
         </S.ResultSection>
       </S.Main>

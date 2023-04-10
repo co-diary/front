@@ -91,6 +91,8 @@ export const SectionTitle = styled.div`
 export const Results = styled.ul`
   display: flex;
   flex-direction: column;
+
+  overflow-y: auto;
 `;
 
 export const Result = styled.li`
