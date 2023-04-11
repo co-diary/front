@@ -29,7 +29,7 @@ const fadeOut = keyframes`
 
 export const modalSettings = (visible) => css`
   visibility: ${visible ? 'visible' : 'hidden'};
-  z-index: 99;
+  z-index: 100;
   animation: ${visible ? fadeIn : fadeOut} 0.15s ease-out;
   transition: visibility 0.3s ease-out;
 `;
@@ -40,6 +40,7 @@ export const Background = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 100;
 
   ${({ visible }) =>
     visible

@@ -102,8 +102,7 @@ function PostDetail() {
     navigate(-1);
   };
 
-  // console.log('modal', modal);
-  // console.log('confirm modal', isConfirmModalOpen);
+  console.log('modal', modal.visible);
 
   return (
     <>
@@ -200,7 +199,7 @@ function PostDetail() {
             </S.Section>
           </S.Container>
           <Portal>
-            <BottomSheet visible={modal} onClickClose={onClickIcon}>
+            <BottomSheet visible={modal.visible} onClickClose={onClickIcon}>
               <BottomSheetDefault onClickEdit={onClickEdit} onClickDelete={onClickDelete} />
             </BottomSheet>
             <ConfirmModal
