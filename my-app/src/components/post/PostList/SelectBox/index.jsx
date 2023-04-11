@@ -1,25 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as S from './style';
 
-function SelectBox({ onBlur, handleDisplayList, selected, isOpen, handleClickList }) {
+function SelectBox({ options, onOptionSelected, selected }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOnBlur = () => {
+    setIsOpen(false);
+  };
+
+  const toggleSelectBox = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleOptionSelected = (option) => {
+    onOptionSelected(option);
+    toggleSelectBox();
+  };
+
   return (
-    <S.Container onBlur={onBlur} onClick={handleDisplayList} options={isOpen} selected={selected}>
+    <S.Container
+      onBlur={handleOnBlur}
+      onClick={toggleSelectBox}
+      options={isOpen}
+      selected={selected}
+    >
       <button>{selected}</button>
+
       <S.Options options={isOpen}>
-        <S.Option
-          onMouseDown={(e) => {
-            handleClickList(e);
-          }}
-        >
-          최신순
-        </S.Option>
-        <S.Option
-          onMouseDown={(e) => {
-            handleClickList(e);
-          }}
-        >
-          별점순
-        </S.Option>
+        {options.map((option) => (
+          <S.Option
+            key={option}
+            value={option}
+            onMouseDown={() => {
+              handleOptionSelected(option);
+            }}
+          >
+            {option}
+          </S.Option>
+        ))}
       </S.Options>
     </S.Container>
   );
