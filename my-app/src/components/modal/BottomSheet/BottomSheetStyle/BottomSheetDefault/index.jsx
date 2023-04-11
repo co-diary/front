@@ -1,7 +1,7 @@
 import React from 'react';
 import * as S from './style';
 
-function BottomSheetDefault(onClickEdit, onClickDelete) {
+function BottomSheetDefault({ onClickEdit, onClickDelete }) {
   return (
     <S.Container>
       <S.CloseHandler />

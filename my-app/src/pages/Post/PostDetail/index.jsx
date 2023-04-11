@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { updateDoc, doc, deleteField, onSnapshot } from 'firebase/firestore';
 import { db } from '../../../firebase';
@@ -15,6 +15,12 @@ import IconMore from '../../../assets/Icon-More.png';
 import currentPost from '../../../atom/postRecoil';
 import { authState } from '../../../atom/authRecoil';
 import SimpleSlider from '../../../components/post/SimpleSlider';
+import modalState from '../../../atom/modalRecoil';
+import Portal from '../../../components/modal/Portal';
+import BottomSheet from '../../../components/modal/BottomSheet';
+import BottomSheetDefault from '../../../components/modal/BottomSheet/BottomSheetStyle/BottomSheetDefault';
+import ConfirmModal from '../../../components/modal/ConfirmModal';
+import useToggle from '../../../hooks/useToggle';
 
 function PostDetail() {
   const user = useRecoilValue(authState);
@@ -29,6 +35,9 @@ function PostDetail() {
   const images = post?.photo;
   const date = post?.date;
   const slicedDate = date?.toDate().toISOString().slice(2, 10).replaceAll('-', '.');
+  const [modal, setModal] = useRecoilState(modalState);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useToggle();
+  const navigate = useNavigate();
 
   useEffect(() => {
     addLikedListener();
@@ -43,7 +52,7 @@ function PostDetail() {
     });
   };
 
-  console.log('post', post);
+  // console.log('post', post);
 
   const handleLikedBtn = async () => {
     setIsLiked((prev) => !prev);
@@ -64,9 +73,37 @@ function PostDetail() {
     }
   };
 
-  const handleModal = () => {
-    console.log('모달 클릭');
+  const handleOpenModal = () => {
+    setModal({ ...modal, visible: true });
   };
+
+  const onClickIcon = () => {
+    setModal({ ...modal, visible: false });
+  };
+
+  const onClickEdit = () => {
+    // 각 게시글의 수정페이지로 이동되도록 추후 수정해야 함
+    console.log('게시글 수정 클릭하면 해당 게시글 수정 페이지로 이동');
+    navigate('/post/edit');
+  };
+
+  const onClickDelete = () => {
+    console.log('게시글 삭제 클릭하면 컨펌 모달 뜸');
+    setIsConfirmModalOpen();
+  };
+
+  const confirmModalClose = () => {
+    setIsConfirmModalOpen();
+  };
+
+  const rightOnclick = () => {
+    console.log('해당 게시글 삭제 기능 구현 후 컴펌 창 사라지고 이전 페이지로 이동');
+    setIsConfirmModalOpen();
+    navigate(-1);
+  };
+
+  // console.log('modal', modal);
+  // console.log('confirm modal', isConfirmModalOpen);
 
   return (
     <>
@@ -83,7 +120,7 @@ function PostDetail() {
                     <img src={IconHeartOff} alt='좋아요 비활성화' />
                   )}
                 </S.HeaderBtn>
-                <S.HeaderBtn onClick={handleModal}>
+                <S.HeaderBtn onClick={handleOpenModal}>
                   <img src={IconMore} alt='더보기 버튼' />
                 </S.HeaderBtn>
               </>
@@ -162,6 +199,20 @@ function PostDetail() {
               </S.BtnContainer>
             </S.Section>
           </S.Container>
+          <Portal>
+            <BottomSheet visible={modal} onClickClose={onClickIcon}>
+              <BottomSheetDefault onClickEdit={onClickEdit} onClickDelete={onClickDelete} />
+            </BottomSheet>
+            <ConfirmModal
+              visible={isConfirmModalOpen}
+              msg='기록을 삭제할까요?'
+              leftBtnMsg='취소'
+              rightBtnMsg='삭제'
+              onClickClose={confirmModalClose}
+              rightOnclick={rightOnclick}
+              leftOnclick={confirmModalClose}
+            />
+          </Portal>
         </>
       )}
     </>

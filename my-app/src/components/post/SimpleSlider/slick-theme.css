@@ -21,11 +21,12 @@
   position: relative;
   display: inline-block;
   width: 20px;
-  height: 5px;
+  height: 6px;
   margin: 0 5px;
   padding: 0;
   background-color: #ffffff;
-  box-shadow: 0 0 2px 1px #bdbdbd;
+  /* box-shadow: 0 0 1px 1px #bdbdbd; */
+  border: 1px solid #bdbdbd;
   border-radius: 3px;
   cursor: pointer;
 }
@@ -34,7 +35,7 @@
   line-height: 0;
   display: block;
   width: 20px;
-  height: 5px;
+  height: 6px;
   padding: 0px;
   cursor: pointer;
   color: transparent;
