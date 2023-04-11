@@ -1,17 +1,23 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
+import { useRecoilState } from 'recoil';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale';
 import { format } from 'date-fns';
 import '../PostForm/datepicker.css';
-import IconStarOff from '../../../assets/Icon-star-off.png';
-import IconStarOn from '../../../assets/Icon-star-on.png';
-import IconLocationOff from '../../../assets/Icon-Nav-Map-off.png';
-import IconCalendar from '../../../assets/Icon-Calendar.png';
-import IconAddInput from '../../../assets/Icon-AddInput.png';
-import IconAddPhoto from '../../../assets/Icon-AddPhoto.png';
+import {
+  categoryState,
+  themeState,
+  dateState,
+  menuNameState,
+  menuPriceState,
+  starRatingState,
+  reviewState,
+} from '../../../atom/postRecoil';
 import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
 import CategorySelectBox from '../CategorySelectBox';
+import TasteRating from '../TasteRating';
+import IconCalendar from '../../../assets/Icon-Calendar.png';
 import useOutsideDetect from '../../../hooks/useOutsideDetect';
 import * as S from './style';
 
@@ -21,18 +27,25 @@ function PostForm() {
   const [isShowOptionTheme, setIsShowOptionTheme, themeRef, handleDisplayTheme] =
     useOutsideDetect(false);
 
-  const [currentCategory, setCurrentCategory] = useState(SELECTBOX_DATA[0].name);
-  const [currentTheme, setCurrentTheme] = useState(SELECTBOX_DATA[0].option[0].subName);
+  const [currentCategory, setCurrentCategory] = useRecoilState(categoryState);
+  const [currentTheme, setCurrentTheme] = useRecoilState(themeState);
   const [currentSelect, setCurrentSelect] = useState(1);
 
-  const [startDate, setStartDate] = useState(null);
+  const [startDate, setStartDate] = useRecoilState(dateState);
   const [dateValid, setDateValid] = useState(false);
 
-  const [menuName, setMenuName] = useState('');
+  const [menuName, setMenuName] = useRecoilState(menuNameState);
   const [menuNameValid, setMenuNameValid] = useState(false);
 
-  const [menuPrice, setMenuPrice] = useState('');
+  const [menuPrice, setMenuPrice] = useRecoilState(menuPriceState);
   const [menuPriceValid, setMenuPriceValid] = useState(false);
+
+  const [ratingClicked, setRatingClicked] = useRecoilState(starRatingState);
+  const [ratingHovered, setRatingHovered] = useState(0);
+  const [ratingValid, setRatingValid] = useState(false);
+
+  const textareaRef = useRef();
+  const [review, setReview] = useRecoilState(reviewState);
 
   const handleClickListCategory = useCallback((e) => {
     setCurrentCategory(e.target.innerText);
@@ -61,12 +74,6 @@ function PostForm() {
   const subOption = SELECTBOX_DATA.find((category) => category.id === currentSelect).option;
 
   useEffect(() => {
-    if (menuNameValid && dateValid && menuPriceValid) {
-      console.log('버튼활성화 조건');
-    }
-  }, [menuNameValid, dateValid, menuPriceValid]);
-
-  useEffect(() => {
     if (!startDate) {
       setDateValid(false);
       return;
@@ -76,14 +83,6 @@ function PostForm() {
 
     form.append('date', format(startDate, 'yyyy.MM.dd'));
   }, [startDate]);
-
-  const handleValidCheck = useCallback((e) => {
-    if (e.target.value === '') {
-      setMenuNameValid(false);
-      setDateValid(false);
-      setMenuPriceValid(false);
-    }
-  }, []);
 
   useEffect(() => {
     const result = !!menuName.length;
@@ -120,6 +119,42 @@ function PostForm() {
     },
     [menuPrice],
   );
+
+  const handleStarRatingClicked = useCallback(
+    (rating) => {
+      setRatingClicked(rating);
+      setRatingValid(true);
+    },
+    [onclick],
+  );
+
+  const handleMouseChecked = useCallback(
+    (mouse) => {
+      setRatingHovered(mouse);
+    },
+    [onmouseenter, onmouseleave],
+  );
+
+  useEffect(() => {
+    textareaRef.current.style.height = 'auto';
+    const scrollHeight = textareaRef.current.scrollHeight;
+
+    textareaRef.current.style.height = `${scrollHeight}px`;
+  }, [review]);
+
+  const handleValidCheck = useCallback((e) => {
+    if (e.target.value === '') {
+      setMenuNameValid(false);
+      setDateValid(false);
+      setMenuPriceValid(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (menuNameValid && dateValid && menuPriceValid && ratingValid) {
+      console.log('버튼활성화 조건');
+    }
+  }, [menuNameValid, dateValid, menuPriceValid, ratingValid]);
 
   return (
     <>
@@ -183,7 +218,7 @@ function PostForm() {
               type='text'
               placeholder='가격을 적어주세요.'
               id='price'
-              maxLength={7}
+              maxLength='7'
               value={menuPrice}
               onChange={handlePriceChange}
               onBlur={handleValidCheck}
@@ -191,18 +226,17 @@ function PostForm() {
           </S.InputBox>
           <S.InputBox length='1.2rem'>
             <S.Label htmlFor='rating'>맛 평가</S.Label>
-            <S.RatingBox>
-              <img src={IconStarOn} alt='별점 1점' />
-              <img src={IconStarOff} alt='별점 2점' />
-              <img src={IconStarOff} alt='별점 3점' />
-              <img src={IconStarOff} alt='별점 4점' />
-              <img src={IconStarOff} alt='별점 5점' />
-            </S.RatingBox>
+            <TasteRating
+              ratingClicked={ratingClicked}
+              handleStarRatingClicked={handleStarRatingClicked}
+              ratingHovered={ratingHovered}
+              handleMouseChecked={handleMouseChecked}
+            />
           </S.InputBox>
           <S.InputBox length='1.2rem'>
             <S.Label htmlFor='storeName'>상호명</S.Label>
             <S.Input type='text' placeholder='상호명을 입력해주세요.' id='storeName' />
-            <S.LocationBtn src={IconLocationOff} alt='지도맵 버튼' />
+            <S.LocationBtn type='button'></S.LocationBtn>
           </S.InputBox>
           <S.InputBox length='2rem'>
             <S.Label htmlFor='storeLocation'>위치</S.Label>
@@ -215,16 +249,21 @@ function PostForm() {
           </S.InputBox>
           <S.SectionBorder></S.SectionBorder>
           <S.SubTitleBox>
-            <img src={IconAddInput} alt='' />
             <span>추가 선택 입력</span>
           </S.SubTitleBox>
-          <S.InputBox length='1.2rem'>
-            <S.Label htmlFor='review'>후기</S.Label>
-            <S.Input
+          <S.InputBox align='start' length='1.2rem'>
+            <S.Label padding='0.86rem 0' htmlFor='review'>
+              후기
+            </S.Label>
+            <S.ReviewInput
               type='text'
               placeholder='간단한 후기를 남겨주세요.(최대 100자)'
-              maxlength='100'
+              maxLength='100'
+              rows={1}
               id='review'
+              value={review}
+              ref={textareaRef}
+              onChange={(e) => setReview(e.target.value)}
             />
           </S.InputBox>
           <S.BoxWrapper length='1.2rem'>
@@ -239,15 +278,8 @@ function PostForm() {
           </S.BoxWrapper>
           <S.BoxWrapper>
             <S.ImgLabel>사진</S.ImgLabel>
-            <S.ImgLabelBtn htmlFor='img'>
-              <img src={IconAddPhoto} alt='사진 등록 버튼' />
-            </S.ImgLabelBtn>
-            <input
-              style={{ display: 'none' }}
-              type='file'
-              accept='.jpg, .gif, .png, .jpeg, .bmp, .tif, .heic'
-              id='img'
-            />
+            <S.ImgLabelBtn htmlFor='img'></S.ImgLabelBtn>
+            <input type='file' accept='.jpg, .gif, .png, .jpeg, .bmp, .tif, .heic' id='img' />
           </S.BoxWrapper>
         </S.Form>
       </S.Container>
