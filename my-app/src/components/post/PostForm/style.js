@@ -1,5 +1,10 @@
 import styled from 'styled-components';
 import Theme from '../../../styles/Theme';
+import IconLocationOff from '../../../assets/Icon-Nav-Map-off.png';
+import IconLocationHover from '../../../assets/Icon-Map-hover.png';
+import IconAddInput from '../../../assets/Icon-AddInput.png';
+import IconAddPhoto from '../../../assets/Icon-AddPhoto.png';
+import IconAddPhotoHover from '../../../assets/Icon-AddPhoto-hover.png';
 
 export const Container = styled.div`
   padding: 4.8rem 0 6rem;
@@ -9,6 +14,10 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
+
+  & input[type='file'] {
+    display: none;
+  }
 `;
 
 export const SelectBoxWrapper = styled.article`
@@ -27,7 +36,7 @@ export const SectionBorder = styled.div`
 export const InputBox = styled.div`
   display: flex;
   position: relative;
-  align-items: center;
+  align-items: ${(props) => props.align || 'center'};
   margin-bottom: ${(props) => props.length};
 `;
 
@@ -35,7 +44,7 @@ export const Label = styled.label`
   display: inline-block;
   width: 5.6rem;
   margin-right: 1.2rem;
-  padding: 0.4rem 0;
+  padding: ${(props) => props.padding || '0.4rem 0'};
   font-family: 'LINESeedKR-Bd';
   font-size: 1.4rem;
   color: ${Theme.MAIN_FONT};
@@ -65,6 +74,38 @@ export const Input = styled.input`
   }
 `;
 
+export const ReviewInput = styled.textarea`
+  display: block;
+  width: calc(100% - 5.6rem);
+  font-family: 'LINESeedKR-Rg';
+  border: none;
+  word-break: break-all;
+  white-space: pre-wrap;
+  resize: none;
+  padding: 0.6rem 0;
+  overflow-y: scroll;
+  outline: none;
+  max-height: 6rem;
+  border-bottom: 1px solid ${Theme.BORDER};
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &:focus {
+    border-bottom: 1px solid ${Theme.MAIN};
+  }
+
+  &::placeholder {
+    font-family: 'LINESeedKR-Rg';
+    font-size: 1.4rem;
+    color: ${Theme.PLACEHOLDER};
+  }
+`;
+
 export const CalendarBtn = styled.img`
   position: absolute;
   top: 0.2rem;
@@ -72,38 +113,41 @@ export const CalendarBtn = styled.img`
   width: 2rem;
 `;
 
-export const LocationBtn = styled.img`
+export const LocationBtn = styled.button`
+  background: url(${IconLocationOff}) no-repeat;
+  background-size: 2.2rem;
   position: absolute;
   top: 0rem;
   right: 0;
   width: 2.2rem;
+  height: 2.2rem;
   cursor: pointer;
-`;
 
-export const RatingBox = styled.div`
-  width: calc(100% - 5.6rem);
-
-  & img {
-    width: 2rem;
-    cursor: pointer;
+  &:hover {
+    background: url(${IconLocationHover}) no-repeat;
+    background-size: 2.2rem;
   }
 `;
 
 export const SubTitleBox = styled.div`
-  display: flex;
-  align-items: center;
   width: 100%;
-  gap: 0.2rem;
-  margin-bottom: 1.6rem;
-
-  img {
-    width: 2rem;
-  }
+  margin-bottom: 2rem;
 
   span {
     font-family: 'LINESeedKR-Bd';
     font-size: 1.4rem;
     line-height: 1.8rem;
+  }
+
+  span::before {
+    content: '';
+    display: inline-block;
+    background-image: url(${IconAddInput});
+    background-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+    vertical-align: bottom;
+    margin-right: 0.2rem;
   }
 `;
 
@@ -179,13 +223,35 @@ export const ImgLabel = styled.label`
 `;
 
 export const ImgLabelBtn = styled.label`
+  display: inline-block;
   width: 4.2rem;
   height: 3rem;
+  position: relative;
+  border: 1px solid ${Theme.BORDER};
   border-radius: 3rem;
   cursor: pointer;
+  background-color: ${Theme.WHITE};
 
-  img {
-    width: 4.2rem;
-    height: 3rem;
+  &::before {
+    content: '';
+    background: url(${IconAddPhoto}) no-repeat;
+    background-size: 2rem;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 2rem;
+    height: 1.8rem;
+  }
+
+  &:hover::before {
+    background: url(${IconAddPhotoHover}) no-repeat;
+    background-size: 2rem;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
   }
 `;

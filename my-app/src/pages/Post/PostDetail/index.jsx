@@ -12,7 +12,7 @@ import IconNext from '../../../assets/Icon-detail-next.png';
 import IconHeartOff from '../../../assets/Icon-Heart-off.png';
 import IconHeartOn from '../../../assets/Icon-Heart-on.png';
 import IconMore from '../../../assets/Icon-More.png';
-import currentPost from '../../../atom/postRecoil';
+import currentPost from '../../../atom/currentPostRecoil';
 import { authState } from '../../../atom/authRecoil';
 import SimpleSlider from '../../../components/post/SimpleSlider';
 import modalState from '../../../atom/modalRecoil';
