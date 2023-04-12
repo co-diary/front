@@ -14,11 +14,17 @@ import {
   starRatingState,
   reviewState,
 } from '../../../atom/postRecoil';
+import modalState from '../../../atom/modalRecoil';
 import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
 import CategorySelectBox from '../CategorySelectBox';
 import TasteRating from '../TasteRating';
 import IconCalendar from '../../../assets/Icon-Calendar.png';
 import useOutsideDetect from '../../../hooks/useOutsideDetect';
+
+import Portal from '../../../components/modal/Portal';
+import IconBack from '../../../assets/Icon-X.png';
+import BottomSheetForm from '../../../components/modal/BottomSheet/BottomSheetStyle/BottomSheetForm';
+import BottomSheet from '../../../components/modal/BottomSheet';
 import * as S from './style';
 
 function PostForm() {
@@ -43,6 +49,8 @@ function PostForm() {
   const [ratingClicked, setRatingClicked] = useRecoilState(starRatingState);
   const [ratingHovered, setRatingHovered] = useState(0);
   const [ratingValid, setRatingValid] = useState(false);
+
+  const [mapModal, setMapModal] = useRecoilState(modalState);
 
   const textareaRef = useRef();
   const [review, setReview] = useRecoilState(reviewState);
@@ -134,6 +142,11 @@ function PostForm() {
     },
     [onmouseenter, onmouseleave],
   );
+
+  const onClickIcon = () => {
+    console.log('눌렀음');
+    setMapModal({ ...mapModal, visible: false });
+  };
 
   useEffect(() => {
     textareaRef.current.style.height = 'auto';
@@ -236,7 +249,7 @@ function PostForm() {
           <S.InputBox length='1.2rem'>
             <S.Label htmlFor='storeName'>상호명</S.Label>
             <S.Input type='text' placeholder='상호명을 입력해주세요.' id='storeName' />
-            <S.LocationBtn type='button'></S.LocationBtn>
+            <S.LocationBtn type='button' onClick={() => onClickIcon()}></S.LocationBtn>
           </S.InputBox>
           <S.InputBox length='2rem'>
             <S.Label htmlFor='storeLocation'>위치</S.Label>
@@ -283,6 +296,16 @@ function PostForm() {
           </S.BoxWrapper>
         </S.Form>
       </S.Container>
+      <Portal>
+        <BottomSheet visible={mapModal} onClickClose={onClickIcon}>
+          <BottomSheetForm
+            title='위치검색'
+            Icon={IconBack}
+            IconAlt='아이콘Alt'
+            onClickIcon={onClickIcon}
+          />
+        </BottomSheet>
+      </Portal>
     </>
   );
 }
