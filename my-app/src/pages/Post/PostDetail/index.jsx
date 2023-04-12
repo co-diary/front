@@ -21,6 +21,7 @@ import BottomSheet from '../../../components/modal/BottomSheet';
 import BottomSheetDefault from '../../../components/modal/BottomSheet/BottomSheetStyle/BottomSheetDefault';
 import ConfirmModal from '../../../components/modal/ConfirmModal';
 import useToggle from '../../../hooks/useToggle';
+import PostMap from './PostMap';
 
 function PostDetail() {
   const user = useRecoilValue(authState);
@@ -52,7 +53,7 @@ function PostDetail() {
     });
   };
 
-  // console.log('post', post);
+  console.log('post', post);
 
   const handleLikedBtn = async () => {
     setIsLiked((prev) => !prev);
@@ -101,8 +102,6 @@ function PostDetail() {
     setIsConfirmModalOpen();
     navigate(-1);
   };
-
-  console.log('modal', modal.visible);
 
   return (
     <>
@@ -174,8 +173,11 @@ function PostDetail() {
                     </S.DlBox>
                     <S.DlBox>
                       <S.DlTitle>위치</S.DlTitle>
-                      <dd>{post.location}</dd>
+                      <dd>{post.address.name}</dd>
                     </S.DlBox>
+                    <S.MapContainer id='map' >
+                      <PostMap />
+                    </S.MapContainer>
                   </S.DlContainer>
                 </S.ListItem>
                 <S.ListItem>

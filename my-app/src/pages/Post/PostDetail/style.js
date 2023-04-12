@@ -146,3 +146,11 @@ export const HeaderBtn = styled.button`
     object-fit: cover;
   }
 `;
+
+export const MapContainer = styled.div`
+  width: 296px;
+  height: 66px;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-left: auto;
+`;
