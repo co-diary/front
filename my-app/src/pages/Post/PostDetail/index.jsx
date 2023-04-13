@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { updateDoc, doc, deleteField, onSnapshot } from 'firebase/firestore';
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { db } from '../../../firebase';
 import Header from '../../../components/common/Header';
 import * as S from './style';
@@ -21,7 +22,6 @@ import BottomSheet from '../../../components/modal/BottomSheet';
 import BottomSheetDefault from '../../../components/modal/BottomSheet/BottomSheetStyle/BottomSheetDefault';
 import ConfirmModal from '../../../components/modal/ConfirmModal';
 import useToggle from '../../../hooks/useToggle';
-import PostMap from './PostMap';
 
 function PostDetail() {
   const user = useRecoilValue(authState);
@@ -53,7 +53,7 @@ function PostDetail() {
     });
   };
 
-  console.log('post', post);
+  // console.log('post', post);
 
   const handleLikedBtn = async () => {
     setIsLiked((prev) => !prev);
@@ -101,6 +101,10 @@ function PostDetail() {
     console.log('해당 게시글 삭제 기능 구현 후 컴펌 창 사라지고 이전 페이지로 이동');
     setIsConfirmModalOpen();
     navigate(-1);
+  };
+
+  const handleLocationMap = () => {
+    console.log('map 페이지로 이동');
   };
 
   return (
@@ -175,9 +179,28 @@ function PostDetail() {
                       <S.DlTitle>위치</S.DlTitle>
                       <dd>{post.address.name}</dd>
                     </S.DlBox>
-                    <S.MapContainer id='map' >
-                      <PostMap />
-                    </S.MapContainer>
+                    <Map
+                      center={{
+                        lat: `${post?.address.latLng[0]}`,
+                        lng: `${post?.address.latLng[1]}`,
+                      }}
+                      style={{
+                        width: '296px',
+                        height: '66px',
+                        borderRadius: '10px',
+                        marginTop: '10px',
+                        marginLeft: 'auto',
+                      }}
+                      level={3}
+                      onClick={handleLocationMap}
+                    >
+                      <MapMarker
+                        position={{
+                          lat: `${post?.address.latLng[0]}`,
+                          lng: `${post?.address.latLng[1]}`,
+                        }}
+                      />
+                    </Map>
                   </S.DlContainer>
                 </S.ListItem>
                 <S.ListItem>
