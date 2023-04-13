@@ -27,8 +27,8 @@ export const TagLink = styled.span`
 export const TagList = styled.li`
   padding: 0.5rem 0;
 
-  &:nth-child(even) span {
-    background-color: ${Theme.PINK};
+  &:nth-child(even) ${TagLink} {
+    background-color: ${Theme.SUB_PINK};
   }
 `;
 
