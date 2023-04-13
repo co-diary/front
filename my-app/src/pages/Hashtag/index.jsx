@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import * as S from './style';
@@ -23,12 +24,11 @@ function Hashtag() {
       <Header title='태그 모아보기' />
       <S.Container>
         <S.TagBox>
-          <S.TagList>
-            <S.TagLink to='/hashtag/keyword'>#달아요요오호</S.TagLink>
-          </S.TagList>
-          <S.TagList>
-            <S.TagLink to='/hashtag/keyword'>#달아요요호</S.TagLink>
-          </S.TagList>
+          {tagArr.map((tag) => (
+            <S.TagList key={uuidv4()}>
+              <S.TagLink to='/hashtag/keyword'>#{tag}</S.TagLink>
+            </S.TagList>
+          ))}
         </S.TagBox>
       </S.Container>
       <NavBar />
