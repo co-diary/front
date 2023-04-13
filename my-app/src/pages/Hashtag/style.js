@@ -48,6 +48,6 @@ export const TextDeco = styled.span`
   line-height: 1.8rem;
   color: ${Theme.WHITE};
   border-radius: 3rem;
-  background-color: ${Theme.SUB_ORANGE};
+  background-color: ${({ bgColor }) => Theme[bgColor] || Theme.SUB_ORANGE};
   text-decoration: none;
 `;
