@@ -1,53 +1,63 @@
 import React, { useState, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
+import { collection, query, where, getDocs} from 'firebase/firestore';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import { db } from '../../firebase';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
+import { authState } from '../../atom/authRecoil';
 
-function Location () {
-	// 현재 위치를 저장할 상태
-	const [location, setLocation] = useState(null); 
-	const [position, setPosition] = useState();
+function Location() {
+  
+  const user = useRecoilValue(authState);
+  const [userPost, setUserPost] = useState([]); 
 
-	useEffect(() => {
+  
+  useEffect(() => {
+    if(user) {
+      getUserData();
+    }  
+  }, [user])
 
-		// 성공시 isSuccess, 실패시 isError 함수가 실행됩니다.
-		navigator.geolocation.getCurrentPosition(isSuccess, isError);
-	}, []);
+  const getUserData = async() => {
+    const postArr = [];
+    // q는 post 컬렉션 하위 문서에서 uid가 현재 로그인한 유저의 uid와 같은 거 찾는 쿼리
+    const q = query(collection(db, 'post'), where('uid', '==', user.uid));
+    const querySnapshot = await getDocs(q);
 
-	// 성공하면 사용자가 현재 위치한 위도와 경도를 나타냅니다.
-	const isSuccess = (response) => {
-    const { latitude, longitude} = response.coords;
+    querySnapshot.forEach((value) => {
+      postArr.push(value.data().address.latLng); 
+    });
+    setUserPost(postArr);
     
-		setLocation({ latitude, longitude });
-	};
 
-	const isError = (error) => {
-		console.log(error);
-	};
-
-	return (
-	<>
-    <Header title="지도" />
-		{location && (
-		<Map 
-            center = {{ lat: location.latitude, lng: location.longitude }} 
-            style = {{ width: '100%', height: '100vh' }} 
-            level = {1}
-            onClick = {(_t, MouseEvent) =>setPosition({
-                lat: MouseEvent.latLng.getLat(),
-                lng: MouseEvent.latLng.getLng(),
-            })}
+  }
+  
+  
+  return (
+    <>
+    
+      <Header title='지도' />
+        <Map
+          center={{ lat: '37.566535', lng: '126.9779692' }} // 서울시청을 중심좌표로 설정
+          style={{ width: '100%', height: '100vh' }}
+          level={1}
         >
-            {position && <MapMarker position={position} />}
-		<MapMarker 
-			position = {{ lat: location.latitude, lng: location.longitude }} 
-            draggable = {true} // 마커가 드래그 가능하게 합니다.
-        />
-		</Map>
-		)}
-    <NavBar page = "location" />
-	</>
-	);
+          {userPost && userPost.map((marker, index) => (
+            <MapMarker
+            key={index}
+              position={{
+                lat: `${marker[0]}`,
+                lng: `${marker[1]}`,
+              }}
+              draggable={true}
+            />
+          ))}
+        </Map>
+
+      <NavBar page='location' />
+    </>
+  );
 }
 
 export default Location;
