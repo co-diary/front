@@ -1,24 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import * as S from './style';
 
-// import getPost from '../../hooks/getPost';
+import getPost from '../../hooks/getPost';
 
 function Hashtag() {
   const [tagArr, setTagArr] = useState([]);
+  const navigate = useNavigate();
 
   console.log(setTagArr);
   console.log(tagArr);
 
-  // useEffect(() => {
-  //   getPost('ALL').then((data) => {
-  //     const onlyTags = data.reduce((acc, cur) => [...acc, ...cur.tag], []);
+  useEffect(() => {
+    getPost('ALL').then((data) => {
+      const onlyTags = data.reduce((acc, cur) => [...acc, ...cur.tag], []);
 
-  //     setTagArr(onlyTags);
-  //   });
-  // }, []);
+      setTagArr(onlyTags);
+    });
+  }, []);
+
+  const goResultPage = (contents) => {
+    navigate('/hashtag/keyword', { state: { data: contents } });
+  };
 
   return (
     <>
@@ -26,9 +32,9 @@ function Hashtag() {
       <S.Container>
         {tagArr.length ? (
           <S.TagBox>
-            {tagArr.map((tag) => (
+            {tagArr.map((contents) => (
               <S.TagList key={uuidv4()}>
-                <S.TagLink to='/hashtag/keyword'>#{tag}</S.TagLink>
+                <S.TagLink onClick={() => goResultPage(contents)}>#{contents}</S.TagLink>
               </S.TagList>
             ))}
           </S.TagBox>
