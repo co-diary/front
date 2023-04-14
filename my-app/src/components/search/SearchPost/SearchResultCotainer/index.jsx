@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
 import getPost from '../../../../hooks/getPost';
 import SearchResultView from '../SearchResultView';
@@ -15,7 +15,10 @@ function SearchResultContainer({ keyword }) {
     });
   }, []);
 
-  const filtering = (key) => data.filter((item) => item?.[key]?.includes(keyword));
+  const filtering = useCallback(
+    (key) => data.filter((item) => item?.[key]?.includes(keyword)),
+    [data, keyword],
+  );
 
   useEffect(() => {
     if (keyword) {
@@ -32,11 +35,11 @@ function SearchResultContainer({ keyword }) {
     } else {
       setFilteredPosts([]);
     }
-  }, [keyword]);
+  }, [keyword, filtering]);
 
-  console.log(filteredPosts);
+  const memoizedPostList = useMemo(() => filteredPosts, [filteredPosts]);
 
-  return <SearchResultView postList={filteredPosts} />;
+  return <SearchResultView postList={memoizedPostList} />;
 }
 
 export default SearchResultContainer;
