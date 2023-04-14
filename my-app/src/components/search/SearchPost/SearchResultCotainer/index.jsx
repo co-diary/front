@@ -16,22 +16,22 @@ function SearchResultContainer({ keyword }) {
   }, []);
 
   const filtering = useCallback(
-    (key) => data.filter((item) => item?.[key]?.includes(keyword)),
+    (key) => Promise.resolve(data.filter((item) => item?.[key]?.includes(keyword))),
     [data, keyword],
   );
 
   useEffect(() => {
     if (keyword) {
-      const option = filtering('menu');
-      const option2 = filtering('shop');
-      const option3 = filtering('location');
-      const option4 = filtering('review');
+      Promise.all([
+        filtering('menu'),
+        filtering('shop'),
+        filtering('location'),
+        filtering('review'),
+      ]).then((filtered) => {
+        const filteredSet = Array.from(new Set(filtered.flat()));
 
-      const filtered = [...option, ...option2, ...option3, ...option4];
-
-      const filteredSet = Array.from(new Set(filtered));
-
-      setFilteredPosts(filteredSet);
+        setFilteredPosts(filteredSet);
+      });
     } else {
       setFilteredPosts([]);
     }
