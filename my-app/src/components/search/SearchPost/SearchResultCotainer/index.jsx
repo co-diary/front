@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import filterPosts from '../../../../hooks/filterPosts';
 
 import getPost from '../../../../hooks/getPost';
 import SearchResultView from '../SearchResultView';
@@ -15,18 +16,13 @@ function SearchResultContainer({ keyword }) {
     });
   }, []);
 
-  const filtering = useCallback(
-    (key) => Promise.resolve(data.filter((item) => item?.[key]?.includes(keyword))),
-    [data, keyword],
-  );
-
   useEffect(() => {
     if (keyword) {
       Promise.all([
-        filtering('menu'),
-        filtering('shop'),
-        filtering('location'),
-        filtering('review'),
+        filterPosts(data, 'menu', keyword),
+        filterPosts(data, 'shop', keyword),
+        filterPosts(data, 'location', keyword),
+        filterPosts(data, 'review', keyword),
       ]).then((filtered) => {
         const filteredSet = Array.from(new Set(filtered.flat()));
 
@@ -35,7 +31,7 @@ function SearchResultContainer({ keyword }) {
     } else {
       setFilteredPosts([]);
     }
-  }, [keyword, filtering]);
+  }, [keyword]);
 
   const memoizedPostList = useMemo(() => filteredPosts, [filteredPosts]);
 
