@@ -1,43 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import * as S from './style';
 import PostCard from '../../../post/PostCard';
-import getPost from '../../../../hooks/getPost';
 
-function SearchResultView({ keyword }) {
-  const [data, setData] = useState([]);
-  const [postList, setPostList] = useState([]);
-
-  console.log(keyword);
-
-  useEffect(() => {
-    getPost('ALL').then((res) => {
-      setData(res);
-    });
-  }, []);
-
-  console.log('데이터', data);
-
-  const filtering = (key) => data.filter((item) => item?.[key]?.includes(keyword));
-
-  useEffect(() => {
-    if (keyword) {
-      const option = filtering('menu');
-      const option2 = filtering('shop');
-      const option3 = filtering('location');
-      const option4 = filtering('review');
-
-      const filtered = [...option, ...option2, ...option3, ...option4];
-
-      const filteredSet = Array.from(new Set(filtered));
-
-      setPostList(filteredSet);
-    } else {
-      setPostList([]);
-    }
-  }, [keyword]);
-
-  console.log(postList);
-
+function SearchResultView({ postList }) {
   return (
     <S.Cards>
       {postList.map((post) => (
