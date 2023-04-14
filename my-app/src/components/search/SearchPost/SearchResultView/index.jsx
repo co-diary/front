@@ -15,11 +15,9 @@ function SearchResultView({ keyword }) {
     });
   }, []);
 
-  const filtering = (key) => {
-    const option = data.filter((item) => item[key].includes(keyword));
+  console.log('데이터', data);
 
-    return option;
-  };
+  const filtering = (key) => data.filter((item) => item?.[key]?.includes(keyword));
 
   useEffect(() => {
     if (keyword) {
