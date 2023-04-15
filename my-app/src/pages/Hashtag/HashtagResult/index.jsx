@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import Header from '../../../components/common/Header';
 import NavBar from '../../../components/common/NavBar';
+import PostCard from '../../../components/post/PostCard';
 import { firestore } from '../../../firebase';
 // import filterPosts from '../../../hooks/filterPosts';
 import * as S from './style';
@@ -19,8 +20,6 @@ function HashtagResult() {
       .where(tag, 'array-contains', value)
       .get();
 
-    console.log('querySnapshot:', querySnapshot);
-
     const results = [];
 
     querySnapshot.forEach((doc) => {
@@ -32,10 +31,9 @@ function HashtagResult() {
 
   useEffect(() => {
     searchInArray('post', 'tag', keyword).then((results) => {
-      setSearchResult(results);
-      results.forEach((doc) => {
-        console.log(doc.id, '=>', doc.data);
-      });
+      const dataValues = results.map((doc) => doc.data);
+
+      setSearchResult(dataValues);
     });
   }, [keyword]);
 
@@ -44,7 +42,23 @@ function HashtagResult() {
   return (
     <>
       <Header title={`#${keyword}`} />
-      <S.Container>카드 컴포넌트</S.Container>
+      <S.Container>
+        {searchResult.map((post) => (
+          <PostCard
+            key={post.key}
+            id={post.key}
+            date={post.date}
+            like={post.like}
+            location={post.location}
+            menu={post.menu}
+            photo={post.photo}
+            review={post.review}
+            score={post.score}
+            shop={post.shop}
+            tags={post.tag}
+          />
+        ))}
+      </S.Container>
       <NavBar />
     </>
   );
