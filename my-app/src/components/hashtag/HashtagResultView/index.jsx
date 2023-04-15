@@ -1,8 +1,8 @@
 import React from 'react';
+import PostCard from '../../post/PostCard';
 import Cards from './style';
-import PostCard from '../../../post/PostCard';
 
-function SearchResultView({ postList }) {
+function HashtagResultView({ postList }) {
   return (
     <Cards>
       {postList.map((post) => (
@@ -23,4 +23,4 @@ function SearchResultView({ postList }) {
   );
 }
 
-export default SearchResultView;
+export default HashtagResultView;
