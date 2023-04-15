@@ -22,13 +22,16 @@ function HashtagResultContainer({ keyword }) {
 
   useEffect(() => {
     searchInArray('post', 'tag', keyword).then((results) => {
-      const dataValues = results.map((doc) => doc.data);
+      const dataValues = results.map((doc) => {
+        const data = doc.data;
+
+        data.key = doc.id;
+        return data;
+      });
 
       setSearchResult(dataValues);
     });
   }, [keyword]);
-
-  console.log(searchResult);
 
   return <HashtagResultView postList={searchResult} />;
 }
