@@ -43,21 +43,23 @@ function HashtagResult() {
     <>
       <Header title={`#${keyword}`} />
       <S.Container>
-        {searchResult.map((post) => (
-          <PostCard
-            key={post.key}
-            id={post.key}
-            date={post.date}
-            like={post.like}
-            location={post.location}
-            menu={post.menu}
-            photo={post.photo}
-            review={post.review}
-            score={post.score}
-            shop={post.shop}
-            tags={post.tag}
-          />
-        ))}
+        <S.Cards>
+          {searchResult.map((post) => (
+            <PostCard
+              key={post.key}
+              id={post.key}
+              date={post.date}
+              like={post.like}
+              location={post.location}
+              menu={post.menu}
+              photo={post.photo}
+              review={post.review}
+              score={post.score}
+              shop={post.shop}
+              tags={post.tag}
+            />
+          ))}
+        </S.Cards>
       </S.Container>
       <NavBar />
     </>
