@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { updateDoc, doc, deleteField, onSnapshot } from 'firebase/firestore';
+import {
+  updateDoc,
+  doc,
+  deleteField,
+  onSnapshot,
+  query,
+  collection,
+  where,
+  getDocs,
+} from 'firebase/firestore';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { db } from '../../../firebase';
 import Header from '../../../components/common/Header';
@@ -9,7 +18,9 @@ import * as S from './style';
 import IconStarOn from '../../../assets/Icon-star-on.png';
 import IconStarOff from '../../../assets/Icon-star-off.png';
 import IconPrev from '../../../assets/Icon-detail-prev.png';
+import IconPrevDisabled from '../../../assets/Icon-detail-prev-hover.png';
 import IconNext from '../../../assets/Icon-detail-next.png';
+import IconNextDisabled from '../../../assets/Icon-detail-next-hover.png';
 import IconHeartOff from '../../../assets/Icon-Heart-off.png';
 import IconHeartOn from '../../../assets/Icon-Heart-on.png';
 import IconMore from '../../../assets/Icon-More.png';
@@ -25,10 +36,12 @@ import useToggle from '../../../hooks/useToggle';
 
 function PostDetail() {
   const user = useRecoilValue(authState);
-  const [post, setPost] = useRecoilState(currentPost);
   const { id } = useParams();
   const postRef = doc(db, 'post', id);
+  const [post, setPost] = useRecoilState(currentPost);
   const [isLiked, setIsLiked] = useState(post?.like);
+  const [modal, setModal] = useRecoilState(modalState);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useToggle();
   const scoreIndexs = [0, 1, 2, 3, 4];
   const menuPrice = post?.price;
   const priceComma = menuPrice?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -36,13 +49,47 @@ function PostDetail() {
   const images = post?.photo;
   const date = post?.date;
   const slicedDate = date?.toDate().toISOString().slice(2, 10).replaceAll('-', '.');
-  const [modal, setModal] = useRecoilState(modalState);
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useToggle();
   const navigate = useNavigate();
+  const [prevBtnDisabled, setPrevBtnDisabled] = useState(false);
+  const [nexBtnDisabled, setNextBtnDisabled] = useState(false);
+  // 이전/다음 게시글
+  const [userPost, setUserPost] = useState([]);
+  const [currentPostIndex, setCurrentPostIndex] = useState();
+
+  const getUserPost = async () => {
+    const postArr = [];
+    const q = query(collection(db, 'post'), where('uid', '==', user.uid));
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((value) => {
+      postArr.push(value.data().postId);
+    });
+    setUserPost(postArr);
+    findIndex(postArr);
+  };
+
+  const findIndex = (postArr) => {
+    const postIndex = postArr.indexOf(`${id}`);
+
+    if (postIndex === 0) {
+      setPrevBtnDisabled(true);
+    } else if (postIndex === postArr.length - 1) {
+      setNextBtnDisabled(true);
+    } else {
+      setPrevBtnDisabled(false);
+      setNextBtnDisabled(false);
+    }
+
+    setCurrentPostIndex(postIndex);
+  };
 
   useEffect(() => {
     addLikedListener();
-  }, []);
+
+    if (user) {
+      getUserPost();
+    }
+  }, [user, id]);
 
   const addLikedListener = () => {
     onSnapshot(postRef, (state) => {
@@ -52,8 +99,6 @@ function PostDetail() {
       setIsLiked(postData.like);
     });
   };
-
-  // console.log('post', post);
 
   const handleLikedBtn = async () => {
     setIsLiked((prev) => !prev);
@@ -105,6 +150,14 @@ function PostDetail() {
 
   const handleLocationMap = () => {
     console.log('map 페이지로 이동');
+  };
+
+  const handlePrevBtn = () => {
+    navigate(`/post/${userPost[currentPostIndex - 1]}`);
+  };
+
+  const handleNextBtn = () => {
+    navigate(`/post/${userPost[currentPostIndex + 1]}`);
   };
 
   return (
@@ -177,7 +230,7 @@ function PostDetail() {
                     </S.DlBox>
                     <S.DlBox>
                       <S.DlTitle>위치</S.DlTitle>
-                      <dd>{post.address.name}</dd>
+                      <dd>{post.address.location}</dd>
                     </S.DlBox>
                     <Map
                       center={{
@@ -214,17 +267,34 @@ function PostDetail() {
                 </S.ListItem>
               </S.ListContainer>
               <S.BtnContainer>
-                <S.Btn>
-                  <img src={IconPrev} alt='이전 게시글 보기' />
+                <S.Btn
+                  onClick={handlePrevBtn}
+                  disabled={prevBtnDisabled}
+                  style={{ cursor: prevBtnDisabled ? 'auto' : 'pointer' }}
+                >
+                  {' '}
+                  {prevBtnDisabled ? (
+                    <img src={IconPrevDisabled} alt='이전 게시글 없음' />
+                  ) : (
+                    <img src={IconPrev} alt='이전 게시글 보기' />
+                  )}
                 </S.Btn>
-                <S.Btn>
-                  <img src={IconNext} alt='다음 게시글 보기' />
+                <S.Btn
+                  onClick={handleNextBtn}
+                  disabled={nexBtnDisabled}
+                  style={{ cursor: nexBtnDisabled ? 'auto' : 'pointer' }}
+                >
+                  {nexBtnDisabled ? (
+                    <img src={IconNextDisabled} alt='다음 게시글 없음' />
+                  ) : (
+                    <img src={IconNext} alt='다음 게시글 보기' />
+                  )}
                 </S.Btn>
               </S.BtnContainer>
             </S.Section>
           </S.Container>
           <Portal>
-            <BottomSheet visible={modal.visible} onClickClose={onClickIcon}>
+            <BottomSheet visible={modal} onClickClose={onClickIcon}>
               <BottomSheetDefault onClickEdit={onClickEdit} onClickDelete={onClickDelete} />
             </BottomSheet>
             <ConfirmModal
