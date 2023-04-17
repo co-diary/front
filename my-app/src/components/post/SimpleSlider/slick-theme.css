@@ -1,0 +1,49 @@
+@charset 'UTF-8';
+
+/* Arrows */
+.slick-prev,
+.slick-next {
+  font-size: 0;
+}
+
+/* Dots */
+.slick-dots {
+  position: absolute;
+  bottom: 8px;
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-align: center;
+}
+.slick-dots li {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 6px;
+  margin: 0 5px;
+  padding: 0;
+  background-color: #ffffff;
+  /* box-shadow: 0 0 1px 1px #bdbdbd; */
+  border: 1px solid #bdbdbd;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.slick-dots li button {
+  font-size: 0;
+  line-height: 0;
+  display: block;
+  width: 20px;
+  height: 6px;
+  padding: 0px;
+  cursor: pointer;
+  color: transparent;
+  border: 0;
+  outline: none;
+  background: transparent;
+}
+
+.slick-dots li.slick-active {
+  background-color: #f7da76;
+}

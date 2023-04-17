@@ -13,6 +13,7 @@ function BottomSheet({ visible, onClickClose, children }) {
     } else {
       timeoutId = setTimeout(() => setIsOpen(false), 150);
     }
+
     return () => {
       if (timeoutId !== undefined) {
         clearTimeout(timeoutId);

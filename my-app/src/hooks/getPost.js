@@ -32,7 +32,7 @@ async function getPost(queryOption, target, option) {
     getData(postSnapshot);
   }
 
-  console.log(postList);
+  console.log('postList', postList);
   return postList;
 }
 

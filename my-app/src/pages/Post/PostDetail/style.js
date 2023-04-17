@@ -49,11 +49,19 @@ export const StarRatingContainer = styled.div`
   }
 `;
 
-export const MenuImg = styled.img`
+export const PhotoCarousel = styled.div`
   width: 35rem;
   height: 22rem;
   border-radius: 1rem;
   margin-bottom: 2.6rem;
+  overflow: hidden;
+
+  img {
+    width: 35rem;
+    height: 22rem;
+    border-radius: 1rem;
+    object-fit: fill;
+  }
 `;
 
 export const ListContainer = styled.ul`
@@ -137,4 +145,12 @@ export const HeaderBtn = styled.button`
     height: 2.4rem;
     object-fit: cover;
   }
+`;
+
+export const MapContainer = styled.div`
+  width: 296px;
+  height: 66px;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-left: auto;
 `;

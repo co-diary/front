@@ -1,92 +1,314 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  updateDoc,
+  doc,
+  deleteField,
+  onSnapshot,
+  query,
+  collection,
+  where,
+  getDocs,
+} from 'firebase/firestore';
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import { db } from '../../../firebase';
 import Header from '../../../components/common/Header';
 import * as S from './style';
 import IconStarOn from '../../../assets/Icon-star-on.png';
+import IconStarOff from '../../../assets/Icon-star-off.png';
 import IconPrev from '../../../assets/Icon-detail-prev.png';
+import IconPrevDisabled from '../../../assets/Icon-detail-prev-hover.png';
 import IconNext from '../../../assets/Icon-detail-next.png';
+import IconNextDisabled from '../../../assets/Icon-detail-next-hover.png';
 import IconHeartOff from '../../../assets/Icon-Heart-off.png';
+import IconHeartOn from '../../../assets/Icon-Heart-on.png';
 import IconMore from '../../../assets/Icon-More.png';
+import currentPost from '../../../atom/currentPostRecoil';
+import { authState } from '../../../atom/authRecoil';
+import SimpleSlider from '../../../components/post/SimpleSlider';
+import modalState from '../../../atom/modalRecoil';
+import Portal from '../../../components/modal/Portal';
+import BottomSheet from '../../../components/modal/BottomSheet';
+import BottomSheetDefault from '../../../components/modal/BottomSheet/BottomSheetStyle/BottomSheetDefault';
+import ConfirmModal from '../../../components/modal/ConfirmModal';
+import useToggle from '../../../hooks/useToggle';
 
 function PostDetail() {
+  const user = useRecoilValue(authState);
+  const { id } = useParams();
+  const postRef = doc(db, 'post', id);
+  const [post, setPost] = useRecoilState(currentPost);
+  const [isLiked, setIsLiked] = useState(post?.like);
+  const [modal, setModal] = useRecoilState(modalState);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useToggle();
+  const scoreIndexs = [0, 1, 2, 3, 4];
+  const menuPrice = post?.price;
+  const priceComma = menuPrice?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const hashtag = post?.tag;
+  const images = post?.photo;
+  const date = post?.date;
+  const slicedDate = date?.toDate().toISOString().slice(2, 10).replaceAll('-', '.');
+  const navigate = useNavigate();
+  const [prevBtnDisabled, setPrevBtnDisabled] = useState(false);
+  const [nexBtnDisabled, setNextBtnDisabled] = useState(false);
+  // 이전/다음 게시글
+  const [userPost, setUserPost] = useState([]);
+  const [currentPostIndex, setCurrentPostIndex] = useState();
+
+  const getUserPost = async () => {
+    const postArr = [];
+    const q = query(collection(db, 'post'), where('uid', '==', user.uid));
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((value) => {
+      postArr.push(value.data().postId);
+    });
+    setUserPost(postArr);
+    findIndex(postArr);
+  };
+
+  const findIndex = (postArr) => {
+    const postIndex = postArr.indexOf(`${id}`);
+
+    if (postIndex === 0) {
+      setPrevBtnDisabled(true);
+    } else if (postIndex === postArr.length - 1) {
+      setNextBtnDisabled(true);
+    } else {
+      setPrevBtnDisabled(false);
+      setNextBtnDisabled(false);
+    }
+
+    setCurrentPostIndex(postIndex);
+  };
+
+  useEffect(() => {
+    addLikedListener();
+
+    if (user) {
+      getUserPost();
+    }
+  }, [user, id]);
+
+  const addLikedListener = () => {
+    onSnapshot(postRef, (state) => {
+      const postData = state.data();
+
+      setPost(postData);
+      setIsLiked(postData.like);
+    });
+  };
+
+  const handleLikedBtn = async () => {
+    setIsLiked((prev) => !prev);
+    if (isLiked) {
+      await updateDoc(postRef, {
+        like: false,
+      });
+      await updateDoc(doc(db, 'liked', user.uid), {
+        [id]: deleteField(),
+      });
+    } else {
+      await updateDoc(postRef, {
+        like: true,
+      });
+      await updateDoc(doc(db, 'liked', user.uid), {
+        [id]: { ...post, like: true },
+      });
+    }
+  };
+
+  const handleOpenModal = () => {
+    setModal({ ...modal, visible: true });
+  };
+
+  const onClickIcon = () => {
+    setModal({ ...modal, visible: false });
+  };
+
+  const onClickEdit = () => {
+    // 각 게시글의 수정페이지로 이동되도록 추후 수정해야 함
+    console.log('게시글 수정 클릭하면 해당 게시글 수정 페이지로 이동');
+    navigate('/post/edit');
+  };
+
+  const onClickDelete = () => {
+    console.log('게시글 삭제 클릭하면 컨펌 모달 뜸');
+    setIsConfirmModalOpen();
+  };
+
+  const confirmModalClose = () => {
+    setIsConfirmModalOpen();
+  };
+
+  const rightOnclick = () => {
+    console.log('해당 게시글 삭제 기능 구현 후 컴펌 창 사라지고 이전 페이지로 이동');
+    setIsConfirmModalOpen();
+    navigate(-1);
+  };
+
+  const handleLocationMap = () => {
+    console.log('map 페이지로 이동');
+  };
+
+  const handlePrevBtn = () => {
+    navigate(`/post/${userPost[currentPostIndex - 1]}`);
+  };
+
+  const handleNextBtn = () => {
+    navigate(`/post/${userPost[currentPostIndex + 1]}`);
+  };
+
   return (
     <>
-      <Header
-        title='논커피'
-        rightChild={
-          <>
-            <S.HeaderBtn>
-              <img src={IconHeartOff} alt='' />
-            </S.HeaderBtn>
-            <S.HeaderBtn>
-              <img src={IconMore} alt='' />
-            </S.HeaderBtn>
-          </>
-        }
-      />
-      <S.Container>
-        <header>
-          <h1 className='ir'>게시글 상세 페이지</h1>
-        </header>
-        <S.Section>
-          <h2 className='ir'>게시글 날짜, 메뉴명과 별점</h2>
-          <S.DateInfo>23.02.13</S.DateInfo>
-          <S.MenuInfo>촉촉한 쇼콜라 퐁당</S.MenuInfo>
-          <S.StarRatingContainer>
-            <img src={IconStarOn} alt='별점(더 자세한 설명?)' />
-            <img src={IconStarOn} alt='별점' />
-            <img src={IconStarOn} alt='별점' />
-            <img src={IconStarOn} alt='별점' />
-            <img src={IconStarOn} alt='별점' />
-          </S.StarRatingContainer>
-        </S.Section>
-        <S.Section>
-          <h2 className='ir'>메뉴 후기와 매장 정보</h2>
-          <S.MenuImg
-            src='https://raw.githubusercontent.com/christianB053/likelion/develop/coffee-2139592_960_720.jpg'
-            alt='사용자가 올린 음료 사진'
+      {post && (
+        <>
+          <Header
+            title={post.category}
+            rightChild={
+              <>
+                <S.HeaderBtn onClick={handleLikedBtn}>
+                  {isLiked ? (
+                    <img src={IconHeartOn} alt='좋아요 활성화' />
+                  ) : (
+                    <img src={IconHeartOff} alt='좋아요 비활성화' />
+                  )}
+                </S.HeaderBtn>
+                <S.HeaderBtn onClick={handleOpenModal}>
+                  <img src={IconMore} alt='더보기 버튼' />
+                </S.HeaderBtn>
+              </>
+            }
           />
-          <S.ListContainer>
-            <S.ListItem>
-              <S.ListTitle>후기</S.ListTitle>
-              <p>
-                각급 선거관리위원회는 선거인명부의 작성등 선거사무와 국민투표사무에 관하여 관계
-                행정기관에 필요한 지시를 할 수 있다. 정부는 예산에 변경을 가할 필요가 있을 때에는
-                추가경정예산안을
-              </p>
-            </S.ListItem>
-            <S.ListItem>
-              <S.ListTitle>매장 정보</S.ListTitle>
-              <S.DlContainer>
-                <S.DlBox>
-                  <S.DlTitle>가격</S.DlTitle>
-                  <dd>5,000원</dd>
-                </S.DlBox>
-                <S.DlBox>
-                  <S.DlTitle>상호명</S.DlTitle>
-                  <dd>훵브라더스로스터리 송파점</dd>
-                </S.DlBox>
-                <S.DlBox>
-                  <S.DlTitle>위치</S.DlTitle>
-                  <dd>서울시 송파구 송파대로</dd>
-                </S.DlBox>
-              </S.DlContainer>
-            </S.ListItem>
-            <S.ListItem>
-              <S.ListTitle>태그</S.ListTitle>
-              <S.TagLink to='#'>#넘맛탱</S.TagLink>
-              <S.TagLink to='#'>#또와야지</S.TagLink>
-            </S.ListItem>
-          </S.ListContainer>
-          <S.BtnContainer>
-            <S.Btn>
-              <img src={IconPrev} alt='이전 게시글 보기' />
-            </S.Btn>
-            <S.Btn>
-              <img src={IconNext} alt='다음 게시글 보기' />
-            </S.Btn>
-          </S.BtnContainer>
-        </S.Section>
-      </S.Container>
+          <S.Container>
+            <header>
+              <h1 className='ir'>게시글 상세 페이지</h1>
+            </header>
+            <S.Section>
+              <h2 className='ir'>게시글 날짜, 메뉴명과 별점</h2>
+              <S.DateInfo>{slicedDate}</S.DateInfo>
+              <S.MenuInfo>{post.menu}</S.MenuInfo>
+              <S.StarRatingContainer>
+                {scoreIndexs.map((index) =>
+                  post.score > index ? (
+                    <img src={IconStarOn} alt='별점' key={index} />
+                  ) : (
+                    <img
+                      src={IconStarOff}
+                      alt='체크되지 않은 별점'
+                      aria-hidden='true'
+                      key={index}
+                    />
+                  ),
+                )}
+              </S.StarRatingContainer>
+            </S.Section>
+            <S.Section>
+              <h2 className='ir'>메뉴 후기와 매장 정보</h2>
+              {/* 사진 업로드 없이 게시글 등록할 경우 db에 photo key/value는 저장되지 않는다고 가정 */}
+              {images && (
+                <S.PhotoCarousel>
+                  <SimpleSlider images={images} />
+                </S.PhotoCarousel>
+              )}
+              <S.ListContainer>
+                <S.ListItem>
+                  <S.ListTitle>후기</S.ListTitle>
+                  <p>{post.review}</p>
+                </S.ListItem>
+                <S.ListItem>
+                  <S.ListTitle>매장 정보</S.ListTitle>
+                  <S.DlContainer>
+                    <S.DlBox>
+                      <S.DlTitle>가격</S.DlTitle>
+                      <dd>{priceComma}원</dd>
+                    </S.DlBox>
+                    <S.DlBox>
+                      <S.DlTitle>상호명</S.DlTitle>
+                      <dd>{post.shop}</dd>
+                    </S.DlBox>
+                    <S.DlBox>
+                      <S.DlTitle>위치</S.DlTitle>
+                      <dd>{post.address.location}</dd>
+                    </S.DlBox>
+                    <Map
+                      center={{
+                        lat: `${post?.address.latLng[0]}`,
+                        lng: `${post?.address.latLng[1]}`,
+                      }}
+                      style={{
+                        width: '296px',
+                        height: '66px',
+                        borderRadius: '10px',
+                        marginTop: '10px',
+                        marginLeft: 'auto',
+                      }}
+                      level={3}
+                      onClick={handleLocationMap}
+                    >
+                      <MapMarker
+                        position={{
+                          lat: `${post?.address.latLng[0]}`,
+                          lng: `${post?.address.latLng[1]}`,
+                        }}
+                      />
+                    </Map>
+                  </S.DlContainer>
+                </S.ListItem>
+                <S.ListItem>
+                  <S.ListTitle>태그</S.ListTitle>
+                  {hashtag &&
+                    hashtag.map((tag, index) => (
+                      <S.TagLink key={index} to={`/hashtag/${tag}`}>
+                        #{tag}
+                      </S.TagLink>
+                    ))}
+                </S.ListItem>
+              </S.ListContainer>
+              <S.BtnContainer>
+                <S.Btn
+                  onClick={handlePrevBtn}
+                  disabled={prevBtnDisabled}
+                  style={{ cursor: prevBtnDisabled ? 'auto' : 'pointer' }}
+                >
+                  {' '}
+                  {prevBtnDisabled ? (
+                    <img src={IconPrevDisabled} alt='이전 게시글 없음' />
+                  ) : (
+                    <img src={IconPrev} alt='이전 게시글 보기' />
+                  )}
+                </S.Btn>
+                <S.Btn
+                  onClick={handleNextBtn}
+                  disabled={nexBtnDisabled}
+                  style={{ cursor: nexBtnDisabled ? 'auto' : 'pointer' }}
+                >
+                  {nexBtnDisabled ? (
+                    <img src={IconNextDisabled} alt='다음 게시글 없음' />
+                  ) : (
+                    <img src={IconNext} alt='다음 게시글 보기' />
+                  )}
+                </S.Btn>
+              </S.BtnContainer>
+            </S.Section>
+          </S.Container>
+          <Portal>
+            <BottomSheet visible={modal} onClickClose={onClickIcon}>
+              <BottomSheetDefault onClickEdit={onClickEdit} onClickDelete={onClickDelete} />
+            </BottomSheet>
+            <ConfirmModal
+              visible={isConfirmModalOpen}
+              msg='기록을 삭제할까요?'
+              leftBtnMsg='취소'
+              rightBtnMsg='삭제'
+              onClickClose={confirmModalClose}
+              rightOnclick={rightOnclick}
+              leftOnclick={confirmModalClose}
+            />
+          </Portal>
+        </>
+      )}
     </>
   );
 }
