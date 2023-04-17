@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import * as S from './style';
 
 import SearchHeader from './SearchHeader';
-import SearchResultView from './SearchResultView';
+import SearchResultContainer from './SearchResultCotainer';
+
 import useDebounce from '../../../hooks/useDebounce';
 import SearchForm from '../SearchForm';
 import CancelBtnSlide from '../SearchForm/CancelButton';
@@ -54,7 +55,7 @@ function SearchPost() {
         </SearchForm>
       </SearchHeader>
 
-      <SearchResultView keyword={debouncedSearchTxt} />
+      <SearchResultContainer keyword={debouncedSearchTxt} />
     </S.Container>
   );
 }

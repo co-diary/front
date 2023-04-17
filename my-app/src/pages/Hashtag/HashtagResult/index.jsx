@@ -1,13 +1,21 @@
 import React from 'react';
+import { useLocation } from 'react-router';
 import Header from '../../../components/common/Header';
 import NavBar from '../../../components/common/NavBar';
-import * as S from './style';
+import HashtagResultContainer from '../../../components/hashtag/HashtagResultContainer';
+import Container from './style';
 
 function HashtagResult() {
+  const location = useLocation();
+
+  const keyword = location.state.data;
+
   return (
     <>
-      <Header title='#달아요' />
-      <S.Container>카드 컴포넌트</S.Container>
+      <Header title={`#${keyword}`} />
+      <Container>
+        <HashtagResultContainer keyword={keyword} />
+      </Container>
       <NavBar />
     </>
   );
