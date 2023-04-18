@@ -18,9 +18,9 @@ import placeState from '../../../atom/mapRecoil';
 import modalState from '../../../atom/modalRecoil';
 import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
 import CategorySelectBox from '../CategorySelectBox';
+import useOutsideDetect from '../../../hooks/useOutsideDetect';
 import TasteRating from '../TasteRating';
 import IconCalendar from '../../../assets/Icon-Calendar.png';
-import useOutsideDetect from '../../../hooks/useOutsideDetect';
 
 import Portal from '../../../components/modal/Portal';
 import IconBack from '../../../assets/Icon-X.png';
