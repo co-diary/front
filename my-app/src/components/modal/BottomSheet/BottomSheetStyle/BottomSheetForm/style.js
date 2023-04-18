@@ -1,6 +1,17 @@
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import Theme from '../../../../../styles/Theme';
 import MyLocationIcon from '../../../../../assets/Icon-MyLocation.png';
+import MyLocationLoding from '../../../../../assets/Icon-MyLocation-loding.png';
+
+const spin = keyframes`
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
 export const Header = styled.div`
   position: relative;
@@ -62,7 +73,7 @@ export const LocationBtnBox = styled.div`
 `;
 
 export const MyLocation = styled.button`
-  display: flex;
+  position: relative;
 
   &:hover,
   &:active {
@@ -73,12 +84,18 @@ export const MyLocation = styled.button`
     content: '';
     display: inline-block;
     position: absolute;
-    left: 2rem;
-    background-image: url(${MyLocationIcon});
+    margin-top: -0.18rem;
+    left: -2rem;
+    background-image: url(${({ isLocationCheck }) =>
+      isLocationCheck ? MyLocationLoding : MyLocationIcon});
     background-size: cover;
-    width: 1.4rem;
-    height: 1.4rem;
-  }
+    width: 1.8rem;
+    height: 1.8rem;
+    animation: ${({ isLocationCheck }) =>
+      isLocationCheck &&
+      css`
+        ${spin} 2000ms linear infinite;
+      `}
 `;
 
 export const SectionBorder = styled.div`
