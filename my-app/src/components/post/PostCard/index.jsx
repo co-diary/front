@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router';
@@ -12,11 +12,23 @@ import IconStarOff from '../../../assets/Icon-star-off.png';
 import useToggle from '../../../hooks/useToggle';
 
 function PostCard({ id, date, like, location, menu, photo, review, score, shop, tags, postList }) {
-  const slicedDate = date.toDate().toISOString().slice(5, 10).replace('-', '.');
   const scoreIndexs = [0, 1, 2, 3, 4];
-
   const [liked, setLiked] = useToggle(like);
+  const [formattedDate, setFormattedDate] = useState();
   const navigate = useNavigate();
+
+  const formatDate = (dateFormatted) => {
+    const dateString = dateFormatted.toISOString();
+    const slicedDate = dateString.slice(2, 10).replaceAll('-', '.');
+
+    setFormattedDate(slicedDate);
+  };
+
+  useEffect(() => {
+    const dateFormatted = date.toDate();
+
+    formatDate(dateFormatted);
+  }, []);
 
   const updatePost = async (postId, newLiked) => {
     const postDoc = doc(db, 'post', postId);
@@ -40,7 +52,7 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
   return (
     <S.PostCardBox onClick={handleClickCard}>
       <S.PostCover>
-        <span>{slicedDate}</span>
+        <span>{formattedDate}</span>
         {photo && <img src={photo} alt='메뉴 썸네일 사진' />}
       </S.PostCover>
       <S.PostContent>
