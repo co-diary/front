@@ -293,7 +293,12 @@ function PostForm() {
           </S.InputBox>
           <S.InputBox length='1.2rem'>
             <S.Label htmlFor='storeName'>상호명</S.Label>
-            <S.Input type='text' placeholder='상호명을 입력해주세요.' id='storeName' />
+            <S.Input
+              type='text'
+              placeholder='상호명을 입력해주세요.'
+              defaultValue={place.store}
+              id='storeName'
+            />
             <S.LocationBtn type='button' onClick={() => onClickIcon()}></S.LocationBtn>
           </S.InputBox>
           <S.InputBox length='2rem'>
@@ -301,6 +306,7 @@ function PostForm() {
             <S.Input
               type='text'
               placeholder='매장의 위치를 입력해주세요.'
+              defaultValue={place.address}
               className='location'
               id='storeLocation'
             />
