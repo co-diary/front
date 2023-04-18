@@ -14,9 +14,9 @@ import useToggle from '../../../hooks/useToggle';
 function PostCard({ id, date, like, location, menu, photo, review, score, shop, tags, postList }) {
   const slicedDate = date.toDate().toISOString().slice(5, 10).replace('-', '.');
   const scoreIndexs = [0, 1, 2, 3, 4];
-  const navigate = useNavigate();
 
   const [liked, setLiked] = useToggle(like);
+  const navigate = useNavigate();
 
   const updatePost = async (postId, newLiked) => {
     const postDoc = doc(db, 'post', postId);
@@ -25,9 +25,10 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
     await updateDoc(postDoc, newField);
   };
 
-  const handleLikeButton = (postId) => {
+  const handleLikeButton = (e) => {
     setLiked(!liked);
-    updatePost(postId, !liked);
+    updatePost(id, !liked);
+    e.stopPropagation();
   };
 
   const handleClickCard = () => {
@@ -44,7 +45,7 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
       </S.PostCover>
       <S.PostContent>
         <S.PostInfo>
-          <S.PostLike onClick={() => handleLikeButton(id)}>
+          <S.PostLike onClick={handleLikeButton}>
             {liked ? (
               <img src={IconHeartOn} alt='좋아요 표시' />
             ) : (
