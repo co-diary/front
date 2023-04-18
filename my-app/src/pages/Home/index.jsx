@@ -3,22 +3,39 @@ import { useRecoilValue } from 'recoil';
 import { onAuthStateChanged } from 'firebase/auth';
 import { UserIdState } from '../../atom/authRecoil';
 import { appAuth } from '../../firebase';
-
 import * as S from './style';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import DrinkIcon from '../../assets/Icon-beverage.png';
 import DessertIcon from '../../assets/Icon-dessert.png';
 import CategoryCard from '../../components/home/CategoryCard';
-import getPost from '../../hooks/getPost';
 import RecentPosts from '../../components/home/RecentPosts';
+import usePost from '../../hooks/usePost';
 
 function Home() {
   const userId = useRecoilValue(UserIdState);
   const [userName, setUserName] = useState('');
-  const [postCount, setPostCount] = useState(0);
-  const [drinkCount, setDrinkCount] = useState(0);
-  const [dessertCount, setDessertCount] = useState(0);
+  const { isLoading, isError, data } = usePost(userId, 'ALL');
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(appAuth, (user) => {
+      setUserName(user.displayName);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  if (isLoading) {
+    return <div>🌀 Loading 🌀 </div>;
+  }
+
+  if (isError) {
+    return <div>fetch data중 에러</div>;
+  }
+
+  const postCount = data.length;
+  const drinkCount = data.filter((v) => v.theme === '음료').length;
+  const dessertCount = data.filter((v) => v.theme === '디저트').length;
 
   const cards = [
     {
@@ -34,26 +51,6 @@ function Home() {
       count: dessertCount,
     },
   ];
-
-  console.log(typeof userId, userId);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(appAuth, (user) => {
-      setUserName(user.displayName);
-    });
-
-    return unsubscribe;
-  }, []);
-
-  useEffect(() => {
-    getPost(userId, 'ALL').then((data) => {
-      console.log(data);
-
-      setPostCount(data.length);
-      setDrinkCount(data.filter((v) => v.theme === '음료').length);
-      setDessertCount(data.filter((v) => v.theme === '디저트').length);
-    });
-  }, [userId]);
 
   return (
     <>
