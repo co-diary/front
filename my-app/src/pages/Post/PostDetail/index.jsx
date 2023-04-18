@@ -159,6 +159,10 @@ function PostDetail() {
     navigate(`/post/${userPostList[currentPostIndex + 1]}`);
   };
 
+  const handleTag = (tag) => {
+    navigate('/hashtag/keyword', { state: { data: tag } });
+  };
+
   return (
     <>
       {post && (
@@ -264,7 +268,7 @@ function PostDetail() {
                   <S.ListTitle>태그</S.ListTitle>
                   {hashtag &&
                     hashtag.map((tag, index) => (
-                      <S.TagLink key={index} to={`/hashtag/${tag}`}>
+                      <S.TagLink key={index} onClick={() => handleTag(tag)}>
                         #{tag}
                       </S.TagLink>
                     ))}

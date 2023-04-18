@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Theme from '../../../styles/Theme';
 
@@ -102,14 +101,15 @@ export const DlTitle = styled.dt`
   padding-right: 3.2rem;
 `;
 
-export const TagLink = styled(Link)`
+export const TagLink = styled.span`
   display: inline-block;
   padding: 0.6rem 1rem 0.4rem;
   border-radius: 3rem;
   color: ${Theme.WHITE};
   background-color: ${Theme.SUB_ORANGE};
+  cursor: pointer;
 
-  & + a {
+  & + span {
     margin-left: 0.6rem;
     background-color: ${Theme.SUB_PINK};
   }
