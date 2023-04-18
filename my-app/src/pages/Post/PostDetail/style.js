@@ -55,7 +55,6 @@ export const PhotoCarousel = styled.div`
   border-radius: 1rem;
   margin-bottom: 2.6rem;
   overflow: hidden;
-  border: 1px solid ${Theme.SHADOW_BORDER};
 
   img {
     width: 35rem;
