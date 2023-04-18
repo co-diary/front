@@ -1,16 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import {
-  updateDoc,
-  doc,
-  deleteField,
-  onSnapshot,
-  query,
-  collection,
-  where,
-  getDocs,
-} from 'firebase/firestore';
+import { updateDoc, doc, deleteField, onSnapshot, deleteDoc } from 'firebase/firestore';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { db } from '../../../firebase';
 import Header from '../../../components/common/Header';
@@ -53,19 +44,29 @@ function PostDetail() {
   const [prevBtnDisabled, setPrevBtnDisabled] = useState(false);
   const [nexBtnDisabled, setNextBtnDisabled] = useState(false);
   // 이전/다음 게시글
-  const [userPost, setUserPost] = useState([]);
+  const [userPostList, setUserPostList] = useState([]);
   const [currentPostIndex, setCurrentPostIndex] = useState();
+  const location = useLocation();
+  const categoryPostArr = location.state;
+
+  console.log('post', post);
+  console.log('userPostList', userPostList);
+
+  useEffect(() => {
+    addLikedListener();
+    getUserPost();
+  }, [id]);
 
   const getUserPost = async () => {
-    const postArr = [];
-    const q = query(collection(db, 'post'), where('uid', '==', user.uid));
-    const querySnapshot = await getDocs(q);
+    if (categoryPostArr) {
+      const postArr = [];
 
-    querySnapshot.forEach((value) => {
-      postArr.push(value.data().postId);
-    });
-    setUserPost(postArr);
-    findIndex(postArr);
+      categoryPostArr.forEach((v) => postArr.push(v.key));
+      setUserPostList(postArr);
+      findIndex(postArr);
+    } else {
+      findIndex(userPostList);
+    }
   };
 
   const findIndex = (postArr) => {
@@ -73,23 +74,22 @@ function PostDetail() {
 
     if (postIndex === 0) {
       setPrevBtnDisabled(true);
+      setNextBtnDisabled(false);
     } else if (postIndex === postArr.length - 1) {
       setNextBtnDisabled(true);
+      setPrevBtnDisabled(false);
     } else {
       setPrevBtnDisabled(false);
       setNextBtnDisabled(false);
     }
 
+    if (postIndex === 0 && postArr.length === 1) {
+      setPrevBtnDisabled(true);
+      setNextBtnDisabled(true);
+    }
+
     setCurrentPostIndex(postIndex);
   };
-
-  useEffect(() => {
-    addLikedListener();
-
-    if (user) {
-      getUserPost();
-    }
-  }, [user, id]);
 
   const addLikedListener = () => {
     onSnapshot(postRef, (state) => {
@@ -128,13 +128,10 @@ function PostDetail() {
   };
 
   const onClickEdit = () => {
-    // 각 게시글의 수정페이지로 이동되도록 추후 수정해야 함
-    console.log('게시글 수정 클릭하면 해당 게시글 수정 페이지로 이동');
-    navigate('/post/edit');
+    navigate(`/post/${id}/edit`);
   };
 
   const onClickDelete = () => {
-    console.log('게시글 삭제 클릭하면 컨펌 모달 뜸');
     setIsConfirmModalOpen();
   };
 
@@ -142,22 +139,24 @@ function PostDetail() {
     setIsConfirmModalOpen();
   };
 
-  const rightOnclick = () => {
-    console.log('해당 게시글 삭제 기능 구현 후 컴펌 창 사라지고 이전 페이지로 이동');
+  const rightOnclick = async () => {
+    await deleteDoc(doc(db, 'post', id));
     setIsConfirmModalOpen();
     navigate(-1);
   };
 
   const handleLocationMap = () => {
-    console.log('map 페이지로 이동');
+    navigate('/location', {
+      state: post?.address.latLng,
+    });
   };
 
   const handlePrevBtn = () => {
-    navigate(`/post/${userPost[currentPostIndex - 1]}`);
+    navigate(`/post/${userPostList[currentPostIndex - 1]}`);
   };
 
   const handleNextBtn = () => {
-    navigate(`/post/${userPost[currentPostIndex + 1]}`);
+    navigate(`/post/${userPostList[currentPostIndex + 1]}`);
   };
 
   return (
@@ -206,8 +205,13 @@ function PostDetail() {
             </S.Section>
             <S.Section>
               <h2 className='ir'>메뉴 후기와 매장 정보</h2>
-              {/* 사진 업로드 없이 게시글 등록할 경우 db에 photo key/value는 저장되지 않는다고 가정 */}
-              {images && (
+              {/* 파이어베이스 photo 필드 저장 형태에 따라 코드 수정 예정 */}
+              {typeof images === 'string' && (
+                <S.PhotoCarousel>
+                  <img src={images} alt='' />
+                </S.PhotoCarousel>
+              )}
+              {typeof images === 'object' && (
                 <S.PhotoCarousel>
                   <SimpleSlider images={images} />
                 </S.PhotoCarousel>

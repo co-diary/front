@@ -60,7 +60,7 @@ export const PhotoCarousel = styled.div`
     width: 35rem;
     height: 22rem;
     border-radius: 1rem;
-    object-fit: fill;
+    object-fit: cover;
   }
 `;
 
