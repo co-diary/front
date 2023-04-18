@@ -70,7 +70,7 @@ function MyPage() {
           <S.Deactivate>탈퇴하기</S.Deactivate>
         </S.BoxTwo>
       </S.Container>
-      <NavBar page='myPage' />
+      <NavBar />
       <Portal>
         {isModalOpen ? (
           <ConfirmModal

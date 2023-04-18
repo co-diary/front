@@ -92,7 +92,7 @@ function Home() {
           <RecentPosts />
         </section>
       </S.Container>
-      <NavBar page='home' />
+      <NavBar />
     </>
   );
 }
