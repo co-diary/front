@@ -157,6 +157,30 @@ function PostForm() {
     textareaRef.current.style.height = `${scrollHeight}px`;
   }, [review]);
 
+  // 위치 관련
+  const handleCurrentLocation = useCallback(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setPlace((prev) => ({
+            ...prev,
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          }));
+          setMapModal({ ...mapModal, visible: false });
+        },
+        (err) => {
+          alert('현재 위치를 표시할 수 없습니다.');
+        },
+      );
+    } else {
+      alert('현재 위치를 표시할 수 없습니다.');
+    }
+  }, []);
+
+  console.log(place);
+
+  // 버튼 유효성 검사
   const handleValidCheck = useCallback((e) => {
     if (e.target.value === '') {
       setMenuNameValid(false);
@@ -306,7 +330,7 @@ function PostForm() {
             IconAlt='아이콘Alt'
             onClickIcon={onClickIcon}
             place={place}
-            setPlace={setPlace}
+            handleCurrentLocation={handleCurrentLocation}
           />
         </BottomSheet>
       </Portal>

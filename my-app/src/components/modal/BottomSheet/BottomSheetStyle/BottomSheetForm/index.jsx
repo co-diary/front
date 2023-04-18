@@ -5,7 +5,7 @@ import LocationSearch from '../../../../post/LocationSearch';
 
 import * as S from './style';
 
-function BottomSheetForm({ title, Icon, IconAlt, onClickIcon, place, setPlace }) {
+function BottomSheetForm({ title, Icon, IconAlt, onClickIcon, place, handleCurrentLocation }) {
   const [keyword, setKeyword] = useState('');
   const [focus, setFocus] = useState(false);
 
@@ -43,7 +43,7 @@ function BottomSheetForm({ title, Icon, IconAlt, onClickIcon, place, setPlace })
           />
           <Button text='검색' size='sm' />
         </S.SearchFormContainer>
-        <S.MyLocation>현재 위치</S.MyLocation>
+        <S.MyLocation onClick={handleCurrentLocation}>현재 위치</S.MyLocation>
         <S.SectionBorder />
 
         <LocationSearch />
