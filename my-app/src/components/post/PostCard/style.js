@@ -17,12 +17,17 @@ export const PostCover = styled.div`
 
   span {
     position: absolute;
-    top: 6rem;
+    top: 7rem;
     left: 0.5rem;
+    padding: 0 0.5rem;
     font-size: 1.3rem;
     line-height: 1.6rem;
     font-family: 'LINESeedKR-Bd';
     color: white;
+    text-shadow: -0.6px 0 #767676, 0 0.6px #767676, 0.6px 0 #767676, 0 -0.6px #767676;
+
+    border-radius: 1rem;
+
     transform: rotate(-90deg);
     transform-origin: top left;
   }

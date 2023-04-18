@@ -16,25 +16,15 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
   const [formattedDate, setFormattedDate] = useState();
 
   const formatDate = (dateFormatted) => {
-    const now = new Date();
-    const nowYear = now.getFullYear();
     const dateString = dateFormatted.toISOString();
-    const slicedDate = dateString.slice(5, 10).replace('-', '.');
+    const slicedDate = dateString.slice(2, 10).replaceAll('-', '.');
 
-    if (dateFormatted.getFullYear() === nowYear) {
-      setFormattedDate(slicedDate);
-    } else {
-      const anotherYearDate = dateString.slice(2, 10).replaceAll('-', '.');
-
-      setFormattedDate(anotherYearDate);
-      console.log(formattedDate);
-    }
+    setFormattedDate(slicedDate);
   };
 
   useEffect(() => {
     const dateFormatted = date.toDate();
 
-    console.log('년도', dateFormatted.getFullYear());
     formatDate(dateFormatted);
   }, []);
 
