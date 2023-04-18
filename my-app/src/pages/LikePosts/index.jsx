@@ -8,7 +8,7 @@ function LikePosts() {
     <>
       <Header title='좋아요' />
       <S.Container>카드 컴포넌트</S.Container>
-      <NavBar page='liked' />
+      <NavBar />
     </>
   );
 }
