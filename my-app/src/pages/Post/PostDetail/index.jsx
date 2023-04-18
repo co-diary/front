@@ -50,6 +50,7 @@ function PostDetail() {
   const categoryPostArr = location.state;
 
   console.log('post', post);
+  console.log('userPostList', userPostList);
 
   useEffect(() => {
     addLikedListener();
@@ -73,11 +74,18 @@ function PostDetail() {
 
     if (postIndex === 0) {
       setPrevBtnDisabled(true);
+      setNextBtnDisabled(false);
     } else if (postIndex === postArr.length - 1) {
       setNextBtnDisabled(true);
+      setPrevBtnDisabled(false);
     } else {
       setPrevBtnDisabled(false);
       setNextBtnDisabled(false);
+    }
+
+    if (postIndex === 0 && postArr.length === 1) {
+      setPrevBtnDisabled(true);
+      setNextBtnDisabled(true);
     }
 
     setCurrentPostIndex(postIndex);

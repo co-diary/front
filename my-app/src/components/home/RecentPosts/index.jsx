@@ -29,6 +29,7 @@ function RecentPosts() {
             score={post.score}
             shop={post.shop}
             tags={post.tag}
+            postList={recentPosts}
           />
         ))}
       </S.Cards>
