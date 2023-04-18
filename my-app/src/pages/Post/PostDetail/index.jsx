@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from 'react-router';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { updateDoc, doc, deleteField, onSnapshot, deleteDoc } from 'firebase/firestore';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import { v4 as uuidv4 } from 'uuid';
 import { db } from '../../../firebase';
 import Header from '../../../components/common/Header';
 import * as S from './style';
@@ -159,6 +160,10 @@ function PostDetail() {
     navigate(`/post/${userPostList[currentPostIndex + 1]}`);
   };
 
+  const handleTag = (tag) => {
+    navigate('/hashtag/keyword', { state: { data: tag } });
+  };
+
   return (
     <>
       {post && (
@@ -191,13 +196,13 @@ function PostDetail() {
               <S.StarRatingContainer>
                 {scoreIndexs.map((index) =>
                   post.score > index ? (
-                    <img src={IconStarOn} alt='별점' key={index} />
+                    <img src={IconStarOn} alt='별점' key={uuidv4()} />
                   ) : (
                     <img
                       src={IconStarOff}
                       alt='체크되지 않은 별점'
                       aria-hidden='true'
-                      key={index}
+                      key={uuidv4()}
                     />
                   ),
                 )}
@@ -264,7 +269,7 @@ function PostDetail() {
                   <S.ListTitle>태그</S.ListTitle>
                   {hashtag &&
                     hashtag.map((tag, index) => (
-                      <S.TagLink key={index} to={`/hashtag/${tag}`}>
+                      <S.TagLink key={uuidv4()} onClick={() => handleTag(tag)}>
                         #{tag}
                       </S.TagLink>
                     ))}
