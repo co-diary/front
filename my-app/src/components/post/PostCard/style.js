@@ -14,11 +14,12 @@ export const PostCardBox = styled.li`
 export const PostCover = styled.div`
   flex-basis: 13.6rem;
   flex-shrink: 0;
+  position: relative; /* 추가 */
 
   span {
     position: absolute;
-    top: 7rem;
-    left: 0.5rem;
+    top: 2.7rem; /* 수정 */
+    left: -3.5rem; /* 수정 */
     padding: 0 0.5rem;
     font-size: 1.3rem;
     line-height: 1.6rem;
@@ -28,8 +29,7 @@ export const PostCover = styled.div`
 
     border-radius: 1rem;
 
-    transform: rotate(-90deg);
-    transform-origin: top left;
+    transform: rotate(-90deg) translateY(100%); /* 수정 */
   }
 
   img {
