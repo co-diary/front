@@ -4,7 +4,11 @@ import * as S from './style';
 
 function NavItem({ to, label, icon, iconActive }) {
   const location = useLocation();
-  const isActive = location.pathname === to;
+  let isActive = location.pathname === to;
+
+  if (to === '/home') {
+    isActive = location.pathname === to || location.pathname === '/post';
+  }
 
   return (
     <S.NavItemContainer iconActive={iconActive}>
