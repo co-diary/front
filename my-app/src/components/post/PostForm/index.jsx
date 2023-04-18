@@ -54,6 +54,7 @@ function PostForm() {
 
   const [mapModal, setMapModal] = useRecoilState(modalState);
   const [place, setPlace] = useRecoilState(placeState);
+  const [isLocationCheck, setIsLocationCheck] = useState(false);
 
   const textareaRef = useRef();
   const [review, setReview] = useRecoilState(reviewState);
@@ -160,6 +161,7 @@ function PostForm() {
 
   // 위치 관련
   const handleCurrentLocation = useCallback(() => {
+    setIsLocationCheck((prev) => !prev);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -169,6 +171,7 @@ function PostForm() {
             lng: position.coords.longitude,
           }));
           getAddr(position.coords.latitude, position.coords.longitude);
+          setIsLocationCheck((prev) => !prev);
           setMapModal({ ...mapModal, visible: false });
         },
         (err) => {
@@ -368,8 +371,9 @@ function PostForm() {
             Icon={IconBack}
             IconAlt='아이콘Alt'
             onClickIcon={onClickIcon}
-            place={place}
             handleCurrentLocation={handleCurrentLocation}
+            currentAddress={place.address === '' ? '현재위치가 없습니다.' : place.address}
+            isLocationCheck={isLocationCheck}
           />
         </BottomSheet>
       </Portal>
