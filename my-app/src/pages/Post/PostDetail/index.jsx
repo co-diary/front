@@ -1,17 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import {
-  updateDoc,
-  doc,
-  deleteField,
-  onSnapshot,
-  query,
-  collection,
-  where,
-  getDocs,
-  deleteDoc,
-} from 'firebase/firestore';
+import { updateDoc, doc, deleteField, onSnapshot, deleteDoc } from 'firebase/firestore';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { db } from '../../../firebase';
 import Header from '../../../components/common/Header';
@@ -54,23 +44,26 @@ function PostDetail() {
   const [prevBtnDisabled, setPrevBtnDisabled] = useState(false);
   const [nexBtnDisabled, setNextBtnDisabled] = useState(false);
   // 이전/다음 게시글
-  const [userPost, setUserPost] = useState([]);
+  const [userPostList, setUserPostList] = useState([]);
   const [currentPostIndex, setCurrentPostIndex] = useState();
   const location = useLocation();
-  const locationState = location.state;
+  const categoryPostArr = location.state;
 
-  console.log('locationState', locationState);
+  useEffect(() => {
+    addLikedListener();
+    getUserPost();
+  }, [id]);
 
   const getUserPost = async () => {
-    const postArr = [];
-    const q = query(collection(db, 'post'), where('uid', '==', user.uid));
-    const querySnapshot = await getDocs(q);
+    if (categoryPostArr) {
+      const postArr = [];
 
-    querySnapshot.forEach((value) => {
-      postArr.push(value.data().postId);
-    });
-    setUserPost(postArr);
-    findIndex(postArr);
+      categoryPostArr.forEach((v) => postArr.push(v.key));
+      setUserPostList(postArr);
+      findIndex(postArr);
+    } else {
+      findIndex(userPostList);
+    }
   };
 
   const findIndex = (postArr) => {
@@ -87,14 +80,6 @@ function PostDetail() {
 
     setCurrentPostIndex(postIndex);
   };
-
-  useEffect(() => {
-    addLikedListener();
-
-    if (user) {
-      getUserPost();
-    }
-  }, [user, id]);
 
   const addLikedListener = () => {
     onSnapshot(postRef, (state) => {
@@ -155,11 +140,11 @@ function PostDetail() {
   };
 
   const handlePrevBtn = () => {
-    navigate(`/post/${userPost[currentPostIndex - 1]}`);
+    navigate(`/post/${userPostList[currentPostIndex - 1]}`);
   };
 
   const handleNextBtn = () => {
-    navigate(`/post/${userPost[currentPostIndex + 1]}`);
+    navigate(`/post/${userPostList[currentPostIndex + 1]}`);
   };
 
   return (
