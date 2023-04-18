@@ -136,7 +136,9 @@ function PostDetail() {
   };
 
   const handleLocationMap = () => {
-    console.log('map 페이지로 이동');
+    navigate('/location', {
+      state: post?.address.latLng,
+    });
   };
 
   const handlePrevBtn = () => {
