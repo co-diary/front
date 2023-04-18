@@ -45,16 +45,24 @@ export const SearchFormContainer = styled.div`
   padding: 0 2rem;
 `;
 
-export const MyLocation = styled.button`
-  position: relative;
+export const LocationBtnBox = styled.div`
   display: flex;
-  align-items: center;
   height: 6rem;
   width: 100%;
   margin-top: 1rem;
+  align-items: center;
+  justify-content: space-between;
   padding: 2rem 2rem 2rem 4rem;
   font-size: 1.4rem;
   text-align: left;
+
+  span {
+    color: ${Theme.MAIN_GRAY};
+  }
+`;
+
+export const MyLocation = styled.button`
+  display: flex;
 
   &:hover,
   &:active {

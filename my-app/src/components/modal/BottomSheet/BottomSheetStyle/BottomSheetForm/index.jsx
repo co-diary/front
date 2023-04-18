@@ -43,7 +43,10 @@ function BottomSheetForm({ title, Icon, IconAlt, onClickIcon, place, handleCurre
           />
           <Button text='검색' size='sm' />
         </S.SearchFormContainer>
-        <S.MyLocation onClick={handleCurrentLocation}>현재 위치</S.MyLocation>
+        <S.LocationBtnBox>
+          <S.MyLocation onClick={handleCurrentLocation}>현재 위치</S.MyLocation>
+          <span>서울시 커피구 디저트동 00아파트</span>
+        </S.LocationBtnBox>
         <S.SectionBorder />
 
         <LocationSearch />
