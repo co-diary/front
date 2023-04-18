@@ -21,7 +21,7 @@ const categoryContentsAll = [
 ];
 
 function Post() {
-  const options = ['최신순', '별점순'];
+  const options = ['최신순', '별점순', '방문순'];
 
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [postList, setPostList] = useState([]);
@@ -83,6 +83,8 @@ function Post() {
         return [...posts].sort((a, b) => b.createAt.toDate() - a.createAt.toDate());
       } else if (selectedOption === '별점순') {
         return [...posts].sort((a, b) => b.score - a.score);
+      } else if (selectedOption === '방문순') {
+        return [...posts].sort((a, b) => b.date.toDate() - a.date.toDate());
       } else {
         return posts;
       }
@@ -98,13 +100,17 @@ function Post() {
     }
 
     if (option === '최신순') {
-      console.log('최신순실행');
+      console.log('최신순');
       const sortedPost = [...postList].sort((a, b) => b.createAt.toDate() - a.createAt.toDate());
 
       setPostList(sortedPost);
     } else if (option === '별점순') {
       console.log('별점순실행');
       const sortedPost = [...postList].sort((a, b) => b.score - a.score);
+
+      setPostList(sortedPost);
+    } else if (option === '방문순') {
+      const sortedPost = [...postList].sort((a, b) => b.date.toDate() - a.date.toDate());
 
       setPostList(sortedPost);
     }
