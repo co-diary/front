@@ -14,18 +14,22 @@ export const PostCardBox = styled.li`
 export const PostCover = styled.div`
   flex-basis: 13.6rem;
   flex-shrink: 0;
+  position: relative; /* 추가 */
 
   span {
     position: absolute;
-    top: 1rem;
-    left: 1.2rem;
-    padding: 0.3rem 1rem;
-    font-size: 1.2rem;
+    top: 2.7rem; /* 수정 */
+    left: -3.5rem; /* 수정 */
+    padding: 0 0.5rem;
+    font-size: 1.3rem;
     line-height: 1.6rem;
     font-family: 'LINESeedKR-Bd';
     color: white;
-    background-color: black;
-    border-radius: 3rem;
+    text-shadow: -0.6px 0 #767676, 0 0.6px #767676, 0.6px 0 #767676, 0 -0.6px #767676;
+
+    border-radius: 1rem;
+
+    transform: rotate(-90deg) translateY(100%); /* 수정 */
   }
 
   img {
