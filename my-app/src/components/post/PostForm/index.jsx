@@ -296,7 +296,13 @@ function PostForm() {
             <S.Input
               type='text'
               placeholder='상호명을 입력해주세요.'
-              defaultValue={place.store}
+              value={place.store}
+              onChange={(e) =>
+                setPlace((prev) => ({
+                  ...prev,
+                  store: e.target.value,
+                }))
+              }
               id='storeName'
             />
             <S.LocationBtn type='button' onClick={() => onClickIcon()}></S.LocationBtn>
@@ -306,7 +312,15 @@ function PostForm() {
             <S.Input
               type='text'
               placeholder='매장의 위치를 입력해주세요.'
-              defaultValue={place.address}
+              value={place.address}
+              onChange={(e) =>
+                setPlace((prev) => ({
+                  ...prev,
+                  address: e.target.value,
+                  lat: 0,
+                  lng: 0,
+                }))
+              }
               className='location'
               id='storeLocation'
             />
