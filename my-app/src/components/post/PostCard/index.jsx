@@ -1,6 +1,7 @@
 import React from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from 'react-router';
 import * as S from './style';
 
 import { db } from '../../../firebase';
@@ -10,9 +11,10 @@ import IconStarOn from '../../../assets/Icon-star-on.png';
 import IconStarOff from '../../../assets/Icon-star-off.png';
 import useToggle from '../../../hooks/useToggle';
 
-function PostCard({ id, date, like, location, menu, photo, review, score, shop, tags }) {
+function PostCard({ id, date, like, location, menu, photo, review, score, shop, tags, postList }) {
   const slicedDate = date.toDate().toISOString().slice(5, 10).replace('-', '.');
   const scoreIndexs = [0, 1, 2, 3, 4];
+  const navigate = useNavigate();
 
   const [liked, setLiked] = useToggle(like);
 
@@ -28,8 +30,14 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
     updatePost(postId, !liked);
   };
 
+  const handleClickCard = () => {
+    navigate(`/post/${id}`, {
+      state: postList,
+    });
+  };
+
   return (
-    <S.PostCardBox>
+    <S.PostCardBox onClick={handleClickCard}>
       <S.PostCover>
         <span>{slicedDate}</span>
         {photo && <img src={photo} alt='메뉴 썸네일 사진' />}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   updateDoc,
@@ -56,6 +56,10 @@ function PostDetail() {
   // 이전/다음 게시글
   const [userPost, setUserPost] = useState([]);
   const [currentPostIndex, setCurrentPostIndex] = useState();
+  const location = useLocation();
+  const locationState = location.state;
+
+  console.log('locationState', locationState);
 
   const getUserPost = async () => {
     const postArr = [];
