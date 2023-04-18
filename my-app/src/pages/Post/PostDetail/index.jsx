@@ -10,6 +10,7 @@ import {
   collection,
   where,
   getDocs,
+  deleteDoc,
 } from 'firebase/firestore';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { db } from '../../../firebase';
@@ -132,7 +133,6 @@ function PostDetail() {
   };
 
   const onClickDelete = () => {
-    console.log('게시글 삭제 클릭하면 컨펌 모달 뜸');
     setIsConfirmModalOpen();
   };
 
@@ -140,8 +140,8 @@ function PostDetail() {
     setIsConfirmModalOpen();
   };
 
-  const rightOnclick = () => {
-    console.log('해당 게시글 삭제 기능 구현 후 컴펌 창 사라지고 이전 페이지로 이동');
+  const rightOnclick = async () => {
+    await deleteDoc(doc(db, 'post', id));
     setIsConfirmModalOpen();
     navigate(-1);
   };
