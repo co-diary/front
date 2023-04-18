@@ -14,6 +14,7 @@ import {
   starRatingState,
   reviewState,
 } from '../../../atom/postRecoil';
+import placeState from '../../../atom/mapRecoil';
 import modalState from '../../../atom/modalRecoil';
 import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
 import CategorySelectBox from '../CategorySelectBox';
@@ -51,6 +52,7 @@ function PostForm() {
   const [ratingValid, setRatingValid] = useState(false);
 
   const [mapModal, setMapModal] = useRecoilState(modalState);
+  const [place, setPlace] = useRecoilState(placeState);
 
   const textareaRef = useRef();
   const [review, setReview] = useRecoilState(reviewState);
@@ -303,6 +305,8 @@ function PostForm() {
             Icon={IconBack}
             IconAlt='아이콘Alt'
             onClickIcon={onClickIcon}
+            place={place}
+            setPlace={setPlace}
           />
         </BottomSheet>
       </Portal>

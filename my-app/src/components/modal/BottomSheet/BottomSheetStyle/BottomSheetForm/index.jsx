@@ -5,7 +5,7 @@ import LocationSearch from '../../../../post/LocationSearch';
 
 import * as S from './style';
 
-function BottomSheetForm({ title, Icon, IconAlt, onClickIcon }) {
+function BottomSheetForm({ title, Icon, IconAlt, onClickIcon, place, setPlace }) {
   const [keyword, setKeyword] = useState('');
   const [focus, setFocus] = useState(false);
 
