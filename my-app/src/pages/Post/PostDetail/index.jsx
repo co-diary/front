@@ -128,9 +128,7 @@ function PostDetail() {
   };
 
   const onClickEdit = () => {
-    // 각 게시글의 수정페이지로 이동되도록 추후 수정해야 함
-    console.log('게시글 수정 클릭하면 해당 게시글 수정 페이지로 이동');
-    navigate('/post/edit');
+    navigate(`/post/${id}/edit`);
   };
 
   const onClickDelete = () => {
