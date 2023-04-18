@@ -49,6 +49,8 @@ function PostDetail() {
   const location = useLocation();
   const categoryPostArr = location.state;
 
+  console.log('post', post);
+
   useEffect(() => {
     addLikedListener();
     getUserPost();
@@ -195,8 +197,13 @@ function PostDetail() {
             </S.Section>
             <S.Section>
               <h2 className='ir'>메뉴 후기와 매장 정보</h2>
-              {/* 사진 업로드 없이 게시글 등록할 경우 db에 photo key/value는 저장되지 않는다고 가정 */}
-              {images && (
+              {/* 파이어베이스 photo 필드 저장 형태에 따라 코드 수정 예정 */}
+              {typeof images === 'string' && (
+                <S.PhotoCarousel>
+                  <img src={images} alt='' />
+                </S.PhotoCarousel>
+              )}
+              {typeof images === 'object' && (
                 <S.PhotoCarousel>
                   <SimpleSlider images={images} />
                 </S.PhotoCarousel>
