@@ -29,6 +29,7 @@ import BottomSheet from '../../../components/modal/BottomSheet';
 import * as S from './style';
 
 function PostForm() {
+  const { kakao } = window;
   const [isShowOptionCategory, setIsShowOptionCategory, categoryRef, handleDisplayCategory] =
     useOutsideDetect(false);
   const [isShowOptionTheme, setIsShowOptionTheme, themeRef, handleDisplayTheme] =
@@ -167,6 +168,7 @@ function PostForm() {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           }));
+          getAddr(position.coords.latitude, position.coords.longitude);
           setMapModal({ ...mapModal, visible: false });
         },
         (err) => {
@@ -179,6 +181,23 @@ function PostForm() {
   }, []);
 
   console.log(place);
+
+  // 좌표 -> 주소
+  const getAddr = (lat, lng) => {
+    const geocoder = new kakao.maps.services.Geocoder(); // 좌표 -> 주소로 변환해주는 객체 생성
+    const coord = new kakao.maps.LatLng(lat, lng); // 주소로 변환할 좌표 입력
+
+    const callback = function (result, status) {
+      if (status === kakao.maps.services.Status.OK) {
+        setPlace((prev) => ({
+          ...prev,
+          address: result[0].address.address_name,
+        }));
+      }
+    };
+
+    geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+  };
 
   // 버튼 유효성 검사
   const handleValidCheck = useCallback((e) => {
