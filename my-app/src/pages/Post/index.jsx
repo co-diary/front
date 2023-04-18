@@ -40,7 +40,7 @@ function Post() {
       getPost('theme', ThemeTitle).then((data) => {
         const postData = data;
         const sortedByRecent = [...postData].sort(
-          (a, b) => b.date.nanoseconds - a.date.nanoseconds,
+          (a, b) => b.createAt.toDate() - a.createAt.toDate(),
         );
 
         setPostList(sortedByRecent);
@@ -80,7 +80,7 @@ function Post() {
     // selectedOption에 따라 정렬된 게시글 리스트를 반환하는 함수
     const sortPostListBySelectedOption = (posts) => {
       if (selectedOption === '최신순') {
-        return [...posts].sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
+        return [...posts].sort((a, b) => b.createAt.toDate() - a.createAt.toDate());
       } else if (selectedOption === '별점순') {
         return [...posts].sort((a, b) => b.score - a.score);
       } else {
@@ -99,7 +99,7 @@ function Post() {
 
     if (option === '최신순') {
       console.log('최신순실행');
-      const sortedPost = [...postList].sort((a, b) => b.date.nanoseconds - a.date.nanoseconds);
+      const sortedPost = [...postList].sort((a, b) => b.createAt.toDate() - a.createAt.toDate());
 
       setPostList(sortedPost);
     } else if (option === '별점순') {
@@ -114,6 +114,7 @@ function Post() {
 
   useEffect(() => {
     handleSelectedOption(selectedOption);
+    console.log(postList);
   }, [selectedOption]);
 
   const handleOptionSelected = (option) => {
