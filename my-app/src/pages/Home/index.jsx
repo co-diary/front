@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { onAuthStateChanged } from 'firebase/auth';
-import { authState } from '../../atom/authRecoil';
+import { UserIdState } from '../../atom/authRecoil';
 import { appAuth } from '../../firebase';
 
 import * as S from './style';
@@ -14,7 +14,7 @@ import getPost from '../../hooks/getPost';
 import RecentPosts from '../../components/home/RecentPosts';
 
 function Home() {
-  const [userState, setUserState] = useRecoilState(authState);
+  const userId = useRecoilValue(UserIdState);
   const [userName, setUserName] = useState('');
   const [postCount, setPostCount] = useState(0);
   const [drinkCount, setDrinkCount] = useState(0);
@@ -35,24 +35,25 @@ function Home() {
     },
   ];
 
-  console.log(userState);
+  console.log(typeof userId, userId);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(appAuth, (user) => {
-      setUserState(user);
       setUserName(user.displayName);
     });
 
     return unsubscribe;
-  }, [setUserState]);
+  }, []);
 
   useEffect(() => {
-    getPost('ALL').then((data) => {
+    getPost(userId, 'ALL').then((data) => {
+      console.log(data);
+
       setPostCount(data.length);
       setDrinkCount(data.filter((v) => v.theme === '음료').length);
       setDessertCount(data.filter((v) => v.theme === '디저트').length);
     });
-  }, []);
+  }, [userId]);
 
   return (
     <>
@@ -89,7 +90,7 @@ function Home() {
           </S.CategoryCards>
         </section>
         <section>
-          <RecentPosts />
+          <RecentPosts userId={userId} />
         </section>
       </S.Container>
       <NavBar />

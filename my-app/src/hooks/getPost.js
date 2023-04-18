@@ -8,25 +8,15 @@ async function getPost(userId, queryOption, target, option) {
   const getData = (postSnapshot) => {
     postSnapshot.forEach((doc) => {
       console.log(doc.id, '=>', doc.data());
-      let data = doc.data();
-
-      data = { ...data, ...{ key: doc.id } };
-
-      postList.push(data);
+      postList.push({ ...doc.data(), key: doc.id });
     });
   };
 
-  // uid 값의 유효성 검사
-  if (!userId || typeof userId !== 'string') {
-    console.log(userId, '유효성 검사에 걸려버림');
-    return postList;
-  }
-
-  // where() 함수를 사용하여 uid 필드와 일치하는 문서를 검색
+  // 함수를 사용하여 uid 필드와 일치하는 문서를 검색
   const queryWithUid = query(q, where('uid', '==', userId));
 
   if (queryOption === 'ALL') {
-    const postSnapshot = await getDocs(queryWithUid);
+    const postSnapshot = await getDocs(query(queryWithUid));
 
     getData(postSnapshot);
   } else if (queryOption === 'ORDER_BY') {
