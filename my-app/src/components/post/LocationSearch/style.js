@@ -10,6 +10,18 @@ export const SectionTitle = styled.div`
   padding-left: 2rem;
 `;
 
+export const ResultBox = styled.div`
+  max-height: calc(83vh - 16rem);
+  overflow-y: scroll;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
 export const Results = styled.ul`
   display: flex;
   flex-direction: column;
@@ -17,7 +29,6 @@ export const Results = styled.ul`
   margin-top: 1rem;
 
   max-height: calc(83vh - 9.6rem);
-  overflow-y: auto;
 
   &::-webkit-scrollbar {
     display: none;
@@ -35,6 +46,10 @@ export const Result = styled.li`
   cursor: pointer;
 
   transition: 0.2s ease-out all;
+
+  &:nth-last-child(1) {
+    border: 1px solid ${Theme.WHITE};
+  }
 
   &:hover {
     border-bottom: 1px solid ${Theme.MAIN_GRAY};
