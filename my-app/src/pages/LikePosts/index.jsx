@@ -14,6 +14,7 @@ function LikePosts() {
   const user = useRecoilValue(authState);
   const likedRef = collection(db, 'liked');
   const [likedPostList, setLikedPostList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (user) {
@@ -34,40 +35,44 @@ function LikePosts() {
 
       setLikedPostList(listArr);
     });
-  };
 
-  console.log('likedPostList', likedPostList);
+    setIsLoading(false);
+  };
 
   return (
     <>
       <Header title='좋아요' />
-      <S.Container>
-        <header>
-          <h1 className='ir'>좋아요 게시글 페이지</h1>
-        </header>
-        <S.LikedPostContainer>
-          {likedPostList.length > 0 ? (
-            likedPostList.map((post) => (
-              <PostCard
-                key={uuidv4()}
-                id={post.key}
-                date={post.createAt}
-                like={post.like}
-                location={post.address.location}
-                menu={post.menu}
-                photo={post.photo}
-                review={post.review}
-                score={post.score}
-                shop={post.shop}
-                tags={post.tag}
-                postList={likedPostList}
-              />
-            ))
-          ) : (
-            <DefaultLikePosts />
-          )}
-        </S.LikedPostContainer>
-      </S.Container>
+      {isLoading ? (
+        <p style={{ marginTop: '5.2rem' }}>로딩중...임시</p>
+      ) : (
+        <S.Container>
+          <header>
+            <h1 className='ir'>좋아요 게시글 페이지</h1>
+          </header>
+          <S.LikedPostContainer>
+            {likedPostList.length > 0 ? (
+              likedPostList.map((post) => (
+                <PostCard
+                  key={uuidv4()}
+                  id={post.key}
+                  date={post.createAt}
+                  like={post.like}
+                  location={post.address.location}
+                  menu={post.menu}
+                  photo={post.photo}
+                  review={post.review}
+                  score={post.score}
+                  shop={post.shop}
+                  tags={post.tag}
+                  postList={likedPostList}
+                />
+              ))
+            ) : (
+              <DefaultLikePosts />
+            )}
+          </S.LikedPostContainer>
+        </S.Container>
+      )}
       <NavBar />
     </>
   );
