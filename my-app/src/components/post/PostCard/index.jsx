@@ -123,7 +123,7 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
           leftBtnMsg='취소'
           rightBtnMsg='삭제'
           onClickClose={confirmModalClose}
-          rightOnclick={() => console.log('삭제 클릭')}
+          rightOnclick={() => updatePost(id, !liked)}
           leftOnclick={confirmModalClose}
         />
       </Portal>
