@@ -8,6 +8,7 @@ import * as S from './style';
 import { authState } from '../../atom/authRecoil';
 import { db } from '../../firebase';
 import PostCard from '../../components/post/PostCard';
+import DefaultLikePosts from './DefaultLikePosts';
 
 function LikePosts() {
   const user = useRecoilValue(authState);
@@ -45,7 +46,7 @@ function LikePosts() {
           <h1 className='ir'>좋아요 게시글 페이지</h1>
         </header>
         <S.LikedPostContainer>
-          {likedPostList &&
+          {likedPostList.length > 0 ? (
             likedPostList.map((post) => (
               <PostCard
                 key={uuidv4()}
@@ -61,7 +62,10 @@ function LikePosts() {
                 tags={post.tag}
                 postList={likedPostList}
               />
-            ))}
+            ))
+          ) : (
+            <DefaultLikePosts />
+          )}
         </S.LikedPostContainer>
       </S.Container>
       <NavBar />
