@@ -28,75 +28,57 @@ function Post() {
 
   const [selectedOption, setSelectedOption] = useState('최신순');
 
-  const [btnStyle, setBtnStyle] = useState('전체');
+  const [selectedCategory, setSelectedCategory] = useState('전체');
   const [sortedPostList, setSortedPostList] = useState([]);
 
   const location = useLocation();
   const navigate = useNavigate();
   const ThemeTitle = location.state;
 
-  const { isLoading, isError, data: postList } = usePost(userId, 'theme', ThemeTitle);
-
-  console.log(postList);
+  const { isLoading, isError, data: posts } = usePost(userId, 'theme', ThemeTitle);
 
   const categoryContents = categoryContentsAll.filter((v) => v.Theme === ThemeTitle)[0];
+
+  const sortPostsByOption = (post, option) => {
+    const sortedPost = [...post];
+
+    if (option === '최신순') {
+      sortedPost.sort((a, b) => b.createAt.toDate() - a.createAt.toDate());
+    } else if (option === '별점순') {
+      sortedPost.sort((a, b) => b.score - a.score);
+    } else if (option === '방문순') {
+      sortedPost.sort((a, b) => b.date.toDate() - a.date.toDate());
+    }
+    return sortedPost;
+  };
+
+  const filterPostsByCategory = (post, category) =>
+    category === '전체' ? post : post.filter((doc) => doc.category === category);
 
   const handleSelectedOption = useCallback(
     (option) => {
       if (option === selectedOption) {
         return;
       }
-      console.log(postList);
-      const sortedPost = [...postList];
-
-      if (option === '최신순') {
-        console.log(sortedPost);
-        console.log('최신순');
-        sortedPost.sort((a, b) => b.createAt.toDate() - a.createAt.toDate());
-      } else if (option === '별점순') {
-        console.log('별점순실행');
-        sortedPost.sort((a, b) => b.score - a.score);
-      } else if (option === '방문순') {
-        sortedPost.sort((a, b) => b.date.toDate() - a.date.toDate());
-      }
-      setSortedPostList(sortedPost);
       setSelectedOption(option);
+      const sortedPost = sortPostsByOption(posts, option);
+      const filteredPost = filterPostsByCategory(sortedPost, selectedCategory);
+
+      setSortedPostList(filteredPost);
     },
-    [postList, selectedOption],
+    [posts, selectedOption, selectedCategory],
   );
 
   useEffect(() => {
-    if (postList && postList.length > 0) {
-      const sortedPost = [...postList];
+    if (posts && posts.length > 0) {
+      const sortedPost = [...posts];
 
       sortedPost.sort((a, b) => b.createAt.toDate() - a.createAt.toDate());
       setSortedPostList(sortedPost);
     }
-  }, [postList]);
+  }, [posts]);
 
-  // useEffect(() => {
-  //   // 마운트되었을 때 최신순으로 정렬된 게시글 목록을 보여줌
-  //   if (postList) {
-  //     const sortedPost = [...postList];
-
-  //     sortedPost.sort((a, b) => b.createAt.toDate() - a.createAt.toDate());
-  //     setSortedPostList(sortedPost);
-  //   }
-  // }, [postList]);
-
-  // useEffect(() => {
-  //   handleSelectedOption(selectedOption);
-  // }, [postList, selectedOption]);
-
-  // useEffect(() => {
-  //   handleSelectedOption('최신순');
-  // }, []);
-
-  console.log('리액트쿼리에서', postList, ThemeTitle);
-
-  // useEffect(() => {
-  //   handleSelectedOption('최신순');
-  // }, []); // 페이지가 처음 마운트될 때 실행되도록 추가한 useEffect
+  console.log('리액트쿼리에서', posts, ThemeTitle);
 
   if (isLoading) {
     return <div>🌀 Loading 🌀 </div>;
@@ -107,16 +89,20 @@ function Post() {
   }
 
   const onClickCategory = (categoryName) => {
-    setBtnStyle(categoryName);
+    setSelectedCategory(categoryName);
 
-    handleSelectedOption(selectedOption);
+    const sortedPost = sortPostsByOption(
+      filterPostsByCategory(posts, categoryName),
+      selectedOption,
+    );
+
+    setSortedPostList(sortedPost);
   };
 
   const handleOptionSelected = (option) => {
     handleSelectedOption(option);
 
     setSelectedOption(option);
-    console.log(option);
   };
 
   return (
@@ -135,7 +121,7 @@ function Post() {
           <S.CategoryContainer>
             {categoryContents.categories.map((content) => (
               <li onClick={() => onClickCategory(`${content}`)} key={uuidv4()}>
-                <S.CategoryBtn isActive={content === btnStyle}>{content}</S.CategoryBtn>
+                <S.CategoryBtn isActive={content === selectedCategory}>{content}</S.CategoryBtn>
               </li>
             ))}
           </S.CategoryContainer>
