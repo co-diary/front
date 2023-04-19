@@ -7,7 +7,12 @@ function LikePosts() {
   return (
     <>
       <Header title='좋아요' />
-      <S.Container>카드 컴포넌트</S.Container>
+      <S.Container>
+        <header>
+          <h1 className='ir'>좋아요 게시글 페이지</h1>
+        </header>
+        <S.LikedPostContainer>좋아요 게시글</S.LikedPostContainer>
+      </S.Container>
       <NavBar />
     </>
   );
