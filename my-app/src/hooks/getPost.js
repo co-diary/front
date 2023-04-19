@@ -31,7 +31,7 @@ async function getPost(userId, queryOption, target, option) {
     getData(postSnapshot);
   }
 
-  console.log('postList', postList);
+  console.log('postList->', postList);
   return postList;
 }
 
