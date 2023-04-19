@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
+import { deleteDoc, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router';
 import * as S from './style';
@@ -35,6 +35,17 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
     const newField = { like: newLiked };
 
     await updateDoc(postDoc, newField);
+
+    if (newLiked) {
+      const postData = (await getDoc(postDoc)).data();
+
+      await setDoc(doc(db, 'liked', id), {
+        ...postData,
+        like: newLiked,
+      });
+    } else {
+      await deleteDoc(doc(db, 'liked', id));
+    }
   };
 
   const handleLikeButton = (e) => {
