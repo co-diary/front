@@ -14,23 +14,33 @@ function BottomSheetForm({
   currentAddress,
   isLocationCheck,
 }) {
+  const [inputKeyword, setInputKeyword] = useState('');
   const [keyword, setKeyword] = useState('');
-  const [focus, setFocus] = useState(false);
+  const [inputCheck, setInputCheck] = useState(false);
 
-  console.log(focus);
+  console.log('입력값:', inputKeyword, '전송값:', keyword);
 
   const onChange = (e) => {
     e.preventDefault();
-    setKeyword(e.target.value);
-  };
-
-  const handleFormBlur = () => {
-    setFocus(false);
+    setInputKeyword(e.target.value);
   };
 
   const handleClearBtn = (e) => {
-    setKeyword('');
+    setInputKeyword('');
   };
+
+  const valueChecker = (e) => {
+    e.preventDefault();
+    if (inputKeyword === '') {
+      setKeyword('');
+      setInputCheck(false);
+    } else {
+      setKeyword(inputKeyword);
+      setInputCheck(true);
+    }
+  };
+
+  console.log('키워드,체크', keyword, inputCheck);
 
   return (
     <>
@@ -44,12 +54,12 @@ function BottomSheetForm({
         <S.SearchFormContainer>
           <SearchForm
             onChange={onChange}
-            keyword={keyword}
-            setKeyword={setKeyword}
-            handleFormBlur={handleFormBlur}
+            keyword={inputKeyword}
+            setKeyword={setInputKeyword}
             handleClearBtn={handleClearBtn}
+            valueChecker={valueChecker}
           />
-          <Button text='검색' size='sm' />
+          <Button type='submit' onClick={valueChecker} text='검색' size='sm' />
         </S.SearchFormContainer>
         <S.LocationBtnBox>
           <S.MyLocation onClick={handleCurrentLocation} isLocationCheck={isLocationCheck}>
@@ -59,7 +69,7 @@ function BottomSheetForm({
         </S.LocationBtnBox>
         <S.SectionBorder />
 
-        <LocationSearch />
+        <LocationSearch searchKeyword={keyword} />
       </S.Main>
     </>
   );
