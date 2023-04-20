@@ -8,6 +8,7 @@ function SearchResultView({ postList }) {
       {postList.map((post) => (
         <PostCard
           key={post.key}
+          id={post.key}
           date={post.date}
           like={post.like}
           location={post.location}
@@ -17,6 +18,7 @@ function SearchResultView({ postList }) {
           score={post.score}
           shop={post.shop}
           tags={post.tag}
+          postList={postList}
         />
       ))}
     </Cards>
