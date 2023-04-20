@@ -28,10 +28,6 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
     setFormattedDate(slicedDate);
   };
 
-  console.log('pathname', pathname);
-  console.log('postList', postList);
-
-
   useEffect(() => {
     const dateFormatted = date.toDate();
 
