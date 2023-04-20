@@ -3,11 +3,12 @@ import getPost from '../../../hooks/getPost';
 import PostCard from '../../post/PostCard';
 import * as S from './style';
 
-function RecentPosts() {
+function RecentPosts({ userId }) {
+  console.log(userId);
   const [recentPosts, setRecentPosts] = useState([]);
 
   useEffect(() => {
-    getPost('ORDER_BY', 'createAt', 'desc').then((data) => {
+    getPost(userId, 'ORDER_BY', 'createAt', 'desc').then((data) => {
       setRecentPosts(data.slice(0, 3));
     });
   }, []);
