@@ -31,8 +31,7 @@ function BottomSheetForm({
 
   const submitKeyword = (e) => {
     e.preventDefault();
-    if (inputKeyword === '') {
-      setKeyword('');
+    if (inputKeyword.replace(/^\s+|\s+$/g, '') === '') {
       setIsInputNull(false);
     } else {
       setKeyword(inputKeyword);
@@ -69,7 +68,11 @@ function BottomSheetForm({
         </S.LocationBtnBox>
         <S.SectionBorder />
 
-        <LocationSearch searchKeyword={keyword} isInputNull={isInputNull} />
+        <LocationSearch
+          searchKeyword={keyword}
+          isInputNull={isInputNull}
+          inputKeyword={inputKeyword}
+        />
       </S.Main>
     </>
   );

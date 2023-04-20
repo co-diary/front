@@ -43,7 +43,7 @@ export const Result = styled.li`
   border-bottom: 1px solid #dbdbdb;
 
   line-height: 1.8rem;
-  cursor: pointer;
+  cursor: ${({ isListShow }) => isListShow && 'pointer'};
 
   transition: 0.2s ease-out all;
 
@@ -52,7 +52,7 @@ export const Result = styled.li`
   }
 
   &:hover {
-    border-bottom: 1px solid ${Theme.MAIN_GRAY};
+    border-bottom: ${({ isListShow }) => isListShow && `1px solid ${Theme.MAIN_GRAY}`};
   }
 `;
 
