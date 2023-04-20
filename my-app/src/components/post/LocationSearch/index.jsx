@@ -32,6 +32,7 @@ function LocationSearch({ searchKeyword, isInputNull }) {
               lng: data[i].x,
             },
             content: data[i].place_name,
+            address: data[i].road_address_name,
           });
           // @ts-ignore
           bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
