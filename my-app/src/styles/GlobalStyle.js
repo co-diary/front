@@ -28,6 +28,7 @@ ${reset}
 :root {
   font-size: 10px;
   font-family: LINESeedKR-Rg;
+  overflow-y: auto;
 }
 
 * {
