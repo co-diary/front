@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './style';
 
-function SearchForm({ keyword, setKeyword, onChange, children, valueChecker }) {
+function SearchForm({ keyword, setKeyword, onChange, children, submitKeyword }) {
   const [focus, setFocus] = useState(false);
 
   const handleFormBlur = () => {
@@ -33,7 +33,7 @@ function SearchForm({ keyword, setKeyword, onChange, children, valueChecker }) {
             setFocus(true);
           }}
           onBlur={() => handleFormBlur()}
-          onSubmit={valueChecker}
+          onSubmit={submitKeyword}
         >
           <S.InputContainer focus={focus} width={inputWidth}>
             <S.Input

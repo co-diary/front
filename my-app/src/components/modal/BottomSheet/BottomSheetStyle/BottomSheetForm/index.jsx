@@ -16,7 +16,6 @@ function BottomSheetForm({
 }) {
   const [inputKeyword, setInputKeyword] = useState('');
   const [keyword, setKeyword] = useState('');
-  const [inputCheck, setInputCheck] = useState(false);
 
   console.log('입력값:', inputKeyword, '전송값:', keyword);
 
@@ -29,18 +28,16 @@ function BottomSheetForm({
     setInputKeyword('');
   };
 
-  const valueChecker = (e) => {
+  const submitKeyword = (e) => {
     e.preventDefault();
     if (inputKeyword === '') {
       setKeyword('');
-      setInputCheck(false);
     } else {
       setKeyword(inputKeyword);
-      setInputCheck(true);
     }
   };
 
-  console.log('키워드,체크', keyword, inputCheck);
+  console.log('키워드,체크', keyword);
 
   return (
     <>
@@ -57,9 +54,9 @@ function BottomSheetForm({
             keyword={inputKeyword}
             setKeyword={setInputKeyword}
             handleClearBtn={handleClearBtn}
-            valueChecker={valueChecker}
+            submitKeyword={submitKeyword}
           />
-          <Button type='submit' onClick={valueChecker} text='검색' size='sm' />
+          <Button type='submit' onClick={submitKeyword} text='검색' size='sm' />
         </S.SearchFormContainer>
         <S.LocationBtnBox>
           <S.MyLocation onClick={handleCurrentLocation} isLocationCheck={isLocationCheck}>
