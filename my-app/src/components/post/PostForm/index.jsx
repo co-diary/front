@@ -194,7 +194,7 @@ function PostForm() {
       if (status === kakao.maps.services.Status.OK) {
         setPlace((prev) => ({
           ...prev,
-          address: result[0].address.address_name,
+          address: result[0].road_address.address_name,
         }));
       }
     };
