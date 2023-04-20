@@ -16,6 +16,7 @@ function BottomSheetForm({
 }) {
   const [inputKeyword, setInputKeyword] = useState('');
   const [keyword, setKeyword] = useState('');
+  const [isInputNull, setIsInputNull] = useState(false);
 
   console.log('입력값:', inputKeyword, '전송값:', keyword);
 
@@ -32,8 +33,10 @@ function BottomSheetForm({
     e.preventDefault();
     if (inputKeyword === '') {
       setKeyword('');
+      setIsInputNull(false);
     } else {
       setKeyword(inputKeyword);
+      setIsInputNull(true);
     }
   };
 
@@ -66,7 +69,7 @@ function BottomSheetForm({
         </S.LocationBtnBox>
         <S.SectionBorder />
 
-        <LocationSearch searchKeyword={keyword} />
+        <LocationSearch searchKeyword={keyword} isInputNull={isInputNull} />
       </S.Main>
     </>
   );
