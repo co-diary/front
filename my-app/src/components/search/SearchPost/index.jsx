@@ -13,6 +13,8 @@ function SearchPost() {
   const [keyword, setKeyword] = useState('');
   const [focus, setFocus] = useState(false);
 
+  console.log(focus);
+
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
