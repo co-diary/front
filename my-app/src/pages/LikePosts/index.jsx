@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
-import { v4 as uuidv4 } from 'uuid';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import * as S from './style';
@@ -13,8 +12,8 @@ import DefaultLikePosts from './DefaultLikePosts';
 function LikePosts() {
   const user = useRecoilValue(authState);
   const likedRef = collection(db, 'liked');
-  const [likedPostList, setLikedPostList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [likedPostList, setLikedPostList] = useState([]);
 
   useEffect(() => {
     if (user) {
@@ -34,16 +33,15 @@ function LikePosts() {
       listArr.sort((a, b) => b.createAt.seconds - a.createAt.seconds);
 
       setLikedPostList(listArr);
+      setIsLoading(false);
     });
-
-    setIsLoading(false);
   };
 
   return (
     <>
       <Header title='좋아요' />
       {isLoading ? (
-        <p style={{ marginTop: '5.2rem' }}>로딩중...임시</p>
+        <p style={{ marginTop: '5.2rem', fontSize: '1.8rem', color: 'blue' }}>로딩 중...임시</p>
       ) : (
         <S.Container>
           <header>
@@ -53,7 +51,7 @@ function LikePosts() {
             {likedPostList.length > 0 ? (
               likedPostList.map((post) => (
                 <PostCard
-                  key={uuidv4()}
+                  key={post.key}
                   id={post.key}
                   date={post.createAt}
                   like={post.like}
