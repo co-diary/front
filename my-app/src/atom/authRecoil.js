@@ -16,4 +16,9 @@ const isLoggedIn = atom({
   default: false,
 });
 
-export { authState, isAuthReady, isLoggedIn };
+const UserIdState = atom({
+  key: 'userId',
+  default: '',
+});
+
+export { authState, isAuthReady, isLoggedIn, UserIdState };

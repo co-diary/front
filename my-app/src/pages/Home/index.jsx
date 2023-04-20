@@ -1,24 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { onAuthStateChanged } from 'firebase/auth';
-import { authState } from '../../atom/authRecoil';
+import { UserIdState } from '../../atom/authRecoil';
 import { appAuth } from '../../firebase';
-
 import * as S from './style';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import DrinkIcon from '../../assets/Icon-beverage.png';
 import DessertIcon from '../../assets/Icon-dessert.png';
 import CategoryCard from '../../components/home/CategoryCard';
-import getPost from '../../hooks/getPost';
 import RecentPosts from '../../components/home/RecentPosts';
+import usePost from '../../hooks/usePost';
 
 function Home() {
-  const [userState, setUserState] = useRecoilState(authState);
+  const userId = useRecoilValue(UserIdState);
   const [userName, setUserName] = useState('');
-  const [postCount, setPostCount] = useState(0);
-  const [drinkCount, setDrinkCount] = useState(0);
-  const [dessertCount, setDessertCount] = useState(0);
+  const { isLoading, isError, data: posts } = usePost(userId, 'ALL');
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(appAuth, (user) => {
+      setUserName(user.displayName);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  if (isLoading) {
+    return <div>🌀 Loading 🌀 </div>;
+  }
+
+  if (isError) {
+    return <div>fetch data중 에러</div>;
+  }
+
+  const postCount = posts.length;
+  const drinkCount = posts.filter((v) => v.theme === '음료').length;
+  const dessertCount = posts.filter((v) => v.theme === '디저트').length;
 
   const cards = [
     {
@@ -34,25 +51,6 @@ function Home() {
       count: dessertCount,
     },
   ];
-
-  console.log(userState);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(appAuth, (user) => {
-      setUserState(user);
-      setUserName(user.displayName);
-    });
-
-    return unsubscribe;
-  }, [setUserState]);
-
-  useEffect(() => {
-    getPost('ALL').then((data) => {
-      setPostCount(data.length);
-      setDrinkCount(data.filter((v) => v.theme === '음료').length);
-      setDessertCount(data.filter((v) => v.theme === '디저트').length);
-    });
-  }, []);
 
   return (
     <>
@@ -89,7 +87,7 @@ function Home() {
           </S.CategoryCards>
         </section>
         <section>
-          <RecentPosts />
+          <RecentPosts userId={userId} />
         </section>
       </S.Container>
       <NavBar />

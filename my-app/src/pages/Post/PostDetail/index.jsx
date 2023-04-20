@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { updateDoc, doc, deleteField, onSnapshot, deleteDoc } from 'firebase/firestore';
+import { useRecoilState } from 'recoil';
+import { updateDoc, doc, onSnapshot, deleteDoc, setDoc } from 'firebase/firestore';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import { db } from '../../../firebase';
@@ -17,7 +17,6 @@ import IconHeartOff from '../../../assets/Icon-Heart-off.png';
 import IconHeartOn from '../../../assets/Icon-Heart-on.png';
 import IconMore from '../../../assets/Icon-More.png';
 import currentPost from '../../../atom/currentPostRecoil';
-import { authState } from '../../../atom/authRecoil';
 import SimpleSlider from '../../../components/post/SimpleSlider';
 import modalState from '../../../atom/modalRecoil';
 import Portal from '../../../components/modal/Portal';
@@ -27,7 +26,6 @@ import ConfirmModal from '../../../components/modal/ConfirmModal';
 import useToggle from '../../../hooks/useToggle';
 
 function PostDetail() {
-  const user = useRecoilValue(authState);
   const { id } = useParams();
   const postRef = doc(db, 'post', id);
   const [post, setPost] = useRecoilState(currentPost);
@@ -107,15 +105,14 @@ function PostDetail() {
       await updateDoc(postRef, {
         like: false,
       });
-      await updateDoc(doc(db, 'liked', user.uid), {
-        [id]: deleteField(),
-      });
+      await deleteDoc(doc(db, 'liked', id));
     } else {
       await updateDoc(postRef, {
         like: true,
       });
-      await updateDoc(doc(db, 'liked', user.uid), {
-        [id]: { ...post, like: true },
+      await setDoc(doc(db, 'liked', id), {
+        ...post,
+        like: true,
       });
     }
   };

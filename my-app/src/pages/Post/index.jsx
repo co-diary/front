@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useRecoilValue } from 'recoil';
 import { useLocation, useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
+import { UserIdState } from '../../atom/authRecoil';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import IconSearch from '../../assets/Icon-Search.png';
 import * as S from './style';
-import getPost from '../../hooks/getPost';
 import PostList from '../../components/post/PostList';
 import SelectBox from '../../components/post/PostList/SelectBox';
+import usePost from '../../hooks/usePost';
 
 const categoryContentsAll = [
   {
@@ -21,111 +23,86 @@ const categoryContentsAll = [
 ];
 
 function Post() {
+  const userId = useRecoilValue(UserIdState);
   const options = ['최신순', '별점순', '방문순'];
 
   const [selectedOption, setSelectedOption] = useState('최신순');
-  const [postList, setPostList] = useState([]);
-  const [btnStyle, setBtnStyle] = useState('');
+
+  const [selectedCategory, setSelectedCategory] = useState('전체');
+  const [sortedPostList, setSortedPostList] = useState([]);
 
   const location = useLocation();
   const navigate = useNavigate();
   const ThemeTitle = location.state;
 
+  const { isLoading, isError, data: posts } = usePost(userId, 'theme', ThemeTitle);
+
   const categoryContents = categoryContentsAll.filter((v) => v.Theme === ThemeTitle)[0];
 
-  const initialSet = useCallback(() => {
-    try {
-      console.log('마운트시 상태', selectedOption);
-      setBtnStyle('전체');
-      getPost('theme', ThemeTitle).then((data) => {
-        const postData = data;
-        const sortedByRecent = [...postData].sort(
-          (a, b) => b.createAt.toDate() - a.createAt.toDate(),
-        );
-
-        setPostList(sortedByRecent);
-      });
-    } catch (error) {
-      console.error('initialSet 함수에서 에러 발생');
-      // 리다이렉트
-      history.push('/home');
-    }
-  }, [selectedOption, ThemeTitle]);
-
-  useEffect(() => {
-    initialSet();
-  }, []);
-
-  useEffect(() => {
-    handleSelectedOption(selectedOption);
-  }, [postList, selectedOption]);
-
-  const onClickCategory = (categoryName) => {
-    setBtnStyle(categoryName);
-
-    if (categoryName === '전체') {
-      getPost('theme', ThemeTitle).then((data) => {
-        const sortedBySelectedOption = sortPostListBySelectedOption(data);
-
-        setPostList(sortedBySelectedOption);
-      });
-    } else {
-      getPost('category', categoryName).then((data) => {
-        const sortedBySelectedOption = sortPostListBySelectedOption(data);
-
-        setPostList(sortedBySelectedOption);
-      });
-    }
-
-    // selectedOption에 따라 정렬된 게시글 리스트를 반환하는 함수
-    const sortPostListBySelectedOption = (posts) => {
-      if (selectedOption === '최신순') {
-        return [...posts].sort((a, b) => b.createAt.toDate() - a.createAt.toDate());
-      } else if (selectedOption === '별점순') {
-        return [...posts].sort((a, b) => b.score - a.score);
-      } else if (selectedOption === '방문순') {
-        return [...posts].sort((a, b) => b.date.toDate() - a.date.toDate());
-      } else {
-        return posts;
-      }
-    };
-
-    // 선택된 카테고리에 대한 게시글 리스트를 setPostList로 업데이트
-    handleSelectedOption(selectedOption);
-  };
-
-  const handleSelectedOption = (option) => {
-    if (option === selectedOption) {
-      return;
-    }
+  const sortPostsByOption = (post, option) => {
+    const sortedPost = [...post];
 
     if (option === '최신순') {
-      console.log('최신순');
-      const sortedPost = [...postList].sort((a, b) => b.createAt.toDate() - a.createAt.toDate());
-
-      setPostList(sortedPost);
+      sortedPost.sort((a, b) => b.createAt.toDate() - a.createAt.toDate());
     } else if (option === '별점순') {
-      console.log('별점순실행');
-      const sortedPost = [...postList].sort((a, b) => b.score - a.score);
-
-      setPostList(sortedPost);
+      sortedPost.sort((a, b) => b.score - a.score);
     } else if (option === '방문순') {
-      const sortedPost = [...postList].sort((a, b) => b.date.toDate() - a.date.toDate());
-
-      setPostList(sortedPost);
+      sortedPost.sort((a, b) => b.date.toDate() - a.date.toDate());
     }
-
-    setSelectedOption(option);
+    return sortedPost;
   };
 
+  const filterPostsByCategory = (post, category) =>
+    category === '전체' ? post : post.filter((doc) => doc.category === category);
+
+  const handleSelectedOption = useCallback(
+    (option) => {
+      if (option === selectedOption) {
+        return;
+      }
+      setSelectedOption(option);
+      const sortedPost = sortPostsByOption(posts, option);
+      const filteredPost = filterPostsByCategory(sortedPost, selectedCategory);
+
+      setSortedPostList(filteredPost);
+    },
+    [posts, selectedOption, selectedCategory],
+  );
+
   useEffect(() => {
-    handleSelectedOption(selectedOption);
-    console.log(postList);
-  }, [selectedOption]);
+    if (posts && posts.length > 0) {
+      const sortedPost = [...posts];
+
+      sortedPost.sort((a, b) => b.createAt.toDate() - a.createAt.toDate());
+      setSortedPostList(sortedPost);
+    }
+  }, [posts]);
+
+  console.log('리액트쿼리에서', posts, ThemeTitle);
+
+  if (isLoading) {
+    return <div>🌀 Loading 🌀 </div>;
+  }
+
+  if (isError) {
+    return <div>fetch data중 에러</div>;
+  }
+
+  const onClickCategory = (categoryName) => {
+    setSelectedCategory(categoryName);
+
+    const sortedPost = sortPostsByOption(
+      filterPostsByCategory(posts, categoryName),
+      selectedOption,
+    );
+
+    setSortedPostList(sortedPost);
+  };
 
   const handleOptionSelected = (option) => {
     handleSelectedOption(option);
-    console.log(option);
+
+    setSelectedOption(option);
   };
 
   return (
@@ -144,7 +121,7 @@ function Post() {
           <S.CategoryContainer>
             {categoryContents.categories.map((content) => (
               <li onClick={() => onClickCategory(`${content}`)} key={uuidv4()}>
-                <S.CategoryBtn isActive={content === btnStyle}>{content}</S.CategoryBtn>
+                <S.CategoryBtn isActive={content === selectedCategory}>{content}</S.CategoryBtn>
               </li>
             ))}
           </S.CategoryContainer>
@@ -154,11 +131,10 @@ function Post() {
           onOptionSelected={handleOptionSelected}
           selected={selectedOption}
         />
-        <PostList postList={postList} />
+        <PostList postList={sortedPostList} />
       </S.Container>
       <NavBar />
     </>
   );
 }
-
 export default Post;
