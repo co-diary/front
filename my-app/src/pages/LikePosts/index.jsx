@@ -12,8 +12,8 @@ import DefaultLikePosts from './DefaultLikePosts';
 function LikePosts() {
   const user = useRecoilValue(authState);
   const likedRef = collection(db, 'liked');
-  const [likedPostList, setLikedPostList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [likedPostList, setLikedPostList] = useState([]);
 
   useEffect(() => {
     if (user) {
@@ -33,16 +33,15 @@ function LikePosts() {
       listArr.sort((a, b) => b.createAt.seconds - a.createAt.seconds);
 
       setLikedPostList(listArr);
+      setIsLoading(false);
     });
-
-    setIsLoading(false);
   };
 
   return (
     <>
       <Header title='좋아요' />
       {isLoading ? (
-        <p style={{ marginTop: '5.2rem' }}>로딩중...임시</p>
+        <p style={{ marginTop: '5.2rem', fontSize: '1.8rem', color: 'blue' }}>로딩 중...임시</p>
       ) : (
         <S.Container>
           <header>
