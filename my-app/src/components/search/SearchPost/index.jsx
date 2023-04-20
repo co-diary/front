@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import * as S from './style';
 
 import SearchHeader from './SearchHeader';
-import SearchResultContainer from './SearchResultCotainer';
+import SearchResultContainer from './SearchResultContainer';
 
 import useDebounce from '../../../hooks/useDebounce';
 import SearchForm from '../SearchForm';
