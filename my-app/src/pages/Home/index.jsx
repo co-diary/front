@@ -15,7 +15,7 @@ import usePost from '../../hooks/usePost';
 function Home() {
   const userId = useRecoilValue(UserIdState);
   const [userName, setUserName] = useState('');
-  const { isLoading, isError, data } = usePost(userId, 'ALL');
+  const { isLoading, isError, data: posts } = usePost(userId, 'ALL');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(appAuth, (user) => {
@@ -33,9 +33,9 @@ function Home() {
     return <div>fetch data중 에러</div>;
   }
 
-  const postCount = data.length;
-  const drinkCount = data.filter((v) => v.theme === '음료').length;
-  const dessertCount = data.filter((v) => v.theme === '디저트').length;
+  const postCount = posts.length;
+  const drinkCount = posts.filter((v) => v.theme === '음료').length;
+  const dessertCount = posts.filter((v) => v.theme === '디저트').length;
 
   const cards = [
     {
