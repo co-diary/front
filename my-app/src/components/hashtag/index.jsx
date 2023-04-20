@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router';
 import Header from '../common/Header';

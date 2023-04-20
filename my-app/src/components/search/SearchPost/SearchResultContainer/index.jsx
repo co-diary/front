@@ -1,28 +1,22 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useRecoilValue } from 'recoil';
+import { UserIdState } from '../../../../atom/authRecoil';
 import filterPosts from '../../../../hooks/filterPosts';
 
-import getPost from '../../../../hooks/getPost';
+import usePost from '../../../../hooks/usePost';
 import SearchResultView from '../SearchResultView';
 
 function SearchResultContainer({ keyword }) {
-  const [data, setData] = useState([]);
+  const userId = useRecoilValue(UserIdState);
   const [filteredPosts, setFilteredPosts] = useState([]);
-
-  console.log(keyword);
-
-  useEffect(() => {
-    getPost('ALL').then((res) => {
-      setData(res);
-    });
-  }, []);
 
   useEffect(() => {
     if (keyword) {
       Promise.all([
-        filterPosts(data, 'menu', keyword),
-        filterPosts(data, 'shop', keyword),
-        filterPosts(data, 'location', keyword),
-        filterPosts(data, 'review', keyword),
+        filterPosts(posts, 'menu', keyword),
+        filterPosts(posts, 'shop', keyword),
+        filterPosts(posts, 'location', keyword),
+        filterPosts(posts, 'review', keyword),
       ]).then((filtered) => {
         const filteredSet = Array.from(new Set(filtered.flat()));
 
@@ -34,6 +28,16 @@ function SearchResultContainer({ keyword }) {
   }, [keyword]);
 
   const memoizedPostList = useMemo(() => filteredPosts, [filteredPosts]);
+
+  const { isLoading, isError, data: posts } = usePost(userId, 'ALL');
+
+  if (isLoading) {
+    return <div>🌀 Loading 🌀 </div>;
+  }
+
+  if (isError) {
+    return <div>fetch data중 에러</div>;
+  }
 
   return <SearchResultView postList={memoizedPostList} />;
 }
