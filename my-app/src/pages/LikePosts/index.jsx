@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
-import { v4 as uuidv4 } from 'uuid';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import * as S from './style';
@@ -53,7 +52,7 @@ function LikePosts() {
             {likedPostList.length > 0 ? (
               likedPostList.map((post) => (
                 <PostCard
-                  key={uuidv4()}
+                  key={post.key}
                   id={post.key}
                   date={post.createAt}
                   like={post.like}

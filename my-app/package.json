@@ -13,6 +13,7 @@
     "react-datepicker": "^4.10.0",
     "react-dom": "^18.2.0",
     "react-kakao-maps-sdk": "^1.1.6",
+    "react-query": "^3.39.3",
     "react-router": "^6.8.1",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
