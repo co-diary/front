@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
-import * as S from './style';
 import placeState from '../../../atom/mapRecoil';
+import * as S from './style';
 
 function LocationSearch({ searchKeyword, isInputNull, inputKeyword }) {
   const { kakao } = window;
   const place = useRecoilValue(placeState);
+  const setPlace = useSetRecoilState(placeState);
 
   const [info, setInfo] = useState();
   const [markers, setMarkers] = useState([]);
   const [map, setMap] = useState();
   const [errorStatus, setErrorStatus] = useState({
     error: false,
-    errorMsg: '오늘은 어디에 갔다오셨나요? 😀',
+    errorMsg: '오늘은 어디에 다녀오셨나요? 😀',
   });
-
-  console.log('불러오기: ', markers, '마커클릭:', info, 'bool: ', isInputNull);
 
   useEffect(() => {
     if (!map) return;
@@ -64,7 +63,15 @@ function LocationSearch({ searchKeyword, isInputNull, inputKeyword }) {
     });
   }, [searchKeyword]);
 
-  console.log('에러상태:', errorStatus.error);
+  const handleSelectPlace = useCallback((places) => {
+    setPlace((prev) => ({
+      ...prev,
+      store: places.content,
+      address: places.address,
+      lat: places.position.lat,
+      lng: places.position.lng,
+    }));
+  }, []);
 
   return (
     <>
@@ -98,6 +105,7 @@ function LocationSearch({ searchKeyword, isInputNull, inputKeyword }) {
                 <S.Result
                   key={`places-${places.content}-${places.position.lat},${places.position.lng}`}
                   isListShow={true}
+                  onClick={() => handleSelectPlace(places)}
                 >
                   <S.ResultTitle>{places.content}</S.ResultTitle>
                   <S.ResultDetail>{places.address}</S.ResultDetail>

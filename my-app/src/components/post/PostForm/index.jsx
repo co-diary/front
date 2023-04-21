@@ -148,7 +148,6 @@ function PostForm() {
   );
 
   const onClickIcon = () => {
-    console.log('눌렀음');
     setMapModal({ ...mapModal, visible: false });
   };
 
@@ -182,8 +181,6 @@ function PostForm() {
       alert('현재 위치를 표시할 수 없습니다.');
     }
   }, []);
-
-  console.log(place);
 
   // 좌표 -> 주소
   const getAddr = (lat, lng) => {

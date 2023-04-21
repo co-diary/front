@@ -18,8 +18,6 @@ function BottomSheetForm({
   const [keyword, setKeyword] = useState('');
   const [isInputNull, setIsInputNull] = useState(false);
 
-  console.log('입력값:', inputKeyword, '전송값:', keyword);
-
   const onChange = (e) => {
     e.preventDefault();
     setInputKeyword(e.target.value);
@@ -38,8 +36,6 @@ function BottomSheetForm({
       setIsInputNull(true);
     }
   };
-
-  console.log('키워드,체크', keyword);
 
   return (
     <>
