@@ -174,13 +174,21 @@ function PostForm() {
           setMapModal({ ...mapModal, visible: false });
         },
         (err) => {
-          alert('현재 위치를 표시할 수 없습니다.');
+          setPlace((prev) => ({
+            ...prev,
+            current: '현재 위치를 표시할 수 없습니다.',
+          }));
         },
       );
     } else {
-      alert('현재 위치를 표시할 수 없습니다.');
+      setPlace((prev) => ({
+        ...prev,
+        current: '현재 위치를 표시할 수 없습니다.',
+      }));
     }
   }, []);
+
+  console.log(place);
 
   // 좌표 -> 주소
   const getAddr = (lat, lng) => {
@@ -192,6 +200,7 @@ function PostForm() {
         setPlace((prev) => ({
           ...prev,
           address: result[0].road_address.address_name,
+          current: result[0].road_address.address_name,
         }));
       }
     };
@@ -369,7 +378,7 @@ function PostForm() {
             IconAlt='아이콘Alt'
             onClickIcon={onClickIcon}
             handleCurrentLocation={handleCurrentLocation}
-            currentAddress={place.address === '' ? '현재위치가 없습니다.' : place.address}
+            currentAddress={place.current === '' ? '' : place.current}
             isLocationCheck={isLocationCheck}
           />
         </BottomSheet>

@@ -7,6 +7,7 @@ const placeState = atom({
     lng: 126.977717,
     store: '',
     address: '',
+    current: '',
   },
 });
 
