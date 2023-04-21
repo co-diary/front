@@ -2,12 +2,15 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import placeState from '../../../atom/mapRecoil';
+import modalState from '../../../atom/modalRecoil';
 import * as S from './style';
 
 function LocationSearch({ searchKeyword, isInputNull, inputKeyword }) {
   const { kakao } = window;
   const place = useRecoilValue(placeState);
   const setPlace = useSetRecoilState(placeState);
+  const mapModal = useRecoilValue(modalState);
+  const setMapModal = useSetRecoilState(modalState);
 
   const [info, setInfo] = useState();
   const [markers, setMarkers] = useState([]);
@@ -71,6 +74,7 @@ function LocationSearch({ searchKeyword, isInputNull, inputKeyword }) {
       lat: places.position.lat,
       lng: places.position.lng,
     }));
+    setMapModal({ ...mapModal, visible: false });
   }, []);
 
   return (
