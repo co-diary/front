@@ -3,7 +3,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import placeState from '../../../atom/mapRecoil';
 import modalState from '../../../atom/modalRecoil';
-import inputValidState from '../../../atom/postUploadRecoil';
+import { inputValidState } from '../../../atom/postUploadRecoil';
 import * as S from './style';
 
 function LocationSearch({ searchKeyword, isInputNull, inputKeyword }) {

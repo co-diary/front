@@ -193,6 +193,7 @@ export const TagInput = styled.input`
 export const TagList = styled.ul`
   display: flex;
   gap: 0.6rem;
+  min-height: 4.2rem;
   padding: 0.6rem 0 0.8rem;
   border-bottom: 1px solid ${Theme.BORDER};
 `;

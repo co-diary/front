@@ -16,13 +16,12 @@ import {
 } from '../../../atom/postRecoil';
 import placeState from '../../../atom/mapRecoil';
 import modalState from '../../../atom/modalRecoil';
-import inputValidState from '../../../atom/postUploadRecoil';
+import { inputValidState, tagItemState } from '../../../atom/postUploadRecoil';
 import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
 import CategorySelectBox from '../CategorySelectBox';
 import useOutsideDetect from '../../../hooks/useOutsideDetect';
 import TasteRating from '../TasteRating';
 import IconCalendar from '../../../assets/Icon-Calendar.png';
-
 import Portal from '../../../components/modal/Portal';
 import IconBack from '../../../assets/Icon-X.png';
 import BottomSheetForm from '../../../components/modal/BottomSheet/BottomSheetStyle/BottomSheetForm';
@@ -45,26 +44,24 @@ function PostForm() {
   const [currentSelect, setCurrentSelect] = useState(1);
 
   const [startDate, setStartDate] = useRecoilState(dateState);
-  // const [dateValid, setDateValid] = useState(false);
 
   const [menuName, setMenuName] = useRecoilState(menuNameState);
-  // const [menuNameValid, setMenuNameValid] = useState(false);
 
   const [menuPrice, setMenuPrice] = useRecoilState(menuPriceState);
-  // const [menuPriceValid, setMenuPriceValid] = useState(false);
 
   const [ratingClicked, setRatingClicked] = useRecoilState(starRatingState);
   const [ratingHovered, setRatingHovered] = useState(0);
-  // const [ratingValid, setRatingValid] = useState(false);
 
   const [mapModal, setMapModal] = useRecoilState(modalState);
   const [place, setPlace] = useRecoilState(placeState);
   const [isLocationCheck, setIsLocationCheck] = useState(false);
-  // const [storeValid, setStoreValid] = useState(false);
-  // const [addressValid, setAddressValid] = useState(false);
 
   const textareaRef = useRef();
   const [review, setReview] = useRecoilState(reviewState);
+
+  const [tagItem, setTagItem] = useRecoilState(tagItemState);
+
+  console.log(tagItem, setTagItem);
 
   const handleClickListCategory = useCallback((e) => {
     setCurrentCategory(e.target.innerText);
@@ -125,7 +122,6 @@ function PostForm() {
       const comma = uncomma.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 
       setMenuPrice(comma);
-      // setMenuPriceValid(priceRegExp);
       setInputValid((prev) => ({ ...prev, menuPriceValid: priceRegExp }));
 
       if (comma.length > 3) {
@@ -139,7 +135,6 @@ function PostForm() {
         } else {
           alert('금액을 10원 단위로 입력해 주세요.');
           setMenuPrice('');
-          // setMenuPriceValid(false);
           setInputValid((prev) => ({ ...prev, menuPriceValid: false }));
         }
       }
@@ -150,7 +145,6 @@ function PostForm() {
   const handleStarRatingClicked = useCallback(
     (rating) => {
       setRatingClicked(rating);
-      // setRatingValid(true);
       setInputValid((prev) => ({ ...prev, ratingValid: true }));
     },
     [onclick],
@@ -200,8 +194,8 @@ function PostForm() {
 
   // 좌표 -> 주소
   const getAddr = (lat, lng) => {
-    const geocoder = new kakao.maps.services.Geocoder(); // 좌표 -> 주소로 변환해주는 객체 생성
-    const coord = new kakao.maps.LatLng(lat, lng); // 주소로 변환할 좌표 입력
+    const geocoder = new kakao.maps.services.Geocoder();
+    const coord = new kakao.maps.LatLng(lat, lng);
 
     const callback = function (result, status) {
       if (status === kakao.maps.services.Status.OK) {
@@ -386,7 +380,7 @@ function PostForm() {
           <S.BoxWrapper length='1.2rem'>
             <S.TagLabel htmlFor='tag'>태그</S.TagLabel>
             <S.TagImgBox>
-              <S.TagInput placeholder='태그를 추가해보세요. (6자이하)' id='tag' />
+              <S.TagInput placeholder='태그를 추가해보세요. (6자이하)' id='tag' maxLength={6} />
               <S.TagList>
                 <S.Tag>#넘달아용</S.Tag>
                 <S.Tag>#마지막방문임</S.Tag>
