@@ -3,6 +3,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import placeState from '../../../atom/mapRecoil';
 import modalState from '../../../atom/modalRecoil';
+import inputValidState from '../../../atom/postUploadRecoil';
 import * as S from './style';
 
 function LocationSearch({ searchKeyword, isInputNull, inputKeyword }) {
@@ -11,6 +12,7 @@ function LocationSearch({ searchKeyword, isInputNull, inputKeyword }) {
   const setPlace = useSetRecoilState(placeState);
   const mapModal = useRecoilValue(modalState);
   const setMapModal = useSetRecoilState(modalState);
+  const setStore = useSetRecoilState(inputValidState);
 
   const [info, setInfo] = useState();
   const [markers, setMarkers] = useState([]);
@@ -74,6 +76,7 @@ function LocationSearch({ searchKeyword, isInputNull, inputKeyword }) {
       lat: places.position.lat,
       lng: places.position.lng,
     }));
+    setStore((prev) => ({ ...prev, storeValid: true, addressValid: true }));
     setMapModal({ ...mapModal, visible: false });
   }, []);
 

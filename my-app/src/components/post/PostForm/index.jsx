@@ -16,6 +16,7 @@ import {
 } from '../../../atom/postRecoil';
 import placeState from '../../../atom/mapRecoil';
 import modalState from '../../../atom/modalRecoil';
+import inputValidState from '../../../atom/postUploadRecoil';
 import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
 import CategorySelectBox from '../CategorySelectBox';
 import useOutsideDetect from '../../../hooks/useOutsideDetect';
@@ -35,26 +36,32 @@ function PostForm() {
   const [isShowOptionTheme, setIsShowOptionTheme, themeRef, handleDisplayTheme] =
     useOutsideDetect(false);
 
+  const [inputValid, setInputValid] = useRecoilState(inputValidState);
+
+  console.log('유효성검사:', inputValid);
+
   const [currentCategory, setCurrentCategory] = useRecoilState(categoryState);
   const [currentTheme, setCurrentTheme] = useRecoilState(themeState);
   const [currentSelect, setCurrentSelect] = useState(1);
 
   const [startDate, setStartDate] = useRecoilState(dateState);
-  const [dateValid, setDateValid] = useState(false);
+  // const [dateValid, setDateValid] = useState(false);
 
   const [menuName, setMenuName] = useRecoilState(menuNameState);
-  const [menuNameValid, setMenuNameValid] = useState(false);
+  // const [menuNameValid, setMenuNameValid] = useState(false);
 
   const [menuPrice, setMenuPrice] = useRecoilState(menuPriceState);
-  const [menuPriceValid, setMenuPriceValid] = useState(false);
+  // const [menuPriceValid, setMenuPriceValid] = useState(false);
 
   const [ratingClicked, setRatingClicked] = useRecoilState(starRatingState);
   const [ratingHovered, setRatingHovered] = useState(0);
-  const [ratingValid, setRatingValid] = useState(false);
+  // const [ratingValid, setRatingValid] = useState(false);
 
   const [mapModal, setMapModal] = useRecoilState(modalState);
   const [place, setPlace] = useRecoilState(placeState);
   const [isLocationCheck, setIsLocationCheck] = useState(false);
+  // const [storeValid, setStoreValid] = useState(false);
+  // const [addressValid, setAddressValid] = useState(false);
 
   const textareaRef = useRef();
   const [review, setReview] = useRecoilState(reviewState);
@@ -87,7 +94,7 @@ function PostForm() {
 
   useEffect(() => {
     if (!startDate) {
-      setDateValid(false);
+      setInputValid({ ...inputValid, dateValid: false });
       return;
     }
 
@@ -99,13 +106,18 @@ function PostForm() {
   useEffect(() => {
     const result = !!menuName.length;
 
-    setMenuNameValid(result);
-    if (menuName === '') setMenuNameValid(false);
+    // setMenuNameValid(result);
+    setInputValid({ ...inputValid, menuNameValid: result });
+    if (menuName === '') {
+      setInputValid({ ...inputValid, menuNameValid: false });
+    }
   }, [menuName]);
 
   const handlePriceChange = useCallback(
     (e) => {
       const priceRegExp = /^[0-9,]+$/.test(e.target.value);
+
+      console.log(priceRegExp);
 
       if (!priceRegExp && menuPrice === '') return;
 
@@ -113,7 +125,8 @@ function PostForm() {
       const comma = uncomma.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 
       setMenuPrice(comma);
-      setMenuPriceValid(priceRegExp);
+      // setMenuPriceValid(priceRegExp);
+      setInputValid((prev) => ({ ...prev, menuPriceValid: priceRegExp }));
 
       if (comma.length > 3) {
         const unitsNum = comma.slice(-1);
@@ -122,10 +135,12 @@ function PostForm() {
 
         if (!checkNum) {
           setMenuPrice(comma);
-          setMenuPriceValid(true);
+          setInputValid((prev) => ({ ...prev, menuPriceValid: true }));
         } else {
           alert('금액을 10원 단위로 입력해 주세요.');
           setMenuPrice('');
+          // setMenuPriceValid(false);
+          setInputValid((prev) => ({ ...prev, menuPriceValid: false }));
         }
       }
     },
@@ -135,7 +150,8 @@ function PostForm() {
   const handleStarRatingClicked = useCallback(
     (rating) => {
       setRatingClicked(rating);
-      setRatingValid(true);
+      // setRatingValid(true);
+      setInputValid((prev) => ({ ...prev, ratingValid: true }));
     },
     [onclick],
   );
@@ -151,13 +167,6 @@ function PostForm() {
     setMapModal({ ...mapModal, visible: false });
   };
 
-  useEffect(() => {
-    textareaRef.current.style.height = 'auto';
-    const scrollHeight = textareaRef.current.scrollHeight;
-
-    textareaRef.current.style.height = `${scrollHeight}px`;
-  }, [review]);
-
   // 위치 관련
   const handleCurrentLocation = useCallback(() => {
     setIsLocationCheck((prev) => !prev);
@@ -171,6 +180,7 @@ function PostForm() {
           }));
           getAddr(position.coords.latitude, position.coords.longitude);
           setIsLocationCheck((prev) => !prev);
+          setInputValid((prev) => ({ ...prev, addressValid: true }));
           setMapModal({ ...mapModal, visible: false });
         },
         (err) => {
@@ -187,8 +197,6 @@ function PostForm() {
       }));
     }
   }, []);
-
-  console.log(place);
 
   // 좌표 -> 주소
   const getAddr = (lat, lng) => {
@@ -208,20 +216,53 @@ function PostForm() {
     geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
   };
 
-  // 버튼 유효성 검사
-  const handleValidCheck = useCallback((e) => {
-    if (e.target.value === '') {
-      setMenuNameValid(false);
-      setDateValid(false);
-      setMenuPriceValid(false);
-    }
-  }, []);
+  const handleStoreChange = useCallback(
+    (e) => {
+      setPlace((prev) => ({
+        ...prev,
+        store: e.target.value,
+      }));
+      setInputValid((prev) => ({ ...prev, storeValid: true }));
+
+      if (e.target.value === '') {
+        setInputValid((prev) => ({ ...prev, storeValid: false }));
+      }
+    },
+    [place.store],
+  );
+
+  const handleAddressChange = useCallback(
+    (e) => {
+      setPlace((prev) => ({
+        ...prev,
+        address: e.target.value,
+        lat: 0,
+        lng: 0,
+      }));
+      setInputValid((prev) => ({ ...prev, addressValid: true }));
+
+      if (e.target.value === '') {
+        setInputValid((prev) => ({ ...prev, addressValid: false }));
+      }
+    },
+    [place.address],
+  );
 
   useEffect(() => {
-    if (menuNameValid && dateValid && menuPriceValid && ratingValid) {
-      console.log('버튼활성화 조건');
+    textareaRef.current.style.height = 'auto';
+    const scrollHeight = textareaRef.current.scrollHeight;
+
+    textareaRef.current.style.height = `${scrollHeight}px`;
+  }, [review]);
+
+  const handleValidCheck = useCallback((e, key) => {
+    if (e === '') {
+      if (key === 'menuNameValid') setInputValid({ ...inputValid, menuNameValid: false });
+      if (key === 'menuPriceValid') setInputValid({ ...inputValid, menuPriceValid: false });
+      if (key === 'storeValid') setInputValid({ ...inputValid, storeValid: false });
+      if (key === 'addressValid') setInputValid({ ...inputValid, addressValid: false });
     }
-  }, [menuNameValid, dateValid, menuPriceValid, ratingValid]);
+  }, []);
 
   return (
     <>
@@ -256,14 +297,13 @@ function PostForm() {
               selected={startDate}
               onChange={(date) => {
                 setStartDate(date);
-                setDateValid(true);
+                setInputValid((prev) => ({ ...prev, dateValid: true }));
               }}
               placeholderText='0000.00.00'
               locale={ko}
               closeOnScroll={true}
               showPopperArrow={false}
               disabledKeyboardNavigation
-              onBlur={handleValidCheck}
             />
             <S.CalendarBtn src={IconCalendar} alt='달력 버튼' />
           </S.InputBox>
@@ -276,7 +316,7 @@ function PostForm() {
               maxLength={20}
               value={menuName}
               onChange={(e) => setMenuName(e.target.value)}
-              onBlur={handleValidCheck}
+              onBlur={(e) => handleValidCheck(e.target.value, 'dateValid')}
             />
           </S.InputBox>
           <S.InputBox length='1.2rem'>
@@ -288,7 +328,7 @@ function PostForm() {
               maxLength='7'
               value={menuPrice}
               onChange={handlePriceChange}
-              onBlur={handleValidCheck}
+              onBlur={(e) => handleValidCheck(e.target.value, 'menuPriceValid')}
             />
           </S.InputBox>
           <S.InputBox length='1.2rem'>
@@ -305,14 +345,10 @@ function PostForm() {
             <S.Input
               type='text'
               placeholder='상호명을 입력해주세요.'
-              value={place.store}
-              onChange={(e) =>
-                setPlace((prev) => ({
-                  ...prev,
-                  store: e.target.value,
-                }))
-              }
               id='storeName'
+              value={place.store}
+              onChange={handleStoreChange}
+              onBlur={(e) => handleValidCheck(e.target.value, 'storeValid')}
             />
             <S.LocationBtn type='button' onClick={() => onClickIcon()}></S.LocationBtn>
           </S.InputBox>
@@ -322,14 +358,8 @@ function PostForm() {
               type='text'
               placeholder='매장의 위치를 입력해주세요.'
               value={place.address}
-              onChange={(e) =>
-                setPlace((prev) => ({
-                  ...prev,
-                  address: e.target.value,
-                  lat: 0,
-                  lng: 0,
-                }))
-              }
+              onChange={handleAddressChange}
+              onBlur={(e) => handleValidCheck(e.target.value, 'addressValid')}
               className='location'
               id='storeLocation'
             />
