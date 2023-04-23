@@ -62,8 +62,9 @@ function PostForm() {
 
   const [tagItem, setTagItem] = useState('');
   const [tagList, setTagList] = useRecoilState(tagListState);
+  const [tagStyled, setTagStyled] = useState(false);
 
-  console.log('배열:', tagList, setTagList);
+  console.log('배열:', tagList, setTagList, tagStyled);
 
   const handleClickListCategory = useCallback((e) => {
     setCurrentCategory(e.target.innerText);
@@ -269,6 +270,7 @@ function PostForm() {
       if (e.target.value.length > 0 && e.key === 'Enter') {
         if (tagList.length < 2) {
           setTagList([...tagList, { content: `${tagItem}` }]);
+          setTagStyled(true);
           setTagItem('');
         } else {
           alert('태그는 2개까지만 가능합니다.');
@@ -415,11 +417,12 @@ function PostForm() {
                 placeholder='태그를 추가해보세요.(6자이하)'
                 id='tag'
                 maxLength='6'
+                tagBorderStyled={tagStyled}
                 value={tagItem}
                 onChange={handleInputValue}
                 onKeyDown={handleEnterPress}
               />
-              <TagItems tagList={tagList} />
+              <TagItems tagList={tagList} tagBorderStyled={tagStyled} />
             </S.TagImgBox>
           </S.BoxWrapper>
           <S.BoxWrapper>

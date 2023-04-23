@@ -179,6 +179,11 @@ export const TagInput = styled.input`
   font-size: 1.4rem;
   line-height: 1.8rem;
   border: none;
+  border-bottom: ${({ tagBorderStyled }) =>
+    tagBorderStyled
+      ? `none`
+      : `1px solid ${Theme.BORDER};
+  `};
   outline: none;
 
   &::placeholder {
@@ -187,6 +192,14 @@ export const TagInput = styled.input`
 
   &:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 1000px #fff inset;
+  }
+
+  &:focus {
+    border-bottom: ${({ tagBorderStyled }) =>
+      tagBorderStyled
+        ? `none`
+        : `1px solid ${Theme.MAIN}
+  `};
   }
 `;
 
