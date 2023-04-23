@@ -7,6 +7,10 @@ export default function ProtectedRoute() {
   const isLogin = useRecoilValue(isLoggedIn);
   const location = useLocation();
 
+  if (isLogin === null) {
+    return null;
+  }
+
   return isLogin ? (
     <Outlet></Outlet>
   ) : (
