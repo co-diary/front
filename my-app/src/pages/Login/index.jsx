@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import * as S from './style';
 import Button from '../../components/common/Button';
 import InputWithLabel from '../../components/common/InputWithLabel';
@@ -19,12 +19,10 @@ function Login() {
   const emailRef = useRef(null);
   const isLogin = useRecoilValue(isLoggedIn);
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || '/home';
 
   useEffect(() => {
     if (isLogin) {
-      navigate(from);
+      navigate('/home');
     }
   }, [isLogin]);
 
