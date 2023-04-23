@@ -16,10 +16,11 @@ import {
 } from '../../../atom/postRecoil';
 import placeState from '../../../atom/mapRecoil';
 import modalState from '../../../atom/modalRecoil';
-import { inputValidState, tagItemState } from '../../../atom/postUploadRecoil';
+import { inputValidState, tagListState } from '../../../atom/postUploadRecoil';
 import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
 import CategorySelectBox from '../CategorySelectBox';
 import useOutsideDetect from '../../../hooks/useOutsideDetect';
+import TagItems from '../../post/TagItem';
 import TasteRating from '../TasteRating';
 import IconCalendar from '../../../assets/Icon-Calendar.png';
 import Portal from '../../../components/modal/Portal';
@@ -59,9 +60,10 @@ function PostForm() {
   const textareaRef = useRef();
   const [review, setReview] = useRecoilState(reviewState);
 
-  const [tagItem, setTagItem] = useRecoilState(tagItemState);
+  const [tagItem, setTagItem] = useState('');
+  const [tagList, setTagList] = useRecoilState(tagListState);
 
-  console.log(tagItem, setTagItem);
+  console.log('배열:', tagList, setTagList, tagItem, setTagItem);
 
   const handleClickListCategory = useCallback((e) => {
     setCurrentCategory(e.target.innerText);
@@ -103,7 +105,6 @@ function PostForm() {
   useEffect(() => {
     const result = !!menuName.length;
 
-    // setMenuNameValid(result);
     setInputValid({ ...inputValid, menuNameValid: result });
     if (menuName === '') {
       setInputValid({ ...inputValid, menuNameValid: false });
@@ -353,7 +354,7 @@ function PostForm() {
               placeholder='매장의 위치를 입력해주세요.'
               value={place.address}
               onChange={handleAddressChange}
-              onBlur={(e) => handleValidCheck(e.target.value, 'addressValid')}
+              onBlur={handleValidCheck}
               className='location'
               id='storeLocation'
             />
@@ -380,11 +381,13 @@ function PostForm() {
           <S.BoxWrapper length='1.2rem'>
             <S.TagLabel htmlFor='tag'>태그</S.TagLabel>
             <S.TagImgBox>
-              <S.TagInput placeholder='태그를 추가해보세요. (6자이하)' id='tag' maxLength={6} />
-              <S.TagList>
-                <S.Tag>#넘달아용</S.Tag>
-                <S.Tag>#마지막방문임</S.Tag>
-              </S.TagList>
+              <S.TagInput
+                type='text'
+                placeholder='태그를 추가해보세요.(6자이하)'
+                id='tag'
+                maxLength='6'
+              />
+              <TagItems />
             </S.TagImgBox>
           </S.BoxWrapper>
           <S.BoxWrapper>

@@ -12,9 +12,9 @@ const inputValidState = atom({
   },
 });
 
-const tagItemState = atom({
-  key: 'tagItemState',
+const tagListState = atom({
+  key: 'tagListState',
   default: [],
 });
 
-export { inputValidState, tagItemState };
+export { inputValidState, tagListState };
