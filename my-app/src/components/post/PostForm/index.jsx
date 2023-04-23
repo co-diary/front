@@ -63,7 +63,7 @@ function PostForm() {
   const [tagItem, setTagItem] = useState('');
   const [tagList, setTagList] = useRecoilState(tagListState);
 
-  console.log('배열:', tagList, setTagList, tagItem, setTagItem);
+  console.log('배열:', tagList, setTagList);
 
   const handleClickListCategory = useCallback((e) => {
     setCurrentCategory(e.target.innerText);
@@ -250,6 +250,18 @@ function PostForm() {
     textareaRef.current.style.height = `${scrollHeight}px`;
   }, [review]);
 
+  const handleInputValue = useCallback(
+    (e) => {
+      if (e.target.value.length > 6) {
+        e.target.value = e.target.value.slice(0, 6);
+      }
+      setTagItem(e.target.value);
+    },
+    [tagItem],
+  );
+
+  console.log('입력:', tagItem);
+
   const handleValidCheck = useCallback((e, key) => {
     if (e === '') {
       if (key === 'menuNameValid') setInputValid({ ...inputValid, menuNameValid: false });
@@ -386,6 +398,8 @@ function PostForm() {
                 placeholder='태그를 추가해보세요.(6자이하)'
                 id='tag'
                 maxLength='6'
+                value={tagItem}
+                onChange={handleInputValue}
               />
               <TagItems />
             </S.TagImgBox>
