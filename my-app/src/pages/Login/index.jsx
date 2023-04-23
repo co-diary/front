@@ -20,6 +20,36 @@ function Login() {
   const isLogin = useRecoilValue(isLoggedIn);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (isLogin) {
+      navigate('/home');
+    }
+  }, [isLogin]);
+
+  useEffect(() => {
+    if (isEmailValid && isPasswordValid) {
+      setBtnDisabled(false);
+      setIsLoginAllow(true);
+
+      if (error) {
+        setIsLoginAllow(false);
+      }
+    } else {
+      setBtnDisabled(true);
+    }
+  }, [email, password]);
+
+  useEffect(() => {
+    if (error) {
+      setBtnDisabled(true);
+      setIsLoginAllow(false);
+      setLoginError('이메일 또는 비밀번호가 일치하지 않습니다.');
+      emailRef.current.focus();
+    } else if (isPending) {
+      setBtnDisabled(true);
+    }
+  }, [error, isPending]);
+
   const handleEmailChange = useCallback((e) => {
     setEmail(e.target.value);
 
@@ -43,19 +73,6 @@ function Login() {
     }
   }, []);
 
-  useEffect(() => {
-    if (isEmailValid && isPasswordValid) {
-      setBtnDisabled(false);
-      setIsLoginAllow(true);
-
-      if (error) {
-        setIsLoginAllow(false);
-      }
-    } else {
-      setBtnDisabled(true);
-    }
-  }, [email, password]);
-
   const handleLoginSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -63,23 +80,6 @@ function Login() {
     },
     [email, password],
   );
-
-  useEffect(() => {
-    if (error) {
-      setBtnDisabled(true);
-      setIsLoginAllow(false);
-      setLoginError('이메일 또는 비밀번호가 일치하지 않습니다.');
-      emailRef.current.focus();
-    } else if (isPending) {
-      setBtnDisabled(true);
-    }
-  }, [error, isPending]);
-
-  useEffect(() => {
-    if (isLogin) {
-      navigate('/home');
-    }
-  }, [isLogin]);
 
   return (
     <S.Container>
