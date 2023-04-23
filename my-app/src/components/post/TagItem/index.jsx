@@ -1,14 +1,14 @@
 import React from 'react';
 import * as S from './style';
 
-function TagItem({ tagList, tagBorderStyled }) {
-  console.log(!!tagBorderStyled);
-
+function TagItem({ tagList, handleTagDelete, tagBorderStyled }) {
   return (
     <>
       <S.TagList tagBorderStyled={tagBorderStyled}>
         {tagList.map((tag, i) => (
-          <S.Tag key={`tag-${i}`}>#{tag.content}</S.Tag>
+          <S.Tag key={`tag-${i}`} onClick={() => handleTagDelete(i)}>
+            #{tag.content}
+          </S.Tag>
         ))}
       </S.TagList>
     </>

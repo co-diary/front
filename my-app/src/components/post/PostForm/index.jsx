@@ -281,6 +281,18 @@ function PostForm() {
     [tagItem],
   );
 
+  const handleTagDelete = (tagIndex) => {
+    const tagLeaveList = tagList.filter((_, i) => tagIndex !== i);
+
+    if (tagLeaveList.length === 0) {
+      setTagStyled(false);
+      setTagList(tagLeaveList);
+      return;
+    }
+
+    setTagList(tagLeaveList);
+  };
+
   const handleValidCheck = useCallback((e, key) => {
     if (e === '') {
       if (key === 'menuNameValid') setInputValid({ ...inputValid, menuNameValid: false });
@@ -422,7 +434,11 @@ function PostForm() {
                 onChange={handleInputValue}
                 onKeyDown={handleEnterPress}
               />
-              <TagItems tagList={tagList} tagBorderStyled={tagStyled} />
+              <TagItems
+                tagList={tagList}
+                tagBorderStyled={tagStyled}
+                handleTagDelete={handleTagDelete}
+              />
             </S.TagImgBox>
           </S.BoxWrapper>
           <S.BoxWrapper>
