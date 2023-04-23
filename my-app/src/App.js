@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -13,12 +13,15 @@ function App() {
   // const setAuth = useSetRecoilState(authState);
   const setIsAuthReady = useSetRecoilState(isAuthReady);
   const setIsLoggedIn = useSetRecoilState(isLoggedIn);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [userId, setUserId] = useRecoilState(UserIdState);
 
   useEffect(() => {
+    setIsLoading(true);
     const unsubscribe = onAuthStateChanged(appAuth, (user) => {
       setUserState(user);
+      setIsLoading(false);
       setIsAuthReady(true);
       setUserId(user.uid);
       console.log(userId);
@@ -45,6 +48,10 @@ function App() {
         console.log(doc.id);
       });
   });
+
+  if(isLoading) {
+    return <p style={{marginTop:'6.8rem', fontSize:'3rem'}}>로딩 중 임시</p>
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
