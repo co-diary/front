@@ -20,11 +20,12 @@ function App() {
     const unsubscribe = onAuthStateChanged(appAuth, (user) => {
       setUserState(user);
       setIsAuthReady(true);
-      setUserId(user.uid);
-      console.log(userId);
 
       if (user) {
+        setUserId(user.uid);
         setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
       }
     });
 
@@ -32,6 +33,7 @@ function App() {
   }, []);
 
   console.log('authState', userState);
+  console.log(userId);
 
   useEffect(() => {
     console.log(firestore);

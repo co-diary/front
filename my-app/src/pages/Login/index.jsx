@@ -1,8 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router';
 import * as S from './style';
 import Button from '../../components/common/Button';
 import InputWithLabel from '../../components/common/InputWithLabel';
 import useLogin from '../../hooks/useLogin';
+import { isLoggedIn } from '../../atom/authRecoil';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -14,6 +17,38 @@ function Login() {
   const [btnDisabled, setBtnDisabled] = useState(true);
   const { error, isPending, login } = useLogin();
   const emailRef = useRef(null);
+  const isLogin = useRecoilValue(isLoggedIn);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLogin) {
+      navigate('/home');
+    }
+  }, [isLogin]);
+
+  useEffect(() => {
+    if (isEmailValid && isPasswordValid) {
+      setBtnDisabled(false);
+      setIsLoginAllow(true);
+
+      if (error) {
+        setIsLoginAllow(false);
+      }
+    } else {
+      setBtnDisabled(true);
+    }
+  }, [email, password]);
+
+  useEffect(() => {
+    if (error) {
+      setBtnDisabled(true);
+      setIsLoginAllow(false);
+      setLoginError('이메일 또는 비밀번호가 일치하지 않습니다.');
+      emailRef.current.focus();
+    } else if (isPending) {
+      setBtnDisabled(true);
+    }
+  }, [error, isPending]);
 
   const handleEmailChange = useCallback((e) => {
     setEmail(e.target.value);
@@ -38,19 +73,6 @@ function Login() {
     }
   }, []);
 
-  useEffect(() => {
-    if (isEmailValid && isPasswordValid) {
-      setBtnDisabled(false);
-      setIsLoginAllow(true);
-
-      if (error) {
-        setIsLoginAllow(false);
-      }
-    } else {
-      setBtnDisabled(true);
-    }
-  }, [email, password]);
-
   const handleLoginSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -58,17 +80,6 @@ function Login() {
     },
     [email, password],
   );
-
-  useEffect(() => {
-    if (error) {
-      setBtnDisabled(true);
-      setIsLoginAllow(false);
-      setLoginError('이메일 또는 비밀번호가 일치하지 않습니다.');
-      emailRef.current.focus();
-    }else if(isPending) {
-      setBtnDisabled(true);
-    }
-  }, [error, isPending]);
 
   return (
     <S.Container>
