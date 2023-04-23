@@ -1,9 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { useRecoilValue } from 'recoil';
 import * as S from './style';
 import Button from '../../components/common/Button';
 import Header from '../../components/common/Header';
 import InputWithLabel from '../../components/common/InputWithLabel';
 import useSignup from '../../hooks/useSignup';
+import { isLoggedIn } from '../../atom/authRecoil';
 
 function SignUp() {
   const [email, setEmail] = useState('');
@@ -27,6 +30,15 @@ function SignUp() {
 
   const [alreadyError, setAlreadyError] = useState(false);
   const [alreadyErrorMessage, setAlreadyErrorMessage] = useState('');
+
+  const isLogin = useRecoilValue(isLoggedIn);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLogin) {
+      navigate('/home');
+    }
+  }, [isLogin]);
 
   useEffect(() => {
     if (isEmailValid && isPasswordValid && isPasswordCheckValid && isDisplayNameValid) {
