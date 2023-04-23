@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
+import { useSetRecoilState } from 'recoil';
 import * as S from './style';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
@@ -8,12 +9,14 @@ import Button from '../../components/common/Button';
 import ConfirmModal from '../../components/modal/ConfirmModal';
 import Portal from '../../components/modal/Portal';
 import useToggle from '../../hooks/useToggle';
+import { isLoggedIn } from '../../atom/authRecoil';
 
 function MyPage() {
   const [isModalOpen, setIsModalOpen] = useToggle();
   const navigate = useNavigate();
   const auth = getAuth();
   const [user, setUser] = useState(null);
+  const setIsLoggedIn = useSetRecoilState(isLoggedIn);
 
   useEffect(() => {
     const currentUser = auth.currentUser;
@@ -28,6 +31,7 @@ function MyPage() {
 
   const onLogOutClick = () => {
     signOut(auth);
+    setIsLoggedIn(false);
     navigate('/login');
   };
   const onCancelClick = () => {
