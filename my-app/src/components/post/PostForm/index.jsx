@@ -262,6 +262,23 @@ function PostForm() {
 
   console.log('입력:', tagItem);
 
+  const handleEnterPress = useCallback(
+    (e) => {
+      if (e.nativeEvent.isComposing) return;
+
+      if (e.target.value.length > 0 && e.key === 'Enter') {
+        if (tagList.length < 2) {
+          setTagList([...tagList, { content: `${tagItem}` }]);
+          setTagItem('');
+        } else {
+          alert('태그는 2개까지만 가능합니다.');
+          setTagItem('');
+        }
+      }
+    },
+    [tagItem],
+  );
+
   const handleValidCheck = useCallback((e, key) => {
     if (e === '') {
       if (key === 'menuNameValid') setInputValid({ ...inputValid, menuNameValid: false });
@@ -400,8 +417,9 @@ function PostForm() {
                 maxLength='6'
                 value={tagItem}
                 onChange={handleInputValue}
+                onKeyDown={handleEnterPress}
               />
-              <TagItems />
+              <TagItems tagList={tagList} />
             </S.TagImgBox>
           </S.BoxWrapper>
           <S.BoxWrapper>
