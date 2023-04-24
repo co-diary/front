@@ -38,8 +38,6 @@ function PostForm() {
 
   const [inputValid, setInputValid] = useRecoilState(inputValidState);
 
-  console.log('유효성검사:', inputValid);
-
   const [currentCategory, setCurrentCategory] = useRecoilState(categoryState);
   const [currentTheme, setCurrentTheme] = useRecoilState(themeState);
   const [currentSelect, setCurrentSelect] = useState(1);
@@ -63,8 +61,6 @@ function PostForm() {
   const [tagItem, setTagItem] = useState('');
   const [tagList, setTagList] = useRecoilState(tagListState);
   const [tagStyled, setTagStyled] = useState(false);
-
-  console.log('배열:', tagList, setTagList, tagStyled);
 
   const handleClickListCategory = useCallback((e) => {
     setCurrentCategory(e.target.innerText);
@@ -115,8 +111,6 @@ function PostForm() {
   const handlePriceChange = useCallback(
     (e) => {
       const priceRegExp = /^[0-9,]+$/.test(e.target.value);
-
-      console.log(priceRegExp);
 
       if (!priceRegExp && menuPrice === '') return;
 
@@ -260,8 +254,6 @@ function PostForm() {
     },
     [tagItem],
   );
-
-  console.log('입력:', tagItem);
 
   const handleEnterPress = useCallback(
     (e) => {
