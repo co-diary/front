@@ -10,10 +10,12 @@ import { authState } from '../../atom/authRecoil';
 function Location() {
   const user = useRecoilValue(authState);
   const [userPost, setUserPost] = useState([]);
+  const [likedPost, setLikedPost] = useState([]);
 
   useEffect(() => {
     if (user) {
       getUserData();
+      getLikedData();
     }
   }, [user]);
 
@@ -29,6 +31,17 @@ function Location() {
     setUserPost(postArr);
   };
 
+  const getLikedData = async () => {
+    const postArr = [];
+    const q = query(collection(db, 'liked'), where('uid', '==', user.uid));
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((value) => {
+      postArr.push(value.data().address.latLng);
+    });
+    setLikedPost(postArr);
+  }
+
   return (
     <>
       <Header title='지도' />
@@ -39,6 +52,17 @@ function Location() {
       >
         {userPost &&
           userPost.map((marker, index) => (
+            <MapMarker
+              key={index}
+              position={{
+                lat: `${marker[0]}`,
+                lng: `${marker[1]}`,
+              }}
+              draggable={true}
+            />
+          ))}
+        {likedPost && 
+          likedPost.map((marker, index) => (
             <MapMarker
               key={index}
               position={{
