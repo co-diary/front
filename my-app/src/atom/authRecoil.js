@@ -13,7 +13,7 @@ const isAuthReady = atom({
 
 const isLoggedIn = atom({
   key: 'isLoggedIn',
-  default: false,
+  default: null,
 });
 
 const UserIdState = atom({

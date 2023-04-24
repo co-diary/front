@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { setDoc, doc } from 'firebase/firestore';
 import { appAuth, firestore } from '../firebase.js';
 import { authState } from '../atom/authRecoil.js';
@@ -11,6 +11,8 @@ const useSignup = () => {
   const [isPending, setIsPending] = useState(false);
   const setAuth = useSetRecoilState(authState);
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/home';
 
   const signup = (email, password, displayName) => {
     setError(null);
@@ -30,7 +32,7 @@ const useSignup = () => {
             setAuth(user);
             setError(null);
             setIsPending(false);
-            navigate('/home');
+            navigate(from);
 
             await setDoc(doc(firestore, 'users', uid), {
               uid,
