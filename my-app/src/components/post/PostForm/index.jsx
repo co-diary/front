@@ -22,6 +22,7 @@ import CategorySelectBox from '../CategorySelectBox';
 import useOutsideDetect from '../../../hooks/useOutsideDetect';
 import TagItems from '../../post/TagItem';
 import TasteRating from '../TasteRating';
+import ImageUpload from '../ImageUpload';
 import IconCalendar from '../../../assets/Icon-Calendar.png';
 import Portal from '../../../components/modal/Portal';
 import IconBack from '../../../assets/Icon-X.png';
@@ -435,8 +436,7 @@ function PostForm() {
           </S.BoxWrapper>
           <S.BoxWrapper>
             <S.ImgLabel>사진</S.ImgLabel>
-            <S.ImgLabelBtn htmlFor='img'></S.ImgLabelBtn>
-            <input type='file' accept='.jpg, .gif, .png, .jpeg, .bmp, .tif, .heic' id='img' />
+            <ImageUpload />
           </S.BoxWrapper>
         </S.Form>
       </S.Container>
