@@ -161,16 +161,6 @@ export const TagImgBox = styled.div`
   margin-bottom: ${(props) => props.length};
 `;
 
-export const TagLabel = styled.label`
-  display: inline-block;
-  width: 5.6rem;
-  margin-right: 1.2rem;
-  padding: 0.6rem 0;
-  font-family: 'LINESeedKR-Bd';
-  font-size: 1.4rem;
-  color: ${Theme.MAIN_FONT};
-`;
-
 export const TagInput = styled.input`
   padding: 0.4rem 0;
   font-family: 'LINESeedKR-Rg';
