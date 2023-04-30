@@ -16,7 +16,7 @@ import {
 } from '../../../atom/postRecoil';
 import placeState from '../../../atom/mapRecoil';
 import modalState from '../../../atom/modalRecoil';
-import { inputValidState, tagListState } from '../../../atom/postUploadRecoil';
+import { inputValidState, tagListState, imageListState } from '../../../atom/postUploadRecoil';
 import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
 import CategorySelectBox from '../CategorySelectBox';
 import useOutsideDetect from '../../../hooks/useOutsideDetect';
@@ -62,6 +62,8 @@ function PostForm() {
   const [tagItem, setTagItem] = useState('');
   const [tagList, setTagList] = useRecoilState(tagListState);
   const [tagStyled, setTagStyled] = useState(false);
+
+  const [imageList, setImageList] = useRecoilState(imageListState);
 
   const handleClickListCategory = useCallback((e) => {
     setCurrentCategory(e.target.innerText);
@@ -415,7 +417,9 @@ function PostForm() {
             />
           </S.InputBox>
           <S.BoxWrapper length='1.2rem'>
-            <S.TagLabel htmlFor='tag'>태그</S.TagLabel>
+            <S.Label htmlFor='tag' padding='0.6rem 0'>
+              태그
+            </S.Label>
             <S.TagImgBox>
               <S.TagInput
                 type='text'
@@ -435,8 +439,8 @@ function PostForm() {
             </S.TagImgBox>
           </S.BoxWrapper>
           <S.BoxWrapper>
-            <S.ImgLabel>사진</S.ImgLabel>
-            <ImageUpload />
+            <S.Label padding='0.8rem 0'>사진</S.Label>
+            <ImageUpload imageList={imageList} setImageList={setImageList} />
           </S.BoxWrapper>
         </S.Form>
       </S.Container>

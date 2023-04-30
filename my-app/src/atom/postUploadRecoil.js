@@ -17,4 +17,9 @@ const tagListState = atom({
   default: [],
 });
 
-export { inputValidState, tagListState };
+const imageListState = atom({
+  key: 'imageListState',
+  default: [],
+});
+
+export { inputValidState, tagListState, imageListState };
