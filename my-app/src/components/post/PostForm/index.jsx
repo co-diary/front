@@ -276,17 +276,20 @@ function PostForm() {
     [tagItem],
   );
 
-  const handleTagDelete = (tagIndex) => {
-    const tagLeaveList = tagList.filter((_, i) => tagIndex !== i);
+  const handleTagDelete = useCallback(
+    (tagIndex) => {
+      const tagLeaveList = tagList.filter((_, i) => tagIndex !== i);
 
-    if (tagLeaveList.length === 0) {
-      setTagStyled(false);
+      if (tagLeaveList.length === 0) {
+        setTagStyled(false);
+        setTagList(tagLeaveList);
+        return;
+      }
+
       setTagList(tagLeaveList);
-      return;
-    }
-
-    setTagList(tagLeaveList);
-  };
+    },
+    [tagList],
+  );
 
   const handleImageUpload = (imgList) => {
     console.log('PostForm/받아온 리스트', imgList);

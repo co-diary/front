@@ -1,7 +1,7 @@
 // import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import imageCompression from 'browser-image-compression';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 const useImageUpload = () => {
   const [imagePreview, setImagePreview] = useState([]);
@@ -29,7 +29,19 @@ const useImageUpload = () => {
     }
   };
 
-  return { handleFileChange, imagePreview, imageUpload };
+  const handleImageDelete = useCallback(
+    (imageIndex) => {
+      console.log(imageIndex);
+      const imageLeaveListPreview = imagePreview.filter((_, i) => imageIndex !== i);
+      const imageLeaveList = imageUpload.filter((_, i) => imageIndex !== i);
+
+      setImagePreview(imageLeaveListPreview);
+      setImageUpload(imageLeaveList);
+    },
+    [imagePreview],
+  );
+
+  return { handleFileChange, imagePreview, imageUpload, handleImageDelete };
 };
 
 export default useImageUpload;

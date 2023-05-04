@@ -1,9 +1,9 @@
 import React from 'react';
-import useTest from '../../../hooks/useImageResizing';
+import useImageResizing from '../../../hooks/useImageUpload';
 import * as S from './style';
 
 function ImageUpload({ handleImageUpload }) {
-  const { handleFileChange, imagePreview, imageUpload } = useTest();
+  const { handleFileChange, imagePreview, imageUpload, handleImageDelete } = useImageResizing();
 
   handleImageUpload(imageUpload);
 
@@ -26,7 +26,7 @@ function ImageUpload({ handleImageUpload }) {
             {imagePreview.map((imgPreview, i) => (
               <S.ImgPreviewList key={i} imgSize={imagePreview.length}>
                 <S.Image src={imgPreview} alt='선택한 업로드 이미지' />
-                <S.RemoveImgBtn type='button'>
+                <S.RemoveImgBtn type='button' onClick={() => handleImageDelete(i)}>
                   <span className='ir'>이미지 삭제</span>
                 </S.RemoveImgBtn>
               </S.ImgPreviewList>
