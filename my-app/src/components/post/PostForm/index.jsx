@@ -288,6 +288,10 @@ function PostForm() {
     setTagList(tagLeaveList);
   };
 
+  const handleImageUpload = (imgList) => {
+    console.log('PostForm/받아온 리스트', imgList);
+  };
+
   const handleValidCheck = useCallback((e, key) => {
     if (e === '') {
       if (key === 'menuNameValid') setInputValid({ ...inputValid, menuNameValid: false });
@@ -440,7 +444,11 @@ function PostForm() {
           </S.BoxWrapper>
           <S.BoxWrapper>
             <S.Label padding='0.8rem 0'>사진</S.Label>
-            <ImageUpload imageList={imageList} setImageList={setImageList} />
+            <ImageUpload
+              imageList={imageList}
+              setImageList={setImageList}
+              handleImageUpload={handleImageUpload}
+            />
           </S.BoxWrapper>
         </S.Form>
       </S.Container>
