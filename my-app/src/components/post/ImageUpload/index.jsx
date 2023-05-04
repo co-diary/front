@@ -25,7 +25,10 @@ function ImageUpload({ handleImageUpload }) {
           <S.ImgPreview>
             {imagePreview.map((imgPreview, i) => (
               <S.ImgPreviewList key={i} imgSize={imagePreview.length}>
-                <img src={imgPreview} alt='' />
+                <S.Image src={imgPreview} alt='선택한 업로드 이미지' />
+                <S.RemoveImgBtn type='button'>
+                  <span className='ir'>이미지 삭제</span>
+                </S.RemoveImgBtn>
               </S.ImgPreviewList>
             ))}
           </S.ImgPreview>

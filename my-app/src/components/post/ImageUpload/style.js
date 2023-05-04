@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import Theme from '../../../styles/Theme';
 import IconAddPhoto from '../../../assets/Icon-AddPhoto.png';
 import IconAddPhotoHover from '../../../assets/Icon-AddPhoto-hover.png';
+import IconPhotoX from '../../../assets/Icon-Photo-X.png';
 
 export const ImageBox = styled.article`
   display: grid;
@@ -67,6 +68,7 @@ export const ImgPreview = styled.ul`
 export const ImgPreviewList = styled.li`
   width: 20rem;
   height: 14.4rem;
+  position: relative;
 
   ${({ imgSize }) =>
     imgSize > 1 &&
@@ -74,11 +76,24 @@ export const ImgPreviewList = styled.li`
       width: 12.6rem;
       height: 10rem;
     `};
+`;
 
-  & img {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    object-fit: cover;
+export const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+`;
+
+export const RemoveImgBtn = styled.button`
+  &::after {
+    content: '';
+    position: absolute;
+    background: url(${IconPhotoX}) no-repeat;
+    background-size: 2rem;
+    top: 0.6rem;
+    right: 0.8rem;
+    width: 2rem;
+    height: 2rem;
   }
 `;
