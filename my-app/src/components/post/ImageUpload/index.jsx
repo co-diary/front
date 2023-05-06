@@ -1,9 +1,10 @@
+// import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import React from 'react';
-import useImageResizing from '../../../hooks/useImageUpload';
+import useImageUpload from '../../../hooks/useImageUpload';
 import * as S from './style';
 
 function ImageUpload({ handleImageUpload }) {
-  const { handleFileChange, imagePreview, imageUpload, handleImageDelete } = useImageResizing();
+  const { handleFileChange, imagePreview, imageUpload, handleImageDelete } = useImageUpload();
 
   handleImageUpload(imageUpload);
 
