@@ -1,15 +1,11 @@
-// import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import React from 'react';
 import useImageUpload from '../../../hooks/useImageUpload';
 import * as S from './style';
 
 function ImageUpload({ handleImageUpload }) {
-  const { handleFileChange, imagePreview, imageUpload, handleImageDelete } = useImageUpload();
+  const { handleFileChange, imageUpload, handleImageDelete } = useImageUpload();
 
   handleImageUpload(imageUpload);
-
-  console.log('preview:', imagePreview);
-  console.log('imageUpload:', imageUpload);
 
   return (
     <>
@@ -24,10 +20,10 @@ function ImageUpload({ handleImageUpload }) {
         />
         <S.ImgPreviewBox>
           <S.ImgPreview>
-            {imagePreview.map((imgPreview, i) => (
-              <S.ImgPreviewList key={i} imgSize={imagePreview.length}>
+            {imageUpload.map((imgPreview, i) => (
+              <S.ImgPreviewList key={i} imgSize={imageUpload.length}>
                 <S.Image src={imgPreview} alt='선택한 업로드 이미지' />
-                <S.RemoveImgBtn type='button' onClick={() => handleImageDelete(i)}>
+                <S.RemoveImgBtn type='button' onClick={() => handleImageDelete(imgPreview)}>
                   <span className='ir'>이미지 삭제</span>
                 </S.RemoveImgBtn>
               </S.ImgPreviewList>

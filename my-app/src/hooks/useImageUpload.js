@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
+import { ref, getDownloadURL, uploadBytes, deleteObject } from 'firebase/storage';
 import imageCompression from 'browser-image-compression';
 import { useRecoilValue } from 'recoil';
 // import { v4 as uuidv4 } from 'uuid';
@@ -7,7 +7,6 @@ import { storage } from '../firebase';
 import { authState } from '../atom/authRecoil';
 
 const useImageUpload = () => {
-  const [imagePreview, setImagePreview] = useState([]);
   const [imageUpload, setImageUpload] = useState([]);
   const userAuth = useRecoilValue(authState);
 
@@ -22,8 +21,6 @@ const useImageUpload = () => {
       return;
     }
 
-    console.log('original:', file);
-
     const options = {
       masSizeMb: 0.02,
       maxWidthOrHeight: 1080,
@@ -32,14 +29,9 @@ const useImageUpload = () => {
 
     try {
       const compressedFile = await imageCompression(file, options);
-
       const encordingFile = new File([compressedFile], file.name, { type: file.type });
-
       const image = window.URL.createObjectURL(compressedFile);
 
-      console.log('resizing complete: ', encordingFile);
-
-      setImagePreview([...imagePreview, image]);
       window.URL.revokeObjectURL((prev) => [...prev, image]);
       setImageUpload([...imageUpload, encordingFile]);
 
@@ -52,8 +44,6 @@ const useImageUpload = () => {
           setImageUpload([...imageUpload, url]);
         });
       });
-
-      console.log('리사이징타입:', typeof encordingFile, '상태값:', typeof imageUpload);
     } catch (error) {
       console.log('[ErrorMsg]', error);
     }
@@ -64,17 +54,23 @@ const useImageUpload = () => {
   }, [imageUpload]);
 
   const handleImageDelete = useCallback(
-    async (imageIndex) => {
-      const imageLeaveListPreview = imagePreview.filter((_, i) => imageIndex !== i);
-      const imageLeaveList = imageUpload.filter((_, i) => imageIndex !== i);
+    async (imageSelect) => {
+      const deleteRef = await ref(storage, imageSelect);
 
-      setImagePreview(imageLeaveListPreview);
-      setImageUpload(imageLeaveList);
+      await deleteObject(deleteRef)
+        .then(() => {
+          const imageLeaveList = imageUpload.filter((updateUrl) => updateUrl !== imageSelect);
+
+          setImageUpload(imageLeaveList);
+        })
+        .catch((error) => {
+          console.log('[ErrorMsg]', error);
+        });
     },
-    [imagePreview],
+    [imageUpload],
   );
 
-  return { handleFileChange, imagePreview, imageUpload, handleImageDelete };
+  return { handleFileChange, imageUpload, handleImageDelete };
 };
 
 export default useImageUpload;
