@@ -17,6 +17,10 @@ const useImageUpload = () => {
     const file = e.target?.files[0];
 
     if (!file) return;
+    if (imageUpload.length > 2) {
+      alert('이미지는 3장까지 등록할 수 있습니다.');
+      return;
+    }
 
     console.log('original:', file);
 
