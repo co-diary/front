@@ -5,7 +5,9 @@ import * as S from './style';
 function ImageUpload({ handleImageUpload }) {
   const { handleFileChange, imageUpload, handleImageDelete } = useImageUpload();
 
-  handleImageUpload(imageUpload);
+  const getUrl = imageUpload.map(({ isUploading, ...rest }) => rest);
+
+  handleImageUpload(getUrl);
 
   return (
     <>
@@ -20,14 +22,22 @@ function ImageUpload({ handleImageUpload }) {
         />
         <S.ImgPreviewBox>
           <S.ImgPreview>
-            {imageUpload.map((imgPreview, i) => (
-              <S.ImgPreviewList key={i} imgSize={imageUpload.length}>
-                <S.Image src={imgPreview} alt='선택한 업로드 이미지' />
-                <S.RemoveImgBtn type='button' onClick={() => handleImageDelete(imgPreview)}>
-                  <span className='ir'>이미지 삭제</span>
-                </S.RemoveImgBtn>
-              </S.ImgPreviewList>
-            ))}
+            {imageUpload.map((imgPreview, i) =>
+              imgPreview.isUploading ? (
+                <S.ImgPreviewList key={i} imgSize={imageUpload.length}>
+                  <S.UploadingBox>
+                    <S.UploadingTitle>⬆️ 업로드 중</S.UploadingTitle>
+                  </S.UploadingBox>
+                </S.ImgPreviewList>
+              ) : (
+                <S.ImgPreviewList key={i} imgSize={imageUpload.length}>
+                  <S.Image src={imgPreview.url} alt='선택한 업로드 이미지' />
+                  <S.RemoveImgBtn type='button' onClick={() => handleImageDelete(imgPreview.url)}>
+                    <span className='ir'>이미지 삭제</span>
+                  </S.RemoveImgBtn>
+                </S.ImgPreviewList>
+              ),
+            )}
           </S.ImgPreview>
         </S.ImgPreviewBox>
       </S.ImageBox>

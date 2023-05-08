@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { ref, getDownloadURL, uploadBytes, deleteObject } from 'firebase/storage';
 import imageCompression from 'browser-image-compression';
 import { useRecoilValue } from 'recoil';
-// import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { storage } from '../firebase';
 import { authState } from '../atom/authRecoil';
 
@@ -33,15 +33,15 @@ const useImageUpload = () => {
       const image = window.URL.createObjectURL(compressedFile);
 
       window.URL.revokeObjectURL((prev) => [...prev, image]);
-      setImageUpload([...imageUpload, encordingFile]);
+      setImageUpload([...imageUpload, { url: encordingFile, isUploading: true }]);
 
-      const imageRef = await ref(storage, `${userAuth?.uid}/${file.name}`);
+      const imageRef = await ref(storage, `${userAuth?.uid}/${uuidv4()}`);
 
       if (!imageRef) return;
 
       await uploadBytes(imageRef, encordingFile).then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((url) => {
-          setImageUpload([...imageUpload, url]);
+        getDownloadURL(snapshot.ref).then((getUrl) => {
+          setImageUpload([...imageUpload, { url: getUrl, isUploading: false }]);
         });
       });
     } catch (error) {
@@ -59,7 +59,7 @@ const useImageUpload = () => {
 
       await deleteObject(deleteRef)
         .then(() => {
-          const imageLeaveList = imageUpload.filter((updateUrl) => updateUrl !== imageSelect);
+          const imageLeaveList = imageUpload.filter((updateUrl) => updateUrl.url !== imageSelect);
 
           setImageUpload(imageLeaveList);
         })

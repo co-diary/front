@@ -1,8 +1,17 @@
-import styled, { css } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import Theme from '../../../styles/Theme';
 import IconAddPhoto from '../../../assets/Icon-AddPhoto.png';
 import IconAddPhotoHover from '../../../assets/Icon-AddPhoto-hover.png';
 import IconPhotoX from '../../../assets/Icon-Photo-X.png';
+
+const Uploading = keyframes`
+  from {
+    opacity: 1;
+  } 
+  to {
+    opacity: 0;
+  }
+`;
 
 export const ImageBox = styled.article`
   display: grid;
@@ -78,10 +87,25 @@ export const ImgPreviewList = styled.li`
     `};
 `;
 
+export const UploadingBox = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const UploadingTitle = styled.h1`
+font-family: 'LINESeedKR-Rg';
+font-size: 1.4rem;
+color: ${Theme.MAIN_FONT};
+animation ${Uploading} 1.6s alternate infinite;
+`;
+
 export const Image = styled.img`
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  border-radius: 1rem;
   object-fit: cover;
 `;
 
