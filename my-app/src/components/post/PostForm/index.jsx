@@ -13,10 +13,13 @@ import {
   menuPriceState,
   starRatingState,
   reviewState,
-} from '../../../atom/postRecoil';
+  tagListState,
+  imageListState,
+  inputValidState,
+} from '../../../atom/postUploadRecoil';
 import placeState from '../../../atom/mapRecoil';
 import modalState from '../../../atom/modalRecoil';
-import { inputValidState, tagListState, imageListState } from '../../../atom/postUploadRecoil';
+// import { inputValidState, tagListState, imageListState } from '../../../atom/postUploadRecoil';
 import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
 import CategorySelectBox from '../CategorySelectBox';
 import useOutsideDetect from '../../../hooks/useOutsideDetect';
@@ -451,11 +454,7 @@ function PostForm() {
           </S.BoxWrapper>
           <S.BoxWrapper>
             <S.Label padding='0.8rem 0'>사진</S.Label>
-            <ImageUpload
-              imageList={imageList}
-              setImageList={setImageList}
-              handleImageUpload={handleImageUpload}
-            />
+            <ImageUpload handleImageUpload={handleImageUpload} />
           </S.BoxWrapper>
         </S.Form>
       </S.Container>
