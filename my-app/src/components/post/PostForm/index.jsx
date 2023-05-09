@@ -19,7 +19,6 @@ import {
 } from '../../../atom/postUploadRecoil';
 import placeState from '../../../atom/mapRecoil';
 import modalState from '../../../atom/modalRecoil';
-// import { inputValidState, tagListState, imageListState } from '../../../atom/postUploadRecoil';
 import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
 import CategorySelectBox from '../CategorySelectBox';
 import useOutsideDetect from '../../../hooks/useOutsideDetect';
@@ -297,7 +296,7 @@ function PostForm() {
   const handleImageUpload = useCallback(
     (imgList) => {
       console.log('PostForm/받아온 리스트', imgList);
-      setImageList([...imageList, imgList]);
+      setImageList(imgList);
     },
     [imageList],
   );
