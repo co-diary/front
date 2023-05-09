@@ -291,9 +291,13 @@ function PostForm() {
     [tagList],
   );
 
-  const handleImageUpload = (imgList) => {
-    console.log('PostForm/받아온 리스트', imgList);
-  };
+  const handleImageUpload = useCallback(
+    (imgList) => {
+      console.log('PostForm/받아온 리스트', imgList);
+      setImageList([...imageList, imgList]);
+    },
+    [imageList],
+  );
 
   const handleValidCheck = useCallback((e, key) => {
     if (e === '') {

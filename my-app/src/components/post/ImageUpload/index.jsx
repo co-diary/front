@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import useImageUpload from '../../../hooks/useImageUpload';
 import * as S from './style';
 
 function ImageUpload({ handleImageUpload }) {
   const { handleFileChange, imageUpload, handleImageDelete } = useImageUpload();
 
-  const getUrl = imageUpload.map(({ isUploading, ...rest }) => rest);
+  useEffect(() => {
+    const getUrl = imageUpload.map(({ isUploading, ...rest }) => rest);
 
-  handleImageUpload(getUrl);
+    handleImageUpload(getUrl);
+  }, [imageUpload]);
 
   return (
     <>
