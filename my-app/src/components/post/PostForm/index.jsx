@@ -99,6 +99,12 @@ function PostForm() {
       return;
     }
 
+    // console.log(JSON.stringify(startDate.toISOString().slice(2, 10).replaceAll('-', '.')));
+    // console.log('시간형식', startDate);
+    // const testDate = startDate.toDate().toISOString().slice(2, 10).replaceAll('-', '.');
+
+    // console.log(testDate);
+
     const form = new FormData();
 
     form.append('date', format(startDate, 'yyyy.MM.dd'));
@@ -301,14 +307,17 @@ function PostForm() {
     [imageList],
   );
 
-  const handleValidCheck = useCallback((e, key) => {
-    if (e === '') {
-      if (key === 'menuNameValid') setInputValid({ ...inputValid, menuNameValid: false });
-      if (key === 'menuPriceValid') setInputValid({ ...inputValid, menuPriceValid: false });
-      if (key === 'storeValid') setInputValid({ ...inputValid, storeValid: false });
-      if (key === 'addressValid') setInputValid({ ...inputValid, addressValid: false });
-    }
-  }, []);
+  const handleValidCheck = useCallback(
+    (e, key) => {
+      if (e === '') {
+        if (key === 'menuNameValid') setInputValid({ ...inputValid, menuNameValid: false });
+        if (key === 'menuPriceValid') setInputValid({ ...inputValid, menuPriceValid: false });
+        if (key === 'storeValid') setInputValid({ ...inputValid, storeValid: false });
+        if (key === 'addressValid') setInputValid({ ...inputValid, addressValid: false });
+      }
+    },
+    [inputValid],
+  );
 
   return (
     <>
