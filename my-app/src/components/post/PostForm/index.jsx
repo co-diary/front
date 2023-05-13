@@ -272,7 +272,7 @@ function PostForm() {
 
       if (e.target.value.length > 0 && e.key === 'Enter') {
         if (tagList.length < 2) {
-          setTagList([...tagList, { content: `${tagItem}` }]);
+          setTagList([...tagList, `${tagItem}`]);
           setTagStyled(true);
           setTagItem('');
         } else {

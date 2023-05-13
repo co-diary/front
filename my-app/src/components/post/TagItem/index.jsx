@@ -7,7 +7,7 @@ function TagItem({ tagList, handleTagDelete, tagBorderStyled }) {
       <S.TagList tagBorderStyled={tagBorderStyled}>
         {tagList.map((tag, i) => (
           <S.Tag key={`tag-${i}`} onClick={() => handleTagDelete(i)}>
-            #{tag.content}
+            #{tag}
           </S.Tag>
         ))}
       </S.TagList>

@@ -7,8 +7,9 @@ function ImageUpload({ handleImageUpload }) {
 
   useEffect(() => {
     const getUrl = imageUpload.map(({ isUploading, ...rest }) => rest);
+    const putUrl = getUrl.map((urlList) => urlList.url);
 
-    handleImageUpload(getUrl);
+    handleImageUpload(putUrl);
   }, [imageUpload]);
 
   return (

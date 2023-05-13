@@ -66,7 +66,7 @@ export {
   menuPriceState,
   starRatingState,
   reviewState,
-  inputValidState,
   tagListState,
   imageListState,
+  inputValidState,
 };
