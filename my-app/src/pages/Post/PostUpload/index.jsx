@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { setHours } from 'date-fns';
 import { useNavigate } from 'react-router';
+// import { Timestamp } from 'firebase/firestore';
 import Header from '../../../components/common/Header';
 import NavBar from '../../../components/common/NavBar';
 import Button from '../../../components/common/Button';
@@ -47,6 +49,8 @@ function PostUpload() {
   const resetTagList = useResetRecoilState(tagListState);
   const resetImageList = useResetRecoilState(imageListState);
   const resetInputValid = useResetRecoilState(inputValidState);
+
+  // const test = useRecoilState(dateState);
 
   const navigate = useNavigate();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useToggle();
@@ -111,6 +115,9 @@ function PostUpload() {
       alert('커디어리 등록에 실패했습니다!');
     }
   }, [response.error]);
+
+  // console.log('date', Timestamp.fromDate(new Date(selectDate)));
+  console.log('date', setHours(selectDate, 9));
 
   return (
     <>

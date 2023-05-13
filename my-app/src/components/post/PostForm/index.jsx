@@ -3,7 +3,6 @@ import { useRecoilState } from 'recoil';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale';
-import { format } from 'date-fns';
 import '../PostForm/datepicker.css';
 import {
   categoryState,
@@ -96,18 +95,7 @@ function PostForm() {
   useEffect(() => {
     if (!startDate) {
       setInputValid({ ...inputValid, dateValid: false });
-      return;
     }
-
-    // console.log(JSON.stringify(startDate.toISOString().slice(2, 10).replaceAll('-', '.')));
-    // console.log('시간형식', startDate);
-    // const testDate = startDate.toDate().toISOString().slice(2, 10).replaceAll('-', '.');
-
-    // console.log(testDate);
-
-    const form = new FormData();
-
-    form.append('date', format(startDate, 'yyyy.MM.dd'));
   }, [startDate]);
 
   useEffect(() => {
@@ -405,7 +393,11 @@ function PostForm() {
               onChange={handleStoreChange}
               onBlur={(e) => handleValidCheck(e.target.value, 'storeValid')}
             />
-            <S.LocationBtn type='button' onClick={() => onClickIcon()}></S.LocationBtn>
+            <S.LocationBtn
+              type='button'
+              alt='지도 검색 버튼'
+              onClick={() => onClickIcon()}
+            ></S.LocationBtn>
           </S.InputBox>
           <S.InputBox length='2rem'>
             <S.Label htmlFor='storeLocation'>위치</S.Label>
