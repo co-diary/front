@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router';
 import Header from '../../../components/common/Header';
@@ -22,6 +22,7 @@ import {
 } from '../../../atom/postUploadRecoil';
 import placeState from '../../../atom/mapRecoil';
 import usePostUpload from '../../../hooks/usePostUpload';
+import ToastMessage from '../../../components/notification/ToastMessage';
 
 function PostUpload() {
   const selectCategory = useRecoilValue(categoryState);
@@ -51,6 +52,7 @@ function PostUpload() {
   const navigate = useNavigate();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useToggle();
   const { addPost, response } = usePostUpload('post');
+  const [successToast, setSuccessToast] = useState(false);
 
   const btnDisabled =
     !inputValid.addressValid ||
@@ -90,6 +92,8 @@ function PostUpload() {
 
   useEffect(() => {
     if (response.success) {
+      activeToast();
+
       resetCategory();
       resetTheme();
       resetDate();
@@ -111,6 +115,17 @@ function PostUpload() {
       alert('커디어리 등록에 실패했습니다!');
     }
   }, [response.error]);
+
+  function activeToast() {
+    setSuccessToast(true);
+    const timer = setTimeout(() => {
+      setSuccessToast(false);
+    }, 2000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }
 
   return (
     <>
@@ -138,6 +153,7 @@ function PostUpload() {
         />
       </Portal>
       <NavBar page='upload' />
+      {successToast && <ToastMessage message={'오늘의 커디어리 등록 완료!'} />}
     </>
   );
 }
