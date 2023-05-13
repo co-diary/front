@@ -38,8 +38,6 @@ const usePostUpload = (database) => {
   const [response, dispatch] = useReducer(postReducer, initState);
   const userAuth = useRecoilValue(authState);
 
-  console.log('받아온 collect', database);
-
   const addPost = async (payloads) => {
     dispatch({ type: 'isPending' });
     try {
@@ -53,11 +51,9 @@ const usePostUpload = (database) => {
       });
 
       dispatch({ type: 'addPost', payload: docRef });
-
-      console.log('받아온 collection들', { ...payloads, createAt: createTime, uid: userUid });
     } catch (error) {
-      console.log('error!', error.message);
       dispatch({ type: 'error', payload: error.message });
+      console.log('error!', error.message);
     }
   };
 
