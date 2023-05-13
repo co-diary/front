@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useRecoilState } from 'recoil';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { setHours } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import '../PostForm/datepicker.css';
 import {
@@ -339,7 +340,7 @@ function PostForm() {
               dateFormat='yyyy.MM.dd'
               selected={startDate}
               onChange={(date) => {
-                setStartDate(date);
+                setStartDate(setHours(date, 9));
                 setInputValid((prev) => ({ ...prev, dateValid: true }));
               }}
               placeholderText='0000.00.00'
