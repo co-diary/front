@@ -2,6 +2,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -22,5 +23,8 @@ const appAuth = firebase.auth();
 // firebaseConfig 적용하여 firestore 인스턴스 불러오기
 const db = getFirestore(app);
 
+// firebase Storage 초기화 및 Storage 버킷 참조
+const storage = getStorage(app);
+
 // 필요한 곳에서 사용할 수 있도록 내보내기
-export { firestore, appAuth, db };
+export { firestore, appAuth, db, storage };

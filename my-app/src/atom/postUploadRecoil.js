@@ -36,6 +36,28 @@ const reviewState = atom({
   default: '',
 });
 
+const tagListState = atom({
+  key: 'tagListState',
+  default: [],
+});
+
+const imageListState = atom({
+  key: 'imageListState',
+  default: [],
+});
+
+const inputValidState = atom({
+  key: 'inputValidState',
+  default: {
+    dateValid: false,
+    menuNameValid: false,
+    menuPriceValid: false,
+    ratingValid: false,
+    storeValid: false,
+    addressValid: false,
+  },
+});
+
 export {
   categoryState,
   themeState,
@@ -44,4 +66,7 @@ export {
   menuPriceState,
   starRatingState,
   reviewState,
+  tagListState,
+  imageListState,
+  inputValidState,
 };

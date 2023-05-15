@@ -1,26 +1,40 @@
 import React, { useState } from 'react';
 import Button from '../../../../common/Button';
 import SearchForm from '../../../../search/SearchForm';
+import LocationSearch from '../../../../post/LocationSearch';
 
 import * as S from './style';
 
-function BottomSheetForm({ title, Icon, IconAlt, onClickIcon }) {
+function BottomSheetForm({
+  title,
+  Icon,
+  IconAlt,
+  onClickIcon,
+  handleCurrentLocation,
+  currentAddress,
+  isLocationCheck,
+}) {
+  const [inputKeyword, setInputKeyword] = useState('');
   const [keyword, setKeyword] = useState('');
-  const [focus, setFocus] = useState(false);
-
-  console.log(focus);
+  const [isInputNull, setIsInputNull] = useState(false);
 
   const onChange = (e) => {
     e.preventDefault();
-    setKeyword(e.target.value);
-  };
-
-  const handleFormBlur = () => {
-    setFocus(false);
+    setInputKeyword(e.target.value);
   };
 
   const handleClearBtn = (e) => {
-    setKeyword('');
+    setInputKeyword('');
+  };
+
+  const submitKeyword = (e) => {
+    e.preventDefault();
+    if (inputKeyword.replace(/^\s+|\s+$/g, '') === '') {
+      setIsInputNull(false);
+    } else {
+      setKeyword(inputKeyword);
+      setIsInputNull(true);
+    }
   };
 
   return (
@@ -35,53 +49,26 @@ function BottomSheetForm({ title, Icon, IconAlt, onClickIcon }) {
         <S.SearchFormContainer>
           <SearchForm
             onChange={onChange}
-            keyword={keyword}
-            setKeyword={setKeyword}
-            handleFormBlur={handleFormBlur}
+            keyword={inputKeyword}
+            setKeyword={setInputKeyword}
             handleClearBtn={handleClearBtn}
+            submitKeyword={submitKeyword}
           />
-          <Button text='검색' size='sm' />
+          <Button type='submit' onClick={submitKeyword} text='검색' size='sm' />
         </S.SearchFormContainer>
-        <S.MyLocation>현재 위치</S.MyLocation>
+        <S.LocationBtnBox>
+          <S.MyLocation onClick={handleCurrentLocation} isLocationCheck={isLocationCheck}>
+            현재 위치
+          </S.MyLocation>
+          <span>{currentAddress}</span>
+        </S.LocationBtnBox>
         <S.SectionBorder />
 
-        <S.ResultSection>
-          <S.SectionTitle>위치</S.SectionTitle>
-          <S.Results>
-            <S.Result>
-              <S.ResultTitle>이디야</S.ResultTitle>
-              <S.ResultDetail>대한민국 서울특별시 청파로71길 10 04304</S.ResultDetail>
-            </S.Result>
-            <S.Result>
-              <S.ResultTitle>이디야</S.ResultTitle>
-              <S.ResultDetail>대한민국 서울특별시 숭인동 1054 03111</S.ResultDetail>
-            </S.Result>
-            <S.Result>
-              <S.ResultTitle>이디야</S.ResultTitle>
-              <S.ResultDetail>대한민국 서울특별시 숭인동 1054 03111</S.ResultDetail>
-            </S.Result>
-            <S.Result>
-              <S.ResultTitle>이디야</S.ResultTitle>
-              <S.ResultDetail>대한민국 서울특별시 숭인동 1054 03111</S.ResultDetail>
-            </S.Result>
-            <S.Result>
-              <S.ResultTitle>이디야</S.ResultTitle>
-              <S.ResultDetail>대한민국 서울특별시 숭인동 1054 03111</S.ResultDetail>
-            </S.Result>
-            <S.Result>
-              <S.ResultTitle>이디야</S.ResultTitle>
-              <S.ResultDetail>대한민국 서울특별시 숭인동 1054 03111</S.ResultDetail>
-            </S.Result>
-            <S.Result>
-              <S.ResultTitle>이디야</S.ResultTitle>
-              <S.ResultDetail>대한민국 서울특별시 숭인동 1054 03111</S.ResultDetail>
-            </S.Result>
-            <S.Result>
-              <S.ResultTitle>이디야</S.ResultTitle>
-              <S.ResultDetail>대한민국 서울특별시 숭인동 1054 03111</S.ResultDetail>
-            </S.Result>
-          </S.Results>
-        </S.ResultSection>
+        <LocationSearch
+          searchKeyword={keyword}
+          isInputNull={isInputNull}
+          inputKeyword={inputKeyword}
+        />
       </S.Main>
     </>
   );
