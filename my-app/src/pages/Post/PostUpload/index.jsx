@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
-import { useNavigate } from 'react-router';
+import { useRecoilValue } from 'recoil';
+import { useLocation } from 'react-router-dom';
 import Header from '../../../components/common/Header';
 import NavBar from '../../../components/common/NavBar';
 import Button from '../../../components/common/Button';
@@ -22,6 +22,7 @@ import {
 } from '../../../atom/postUploadRecoil';
 import placeState from '../../../atom/mapRecoil';
 import usePostUpload from '../../../hooks/usePostUpload';
+import useResetInput from '../../../hooks/useResetInput';
 
 function PostUpload() {
   const selectCategory = useRecoilValue(categoryState);
@@ -36,21 +37,10 @@ function PostUpload() {
   const imageList = useRecoilValue(imageListState);
   const inputValid = useRecoilValue(inputValidState);
 
-  const resetCategory = useResetRecoilState(categoryState);
-  const resetTheme = useResetRecoilState(themeState);
-  const resetDate = useResetRecoilState(dateState);
-  const resetMenuName = useResetRecoilState(menuNameState);
-  const resetMenuPrice = useResetRecoilState(menuPriceState);
-  const resetStarRating = useResetRecoilState(starRatingState);
-  const resetPlace = useResetRecoilState(placeState);
-  const resetReview = useResetRecoilState(reviewState);
-  const resetTagList = useResetRecoilState(tagListState);
-  const resetImageList = useResetRecoilState(imageListState);
-  const resetInputValid = useResetRecoilState(inputValidState);
-
-  const navigate = useNavigate();
+  const pathnameNavigate = useLocation();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useToggle();
   const { addPost, response } = usePostUpload('post');
+  const { resetInput } = useResetInput();
 
   const btnDisabled =
     !inputValid.addressValid ||
@@ -67,6 +57,27 @@ function PostUpload() {
   const confirmModalClose = () => {
     setIsConfirmModalOpen();
   };
+
+  const isInputValue =
+    selectCategory !== '음료' ||
+    selectTheme !== '커피' ||
+    !!selectDate ||
+    !!menuName ||
+    !!menuPrice ||
+    !!starRating ||
+    !!place.store ||
+    !!place.address ||
+    !!myReview ||
+    !!tagList.length > 0 ||
+    !!imageList.length > 0;
+
+  useEffect(() => {
+    if (isInputValue && pathnameNavigate.pathname === '/upload') {
+      const path = 'upload';
+
+      resetInput(path);
+    }
+  }, []);
 
   const handlePostUpload = (e) => {
     e.preventDefault();
@@ -90,19 +101,10 @@ function PostUpload() {
 
   useEffect(() => {
     if (response.success) {
-      resetCategory();
-      resetTheme();
-      resetDate();
-      resetMenuName();
-      resetMenuPrice();
-      resetStarRating();
-      resetPlace();
-      resetReview();
-      resetTagList();
-      resetImageList();
-      resetInputValid();
+      const path = 'home';
+      const queryString = 'success=true';
 
-      navigate('/home?success=true');
+      resetInput(path, queryString);
     }
   }, [response.success]);
 
