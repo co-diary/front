@@ -290,7 +290,6 @@ function PostForm() {
 
   const handleImageUpload = useCallback(
     (imgList) => {
-      console.log('PostForm/받아온 리스트', imgList);
       setImageList(imgList);
     },
     [imageList],
