@@ -11,7 +11,7 @@ import ProfileEdit from '../pages/MyPage/ProfileEdit';
 import NotFound from '../pages/NotFound/NotFound';
 import Post from '../pages/Post';
 import PostDetail from '../pages/Post/PostDetail';
-import PostEdit from '../pages/Post/PostEdit/PostEdit';
+import PostEdit from '../pages/Post/PostEdit';
 import PostUpload from '../pages/Post/PostUpload';
 import Search from '../pages/Search';
 import SignUp from '../pages/SignUp';
