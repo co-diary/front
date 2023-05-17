@@ -76,6 +76,7 @@ export const ReviewInput = styled.textarea`
   display: block;
   width: calc(100% - 5.6rem);
   font-family: 'LINESeedKR-Rg';
+  font-size: 1.4rem;
   border: none;
   word-break: break-all;
   white-space: pre-wrap;
