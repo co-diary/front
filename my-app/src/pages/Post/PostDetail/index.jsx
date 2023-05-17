@@ -126,7 +126,9 @@ function PostDetail() {
   };
 
   const onClickEdit = () => {
-    navigate(`/post/${id}/edit`);
+    navigate(`/post/${id}/edit`, {
+      state: post,
+    });
   };
 
   const onClickDelete = () => {
