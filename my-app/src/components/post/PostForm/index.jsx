@@ -69,6 +69,8 @@ function PostForm({ editPostId, editPost, edit }) {
   const [tagItem, setTagItem] = useState('');
   const [tagList, setTagList] = useRecoilState(tagListState);
   const [tagStyled, setTagStyled] = useState(false);
+  const [tagInputStyled, setTagInputStyled] = useState(false);
+  const [tagInputHeight, setTagInputHeight] = useState(false);
 
   const [imageList, setImageList] = useRecoilState(imageListState);
   const [imageLoadingLength, setImageLoadingLength] = useState(0);
@@ -303,6 +305,16 @@ function PostForm({ editPostId, editPost, edit }) {
     [tagItem],
   );
 
+  useEffect(() => {
+    if (tagList.length === 2) {
+      setTagInputStyled(true);
+      setTagInputHeight(true);
+    } else {
+      setTagInputStyled(false);
+      setTagInputHeight(false);
+    }
+  }, [tagItem, tagList]);
+
   const handleTagDelete = useCallback(
     (tagIndex) => {
       const tagLeaveList = tagList.filter((_, i) => tagIndex !== i);
@@ -535,6 +547,8 @@ function PostForm({ editPostId, editPost, edit }) {
                 id='tag'
                 maxLength='6'
                 tagBorderStyled={tagStyled}
+                tagInputStyled={tagInputStyled}
+                tagInputHeight={tagInputHeight}
                 value={tagItem}
                 onChange={handleInputValue}
                 onKeyDown={handleEnterPress}

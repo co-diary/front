@@ -109,7 +109,7 @@ export const UploadingBox = styled.div`
   border-radius: 1rem;
   background-image: linear-gradient(90deg, #ececec 0px, #f4f4f4 40px, #ececec 80px);
   background-size: 12.6rem;
-  animation ${Uploading} 2s infinite ease-out;
+  animation: ${Uploading} 2s infinite ease-out;
 `;
 
 export const Image = styled.img`
