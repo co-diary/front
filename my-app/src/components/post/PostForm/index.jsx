@@ -37,7 +37,7 @@ import BottomSheetForm from '../../../components/modal/BottomSheet/BottomSheetSt
 import BottomSheet from '../../../components/modal/BottomSheet';
 import * as S from './style';
 
-function PostForm() {
+function PostForm({ editPostId, editPost, edit }) {
   const { kakao } = window;
   const [isShowOptionCategory, setIsShowOptionCategory, categoryRef, handleDisplayCategory] =
     useOutsideDetect(false);
@@ -74,6 +74,28 @@ function PostForm() {
   const [imageLoadingLength, setImageLoadingLength] = useState(0);
 
   const userAuth = useRecoilValue(authState);
+
+  useEffect(() => {
+    if (edit) {
+      if (editPost.tag.length > 0) setTagStyled(true);
+
+      setCurrentCategory(editPost?.category);
+      setCurrentTheme(editPost?.theme);
+      setStartDate(editPost?.date.seconds * 1000);
+      setMenuName(editPost?.menu);
+      setMenuPrice(editPost?.price);
+      setRatingHovered(editPost?.score);
+      setPlace({
+        lat: editPost.address.lat,
+        lng: editPost.address.lng,
+        store: editPost.shop,
+        address: editPost.address.location,
+      });
+      setReview(editPost?.review);
+      setTagList([...editPost.tag]);
+      setImageList([...editPost.photo]);
+    }
+  }, []);
 
   const handleClickListCategory = useCallback((e) => {
     setCurrentCategory(e.target.innerText);
