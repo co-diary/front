@@ -1,9 +1,14 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { useRecoilState } from 'recoil';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { v4 as uuidv4 } from 'uuid';
 import { setHours } from 'date-fns';
 import { ko } from 'date-fns/locale';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import DatePicker from 'react-datepicker';
+import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
+import imageCompression from 'browser-image-compression';
+import { storage } from '../../../firebase';
+import { authState } from '../../../atom/authRecoil';
 import '../PostForm/datepicker.css';
 import {
   categoryState,
@@ -66,6 +71,9 @@ function PostForm() {
   const [tagStyled, setTagStyled] = useState(false);
 
   const [imageList, setImageList] = useRecoilState(imageListState);
+  const [imageLoadingLength, setImageLoadingLength] = useState(0);
+
+  const userAuth = useRecoilValue(authState);
 
   const handleClickListCategory = useCallback((e) => {
     setCurrentCategory(e.target.innerText);
@@ -288,12 +296,76 @@ function PostForm() {
     [tagList],
   );
 
-  const handleImageUpload = useCallback(
-    (imgList) => {
-      setImageList(imgList);
+  const handleFileChange = useCallback(
+    async (e) => {
+      if (!e) return;
+
+      const file = e.target?.files[0];
+
+      console.log(setImageLoadingLength);
+
+      console.log('file크기', file.length);
+
+      if (!file) return;
+      if (imageList.length > 2) {
+        alert('이미지는 3장까지 등록할 수 있습니다.');
+        return;
+      }
+
+      const options = {
+        masSizeMb: 0.02,
+        maxWidthOrHeight: 1080,
+        useWebWorker: true,
+      };
+
+      try {
+        const compressedFile = await imageCompression(file, options);
+        const encordingFile = new File([compressedFile], file.name, { type: file.type });
+        const image = window.URL.createObjectURL(compressedFile);
+
+        window.URL.revokeObjectURL((prev) => [...prev, image]);
+
+        const imageRef = ref(storage, `${userAuth?.uid}/${uuidv4()}`);
+        const uploadTask = uploadBytesResumable(imageRef, encordingFile);
+
+        if (!imageRef) return;
+
+        uploadTask.on(
+          'state_change',
+          (snapshot) => {
+            const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+
+            setImageLoadingLength(progress);
+          },
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((getUrl) => {
+              setImageList([...imageList, getUrl]);
+              setImageLoadingLength(0);
+            });
+          },
+        );
+      } catch (error) {
+        console.log('[ErrorMsg]', error);
+      }
     },
     [imageList],
   );
+
+  console.log('imageLength', imageLoadingLength);
+
+  const handleImageDelete = useCallback(
+    async (imageIndex) => {
+      const imageLeaveList = imageList.filter((_, i) => imageIndex !== i);
+
+      setImageList(imageLeaveList);
+    },
+    [imageList],
+  );
+
+  console.log('저장되있는 imgList', imageList);
 
   const handleValidCheck = useCallback(
     (e, key) => {
@@ -454,7 +526,12 @@ function PostForm() {
           </S.BoxWrapper>
           <S.BoxWrapper>
             <S.Label padding='0.8rem 0'>사진</S.Label>
-            <ImageUpload handleImageUpload={handleImageUpload} />
+            <ImageUpload
+              handleFileChange={handleFileChange}
+              handleImageDelete={handleImageDelete}
+              src={imageList}
+              imageLoadingLength={imageLoadingLength}
+            />
           </S.BoxWrapper>
         </S.Form>
       </S.Container>

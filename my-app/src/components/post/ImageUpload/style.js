@@ -1,16 +1,16 @@
 import styled, { keyframes, css } from 'styled-components';
 import Theme from '../../../styles/Theme';
+import IconPhotoX from '../../../assets/Icon-Photo-X.png';
 import IconAddPhoto from '../../../assets/Icon-AddPhoto.png';
 import IconAddPhotoHover from '../../../assets/Icon-AddPhoto-hover.png';
-import IconPhotoX from '../../../assets/Icon-Photo-X.png';
 
 const Uploading = keyframes`
-  from {
-    opacity: 1;
-  } 
-  to {
-    opacity: 0;
-  }
+0% {
+  background-position: -32px;
+}
+40%, 100% {
+  background-position: 208px;
+}
 `;
 
 export const ImageBox = styled.article`
@@ -87,19 +87,29 @@ export const ImgPreviewList = styled.li`
     `};
 `;
 
+export const LoadingList = styled.li`
+  width: 20rem;
+  height: 14.4rem;
+  position: relative;
+
+  ${({ imgSize }) =>
+    imgSize > 1 &&
+    css`
+      width: 12.6rem;
+      height: 10rem;
+    `};
+`;
+
 export const UploadingBox = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-export const UploadingTitle = styled.h1`
-font-family: 'LINESeedKR-Rg';
-font-size: 1.4rem;
-color: ${Theme.MAIN_FONT};
-animation ${Uploading} 1.6s alternate infinite;
+  border-radius: 1rem;
+  background-image: linear-gradient(90deg, #ececec 0px, #f4f4f4 40px, #ececec 80px);
+  background-size: 12.6rem;
+  animation ${Uploading} 2s infinite ease-out;
 `;
 
 export const Image = styled.img`

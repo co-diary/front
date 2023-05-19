@@ -1,17 +1,7 @@
-import React, { useEffect } from 'react';
-import useImageUpload from '../../../hooks/useImageUpload';
+import React from 'react';
 import * as S from './style';
 
-function ImageUpload({ handleImageUpload }) {
-  const { handleFileChange, imageUpload, handleImageDelete } = useImageUpload();
-
-  useEffect(() => {
-    const getUrl = imageUpload.map(({ isUploading, ...rest }) => rest);
-    const putUrl = getUrl.map((urlList) => urlList.url);
-
-    handleImageUpload(putUrl);
-  }, [imageUpload]);
-
+function ImageUpload({ handleFileChange, handleImageDelete, src, imageLoadingLength }) {
   return (
     <>
       <S.ImageBox>
@@ -25,21 +15,18 @@ function ImageUpload({ handleImageUpload }) {
         />
         <S.ImgPreviewBox>
           <S.ImgPreview>
-            {imageUpload.map((imgPreview, i) =>
-              imgPreview.isUploading ? (
-                <S.ImgPreviewList key={i} imgSize={imageUpload.length}>
-                  <S.UploadingBox>
-                    <S.UploadingTitle>⬆️ 업로드 중</S.UploadingTitle>
-                  </S.UploadingBox>
-                </S.ImgPreviewList>
-              ) : (
-                <S.ImgPreviewList key={i} imgSize={imageUpload.length}>
-                  <S.Image src={imgPreview.url} alt='선택한 업로드 이미지' />
-                  <S.RemoveImgBtn type='button' onClick={() => handleImageDelete(imgPreview.url)}>
-                    <span className='ir'>이미지 삭제</span>
-                  </S.RemoveImgBtn>
-                </S.ImgPreviewList>
-              ),
+            {src.map((imgPreview, i) => (
+              <S.ImgPreviewList key={i} imgSize={src.length}>
+                <S.Image src={imgPreview} alt='선택한 업로드 이미지' />
+                <S.RemoveImgBtn type='button' onClick={() => handleImageDelete(i)}>
+                  <span className='ir'>이미지 삭제</span>
+                </S.RemoveImgBtn>
+              </S.ImgPreviewList>
+            ))}
+            {imageLoadingLength > 0 && (
+              <S.LoadingList imgSize={src.length}>
+                <S.UploadingBox></S.UploadingBox>
+              </S.LoadingList>
             )}
           </S.ImgPreview>
         </S.ImgPreviewBox>
