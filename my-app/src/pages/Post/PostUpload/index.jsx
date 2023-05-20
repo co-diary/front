@@ -19,6 +19,7 @@ import {
   tagListState,
   imageListState,
   inputValidState,
+  imageDeleteState,
 } from '../../../atom/postUploadRecoil';
 import placeState from '../../../atom/mapRecoil';
 import usePostUpload from '../../../hooks/usePostUpload';
@@ -39,8 +40,9 @@ function PostUpload() {
 
   const pathnameNavigate = useLocation();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useToggle();
-  const { addPost, response } = usePostUpload('post');
+  const { addPost, response, deleteImg } = usePostUpload('post');
   const { resetInput } = useResetInput();
+  const imageDeleteList = useRecoilValue(imageDeleteState);
 
   const btnDisabled =
     !inputValid.addressValid ||
@@ -72,7 +74,7 @@ function PostUpload() {
     !!imageList.length > 0;
 
   useEffect(() => {
-    if (isInputValue && pathnameNavigate.pathname === '/upload') {
+    if (!!imageDeleteList || (isInputValue && pathnameNavigate.pathname === '/upload')) {
       const path = 'upload';
 
       resetInput(path);
@@ -96,6 +98,9 @@ function PostUpload() {
       photo: imageList,
       like: false,
     });
+
+    deleteImg(imageDeleteList);
+
     setIsConfirmModalOpen(false);
   };
 

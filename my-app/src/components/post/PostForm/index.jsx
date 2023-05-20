@@ -21,6 +21,7 @@ import {
   tagListState,
   imageListState,
   inputValidState,
+  imageDeleteState,
 } from '../../../atom/postUploadRecoil';
 import placeState from '../../../atom/mapRecoil';
 import modalState from '../../../atom/modalRecoil';
@@ -74,6 +75,7 @@ function PostForm({ editPostId, editPost, edit }) {
 
   const [imageList, setImageList] = useRecoilState(imageListState);
   const [imageLoadingLength, setImageLoadingLength] = useState(0);
+  const [imageDeleteList, setImageDeleteList] = useRecoilState(imageDeleteState);
 
   const userAuth = useRecoilValue(authState);
 
@@ -388,18 +390,19 @@ function PostForm({ editPostId, editPost, edit }) {
     [imageList],
   );
 
-  console.log('imageLength', imageLoadingLength);
-
   const handleImageDelete = useCallback(
     async (imageIndex) => {
       const imageLeaveList = imageList.filter((_, i) => imageIndex !== i);
+      const imageDelete = imageList.filter((_, i) => imageIndex === i);
 
       setImageList(imageLeaveList);
+      setImageDeleteList([...imageDeleteList, ...imageDelete]);
     },
     [imageList],
   );
 
   console.log('저장되있는 imgList', imageList);
+  console.log('삭제된 imageList', imageDeleteList);
 
   const handleValidCheck = useCallback(
     (e, key) => {

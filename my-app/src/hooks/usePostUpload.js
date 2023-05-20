@@ -1,8 +1,10 @@
 import { useReducer } from 'react';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
-import { useRecoilValue } from 'recoil';
+import { deleteObject, ref } from 'firebase/storage';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { imageDeleteState } from '../atom/postUploadRecoil';
 import { authState } from '../atom/authRecoil';
-import { db } from '../firebase';
+import { db, storage } from '../firebase';
 
 const initState = {
   isPending: false,
@@ -37,6 +39,7 @@ const postReducer = (state, action) => {
 const usePostUpload = (database) => {
   const [response, dispatch] = useReducer(postReducer, initState);
   const userAuth = useRecoilValue(authState);
+  const setImageDeleteList = useSetRecoilState(imageDeleteState);
 
   const addPost = async (payloads) => {
     dispatch({ type: 'isPending' });
@@ -57,7 +60,24 @@ const usePostUpload = (database) => {
     }
   };
 
-  return { addPost, response };
+  const deleteImg = async (imageDeleteList) => {
+    console.log('삭제리스트', imageDeleteList);
+    const deletePromises = imageDeleteList.map((path) => {
+      const deleteRef = ref(storage, path);
+
+      return deleteObject(deleteRef);
+    });
+
+    try {
+      await Promise.all(deletePromises);
+      console.log('삭제성공!');
+      setImageDeleteList([]);
+    } catch (error) {
+      console.log('[ErrorMsg]', error);
+    }
+  };
+
+  return { addPost, response, deleteImg };
 };
 
 export default usePostUpload;
