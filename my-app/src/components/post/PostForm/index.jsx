@@ -38,7 +38,7 @@ import BottomSheetForm from '../../../components/modal/BottomSheet/BottomSheetSt
 import BottomSheet from '../../../components/modal/BottomSheet';
 import * as S from './style';
 
-function PostForm({ editPostId, editPost, edit }) {
+function PostForm({ editPost, edit }) {
   const { kakao } = window;
   const [isShowOptionCategory, setIsShowOptionCategory, categoryRef, handleDisplayCategory] =
     useOutsideDetect(false);
@@ -49,7 +49,8 @@ function PostForm({ editPostId, editPost, edit }) {
 
   const [currentCategory, setCurrentCategory] = useRecoilState(categoryState);
   const [currentTheme, setCurrentTheme] = useRecoilState(themeState);
-  const [currentSelect, setCurrentSelect] = useState(1);
+  const [currentSelectCategory, setCurrentSelectCategory] = useState(1);
+  const [currentSelectTheme, setCurrentSelectTheme] = useState(1);
 
   const [startDate, setStartDate] = useRecoilState(dateState);
 
@@ -81,10 +82,20 @@ function PostForm({ editPostId, editPost, edit }) {
 
   useEffect(() => {
     if (edit) {
+      const currentSelectValue = SELECTBOX_DATA.find(
+        (category) => category.name === editPost?.category,
+      )?.id;
+
+      const currentSelectThemeValue = SELECTBOX_DATA.filter(
+        (main) => main.name === editPost?.category,
+      ).map((sub) => sub.option.find((theme) => theme.subName === editPost?.theme)?.subId);
+
       if (editPost.tag.length > 0) setTagStyled(true);
 
       setCurrentCategory(editPost?.category);
+      setCurrentSelectCategory(currentSelectValue);
       setCurrentTheme(editPost?.theme);
+      setCurrentSelectTheme(currentSelectThemeValue);
       setStartDate(editPost?.date.seconds * 1000);
       setMenuName(editPost?.menu);
       setMenuPrice(editPost?.price);
@@ -120,12 +131,19 @@ function PostForm({ editPostId, editPost, edit }) {
 
   const handleCheckCategory = useCallback(
     (id) => {
-      setCurrentSelect(id);
+      setCurrentSelectCategory(id);
     },
-    [currentSelect],
+    [currentSelectCategory],
   );
 
-  const subOption = SELECTBOX_DATA.find((category) => category.id === currentSelect).option;
+  const handleCheckTheme = useCallback(
+    (id) => {
+      setCurrentSelectTheme(id);
+    },
+    [currentSelectTheme],
+  );
+
+  const subOption = SELECTBOX_DATA.find((category) => category.id === currentSelectCategory).option;
 
   useEffect(() => {
     if (!startDate) {
@@ -401,9 +419,6 @@ function PostForm({ editPostId, editPost, edit }) {
     [imageList],
   );
 
-  console.log('저장되있는 imgList', imageList);
-  console.log('삭제된 imageList', imageDeleteList);
-
   const handleValidCheck = useCallback(
     (e, key) => {
       if (e === '') {
@@ -431,6 +446,7 @@ function PostForm({ editPostId, editPost, edit }) {
               currentSelected={currentCategory}
               handleDisplay={handleDisplayCategory}
               handleCheckCategory={handleCheckCategory}
+              currentSelectList={currentSelectCategory}
             />
             <CategorySelectBox
               boxValue={false}
@@ -440,6 +456,8 @@ function PostForm({ editPostId, editPost, edit }) {
               handleClickList={handleClickListTheme}
               currentSelected={currentTheme}
               handleDisplay={handleDisplayTheme}
+              handleCheckTheme={handleCheckTheme}
+              currentSelectTheme={currentSelectTheme}
             />
           </S.SelectBoxWrapper>
           <S.InputBox length='1.2rem'>

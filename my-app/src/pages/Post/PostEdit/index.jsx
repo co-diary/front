@@ -1,18 +1,17 @@
 import React from 'react';
-import { useLocation, useParams } from 'react-router';
+import { useLocation } from 'react-router';
 import Header from '../../../components/common/Header';
 import NavBar from '../../../components/common/NavBar';
 import Button from '../../../components/common/Button';
 import PostForm from '../../../components/post/PostForm';
 
 function PostEdit() {
-  const { id } = useParams();
   const { state } = useLocation();
 
   return (
     <>
       <Header title='커디어리 수정' rightChild={<Button size='sm' text='등록' />} />
-      <PostForm edit editPostId={id} editPost={state} />
+      <PostForm edit editPost={state} />
       <NavBar page='upload' />
     </>
   );
