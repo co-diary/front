@@ -132,6 +132,7 @@ function PostForm({ editPost, edit }) {
   const handleCheckCategory = useCallback(
     (id) => {
       setCurrentSelectCategory(id);
+      setCurrentSelectTheme(1);
     },
     [currentSelectCategory],
   );
