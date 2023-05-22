@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useLocation } from 'react-router-dom';
 import Header from '../../../components/common/Header';
@@ -43,14 +43,22 @@ function PostUpload() {
   const { addPost, response, deleteImg } = usePostUpload('post');
   const { resetInput } = useResetInput();
   const imageDeleteList = useRecoilValue(imageDeleteState);
+  const [btnDisabled, setBtnDisabled] = useState(true);
 
-  const btnDisabled =
-    !inputValid.addressValid ||
-    !inputValid.dateValid ||
-    !inputValid.menuNameValid ||
-    !inputValid.menuPriceValid ||
-    !inputValid.ratingValid ||
-    !inputValid.storeValid;
+  useEffect(() => {
+    if (
+      inputValid.addressValid &&
+      inputValid.dateValid &&
+      inputValid.menuNameValid &&
+      inputValid.menuPriceValid &&
+      inputValid.ratingValid &&
+      inputValid.storeValid
+    ) {
+      setBtnDisabled(false);
+    } else {
+      setBtnDisabled(true);
+    }
+  }, [inputValid]);
 
   const handlePostUploadConfirm = () => {
     setIsConfirmModalOpen();
