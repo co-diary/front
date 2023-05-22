@@ -90,6 +90,25 @@ function PostForm({ editPost, edit }) {
         (main) => main.name === editPost?.category,
       ).map((sub) => sub.option.find((theme) => theme.subName === editPost?.theme)?.subId);
 
+      if (
+        editPost?.menu &&
+        editPost?.price &&
+        editPost?.score &&
+        editPost?.address &&
+        editPost?.shop &&
+        editPost?.date
+      ) {
+        setInputValid({
+          ...inputValid,
+          menuNameValid: true,
+          menuPriceValid: true,
+          ratingValid: true,
+          storeValid: true,
+          addressValid: true,
+          dateValid: true,
+        });
+      }
+
       if (editPost.tag.length > 0) setTagStyled(true);
 
       setCurrentCategory(editPost?.category);
@@ -99,6 +118,7 @@ function PostForm({ editPost, edit }) {
       setStartDate(editPost?.date.seconds * 1000);
       setMenuName(editPost?.menu);
       setMenuPrice(editPost?.price);
+      setRatingClicked(editPost?.score);
       setRatingHovered(editPost?.score);
       setPlace({
         lat: editPost.address.lat,
@@ -148,16 +168,13 @@ function PostForm({ editPost, edit }) {
 
   useEffect(() => {
     if (!startDate) {
-      setInputValid({ ...inputValid, dateValid: false });
+      setInputValid((prev) => ({ ...prev, dateValid: false }));
     }
   }, [startDate]);
 
   useEffect(() => {
-    const result = !!menuName.length;
-
-    setInputValid({ ...inputValid, menuNameValid: result });
     if (menuName === '') {
-      setInputValid({ ...inputValid, menuNameValid: false });
+      setInputValid((prev) => ({ ...prev, menuNameValid: false }));
     }
   }, [menuName]);
 
@@ -423,10 +440,22 @@ function PostForm({ editPost, edit }) {
   const handleValidCheck = useCallback(
     (e, key) => {
       if (e === '') {
-        if (key === 'menuNameValid') setInputValid({ ...inputValid, menuNameValid: false });
-        if (key === 'menuPriceValid') setInputValid({ ...inputValid, menuPriceValid: false });
-        if (key === 'storeValid') setInputValid({ ...inputValid, storeValid: false });
-        if (key === 'addressValid') setInputValid({ ...inputValid, addressValid: false });
+        switch (key) {
+          case 'menuNameValid':
+            setInputValid({ ...inputValid, menuNameValid: false });
+            break;
+          case 'menuPriceValid':
+            setInputValid({ ...inputValid, menuPriceValid: false });
+            break;
+          case 'storeValid':
+            setInputValid({ ...inputValid, storeValid: false });
+            break;
+          case 'addressValid':
+            setInputValid({ ...inputValid, addressValid: false });
+            break;
+          default:
+            break;
+        }
       }
     },
     [inputValid],
@@ -486,7 +515,10 @@ function PostForm({ editPost, edit }) {
               id='menuName'
               maxLength={20}
               value={menuName}
-              onChange={(e) => setMenuName(e.target.value)}
+              onChange={(e) => {
+                setMenuName(e.target.value);
+                setInputValid((prev) => ({ ...prev, menuNameValid: true }));
+              }}
               onBlur={(e) => handleValidCheck(e.target.value, 'dateValid')}
             />
           </S.InputBox>
