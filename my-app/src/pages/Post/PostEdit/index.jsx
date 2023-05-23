@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { Timestamp } from 'firebase/firestore';
 import Header from '../../../components/common/Header';
 import NavBar from '../../../components/common/NavBar';
 import Button from '../../../components/common/Button';
@@ -23,9 +24,8 @@ import {
 } from '../../../atom/postUploadRecoil';
 import placeState from '../../../atom/mapRecoil';
 import usePostUpload from '../../../hooks/usePostUpload';
-import useResetInput from '../../../hooks/useResetInput';
 
-function PostUpload() {
+function PostEdit() {
   const selectCategory = useRecoilValue(categoryState);
   const selectTheme = useRecoilValue(themeState);
   const selectDate = useRecoilValue(dateState);
@@ -38,12 +38,15 @@ function PostUpload() {
   const imageList = useRecoilValue(imageListState);
   const inputValid = useRecoilValue(inputValidState);
 
-  const pathnameNavigate = useLocation();
+  const setInputValid = useSetRecoilState(inputValidState);
+
+  const { state } = useLocation();
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useToggle();
-  const { addPost, response, deleteImg } = usePostUpload('post');
-  const { resetInput } = useResetInput();
+  const { updatePost, response, deleteImg } = usePostUpload('post', id);
+  const [btnDisabled, setBtnDisabled] = useState(false);
   const imageDeleteList = useRecoilValue(imageDeleteState);
-  const [btnDisabled, setBtnDisabled] = useState(true);
 
   useEffect(() => {
     if (
@@ -60,7 +63,32 @@ function PostUpload() {
     }
   }, [inputValid]);
 
-  const handlePostUploadConfirm = () => {
+  // 새로고침 막기
+  const preventClose = (e) => {
+    e.preventDefault();
+    e.returnValue = '';
+  };
+
+  useEffect(() => {
+    (() => {
+      window.addEventListener('beforeunload', preventClose);
+      setInputValid({
+        ...inputValid,
+        menuNameValid: true,
+        menuPriceValid: true,
+        ratingValid: true,
+        storeValid: true,
+        addressValid: true,
+        dateValid: true,
+      });
+    })();
+
+    return () => {
+      window.removeEventListener('beforeunload', preventClose);
+    };
+  }, []);
+
+  const handlePostEditConfirm = () => {
     setIsConfirmModalOpen();
   };
 
@@ -68,34 +96,15 @@ function PostUpload() {
     setIsConfirmModalOpen();
   };
 
-  const isInputValue =
-    selectCategory !== '음료' ||
-    selectTheme !== '커피' ||
-    !!selectDate ||
-    !!menuName ||
-    !!menuPrice ||
-    !!starRating ||
-    !!place.store ||
-    !!place.address ||
-    !!myReview ||
-    !!tagList.length > 0 ||
-    !!imageList.length > 0;
-
-  useEffect(() => {
-    if (!!imageDeleteList || (isInputValue && pathnameNavigate.pathname === '/upload')) {
-      const path = 'upload';
-
-      resetInput(path);
-    }
-  }, []);
-
-  const handlePostUpload = (e) => {
+  const handlePostEdit = (e) => {
     e.preventDefault();
 
-    addPost({
+    const updateDate = Timestamp.fromDate(new Date(selectDate));
+
+    updatePost({
       category: selectCategory,
       theme: selectTheme,
-      date: selectDate,
+      date: updateDate,
       menu: menuName,
       price: menuPrice,
       score: starRating,
@@ -104,43 +113,30 @@ function PostUpload() {
       review: myReview,
       tag: tagList,
       photo: imageList,
-      like: false,
+      like: state.like,
     });
 
     deleteImg(imageDeleteList);
 
     setIsConfirmModalOpen(false);
+    navigate(-1);
   };
 
   useEffect(() => {
-    if (response.success) {
-      const path = 'home';
-      const queryString = 'success=true';
-
-      resetInput(path, queryString);
-    }
-  }, [response.success]);
-
-  useEffect(() => {
     if (response.error) {
-      alert('커디어리 등록에 실패했습니다!');
+      alert('커디어리 수정에 실패했습니다!');
     }
   }, [response.error]);
 
   return (
     <>
       <Header
-        title='오늘 작성할 커디어리'
+        title='커디어리 수정'
         rightChild={
-          <Button
-            size='sm'
-            text='등록'
-            btnDisabled={btnDisabled}
-            onClick={handlePostUploadConfirm}
-          />
+          <Button size='sm' text='수정' btnDisabled={btnDisabled} onClick={handlePostEditConfirm} />
         }
       />
-      <PostForm />
+      <PostForm edit editPost={state} />
       <Portal>
         <ConfirmModal
           visible={isConfirmModalOpen}
@@ -149,7 +145,7 @@ function PostUpload() {
           rightBtnMsg='등록'
           onClickClose={confirmModalClose}
           leftOnclick={confirmModalClose}
-          rightOnclick={handlePostUpload}
+          rightOnclick={handlePostEdit}
         />
       </Portal>
       <NavBar page='upload' />
@@ -157,4 +153,4 @@ function PostUpload() {
   );
 }
 
-export default PostUpload;
+export default PostEdit;

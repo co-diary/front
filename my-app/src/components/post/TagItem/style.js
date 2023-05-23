@@ -6,8 +6,8 @@ export const TagList = styled.ul`
   gap: 0.6rem;
   padding: ${({ tagBorderStyled }) =>
     tagBorderStyled
-      ? `0.6rem 0 0.8rem`
-      : `none
+      ? `0 0 0.8rem `
+      : `0
 `};
   border-bottom: ${({ tagBorderStyled }) =>
     tagBorderStyled

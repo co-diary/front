@@ -58,6 +58,11 @@ const inputValidState = atom({
   },
 });
 
+const imageDeleteState = atom({
+  key: 'imageDeleteState',
+  default: [],
+});
+
 export {
   categoryState,
   themeState,
@@ -69,4 +74,5 @@ export {
   tagListState,
   imageListState,
   inputValidState,
+  imageDeleteState,
 };

@@ -1,9 +1,14 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { useRecoilState } from 'recoil';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { v4 as uuidv4 } from 'uuid';
 import { setHours } from 'date-fns';
 import { ko } from 'date-fns/locale';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import DatePicker from 'react-datepicker';
+import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
+import imageCompression from 'browser-image-compression';
+import { storage } from '../../../firebase';
+import { authState } from '../../../atom/authRecoil';
 import '../PostForm/datepicker.css';
 import {
   categoryState,
@@ -16,6 +21,7 @@ import {
   tagListState,
   imageListState,
   inputValidState,
+  imageDeleteState,
 } from '../../../atom/postUploadRecoil';
 import placeState from '../../../atom/mapRecoil';
 import modalState from '../../../atom/modalRecoil';
@@ -32,7 +38,7 @@ import BottomSheetForm from '../../../components/modal/BottomSheet/BottomSheetSt
 import BottomSheet from '../../../components/modal/BottomSheet';
 import * as S from './style';
 
-function PostForm() {
+function PostForm({ editPost, edit }) {
   const { kakao } = window;
   const [isShowOptionCategory, setIsShowOptionCategory, categoryRef, handleDisplayCategory] =
     useOutsideDetect(false);
@@ -43,7 +49,8 @@ function PostForm() {
 
   const [currentCategory, setCurrentCategory] = useRecoilState(categoryState);
   const [currentTheme, setCurrentTheme] = useRecoilState(themeState);
-  const [currentSelect, setCurrentSelect] = useState(1);
+  const [currentSelectCategory, setCurrentSelectCategory] = useState(1);
+  const [currentSelectTheme, setCurrentSelectTheme] = useState(1);
 
   const [startDate, setStartDate] = useRecoilState(dateState);
 
@@ -64,8 +71,66 @@ function PostForm() {
   const [tagItem, setTagItem] = useState('');
   const [tagList, setTagList] = useRecoilState(tagListState);
   const [tagStyled, setTagStyled] = useState(false);
+  const [tagInputStyled, setTagInputStyled] = useState(false);
+  const [tagInputHeight, setTagInputHeight] = useState(false);
 
   const [imageList, setImageList] = useRecoilState(imageListState);
+  const [imageLoadingLength, setImageLoadingLength] = useState(0);
+  const [imageDeleteList, setImageDeleteList] = useRecoilState(imageDeleteState);
+
+  const userAuth = useRecoilValue(authState);
+
+  useEffect(() => {
+    if (edit) {
+      const currentSelectValue = SELECTBOX_DATA.find(
+        (category) => category.name === editPost?.category,
+      )?.id;
+
+      const currentSelectThemeValue = SELECTBOX_DATA.filter(
+        (main) => main.name === editPost?.category,
+      ).map((sub) => sub.option.find((theme) => theme.subName === editPost?.theme)?.subId);
+
+      if (
+        editPost?.menu &&
+        editPost?.price &&
+        editPost?.score &&
+        editPost?.address &&
+        editPost?.shop &&
+        editPost?.date
+      ) {
+        setInputValid({
+          ...inputValid,
+          menuNameValid: true,
+          menuPriceValid: true,
+          ratingValid: true,
+          storeValid: true,
+          addressValid: true,
+          dateValid: true,
+        });
+      }
+
+      if (editPost.tag.length > 0) setTagStyled(true);
+
+      setCurrentCategory(editPost?.category);
+      setCurrentSelectCategory(currentSelectValue);
+      setCurrentTheme(editPost?.theme);
+      setCurrentSelectTheme(currentSelectThemeValue);
+      setStartDate(editPost?.date.seconds * 1000);
+      setMenuName(editPost?.menu);
+      setMenuPrice(editPost?.price);
+      setRatingClicked(editPost?.score);
+      setRatingHovered(editPost?.score);
+      setPlace({
+        lat: editPost.address.latLng[0],
+        lng: editPost.address.latLng[1],
+        store: editPost.shop,
+        address: editPost.address.location,
+      });
+      setReview(editPost?.review);
+      setTagList([...editPost.tag]);
+      setImageList([...editPost.photo]);
+    }
+  }, []);
 
   const handleClickListCategory = useCallback((e) => {
     setCurrentCategory(e.target.innerText);
@@ -86,25 +151,30 @@ function PostForm() {
 
   const handleCheckCategory = useCallback(
     (id) => {
-      setCurrentSelect(id);
+      setCurrentSelectCategory(id);
+      setCurrentSelectTheme(1);
     },
-    [currentSelect],
+    [currentSelectCategory],
   );
 
-  const subOption = SELECTBOX_DATA.find((category) => category.id === currentSelect).option;
+  const handleCheckTheme = useCallback(
+    (id) => {
+      setCurrentSelectTheme(id);
+    },
+    [currentSelectTheme],
+  );
+
+  const subOption = SELECTBOX_DATA.find((category) => category.id === currentSelectCategory).option;
 
   useEffect(() => {
     if (!startDate) {
-      setInputValid({ ...inputValid, dateValid: false });
+      setInputValid((prev) => ({ ...prev, dateValid: false }));
     }
   }, [startDate]);
 
   useEffect(() => {
-    const result = !!menuName.length;
-
-    setInputValid({ ...inputValid, menuNameValid: result });
     if (menuName === '') {
-      setInputValid({ ...inputValid, menuNameValid: false });
+      setInputValid((prev) => ({ ...prev, menuNameValid: false }));
     }
   }, [menuName]);
 
@@ -273,6 +343,16 @@ function PostForm() {
     [tagItem],
   );
 
+  useEffect(() => {
+    if (tagList.length === 2) {
+      setTagInputStyled(true);
+      setTagInputHeight(true);
+    } else {
+      setTagInputStyled(false);
+      setTagInputHeight(false);
+    }
+  }, [tagItem, tagList]);
+
   const handleTagDelete = useCallback(
     (tagIndex) => {
       const tagLeaveList = tagList.filter((_, i) => tagIndex !== i);
@@ -288,9 +368,71 @@ function PostForm() {
     [tagList],
   );
 
-  const handleImageUpload = useCallback(
-    (imgList) => {
-      setImageList(imgList);
+  const handleFileChange = useCallback(
+    async (e) => {
+      if (!e) return;
+
+      const file = e.target?.files[0];
+
+      console.log(setImageLoadingLength);
+
+      console.log('file크기', file.length);
+
+      if (!file) return;
+      if (imageList.length > 2) {
+        alert('이미지는 3장까지 등록할 수 있습니다.');
+        return;
+      }
+
+      const options = {
+        masSizeMb: 0.02,
+        maxWidthOrHeight: 1080,
+        useWebWorker: true,
+      };
+
+      try {
+        const compressedFile = await imageCompression(file, options);
+        const encordingFile = new File([compressedFile], file.name, { type: file.type });
+        const image = window.URL.createObjectURL(compressedFile);
+
+        window.URL.revokeObjectURL((prev) => [...prev, image]);
+
+        const imageRef = ref(storage, `${userAuth?.uid}/${uuidv4()}`);
+        const uploadTask = uploadBytesResumable(imageRef, encordingFile);
+
+        if (!imageRef) return;
+
+        uploadTask.on(
+          'state_change',
+          (snapshot) => {
+            const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+
+            setImageLoadingLength(progress);
+          },
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((getUrl) => {
+              setImageList([...imageList, getUrl]);
+              setImageLoadingLength(0);
+            });
+          },
+        );
+      } catch (error) {
+        console.log('[ErrorMsg]', error);
+      }
+    },
+    [imageList],
+  );
+
+  const handleImageDelete = useCallback(
+    async (imageIndex) => {
+      const imageLeaveList = imageList.filter((_, i) => imageIndex !== i);
+      const imageDelete = imageList.filter((_, i) => imageIndex === i);
+
+      setImageList(imageLeaveList);
+      setImageDeleteList([...imageDeleteList, ...imageDelete]);
     },
     [imageList],
   );
@@ -298,10 +440,22 @@ function PostForm() {
   const handleValidCheck = useCallback(
     (e, key) => {
       if (e === '') {
-        if (key === 'menuNameValid') setInputValid({ ...inputValid, menuNameValid: false });
-        if (key === 'menuPriceValid') setInputValid({ ...inputValid, menuPriceValid: false });
-        if (key === 'storeValid') setInputValid({ ...inputValid, storeValid: false });
-        if (key === 'addressValid') setInputValid({ ...inputValid, addressValid: false });
+        switch (key) {
+          case 'menuNameValid':
+            setInputValid({ ...inputValid, menuNameValid: false });
+            break;
+          case 'menuPriceValid':
+            setInputValid({ ...inputValid, menuPriceValid: false });
+            break;
+          case 'storeValid':
+            setInputValid({ ...inputValid, storeValid: false });
+            break;
+          case 'addressValid':
+            setInputValid({ ...inputValid, addressValid: false });
+            break;
+          default:
+            break;
+        }
       }
     },
     [inputValid],
@@ -322,6 +476,7 @@ function PostForm() {
               currentSelected={currentCategory}
               handleDisplay={handleDisplayCategory}
               handleCheckCategory={handleCheckCategory}
+              currentSelectList={currentSelectCategory}
             />
             <CategorySelectBox
               boxValue={false}
@@ -331,6 +486,8 @@ function PostForm() {
               handleClickList={handleClickListTheme}
               currentSelected={currentTheme}
               handleDisplay={handleDisplayTheme}
+              handleCheckTheme={handleCheckTheme}
+              currentSelectTheme={currentSelectTheme}
             />
           </S.SelectBoxWrapper>
           <S.InputBox length='1.2rem'>
@@ -358,7 +515,10 @@ function PostForm() {
               id='menuName'
               maxLength={20}
               value={menuName}
-              onChange={(e) => setMenuName(e.target.value)}
+              onChange={(e) => {
+                setMenuName(e.target.value);
+                setInputValid((prev) => ({ ...prev, menuNameValid: true }));
+              }}
               onBlur={(e) => handleValidCheck(e.target.value, 'dateValid')}
             />
           </S.InputBox>
@@ -441,6 +601,8 @@ function PostForm() {
                 id='tag'
                 maxLength='6'
                 tagBorderStyled={tagStyled}
+                tagInputStyled={tagInputStyled}
+                tagInputHeight={tagInputHeight}
                 value={tagItem}
                 onChange={handleInputValue}
                 onKeyDown={handleEnterPress}
@@ -454,7 +616,12 @@ function PostForm() {
           </S.BoxWrapper>
           <S.BoxWrapper>
             <S.Label padding='0.8rem 0'>사진</S.Label>
-            <ImageUpload handleImageUpload={handleImageUpload} />
+            <ImageUpload
+              handleFileChange={handleFileChange}
+              handleImageDelete={handleImageDelete}
+              src={imageList}
+              imageLoadingLength={imageLoadingLength}
+            />
           </S.BoxWrapper>
         </S.Form>
       </S.Container>

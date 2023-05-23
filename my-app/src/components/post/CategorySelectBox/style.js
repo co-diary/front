@@ -57,11 +57,14 @@ export const ListOption = styled.li`
   transition: background-color 0.1s ease;
 
   &:hover {
-    font-family: 'LINESeedKR-Bd';
     background-color: ${Theme.MAIN};
   }
 
   & + li {
     margin-top: 0rem;
+  }
+
+  &:nth-child(${({ currentSelectList }) => currentSelectList}) {
+    font-family: 'LINESeedKR-Bd';
   }
 `;

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Theme from '../../../styles/Theme';
 import IconLocationOff from '../../../assets/Icon-Nav-Map-off.png';
 import IconLocationHover from '../../../assets/Icon-Map-hover.png';
+
 import IconAddInput from '../../../assets/Icon-AddInput.png';
 
 export const Container = styled.div`
@@ -76,6 +77,7 @@ export const ReviewInput = styled.textarea`
   display: block;
   width: calc(100% - 5.6rem);
   font-family: 'LINESeedKR-Rg';
+  font-size: 1.4rem;
   border: none;
   word-break: break-all;
   white-space: pre-wrap;
@@ -162,11 +164,20 @@ export const TagImgBox = styled.div`
 `;
 
 export const TagInput = styled.input`
-  padding: 0.4rem 0;
+  padding: ${({ tagBorderStyled }) =>
+    tagBorderStyled
+      ? `0.4rem 0 1rem 0`
+      : `0.4rem 0
+`};
   font-family: 'LINESeedKR-Rg';
   font-size: 1.4rem;
   line-height: 1.8rem;
   border: none;
+  display: ${({ tagInputHeight }) =>
+    tagInputHeight
+      ? `none`
+      : `block;
+`};
   border-bottom: ${({ tagBorderStyled }) =>
     tagBorderStyled
       ? `none`
@@ -175,7 +186,11 @@ export const TagInput = styled.input`
   outline: none;
 
   &::placeholder {
-    color: ${Theme.PLACEHOLDER};
+    color: ${({ tagInputStyled }) =>
+      tagInputStyled
+        ? `transparent`
+        : `${Theme.PLACEHOLDER};
+  `};
   }
 
   &:-webkit-autofill {

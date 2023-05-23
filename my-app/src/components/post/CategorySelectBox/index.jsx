@@ -11,6 +11,9 @@ function CategorySelectBox({
   handleDisplay,
   handleCheckCategory,
   subOption,
+  currentSelectList,
+  handleCheckTheme,
+  currentSelectTheme,
 }) {
   return (
     <S.SelectBox options={isShowOption} onClick={handleDisplay} ref={selectedRef}>
@@ -21,7 +24,11 @@ function CategorySelectBox({
         ? isShowOption && (
             <S.ListBox onClick={(e) => handleClickList(e)} options={isShowOption}>
               {optiondata.map((option) => (
-                <S.ListOption key={option.id} onClick={() => handleCheckCategory(option.id)}>
+                <S.ListOption
+                  key={option.id}
+                  onClick={() => handleCheckCategory(option.id)}
+                  currentSelectList={currentSelectList}
+                >
                   {option.name}
                 </S.ListOption>
               ))}
@@ -30,7 +37,13 @@ function CategorySelectBox({
         : isShowOption && (
             <S.ListBox onClick={(e) => handleClickList(e)} options={isShowOption}>
               {subOption.map((option) => (
-                <S.ListOption key={option.subId}>{option.subName}</S.ListOption>
+                <S.ListOption
+                  key={option.subId}
+                  onClick={() => handleCheckTheme(option.subId)}
+                  currentSelectList={currentSelectTheme}
+                >
+                  {option.subName}
+                </S.ListOption>
               ))}
             </S.ListBox>
           )}

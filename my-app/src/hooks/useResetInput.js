@@ -11,6 +11,7 @@ import {
   tagListState,
   imageListState,
   inputValidState,
+  imageDeleteState,
 } from '../atom/postUploadRecoil';
 import placeState from '../atom/mapRecoil';
 
@@ -28,6 +29,7 @@ function useResetInput() {
   const resetTagList = useResetRecoilState(tagListState);
   const resetImageList = useResetRecoilState(imageListState);
   const resetInputValid = useResetRecoilState(inputValidState);
+  const resetImageDeleteList = useResetRecoilState(imageDeleteState);
 
   const resetInput = (path, queryString) => {
     resetCategory();
@@ -41,6 +43,7 @@ function useResetInput() {
     resetTagList();
     resetImageList();
     resetInputValid();
+    resetImageDeleteList();
 
     navigate(path === 'home' ? `/${path}?${queryString}` : `/${path}`);
   };
