@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, useParams, useNavigate } from 'react-router';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { Timestamp } from 'firebase/firestore';
 import Header from '../../../components/common/Header';
 import NavBar from '../../../components/common/NavBar';
 import Button from '../../../components/common/Button';
@@ -9,17 +10,40 @@ import useToggle from '../../../hooks/useToggle';
 import Portal from '../../../components/modal/Portal';
 import ConfirmModal from '../../../components/modal/ConfirmModal';
 import {
+  categoryState,
+  themeState,
+  dateState,
+  menuNameState,
+  menuPriceState,
+  starRatingState,
+  reviewState,
+  tagListState,
+  imageListState,
   inputValidState,
-  // imageDeleteState,
 } from '../../../atom/postUploadRecoil';
+import placeState from '../../../atom/mapRecoil';
+import usePostUpload from '../../../hooks/usePostUpload';
 
 function PostEdit() {
+  const selectCategory = useRecoilValue(categoryState);
+  const selectTheme = useRecoilValue(themeState);
+  const selectDate = useRecoilValue(dateState);
+  const menuName = useRecoilValue(menuNameState);
+  const menuPrice = useRecoilValue(menuPriceState);
+  const starRating = useRecoilValue(starRatingState);
+  const place = useRecoilValue(placeState);
+  const myReview = useRecoilValue(reviewState);
+  const tagList = useRecoilValue(tagListState);
+  const imageList = useRecoilValue(imageListState);
   const inputValid = useRecoilValue(inputValidState);
 
   const setInputValid = useSetRecoilState(inputValidState);
 
   const { state } = useLocation();
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useToggle();
+  const { updatePost } = usePostUpload('post', id);
   const [btnDisabled, setBtnDisabled] = useState(false);
 
   useEffect(() => {
@@ -73,21 +97,26 @@ function PostEdit() {
   const handlePostEdit = (e) => {
     e.preventDefault();
 
-    setIsConfirmModalOpen(false);
-  };
+    const updateDate = Timestamp.fromDate(new Date(selectDate));
 
-  // const isInputValue =
-  //   selectCategory !== '음료' ||
-  //   selectTheme !== '커피' ||
-  //   !!selectDate ||
-  //   !!menuName ||
-  //   !!menuPrice ||
-  //   !!starRating ||
-  //   !!place.store ||
-  //   !!place.address ||
-  //   !!myReview ||
-  //   !!tagList.length > 0 ||
-  //   !!imageList.length > 0;
+    updatePost({
+      category: selectCategory,
+      theme: selectTheme,
+      date: updateDate,
+      menu: menuName,
+      price: menuPrice,
+      score: starRating,
+      address: { latLng: [place.lat, place.lng], location: place.address },
+      shop: place.store,
+      review: myReview,
+      tag: tagList,
+      photo: imageList,
+      like: state.like,
+    });
+
+    setIsConfirmModalOpen(false);
+    navigate(-1);
+  };
 
   return (
     <>

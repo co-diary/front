@@ -1,5 +1,5 @@
 import { useReducer } from 'react';
-import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, Timestamp, doc, updateDoc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { imageDeleteState } from '../atom/postUploadRecoil';
@@ -22,6 +22,14 @@ const postReducer = (state, action) => {
         success: true,
         error: null,
       };
+    case 'updatePost':
+      return {
+        isPending: false,
+        collection: action.payload,
+        success: true,
+        error: null,
+      };
+
     case 'isPending':
       return { isPending: true, collection: null, success: false, error: null };
     case 'error':
@@ -36,7 +44,7 @@ const postReducer = (state, action) => {
   }
 };
 
-const usePostUpload = (database) => {
+const usePostUpload = (database, id) => {
   const [response, dispatch] = useReducer(postReducer, initState);
   const userAuth = useRecoilValue(authState);
   const setImageDeleteList = useSetRecoilState(imageDeleteState);
@@ -60,6 +68,25 @@ const usePostUpload = (database) => {
     }
   };
 
+  const updatePost = async (payloads) => {
+    dispatch({ type: 'isPending' });
+
+    try {
+      const userUid = userAuth?.uid;
+      const docRef = doc(db, database, id);
+
+      await updateDoc(docRef, {
+        ...payloads,
+        uid: userUid,
+      });
+
+      dispatch({ type: 'updatePost', payload: docRef });
+    } catch (error) {
+      dispatch({ type: 'error', payload: error.message });
+      console.log('error!', error.message);
+    }
+  };
+
   const deleteImg = async (imageDeleteList) => {
     console.log('삭제리스트', imageDeleteList);
     const deletePromises = imageDeleteList.map((path) => {
@@ -77,7 +104,7 @@ const usePostUpload = (database) => {
     }
   };
 
-  return { addPost, response, deleteImg };
+  return { addPost, response, deleteImg, updatePost };
 };
 
 export default usePostUpload;

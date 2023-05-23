@@ -121,8 +121,8 @@ function PostForm({ editPost, edit }) {
       setRatingClicked(editPost?.score);
       setRatingHovered(editPost?.score);
       setPlace({
-        lat: editPost.address.lat,
-        lng: editPost.address.lng,
+        lat: editPost.address.latLng[0],
+        lng: editPost.address.latLng[1],
         store: editPost.shop,
         address: editPost.address.location,
       });
