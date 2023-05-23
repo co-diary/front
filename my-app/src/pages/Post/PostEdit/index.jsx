@@ -20,6 +20,7 @@ import {
   tagListState,
   imageListState,
   inputValidState,
+  imageDeleteState,
 } from '../../../atom/postUploadRecoil';
 import placeState from '../../../atom/mapRecoil';
 import usePostUpload from '../../../hooks/usePostUpload';
@@ -43,8 +44,9 @@ function PostEdit() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useToggle();
-  const { updatePost } = usePostUpload('post', id);
+  const { updatePost, response, deleteImg } = usePostUpload('post', id);
   const [btnDisabled, setBtnDisabled] = useState(false);
+  const imageDeleteList = useRecoilValue(imageDeleteState);
 
   useEffect(() => {
     if (
@@ -114,9 +116,17 @@ function PostEdit() {
       like: state.like,
     });
 
+    deleteImg(imageDeleteList);
+
     setIsConfirmModalOpen(false);
     navigate(-1);
   };
+
+  useEffect(() => {
+    if (response.error) {
+      alert('커디어리 수정에 실패했습니다!');
+    }
+  }, [response.error]);
 
   return (
     <>
