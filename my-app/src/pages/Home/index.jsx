@@ -61,6 +61,8 @@ function Home() {
   const drinkCount = posts.filter((v) => v.theme === '음료').length;
   const dessertCount = posts.filter((v) => v.theme === '디저트').length;
 
+  console.log(postCount);
+
   const cards = [
     {
       categoryId: 'drink',

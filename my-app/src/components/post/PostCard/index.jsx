@@ -78,7 +78,7 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
       <S.PostCardBox onClick={handleClickCard}>
         <S.PostCover>
           <span>{formattedDate}</span>
-          {photo && <img src={photo} alt='메뉴 썸네일 사진' />}
+          {photo && <img src={Array.isArray(photo) ? photo[0] : photo} alt='메뉴 썸네일 사진' />}
         </S.PostCover>
         <S.PostContent>
           <S.PostInfo>
