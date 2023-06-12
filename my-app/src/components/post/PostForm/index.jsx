@@ -82,13 +82,13 @@ function PostForm({ editPost, edit }) {
 
   useEffect(() => {
     if (edit) {
-      const currentSelectValue = SELECTBOX_DATA.find(
-        (category) => category.name === editPost?.category,
+      const currentSelectThemeValue = SELECTBOX_DATA.find(
+        (theme) => theme.name === editPost?.theme,
       )?.id;
 
-      const currentSelectThemeValue = SELECTBOX_DATA.filter(
-        (main) => main.name === editPost?.category,
-      ).map((sub) => sub.option.find((theme) => theme.subName === editPost?.theme)?.subId);
+      const currentSelectCategoryValue = SELECTBOX_DATA.filter(
+        (main) => main.name === editPost?.theme,
+      ).map((sub) => sub.option.find((category) => category.subName === editPost?.category)?.subId);
 
       if (
         editPost?.menu &&
@@ -111,10 +111,10 @@ function PostForm({ editPost, edit }) {
 
       if (editPost.tag.length > 0) setTagStyled(true);
 
-      setCurrentCategory(editPost?.category);
-      setCurrentSelectCategory(currentSelectValue);
       setCurrentTheme(editPost?.theme);
       setCurrentSelectTheme(currentSelectThemeValue);
+      setCurrentCategory(editPost?.category);
+      setCurrentSelectCategory(currentSelectCategoryValue);
       setStartDate(editPost?.date.seconds * 1000);
       setMenuName(editPost?.menu);
       setMenuPrice(editPost?.price);

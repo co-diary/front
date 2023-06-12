@@ -26,8 +26,8 @@ import placeState from '../../../atom/mapRecoil';
 import usePostUpload from '../../../hooks/usePostUpload';
 
 function PostEdit() {
-  const selectCategory = useRecoilValue(categoryState);
   const selectTheme = useRecoilValue(themeState);
+  const selectCategory = useRecoilValue(categoryState);
   const selectDate = useRecoilValue(dateState);
   const menuName = useRecoilValue(menuNameState);
   const menuPrice = useRecoilValue(menuPriceState);
@@ -102,8 +102,8 @@ function PostEdit() {
     const updateDate = Timestamp.fromDate(new Date(selectDate));
 
     updatePost({
-      category: selectCategory,
       theme: selectTheme,
+      category: selectCategory,
       date: updateDate,
       menu: menuName,
       price: menuPrice,
