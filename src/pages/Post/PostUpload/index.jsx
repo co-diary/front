@@ -26,8 +26,8 @@ import usePostUpload from '../../../hooks/usePostUpload';
 import useResetInput from '../../../hooks/useResetInput';
 
 function PostUpload() {
-  const selectCategory = useRecoilValue(categoryState);
   const selectTheme = useRecoilValue(themeState);
+  const selectCategory = useRecoilValue(categoryState);
   const selectDate = useRecoilValue(dateState);
   const menuName = useRecoilValue(menuNameState);
   const menuPrice = useRecoilValue(menuPriceState);
@@ -69,8 +69,8 @@ function PostUpload() {
   };
 
   const isInputValue =
-    selectCategory !== '음료' ||
-    selectTheme !== '커피' ||
+    selectTheme !== '음료' ||
+    selectCategory !== '커피' ||
     !!selectDate ||
     !!menuName ||
     !!menuPrice ||
@@ -93,8 +93,8 @@ function PostUpload() {
     e.preventDefault();
 
     addPost({
-      category: selectCategory,
       theme: selectTheme,
+      category: selectCategory,
       date: selectDate,
       menu: menuName,
       price: menuPrice,
