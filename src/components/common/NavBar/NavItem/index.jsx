@@ -12,7 +12,7 @@ function NavItem({ to, label, icon, iconActive }) {
 
   return (
     <S.NavItemContainer iconActive={iconActive}>
-      <S.NavLinkContainer exact to={to}>
+      <S.NavLinkContainer exact='true' to={to} activeclassname='active'>
         <img className={isActive ? 'active' : ''} src={isActive ? iconActive : icon} alt={label} />
         {label}
       </S.NavLinkContainer>

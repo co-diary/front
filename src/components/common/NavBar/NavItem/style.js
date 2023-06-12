@@ -14,9 +14,7 @@ export const NavItemContainer = styled.li`
   }
 `;
 
-export const NavLinkContainer = styled(NavLink).attrs({
-  activeClassName: 'active',
-})`
+export const NavLinkContainer = styled(NavLink)`
   width: 6.2rem;
   height: 6rem;
   display: flex;
