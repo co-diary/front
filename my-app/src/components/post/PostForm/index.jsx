@@ -11,8 +11,8 @@ import { storage } from '../../../firebase';
 import { authState } from '../../../atom/authRecoil';
 import '../PostForm/datepicker.css';
 import {
-  categoryState,
   themeState,
+  categoryState,
   dateState,
   menuNameState,
   menuPriceState,
@@ -40,17 +40,17 @@ import * as S from './style';
 
 function PostForm({ editPost, edit }) {
   const { kakao } = window;
-  const [isShowOptionCategory, setIsShowOptionCategory, categoryRef, handleDisplayCategory] =
-    useOutsideDetect(false);
   const [isShowOptionTheme, setIsShowOptionTheme, themeRef, handleDisplayTheme] =
+    useOutsideDetect(false);
+  const [isShowOptionCategory, setIsShowOptionCategory, categoryRef, handleDisplayCategory] =
     useOutsideDetect(false);
 
   const [inputValid, setInputValid] = useRecoilState(inputValidState);
 
-  const [currentCategory, setCurrentCategory] = useRecoilState(categoryState);
   const [currentTheme, setCurrentTheme] = useRecoilState(themeState);
-  const [currentSelectCategory, setCurrentSelectCategory] = useState(1);
+  const [currentCategory, setCurrentCategory] = useRecoilState(categoryState);
   const [currentSelectTheme, setCurrentSelectTheme] = useState(1);
+  const [currentSelectCategory, setCurrentSelectCategory] = useState(1);
 
   const [startDate, setStartDate] = useRecoilState(dateState);
 
@@ -132,39 +132,39 @@ function PostForm({ editPost, edit }) {
     }
   }, []);
 
-  const handleClickListCategory = useCallback((e) => {
-    setCurrentCategory(e.target.innerText);
-    setCurrentTheme(
+  const handleClickListTheme = useCallback((e) => {
+    setCurrentTheme(e.target.innerText);
+    setCurrentCategory(
       e.target.innerText === '음료'
         ? SELECTBOX_DATA[0].option[0].subName
         : SELECTBOX_DATA[1].option[0].subName,
     );
-    setIsShowOptionCategory(false);
-    e.stopPropagation();
-  }, []);
-
-  const handleClickListTheme = useCallback((e) => {
-    setCurrentTheme(e.target.innerText);
     setIsShowOptionTheme(false);
     e.stopPropagation();
   }, []);
 
-  const handleCheckCategory = useCallback(
-    (id) => {
-      setCurrentSelectCategory(id);
-      setCurrentSelectTheme(1);
-    },
-    [currentSelectCategory],
-  );
+  const handleClickListCategory = useCallback((e) => {
+    setCurrentCategory(e.target.innerText);
+    setIsShowOptionCategory(false);
+    e.stopPropagation();
+  }, []);
 
   const handleCheckTheme = useCallback(
     (id) => {
       setCurrentSelectTheme(id);
+      setCurrentSelectCategory(1);
     },
     [currentSelectTheme],
   );
 
-  const subOption = SELECTBOX_DATA.find((category) => category.id === currentSelectCategory).option;
+  const handleCheckCategory = useCallback(
+    (id) => {
+      setCurrentSelectCategory(id);
+    },
+    [currentSelectCategory],
+  );
+
+  const subOption = SELECTBOX_DATA.find((category) => category.id === currentSelectTheme).option;
 
   useEffect(() => {
     if (!startDate) {
@@ -470,24 +470,24 @@ function PostForm({ editPost, edit }) {
             <CategorySelectBox
               boxValue={true}
               optiondata={SELECTBOX_DATA}
-              selectedRef={categoryRef}
-              isShowOption={isShowOptionCategory}
-              handleClickList={handleClickListCategory}
-              currentSelected={currentCategory}
-              handleDisplay={handleDisplayCategory}
-              handleCheckCategory={handleCheckCategory}
-              currentSelectList={currentSelectCategory}
-            />
-            <CategorySelectBox
-              boxValue={false}
-              subOption={subOption}
               selectedRef={themeRef}
               isShowOption={isShowOptionTheme}
               handleClickList={handleClickListTheme}
               currentSelected={currentTheme}
               handleDisplay={handleDisplayTheme}
               handleCheckTheme={handleCheckTheme}
-              currentSelectTheme={currentSelectTheme}
+              currentSelectList={currentSelectTheme}
+            />
+            <CategorySelectBox
+              boxValue={false}
+              subOption={subOption}
+              selectedRef={categoryRef}
+              isShowOption={isShowOptionCategory}
+              handleClickList={handleClickListCategory}
+              currentSelected={currentCategory}
+              handleDisplay={handleDisplayCategory}
+              handleCheckCategory={handleCheckCategory}
+              currentSelectCategory={currentSelectCategory}
             />
           </S.SelectBoxWrapper>
           <S.InputBox length='1.2rem'>
