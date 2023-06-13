@@ -24,7 +24,7 @@ import {
   imageDeleteState,
 } from '../../../atom/postUploadRecoil';
 import placeState from '../../../atom/mapRecoil';
-import modalState from '../../../atom/modalRecoil';
+import { mapModalState } from '../../../atom/modalRecoil';
 import SELECTBOX_DATA from '../CategorySelectBox/SELECTBOX_DATA';
 import CategorySelectBox from '../CategorySelectBox';
 import useOutsideDetect from '../../../hooks/useOutsideDetect';
@@ -61,7 +61,7 @@ function PostForm({ editPost, edit }) {
   const [ratingClicked, setRatingClicked] = useRecoilState(starRatingState);
   const [ratingHovered, setRatingHovered] = useState(0);
 
-  const [mapModal, setMapModal] = useRecoilState(modalState);
+  const [mapModal, setMapModal] = useRecoilState(mapModalState);
   const [place, setPlace] = useRecoilState(placeState);
   const [isLocationCheck, setIsLocationCheck] = useState(false);
 
@@ -224,9 +224,10 @@ function PostForm({ editPost, edit }) {
   );
 
   const onClickIcon = () => {
-    setMapModal({ ...mapModal, visible: false });
+    setMapModal({ ...mapModal, visible: !mapModal.visible });
   };
 
+  console.log('맵모달', mapModal);
   // 위치 관련
   const handleCurrentLocation = useCallback(() => {
     setIsLocationCheck((prev) => !prev);
@@ -626,17 +627,19 @@ function PostForm({ editPost, edit }) {
         </S.Form>
       </S.Container>
       <Portal>
-        <BottomSheet visible={mapModal} onClickClose={onClickIcon}>
-          <BottomSheetForm
-            title='위치검색'
-            Icon={IconBack}
-            IconAlt='아이콘Alt'
-            onClickIcon={onClickIcon}
-            handleCurrentLocation={handleCurrentLocation}
-            currentAddress={place.current === '' ? '' : place.current}
-            isLocationCheck={isLocationCheck}
-          />
-        </BottomSheet>
+        {mapModal.visible && (
+          <BottomSheet visible={mapModal.visible} onClickClose={onClickIcon}>
+            <BottomSheetForm
+              title='위치검색'
+              Icon={IconBack}
+              IconAlt='아이콘Alt'
+              onClickIcon={onClickIcon}
+              handleCurrentLocation={handleCurrentLocation}
+              currentAddress={place.current === '' ? '' : place.current}
+              isLocationCheck={isLocationCheck}
+            />
+          </BottomSheet>
+        )}
       </Portal>
     </>
   );

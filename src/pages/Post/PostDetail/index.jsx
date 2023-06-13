@@ -18,7 +18,7 @@ import IconHeartOn from '../../../assets/Icon-Heart-on.png';
 import IconMore from '../../../assets/Icon-More.png';
 import currentPost from '../../../atom/currentPostRecoil';
 import SimpleSlider from '../../../components/post/SimpleSlider';
-import modalState from '../../../atom/modalRecoil';
+import { confirmModalState } from '../../../atom/modalRecoil';
 import Portal from '../../../components/modal/Portal';
 import BottomSheet from '../../../components/modal/BottomSheet';
 import BottomSheetDefault from '../../../components/modal/BottomSheet/BottomSheetStyle/BottomSheetDefault';
@@ -30,7 +30,7 @@ function PostDetail() {
   const postRef = doc(db, 'post', id);
   const [post, setPost] = useRecoilState(currentPost);
   const [isLiked, setIsLiked] = useState(post?.like);
-  const [modal, setModal] = useRecoilState(modalState);
+  const [modal, setModal] = useRecoilState(confirmModalState);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useToggle();
   const scoreIndexs = [0, 1, 2, 3, 4];
   const menuPrice = post?.price;

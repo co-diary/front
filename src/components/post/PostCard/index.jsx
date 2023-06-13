@@ -3,7 +3,6 @@ import { deleteDoc, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { useLocation, useNavigate } from 'react-router';
 import * as S from './style';
-
 import { db } from '../../../firebase';
 import IconHeartOn from '../../../assets/Icon-Heart-on.png';
 import IconHeartOff from '../../../assets/Icon-Heart-off.png';
@@ -17,7 +16,7 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
   const scoreIndexs = [0, 1, 2, 3, 4];
   const [liked, setLiked] = useToggle(like);
   const [formattedDate, setFormattedDate] = useState();
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useToggle();
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -55,7 +54,7 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
   const handleLikeButton = (e) => {
     if (pathname === '/likeposts') {
       e.stopPropagation();
-      setIsConfirmModalOpen();
+      setIsConfirmModalOpen(true);
     } else {
       setLiked(!liked);
       updatePost(id, !liked);
@@ -64,7 +63,7 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
   };
 
   const confirmModalClose = () => {
-    setIsConfirmModalOpen();
+    setIsConfirmModalOpen(false);
   };
 
   const handleClickCard = () => {
@@ -123,7 +122,10 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
           leftBtnMsg='취소'
           rightBtnMsg='삭제'
           onClickClose={confirmModalClose}
-          rightOnclick={() => updatePost(id, !liked)}
+          rightOnclick={() => {
+            updatePost(id, !liked);
+            setIsConfirmModalOpen((prev) => !prev);
+          }}
           leftOnclick={confirmModalClose}
         />
       </Portal>

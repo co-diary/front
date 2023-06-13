@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { useLocation } from 'react-router-dom';
 import Header from '../../../components/common/Header';
 import NavBar from '../../../components/common/NavBar';
 import Button from '../../../components/common/Button';
 import PostForm from '../../../components/post/PostForm';
-import useToggle from '../../../hooks/useToggle';
 import Portal from '../../../components/modal/Portal';
 import ConfirmModal from '../../../components/modal/ConfirmModal';
+import { confirmModalState } from '../../../atom/modalRecoil';
 import {
   categoryState,
   themeState,
@@ -39,11 +39,13 @@ function PostUpload() {
   const inputValid = useRecoilValue(inputValidState);
 
   const pathnameNavigate = useLocation();
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useToggle();
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useRecoilState(confirmModalState);
   const { addPost, response, deleteImg } = usePostUpload('post');
   const { resetInput } = useResetInput();
   const imageDeleteList = useRecoilValue(imageDeleteState);
   const [btnDisabled, setBtnDisabled] = useState(true);
+
+  console.log('confirm 상태', isConfirmModalOpen);
 
   useEffect(() => {
     if (
@@ -61,11 +63,11 @@ function PostUpload() {
   }, [inputValid]);
 
   const handlePostUploadConfirm = () => {
-    setIsConfirmModalOpen();
+    setIsConfirmModalOpen((prev) => !prev);
   };
 
   const confirmModalClose = () => {
-    setIsConfirmModalOpen();
+    setIsConfirmModalOpen(false);
   };
 
   const isInputValue =

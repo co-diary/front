@@ -1,36 +1,11 @@
-import styled, { keyframes, css } from 'styled-components';
+import styled, { css } from 'styled-components';
 import Theme from '../../../styles/Theme';
 
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(3rem);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0rem);
-  }
-`;
-
-const fadeOut = keyframes`
-  from{
-    opacity: 1;
-    transform: translateY(3rem);
-
-  }
-
-  to{
-    opacity: 0;
-    transform: translateY(0rem);
-
-  }
-`;
-
 export const modalSettings = (visible) => css`
-  visibility: ${visible ? 'visible' : 'hidden'};
-  animation: ${visible ? fadeIn : fadeOut} 0.15s ease-out;
-  transition: visibility 0.3s ease-out;
+  opacity: ${visible ? 1 : 0};
+  z-index: ${visible ? 999 : -1};
+  transition: opacity 0s, z-index 0s;
+  pointer-events: ${visible ? 'auto' : 'none'};
 `;
 
 export const Background = styled.div`
@@ -39,16 +14,9 @@ export const Background = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 100;
 
-  ${({ visible }) =>
-    visible
-      ? css`
-          background-color: rgba(0, 0, 0, 0.3);
-        `
-      : css`
-          display: none;
-        `}
+  background: rgba(0, 0, 0, 0.2);
+  ${(props) => modalSettings(props.visible)};
 `;
 
 export const Box = styled.section`
@@ -56,7 +24,6 @@ export const Box = styled.section`
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 999;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -66,4 +33,5 @@ export const Box = styled.section`
   padding: 0 0 0.5rem 0;
 
   ${(props) => modalSettings(props.visible)};
+  z-index: 1000;
 `;

@@ -6,10 +6,10 @@ import IconBack from '../../assets/Icon-X.png';
 import BottomSheetForm from '../../components/modal/BottomSheet/BottomSheetStyle/BottomSheetForm';
 import BottomSheet from '../../components/modal/BottomSheet';
 
-import modalState from '../../atom/modalRecoil';
+import { confirmModalState } from '../../atom/modalRecoil';
 
 function Test() {
-  const [modal, setModal] = useRecoilState(modalState);
+  const [modal, setModal] = useRecoilState(confirmModalState);
 
   console.log(modal);
 

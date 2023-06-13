@@ -1,21 +1,33 @@
-import styled, { keyframes, css } from 'styled-components';
+import styled, { css } from 'styled-components';
 import Theme from '../../../styles/Theme';
 
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
+// const fadeAndSlideIn = keyframes`
+//   from {
+//     opacity: 0;
+//     transform: translateY(20px);
+//   }
+//   to {
+//     opacity: 1;
+//     transform: translateY(0);
+//   }
+// `;
 
-  to {
-    opacity: 1;
-  }
-`;
+// const fadeAndSlideOut = keyframes`
+//   from {
+//     opacity: 1;
+//     transform: translateY(0);
+//   }
+//   to {
+//     opacity: 0;
+//     transform: translateY(20px);
+//   }
+// `;
 
 export const modalSettings = (visible) => css`
-  visibility: ${visible ? 'visible' : 'hidden'};
-  z-index: 999;
-  animation: ${fadeIn} 0.3s ease-out;
-  transition: visibility 0.2s ease-out;
+  opacity: ${visible ? 1 : 0};
+  z-index: ${visible ? 999 : -1};
+  transition: opacity 0s, z-index 0s;
+  pointer-events: ${visible ? 'auto' : 'none'};
 `;
 
 export const Background = styled.div`
@@ -24,16 +36,9 @@ export const Background = styled.div`
   right: 0;
   top: 0;
   bottom: 0;
-  z-index: 999;
 
-  ${({ visible }) =>
-    visible
-      ? css`
-          background-color: rgba(0, 0, 0, 0.2);
-        `
-      : css`
-          display: none;
-        `}
+  background: rgba(0, 0, 0, 0.4);
+  ${(props) => modalSettings(props.visible)};
 `;
 
 export const Box = styled.div`
@@ -52,6 +57,7 @@ export const Box = styled.div`
   border-radius: 1rem;
 
   ${(props) => modalSettings(props.visible)};
+  z-index: 1000;
 `;
 
 export const Msg = styled.p`

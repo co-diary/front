@@ -13,7 +13,7 @@ function ConfirmModal({
   return (
     <>
       <S.Background visible={visible} onClick={onClickClose} />
-      <S.Box visible={visible}>
+      <S.Box visible={visible} onClick={(e) => e.stopPropagation()}>
         <S.Msg>{msg}</S.Msg>
         <S.Btns>
           <S.Btn onClick={leftOnclick}>{leftBtnMsg}</S.Btn>
