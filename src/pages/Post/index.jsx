@@ -18,7 +18,7 @@ const categoryContentsAll = [
   },
   {
     Theme: '디저트',
-    categories: ['전체'],
+    categories: ['전체', '케이크', '마카롱', '베이커리', '기타'],
   },
 ];
 
