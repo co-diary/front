@@ -18,20 +18,19 @@ import IconHeartOn from '../../../assets/Icon-Heart-on.png';
 import IconMore from '../../../assets/Icon-More.png';
 import currentPost from '../../../atom/currentPostRecoil';
 import SimpleSlider from '../../../components/post/SimpleSlider';
-import { confirmModalState } from '../../../atom/modalRecoil';
+import { confirmModalState, bottomSheetState } from '../../../atom/modalRecoil';
 import Portal from '../../../components/modal/Portal';
 import BottomSheet from '../../../components/modal/BottomSheet';
 import BottomSheetDefault from '../../../components/modal/BottomSheet/BottomSheetStyle/BottomSheetDefault';
 import ConfirmModal from '../../../components/modal/ConfirmModal';
-import useToggle from '../../../hooks/useToggle';
 
 function PostDetail() {
   const { id } = useParams();
   const postRef = doc(db, 'post', id);
   const [post, setPost] = useRecoilState(currentPost);
   const [isLiked, setIsLiked] = useState(post?.like);
-  const [modal, setModal] = useRecoilState(confirmModalState);
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useToggle();
+  const [bottomSheet, setBottomSheet] = useRecoilState(bottomSheetState);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useRecoilState(confirmModalState);
   const scoreIndexs = [0, 1, 2, 3, 4];
   const menuPrice = post?.price;
   const priceComma = menuPrice?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -118,11 +117,11 @@ function PostDetail() {
   };
 
   const handleOpenModal = () => {
-    setModal({ ...modal, visible: true });
+    setBottomSheet({ ...bottomSheet, visible: true });
   };
 
   const onClickIcon = () => {
-    setModal({ ...modal, visible: false });
+    setBottomSheet({ ...bottomSheet, visible: false });
   };
 
   const onClickEdit = () => {
@@ -132,11 +131,11 @@ function PostDetail() {
   };
 
   const onClickDelete = () => {
-    setIsConfirmModalOpen();
+    setIsConfirmModalOpen({ ...isConfirmModalOpen, visible: !isConfirmModalOpen.visible });
   };
 
   const confirmModalClose = () => {
-    setIsConfirmModalOpen();
+    setIsConfirmModalOpen({ ...isConfirmModalOpen, visible: !isConfirmModalOpen.visible });
   };
 
   const rightOnclick = async () => {
@@ -162,6 +161,8 @@ function PostDetail() {
   const handleTag = (tag) => {
     navigate('/hashtag/keyword', { state: { data: tag } });
   };
+
+  console.log('open?', isConfirmModalOpen);
 
   return (
     <>
@@ -302,11 +303,15 @@ function PostDetail() {
             </S.Section>
           </S.Container>
           <Portal>
-            <BottomSheet visible={modal} onClickClose={onClickIcon}>
-              <BottomSheetDefault onClickEdit={onClickEdit} onClickDelete={onClickDelete} />
+            <BottomSheet visible={bottomSheet.visible} onClickClose={onClickIcon}>
+              <BottomSheetDefault
+                onClickClose={onClickIcon}
+                onClickEdit={onClickEdit}
+                onClickDelete={onClickDelete}
+              />
             </BottomSheet>
             <ConfirmModal
-              visible={isConfirmModalOpen}
+              visible={isConfirmModalOpen.visible}
               msg='기록을 삭제할까요?'
               leftBtnMsg='취소'
               rightBtnMsg='삭제'
