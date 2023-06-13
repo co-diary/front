@@ -1,10 +1,15 @@
 import { atom } from 'recoil';
 
-const modalState = atom({
-  key: 'modalState',
+export const confirmModalState = atom({
+  key: 'confirmModalState',
   default: {
     visible: false,
   },
 });
 
-export default modalState;
+export const mapModalState = atom({
+  key: 'mapModalState',
+  default: {
+    visible: false,
+  },
+});
