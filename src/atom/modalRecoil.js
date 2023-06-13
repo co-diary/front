@@ -13,3 +13,10 @@ export const mapModalState = atom({
     visible: false,
   },
 });
+
+export const bottomSheetState = atom({
+  key: 'bottomSheetState',
+  default: {
+    visible: false,
+  },
+});

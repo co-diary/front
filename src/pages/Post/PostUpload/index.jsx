@@ -45,7 +45,7 @@ function PostUpload() {
   const imageDeleteList = useRecoilValue(imageDeleteState);
   const [btnDisabled, setBtnDisabled] = useState(true);
 
-  console.log('confirm 상태', isConfirmModalOpen);
+  console.log('confirm 상태', isConfirmModalOpen.visible);
 
   useEffect(() => {
     if (
@@ -145,7 +145,7 @@ function PostUpload() {
       <PostForm />
       <Portal>
         <ConfirmModal
-          visible={isConfirmModalOpen}
+          visible={isConfirmModalOpen.visible}
           msg='게시글을 등록할까요?'
           leftBtnMsg='취소'
           rightBtnMsg='등록'
