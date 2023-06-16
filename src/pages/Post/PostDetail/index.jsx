@@ -140,6 +140,7 @@ function PostDetail() {
 
   const rightOnclick = async () => {
     await deleteDoc(doc(db, 'post', id));
+    await deleteDoc(doc(db, 'liked', id));
     setIsConfirmModalOpen();
     navigate(-1);
   };
