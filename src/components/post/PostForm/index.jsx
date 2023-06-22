@@ -427,6 +427,8 @@ function PostForm({ editPost, edit }) {
     [imageList],
   );
 
+  console.log("imageList", imageList)
+
   const handleImageDelete = useCallback(
     async (imageIndex) => {
       const imageLeaveList = imageList.filter((_, i) => imageIndex !== i);

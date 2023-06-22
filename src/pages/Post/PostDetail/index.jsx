@@ -23,6 +23,7 @@ import Portal from '../../../components/modal/Portal';
 import BottomSheet from '../../../components/modal/BottomSheet';
 import BottomSheetDefault from '../../../components/modal/BottomSheet/BottomSheetStyle/BottomSheetDefault';
 import ConfirmModal from '../../../components/modal/ConfirmModal';
+import usePostUpload from '../../../hooks/usePostUpload';
 
 function PostDetail() {
   const { id } = useParams();
@@ -41,14 +42,12 @@ function PostDetail() {
   const navigate = useNavigate();
   const [prevBtnDisabled, setPrevBtnDisabled] = useState(false);
   const [nexBtnDisabled, setNextBtnDisabled] = useState(false);
+  const { deleteImg } = usePostUpload();
   // 이전/다음 게시글
   const [userPostList, setUserPostList] = useState([]);
   const [currentPostIndex, setCurrentPostIndex] = useState();
   const location = useLocation();
   const categoryPostArr = location.state;
-
-  console.log('post', post);
-  console.log('userPostList', userPostList);
 
   useEffect(() => {
     addLikedListener();
@@ -140,6 +139,9 @@ function PostDetail() {
 
   const rightOnclick = async () => {
     await deleteDoc(doc(db, 'post', id));
+    await deleteDoc(doc(db, 'liked', id));
+
+    deleteImg(post?.photo);
     setIsConfirmModalOpen();
     navigate(-1);
   };
