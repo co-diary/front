@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { useRecoilState } from 'recoil';
 import { updateDoc, doc, onSnapshot, deleteDoc, setDoc } from 'firebase/firestore';
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
-import { v4 as uuidv4 } from 'uuid';
+
 import { db } from '../../../firebase';
 import Header from '../../../components/common/Header';
 import * as S from './style';
-import IconStarOn from '../../../assets/Icon-star-on.png';
-import IconStarOff from '../../../assets/Icon-star-off.png';
+
 import IconPrev from '../../../assets/Icon-detail-prev.png';
 import IconPrevDisabled from '../../../assets/Icon-detail-prev-hover.png';
 import IconNext from '../../../assets/Icon-detail-next.png';
@@ -17,13 +15,13 @@ import IconHeartOff from '../../../assets/Icon-Heart-off.png';
 import IconHeartOn from '../../../assets/Icon-Heart-on.png';
 import IconMore from '../../../assets/Icon-More.png';
 import currentPost from '../../../atom/currentPostRecoil';
-import SimpleSlider from '../../../components/post/SimpleSlider';
 import { confirmModalState, bottomSheetState } from '../../../atom/modalRecoil';
 import Portal from '../../../components/modal/Portal';
 import BottomSheet from '../../../components/modal/BottomSheet';
 import BottomSheetDefault from '../../../components/modal/BottomSheet/BottomSheetStyle/BottomSheetDefault';
 import ConfirmModal from '../../../components/modal/ConfirmModal';
 import usePostUpload from '../../../hooks/usePostUpload';
+import PostDetailBox from '../../../components/post/PostDetailBox';
 
 function PostDetail() {
   const { id } = useParams();
@@ -32,13 +30,6 @@ function PostDetail() {
   const [isLiked, setIsLiked] = useState(post?.like);
   const [bottomSheet, setBottomSheet] = useRecoilState(bottomSheetState);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useRecoilState(confirmModalState);
-  const scoreIndexs = [0, 1, 2, 3, 4];
-  const menuPrice = post?.price;
-  const priceComma = menuPrice?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  const hashtag = post?.tag;
-  const images = post?.photo;
-  const date = post?.date;
-  const slicedDate = date?.toDate().toISOString().slice(2, 10).replaceAll('-', '.');
   const navigate = useNavigate();
   const [prevBtnDisabled, setPrevBtnDisabled] = useState(false);
   const [nexBtnDisabled, setNextBtnDisabled] = useState(false);
@@ -50,11 +41,11 @@ function PostDetail() {
   const categoryPostArr = location.state;
 
   useEffect(() => {
-    addLikedListener();
-    getUserPost();
+    addPostListener();
+    getUserPostList();
   }, [id]);
 
-  const getUserPost = async () => {
+  const getUserPostList = useCallback(async () => {
     if (categoryPostArr) {
       const postArr = [];
 
@@ -64,40 +55,18 @@ function PostDetail() {
     } else {
       findIndex(userPostList);
     }
-  };
+  }, [id]);
 
-  const findIndex = (postArr) => {
-    const postIndex = postArr.indexOf(`${id}`);
-
-    if (postIndex === 0) {
-      setPrevBtnDisabled(true);
-      setNextBtnDisabled(false);
-    } else if (postIndex === postArr.length - 1) {
-      setNextBtnDisabled(true);
-      setPrevBtnDisabled(false);
-    } else {
-      setPrevBtnDisabled(false);
-      setNextBtnDisabled(false);
-    }
-
-    if (postIndex === 0 && postArr.length === 1) {
-      setPrevBtnDisabled(true);
-      setNextBtnDisabled(true);
-    }
-
-    setCurrentPostIndex(postIndex);
-  };
-
-  const addLikedListener = () => {
+  const addPostListener = useCallback(() => {
     onSnapshot(postRef, (state) => {
       const postData = state.data();
 
       setPost(postData);
-      setIsLiked(postData.like);
+      setIsLiked(postData?.like);
     });
-  };
+  }, [id]);
 
-  const handleLikedBtn = async () => {
+  const handleLikedBtn = useCallback(async () => {
     setIsLiked((prev) => !prev);
     if (isLiked) {
       await updateDoc(postRef, {
@@ -113,58 +82,71 @@ function PostDetail() {
         like: true,
       });
     }
-  };
+  }, [isLiked]);
 
-  const handleOpenModal = () => {
+  const handleOpenModal = useCallback(() => {
     setBottomSheet({ ...bottomSheet, visible: true });
-  };
+  }, []);
 
-  const onClickIcon = () => {
+  const onClickIcon = useCallback(() => {
     setBottomSheet({ ...bottomSheet, visible: false });
-  };
+  }, []);
 
-  const onClickEdit = () => {
+  const onClickEdit = useCallback(() => {
     navigate(`/post/${id}/edit`, {
       state: post,
     });
-  };
+  }, []);
 
-  const onClickDelete = () => {
+  const onClickDelete = useCallback(() => {
     setIsConfirmModalOpen({ ...isConfirmModalOpen, visible: !isConfirmModalOpen.visible });
-  };
+  }, []);
 
-  const confirmModalClose = () => {
+  const confirmModalClose = useCallback(() => {
     setIsConfirmModalOpen({ ...isConfirmModalOpen, visible: !isConfirmModalOpen.visible });
-  };
+  }, []);
 
-  const rightOnclick = async () => {
+  const rightOnclick = useCallback(async () => {
     await deleteDoc(doc(db, 'post', id));
     await deleteDoc(doc(db, 'liked', id));
 
     deleteImg(post?.photo);
     setIsConfirmModalOpen();
     navigate(-1);
-  };
+  }, []);
 
-  const handleLocationMap = () => {
-    navigate('/location', {
-      state: post?.address.latLng,
-    });
-  };
+  const findIndex = useCallback(
+    (postArr) => {
+      const postIndex = postArr.indexOf(`${id}`);
 
-  const handlePrevBtn = () => {
+      if (postIndex === 0) {
+        setPrevBtnDisabled(true);
+        setNextBtnDisabled(false);
+      } else if (postIndex === postArr.length - 1) {
+        setNextBtnDisabled(true);
+        setPrevBtnDisabled(false);
+      } else {
+        setPrevBtnDisabled(false);
+        setNextBtnDisabled(false);
+      }
+
+      if (postIndex === 0 && postArr.length === 1) {
+        setPrevBtnDisabled(true);
+        setNextBtnDisabled(true);
+      }
+
+      setCurrentPostIndex(postIndex);
+    },
+    [id],
+  );
+
+  const handlePrevBtn = useCallback(() => {
     navigate(`/post/${userPostList[currentPostIndex - 1]}`);
-  };
+  }, [userPostList, currentPostIndex]);
 
-  const handleNextBtn = () => {
+  const handleNextBtn = useCallback(() => {
     navigate(`/post/${userPostList[currentPostIndex + 1]}`);
-  };
-
-  const handleTag = (tag) => {
-    navigate('/hashtag/keyword', { state: { data: tag } });
-  };
-
-  console.log('open?', isConfirmModalOpen);
+  }, [userPostList, currentPostIndex]);
 
   return (
     <>
@@ -187,123 +169,32 @@ function PostDetail() {
               </>
             }
           />
-          <S.Container>
-            <header>
-              <h1 className='ir'>게시글 상세 페이지</h1>
-            </header>
-            <S.Section>
-              <h2 className='ir'>게시글 날짜, 메뉴명과 별점</h2>
-              <S.DateInfo>{slicedDate}</S.DateInfo>
-              <S.MenuInfo>{post.menu}</S.MenuInfo>
-              <S.StarRatingContainer>
-                {scoreIndexs.map((index) =>
-                  post.score > index ? (
-                    <img src={IconStarOn} alt='별점' key={uuidv4()} />
-                  ) : (
-                    <img
-                      src={IconStarOff}
-                      alt='체크되지 않은 별점'
-                      aria-hidden='true'
-                      key={uuidv4()}
-                    />
-                  ),
-                )}
-              </S.StarRatingContainer>
-            </S.Section>
-            <S.Section>
-              <h2 className='ir'>메뉴 후기와 매장 정보</h2>
-              {/* 파이어베이스 photo 필드 저장 형태에 따라 코드 수정 예정 */}
-              {typeof images === 'string' && (
-                <S.PhotoCarousel>
-                  <img src={images} alt='' />
-                </S.PhotoCarousel>
+          <PostDetailBox />
+          <S.BtnContainer>
+            <S.Btn
+              onClick={handlePrevBtn}
+              disabled={prevBtnDisabled}
+              style={{ cursor: prevBtnDisabled ? 'auto' : 'pointer' }}
+            >
+              {' '}
+              {prevBtnDisabled ? (
+                <img src={IconPrevDisabled} alt='이전 게시글 없음' />
+              ) : (
+                <img src={IconPrev} alt='이전 게시글 보기' />
               )}
-              {typeof images === 'object' && (
-                <S.PhotoCarousel>
-                  <SimpleSlider images={images} />
-                </S.PhotoCarousel>
+            </S.Btn>
+            <S.Btn
+              onClick={handleNextBtn}
+              disabled={nexBtnDisabled}
+              style={{ cursor: nexBtnDisabled ? 'auto' : 'pointer' }}
+            >
+              {nexBtnDisabled ? (
+                <img src={IconNextDisabled} alt='다음 게시글 없음' />
+              ) : (
+                <img src={IconNext} alt='다음 게시글 보기' />
               )}
-              <S.ListContainer>
-                <S.ListItem>
-                  <S.ListTitle>후기</S.ListTitle>
-                  <p>{post.review}</p>
-                </S.ListItem>
-                <S.ListItem>
-                  <S.ListTitle>매장 정보</S.ListTitle>
-                  <S.DlContainer>
-                    <S.DlBox>
-                      <S.DlTitle>가격</S.DlTitle>
-                      <dd>{priceComma}원</dd>
-                    </S.DlBox>
-                    <S.DlBox>
-                      <S.DlTitle>상호명</S.DlTitle>
-                      <dd>{post.shop}</dd>
-                    </S.DlBox>
-                    <S.DlBox>
-                      <S.DlTitle>위치</S.DlTitle>
-                      <dd>{post.address.location}</dd>
-                    </S.DlBox>
-                    <Map
-                      center={{
-                        lat: `${post?.address.latLng[0]}`,
-                        lng: `${post?.address.latLng[1]}`,
-                      }}
-                      style={{
-                        width: '296px',
-                        height: '66px',
-                        borderRadius: '10px',
-                        marginTop: '10px',
-                        marginLeft: 'auto',
-                      }}
-                      level={3}
-                      onClick={handleLocationMap}
-                    >
-                      <MapMarker
-                        position={{
-                          lat: `${post?.address.latLng[0]}`,
-                          lng: `${post?.address.latLng[1]}`,
-                        }}
-                      />
-                    </Map>
-                  </S.DlContainer>
-                </S.ListItem>
-                <S.ListItem>
-                  <S.ListTitle>태그</S.ListTitle>
-                  {hashtag &&
-                    hashtag.map((tag, index) => (
-                      <S.TagLink key={uuidv4()} onClick={() => handleTag(tag)}>
-                        #{tag}
-                      </S.TagLink>
-                    ))}
-                </S.ListItem>
-              </S.ListContainer>
-              <S.BtnContainer>
-                <S.Btn
-                  onClick={handlePrevBtn}
-                  disabled={prevBtnDisabled}
-                  style={{ cursor: prevBtnDisabled ? 'auto' : 'pointer' }}
-                >
-                  {' '}
-                  {prevBtnDisabled ? (
-                    <img src={IconPrevDisabled} alt='이전 게시글 없음' />
-                  ) : (
-                    <img src={IconPrev} alt='이전 게시글 보기' />
-                  )}
-                </S.Btn>
-                <S.Btn
-                  onClick={handleNextBtn}
-                  disabled={nexBtnDisabled}
-                  style={{ cursor: nexBtnDisabled ? 'auto' : 'pointer' }}
-                >
-                  {nexBtnDisabled ? (
-                    <img src={IconNextDisabled} alt='다음 게시글 없음' />
-                  ) : (
-                    <img src={IconNext} alt='다음 게시글 보기' />
-                  )}
-                </S.Btn>
-              </S.BtnContainer>
-            </S.Section>
-          </S.Container>
+            </S.Btn>
+          </S.BtnContainer>
           <Portal>
             <BottomSheet visible={bottomSheet.visible} onClickClose={onClickIcon}>
               <BottomSheetDefault
