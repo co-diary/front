@@ -63,7 +63,7 @@ function PostUpload() {
   }, [inputValid]);
 
   const handlePostUploadConfirm = () => {
-    setIsConfirmModalOpen((prev) => !prev);
+    setIsConfirmModalOpen((prev) => ({ ...prev, visible: true }));
   };
 
   const confirmModalClose = () => {

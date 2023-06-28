@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useParams, useNavigate } from 'react-router';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { Timestamp } from 'firebase/firestore';
 import Header from '../../../components/common/Header';
 import NavBar from '../../../components/common/NavBar';
 import Button from '../../../components/common/Button';
 import PostForm from '../../../components/post/PostForm';
-import useToggle from '../../../hooks/useToggle';
 import Portal from '../../../components/modal/Portal';
 import ConfirmModal from '../../../components/modal/ConfirmModal';
+import { confirmModalState } from '../../../atom/modalRecoil';
 import {
   categoryState,
   themeState,
@@ -43,10 +43,12 @@ function PostEdit() {
   const { state } = useLocation();
   const { id } = useParams();
   const navigate = useNavigate();
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useToggle();
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useRecoilState(confirmModalState);
   const { updatePost, response, deleteImg } = usePostUpload('post', id);
   const [btnDisabled, setBtnDisabled] = useState(false);
   const imageDeleteList = useRecoilValue(imageDeleteState);
+
+  console.log('넘어온 state값', state);
 
   useEffect(() => {
     if (
@@ -89,11 +91,11 @@ function PostEdit() {
   }, []);
 
   const handlePostEditConfirm = () => {
-    setIsConfirmModalOpen();
+    setIsConfirmModalOpen((prev) => ({ ...prev, visible: true }));
   };
 
   const confirmModalClose = () => {
-    setIsConfirmModalOpen();
+    setIsConfirmModalOpen(false);
   };
 
   const handlePostEdit = (e) => {
@@ -139,7 +141,7 @@ function PostEdit() {
       <PostForm edit editPost={state} />
       <Portal>
         <ConfirmModal
-          visible={isConfirmModalOpen}
+          visible={isConfirmModalOpen.visible}
           msg='게시글을 등록할까요?'
           leftBtnMsg='취소'
           rightBtnMsg='등록'

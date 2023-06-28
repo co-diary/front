@@ -96,7 +96,7 @@ function PostDetail() {
     navigate(`/post/${id}/edit`, {
       state: post,
     });
-  }, []);
+  }, [post]);
 
   const onClickDelete = useCallback(() => {
     setIsConfirmModalOpen({ ...isConfirmModalOpen, visible: !isConfirmModalOpen.visible });
