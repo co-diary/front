@@ -96,14 +96,16 @@ function PostDetail() {
     navigate(`/post/${id}/edit`, {
       state: post,
     });
+    setBottomSheet({ ...bottomSheet, visible: false });
   }, [post]);
 
   const onClickDelete = useCallback(() => {
     setIsConfirmModalOpen({ ...isConfirmModalOpen, visible: !isConfirmModalOpen.visible });
+    setBottomSheet({ ...bottomSheet, visible: false });
   }, []);
 
   const confirmModalClose = useCallback(() => {
-    setIsConfirmModalOpen({ ...isConfirmModalOpen, visible: !isConfirmModalOpen.visible });
+    setIsConfirmModalOpen({ ...isConfirmModalOpen, visible: false });
   }, []);
 
   const rightOnclick = useCallback(async () => {
@@ -111,7 +113,7 @@ function PostDetail() {
     await deleteDoc(doc(db, 'liked', id));
 
     deleteImg(post?.photo);
-    setIsConfirmModalOpen();
+    setIsConfirmModalOpen({ visible: false });
     navigate(-1);
   }, []);
 
