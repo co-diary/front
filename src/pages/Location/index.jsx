@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { collection, query, where, getDocs } from 'firebase/firestore';
+import { useLocation } from 'react-router';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { db } from '../../firebase';
 import Header from '../../components/common/Header';
@@ -11,6 +12,8 @@ function Location() {
   const user = useRecoilValue(authState);
   const [userPost, setUserPost] = useState([]);
   const [likedPost, setLikedPost] = useState([]);
+  const location = useLocation();
+  const locationState = location.state;
 
   useEffect(() => {
     if (user) {
@@ -40,13 +43,17 @@ function Location() {
       postArr.push(value.data().address.latLng);
     });
     setLikedPost(postArr);
-  }
+  };
 
   return (
     <>
       <Header title='지도' />
       <Map
-        center={{ lat: '37.566535', lng: '126.9779692' }} // 서울시청을 중심좌표로 설정
+        center={
+          locationState
+            ? { lat: locationState[0], lng: locationState[1] }
+            : { lat: '37.566535', lng: '126.9779692' }
+        } // 서울시청을 중심좌표로 설정
         style={{ width: '100%', height: '100vh' }}
         level={1}
       >
@@ -61,7 +68,7 @@ function Location() {
               draggable={true}
             />
           ))}
-        {likedPost && 
+        {likedPost &&
           likedPost.map((marker, index) => (
             <MapMarker
               key={index}
