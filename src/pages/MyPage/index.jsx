@@ -78,9 +78,9 @@ function MyPage() {
             visible={isModalOpen}
             msg='정말 로그아웃 하시겠습니까?'
             leftBtnMsg='취소'
-            leftOnclick={onLogOutClick}
+            leftOnclick={onCancelClick}
             rightBtnMsg='확인'
-            rightOnclick={onCancelClick}
+            rightOnclick={onLogOutClick}
           />
         ) : null}
       </Portal>
