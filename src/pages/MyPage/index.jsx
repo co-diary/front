@@ -77,9 +77,9 @@ function MyPage() {
             onClickClose={setIsModalOpen}
             visible={isModalOpen}
             msg='정말 로그아웃 하시겠습니까?'
-            leftBtnMsg='확인'
+            leftBtnMsg='취소'
             leftOnclick={onLogOutClick}
-            rightBtnMsg='취소'
+            rightBtnMsg='확인'
             rightOnclick={onCancelClick}
           />
         ) : null}
