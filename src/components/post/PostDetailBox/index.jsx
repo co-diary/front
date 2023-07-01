@@ -17,14 +17,15 @@ export default function PostDetailBox() {
   const hashtag = post?.tag;
   const images = post?.photo;
   const date = post?.date;
+  const latLng = post?.address.latLng;
   const slicedDate = date?.toDate().toISOString().slice(2, 10).replaceAll('-', '.');
   const navigate = useNavigate();
 
   const handleLocationMap = useCallback(() => {
     navigate('/location', {
-      state: post?.address.latLng,
+      state: latLng,
     });
-  }, []);
+  }, [latLng]);
 
   const handleTag = useCallback((tag) => {
     navigate('/hashtag/keyword', { state: { data: tag } });
@@ -83,8 +84,8 @@ export default function PostDetailBox() {
               </S.DlBox>
               <Map
                 center={{
-                  lat: `${post?.address.latLng[0]}`,
-                  lng: `${post?.address.latLng[1]}`,
+                  lat: latLng[0],
+                  lng: latLng[1],
                 }}
                 style={{
                   width: '296px',
@@ -98,8 +99,8 @@ export default function PostDetailBox() {
               >
                 <MapMarker
                   position={{
-                    lat: `${post?.address.latLng[0]}`,
-                    lng: `${post?.address.latLng[1]}`,
+                    lat: latLng[0],
+                    lng: latLng[1],
                   }}
                 />
               </Map>
@@ -108,7 +109,7 @@ export default function PostDetailBox() {
           <S.ListItem>
             <S.ListTitle>태그</S.ListTitle>
             {hashtag &&
-              hashtag.map((tag, index) => (
+              hashtag.map((tag) => (
                 <S.TagLink key={uuidv4()} onClick={() => handleTag(tag)}>
                   #{tag}
                 </S.TagLink>
