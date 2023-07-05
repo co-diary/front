@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useQueryClient } from 'react-query';
 import { useRecoilValue } from 'recoil';
 import { useLocation, useNavigate } from 'react-router';
@@ -36,9 +36,13 @@ function Post() {
   const ThemeTitle = location.state;
 
   const queryClient = useQueryClient();
-  const posts = queryClient
-    .getQueryData(['post', userId, 'ALL', undefined, undefined])
-    .filter((v) => v.theme === ThemeTitle);
+  const posts = useMemo(
+    () =>
+      queryClient
+        .getQueryData(['post', userId, 'ALL', undefined, undefined])
+        .filter((v) => v.theme === ThemeTitle),
+    [queryClient, userId, ThemeTitle],
+  );
 
   console.log('캐싱 데이터 확인', ThemeTitle, posts);
 
