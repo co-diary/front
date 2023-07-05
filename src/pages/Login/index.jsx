@@ -85,8 +85,9 @@ function Login() {
   return (
     <S.Container>
       <S.HeaderContainer>
-        <img src={LogoText} alt='커디어리' />
-        {/* <S.Title>로그인</S.Title> */}
+        <h1>
+          <img src={LogoText} alt='커디어리' />
+        </h1>
       </S.HeaderContainer>
       <S.Form onSubmit={handleLoginSubmit}>
         <InputWithLabel

@@ -7,13 +7,8 @@ export const Container = styled.div`
 `;
 
 export const HeaderContainer = styled.header`
-  padding: 1.6rem 0;
+  padding: 3rem 0;
   text-align: center;
-
-  & img {
-    width: 17rem;
-    margin-bottom: 1.6rem;
-  }
 `;
 
 export const Title = styled.h1`

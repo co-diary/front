@@ -7,7 +7,6 @@ import Header from '../../components/common/Header';
 import InputWithLabel from '../../components/common/InputWithLabel';
 import useSignup from '../../hooks/useSignup';
 import { isLoggedIn } from '../../atom/authRecoil';
-import LogoText from '../../assets/Logo-text.png';
 
 function SignUp() {
   const [email, setEmail] = useState('');
@@ -175,8 +174,7 @@ function SignUp() {
       <Header />
       <S.Container>
         <S.HeaderContainer>
-          <img src={LogoText} alt='커디어리' />
-          {/* <S.Title>회원가입</S.Title> */}
+          <S.Title>회원가입</S.Title>
         </S.HeaderContainer>
         <S.Form onSubmit={handleSignupSubmit}>
           <InputWithLabel
