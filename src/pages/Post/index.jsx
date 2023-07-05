@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useQueryClient } from 'react-query';
 import { useRecoilValue } from 'recoil';
 import { useLocation, useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
@@ -9,7 +10,6 @@ import IconSearch from '../../assets/Icon-Search.png';
 import * as S from './style';
 import PostList from '../../components/post/PostList';
 import SelectBox from '../../components/post/PostList/SelectBox';
-import usePost from '../../hooks/usePost';
 
 const categoryContentsAll = [
   {
@@ -35,7 +35,12 @@ function Post() {
   const navigate = useNavigate();
   const ThemeTitle = location.state;
 
-  const { isLoading, isError, data: posts } = usePost(userId, 'theme', ThemeTitle);
+  const queryClient = useQueryClient();
+  const posts = queryClient
+    .getQueryData(['post', userId, 'ALL', undefined, undefined])
+    .filter((v) => v.theme === ThemeTitle);
+
+  console.log('캐싱 데이터 확인', ThemeTitle, posts);
 
   const categoryContents = categoryContentsAll.filter((v) => v.Theme === ThemeTitle)[0];
 
@@ -77,16 +82,6 @@ function Post() {
       setSortedPostList(sortedPost);
     }
   }, [posts]);
-
-  console.log('리액트쿼리에서', posts, ThemeTitle);
-
-  if (isLoading) {
-    return <div>🌀 Loading 🌀 </div>;
-  }
-
-  if (isError) {
-    return <div>fetch data중 에러</div>;
-  }
 
   const onClickCategory = (categoryName) => {
     setSelectedCategory(categoryName);
