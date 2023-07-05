@@ -22,12 +22,6 @@ function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLogin) {
-      navigate('/home');
-    }
-  }, [isLogin]);
-
-  useEffect(() => {
     if (isEmailValid && isPasswordValid) {
       setBtnDisabled(false);
       setIsLoginAllow(true);
@@ -81,6 +75,14 @@ function Login() {
     },
     [email, password],
   );
+
+  if (isLogin) {
+    navigate('/home');
+  }
+
+  if (isLogin === null) {
+    return null;
+  }
 
   return (
     <S.Container>
