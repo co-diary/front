@@ -7,18 +7,12 @@ export const Container = styled.div`
 `;
 
 export const HeaderContainer = styled.header`
-  padding: 3rem 0;
+  padding: 4.8rem 0 3rem;
   text-align: center;
 
   & img {
     width: 17rem;
-    margin-bottom: 1.6rem;
   }
-`;
-
-export const Title = styled.h1`
-  font-family: 'LINESeedKR-Bd';
-  font-size: 2.4rem;
 `;
 
 export const Form = styled.form`
