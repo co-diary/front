@@ -35,12 +35,6 @@ function SignUp() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLogin) {
-      navigate('/home');
-    }
-  }, [isLogin]);
-
-  useEffect(() => {
     if (isEmailValid && isPasswordValid && isPasswordCheckValid && isDisplayNameValid) {
       setBtnDisabled(false);
     } else {
@@ -168,6 +162,14 @@ function SignUp() {
     },
     [email, password, displayName, signup],
   );
+
+  if (isLogin) {
+    navigate('/home');
+  }
+
+  if (isLogin === null) {
+    return null;
+  }
 
   return (
     <>
