@@ -6,6 +6,7 @@ import Button from '../../components/common/Button';
 import InputWithLabel from '../../components/common/InputWithLabel';
 import useLogin from '../../hooks/useLogin';
 import { isLoggedIn } from '../../atom/authRecoil';
+import LogoText from '../../assets/Logo-text.png';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -84,7 +85,8 @@ function Login() {
   return (
     <S.Container>
       <S.HeaderContainer>
-        <S.Title>로그인</S.Title>
+        <img src={LogoText} alt='커디어리' />
+        {/* <S.Title>로그인</S.Title> */}
       </S.HeaderContainer>
       <S.Form onSubmit={handleLoginSubmit}>
         <InputWithLabel
