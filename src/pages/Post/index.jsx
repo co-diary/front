@@ -47,6 +47,13 @@ function Post() {
 
   const categoryContents = categoryContentsAll.filter((v) => v.Theme === ThemeTitle)[0];
 
+  const onClickCategory = (categoryName) => {
+    setSelectedCategory(categoryName);
+  };
+
+  const filterPostsByCategory = (post, category) =>
+    category === '전체' ? post : post.filter((doc) => doc.category === category);
+
   const sortPostsByOption = (post, option) => {
     const sortedPost = [...post];
 
@@ -60,18 +67,21 @@ function Post() {
     return sortedPost;
   };
 
-  const filterPostsByCategory = (post, category) =>
-    category === '전체' ? post : post.filter((doc) => doc.category === category);
+  const sortAndFilterPosts = useCallback(() => {
+    const filteredPosts = filterPostsByCategory(posts, selectedCategory);
+    const sortedPosts = sortPostsByOption(filteredPosts, selectedOption);
 
-  const handleSelectedOption = useCallback(
-    (option) => {
-      if (option === selectedOption) {
-        return;
-      }
-      setSelectedOption(option);
-    },
-    [selectedOption],
-  );
+    setSortedPostList(sortedPosts);
+  }, [posts, selectedOption, selectedCategory]);
+
+  // selectedOption, selectedCategory 혹은 posts 변경 시 항상 정렬과 필터링을 수행
+  useEffect(() => {
+    sortAndFilterPosts();
+  }, [sortAndFilterPosts]);
+
+  const handleSelectedOption = useCallback((option) => {
+    setSelectedOption(option);
+  }, []);
 
   useEffect(() => {
     if (posts && posts.length > 0) {
@@ -81,17 +91,6 @@ function Post() {
       setSortedPostList(sortedPost);
     }
   }, [posts]);
-
-  const onClickCategory = (categoryName) => {
-    setSelectedCategory(categoryName);
-
-    const sortedPost = sortPostsByOption(
-      filterPostsByCategory(posts, categoryName),
-      selectedOption,
-    );
-
-    setSortedPostList(sortedPost);
-  };
 
   const handleOptionSelected = (option) => {
     handleSelectedOption(option);
