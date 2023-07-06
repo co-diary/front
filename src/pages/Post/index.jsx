@@ -9,7 +9,7 @@ import IconSearch from '../../assets/Icon-Search.png';
 import * as S from './style';
 import PostList from '../../components/post/PostList';
 import SelectBox from '../../components/post/PostList/SelectBox';
-import usePost from '../../hooks/usePost';
+import getPost from '../../hooks/getPost';
 
 const categoryContentsAll = [
   {
@@ -25,7 +25,7 @@ const categoryContentsAll = [
 function Post() {
   const userId = useRecoilValue(UserIdState);
   const options = ['최신순', '별점순', '방문순'];
-
+  const [posts, setPosts] = useState([]);
   const [selectedOption, setSelectedOption] = useState('최신순');
 
   const [selectedCategory, setSelectedCategory] = useState('전체');
@@ -35,9 +35,24 @@ function Post() {
   const navigate = useNavigate();
   const ThemeTitle = location.state;
 
-  const { isLoading, isError, data: posts } = usePost(userId, 'theme', ThemeTitle);
+  useEffect(() => {
+    const fetchData = async () => {
+      const postList = await getPost(userId, 'theme', ThemeTitle);
+
+      setPosts(postList);
+    };
+
+    fetchData();
+  }, [userId, ThemeTitle]);
 
   const categoryContents = categoryContentsAll.filter((v) => v.Theme === ThemeTitle)[0];
+
+  const onClickCategory = (categoryName) => {
+    setSelectedCategory(categoryName);
+  };
+
+  const filterPostsByCategory = (post, category) =>
+    category === '전체' ? post : post.filter((doc) => doc.category === category);
 
   const sortPostsByOption = (post, option) => {
     const sortedPost = [...post];
@@ -52,22 +67,21 @@ function Post() {
     return sortedPost;
   };
 
-  const filterPostsByCategory = (post, category) =>
-    category === '전체' ? post : post.filter((doc) => doc.category === category);
+  const sortAndFilterPosts = useCallback(() => {
+    const filteredPosts = filterPostsByCategory(posts, selectedCategory);
+    const sortedPosts = sortPostsByOption(filteredPosts, selectedOption);
 
-  const handleSelectedOption = useCallback(
-    (option) => {
-      if (option === selectedOption) {
-        return;
-      }
-      setSelectedOption(option);
-      const sortedPost = sortPostsByOption(posts, option);
-      const filteredPost = filterPostsByCategory(sortedPost, selectedCategory);
+    setSortedPostList(sortedPosts);
+  }, [posts, selectedOption, selectedCategory]);
 
-      setSortedPostList(filteredPost);
-    },
-    [posts, selectedOption, selectedCategory],
-  );
+  // selectedOption, selectedCategory 혹은 posts 변경 시 항상 정렬과 필터링을 수행
+  useEffect(() => {
+    sortAndFilterPosts();
+  }, [sortAndFilterPosts]);
+
+  const handleSelectedOption = useCallback((option) => {
+    setSelectedOption(option);
+  }, []);
 
   useEffect(() => {
     if (posts && posts.length > 0) {
@@ -77,27 +91,6 @@ function Post() {
       setSortedPostList(sortedPost);
     }
   }, [posts]);
-
-  console.log('리액트쿼리에서', posts, ThemeTitle);
-
-  if (isLoading) {
-    return <div>🌀 Loading 🌀 </div>;
-  }
-
-  if (isError) {
-    return <div>fetch data중 에러</div>;
-  }
-
-  const onClickCategory = (categoryName) => {
-    setSelectedCategory(categoryName);
-
-    const sortedPost = sortPostsByOption(
-      filterPostsByCategory(posts, categoryName),
-      selectedOption,
-    );
-
-    setSortedPostList(sortedPost);
-  };
 
   const handleOptionSelected = (option) => {
     handleSelectedOption(option);
