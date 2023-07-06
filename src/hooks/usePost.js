@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 import { getDocs, query, collection, where, orderBy } from 'firebase/firestore';
 import { db } from '../firebase';
 
-async function fetchPost(userId, queryOption, target, option) {
+export async function fetchPost(userId, queryOption, target, option) {
   const q = query(collection(db, 'post'));
   const queryWithUid = query(q, where('uid', '==', userId));
 

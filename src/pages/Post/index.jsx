@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { useQueryClient } from 'react-query';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useLocation, useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
@@ -10,11 +9,12 @@ import IconSearch from '../../assets/Icon-Search.png';
 import * as S from './style';
 import PostList from '../../components/post/PostList';
 import SelectBox from '../../components/post/PostList/SelectBox';
+import getPost from '../../hooks/getPost';
 
 const categoryContentsAll = [
   {
     Theme: '음료',
-    categories: ['전체', '커피', '논커피', '스무디', '주스', '기타'],
+    categories: ['전체', '커피', '논커피', '주스', '기타'],
   },
   {
     Theme: '디저트',
@@ -25,7 +25,7 @@ const categoryContentsAll = [
 function Post() {
   const userId = useRecoilValue(UserIdState);
   const options = ['최신순', '별점순', '방문순'];
-
+  const [posts, setPosts] = useState([]);
   const [selectedOption, setSelectedOption] = useState('최신순');
 
   const [selectedCategory, setSelectedCategory] = useState('전체');
@@ -35,16 +35,15 @@ function Post() {
   const navigate = useNavigate();
   const ThemeTitle = location.state;
 
-  const queryClient = useQueryClient();
-  const posts = useMemo(
-    () =>
-      queryClient
-        .getQueryData(['post', userId, 'ALL', undefined, undefined])
-        .filter((v) => v.theme === ThemeTitle),
-    [queryClient, userId, ThemeTitle],
-  );
+  useEffect(() => {
+    const fetchData = async () => {
+      const postList = await getPost(userId, 'theme', ThemeTitle);
 
-  console.log('캐싱 데이터 확인', ThemeTitle, posts);
+      setPosts(postList);
+    };
+
+    fetchData();
+  }, [userId, ThemeTitle]);
 
   const categoryContents = categoryContentsAll.filter((v) => v.Theme === ThemeTitle)[0];
 
@@ -70,12 +69,8 @@ function Post() {
         return;
       }
       setSelectedOption(option);
-      const sortedPost = sortPostsByOption(posts, option);
-      const filteredPost = filterPostsByCategory(sortedPost, selectedCategory);
-
-      setSortedPostList(filteredPost);
     },
-    [posts, selectedOption, selectedCategory],
+    [selectedOption],
   );
 
   useEffect(() => {
