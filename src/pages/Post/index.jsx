@@ -14,7 +14,7 @@ import getPost from '../../hooks/getPost';
 const categoryContentsAll = [
   {
     Theme: '음료',
-    categories: ['전체', '커피', '논커피', '주스', '기타'],
+    categories: ['전체', '커피', '논커피', '스무디', '주스', '기타'],
   },
   {
     Theme: '디저트',
