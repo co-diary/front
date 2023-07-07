@@ -17,6 +17,12 @@ function SearchForm({ keyword, setKeyword, onChange, children, submitKeyword }) 
     setKeyword('');
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+    }
+  };
+
   useEffect(() => {
     if (!keyword) {
       setKeyword('');
@@ -34,6 +40,7 @@ function SearchForm({ keyword, setKeyword, onChange, children, submitKeyword }) 
           }}
           onBlur={() => handleFormBlur()}
           onSubmit={submitKeyword}
+          onKeyDown={handleKeyDown}
         >
           <S.InputContainer focus={focus} width={inputWidth}>
             <S.Input
