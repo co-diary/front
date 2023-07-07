@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Hashtag from '../pages/Hashtag';
 import HashtagResult from '../pages/Hashtag/HashtagResult';
 import Home from '../pages/Home';
@@ -23,6 +23,7 @@ function Router() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path='/' element={<Navigate to='/home' />} />
         <Route path='/splash' element={<Splash />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />

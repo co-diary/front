@@ -6,6 +6,7 @@ import Button from '../../components/common/Button';
 import InputWithLabel from '../../components/common/InputWithLabel';
 import useLogin from '../../hooks/useLogin';
 import { isLoggedIn } from '../../atom/authRecoil';
+import LogoText from '../../assets/Logo-text.png';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -19,12 +20,6 @@ function Login() {
   const emailRef = useRef(null);
   const isLogin = useRecoilValue(isLoggedIn);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isLogin) {
-      navigate('/home');
-    }
-  }, [isLogin]);
 
   useEffect(() => {
     if (isEmailValid && isPasswordValid) {
@@ -81,10 +76,21 @@ function Login() {
     [email, password],
   );
 
+  if (isLogin) {
+    navigate('/home');
+  }
+
+  if (isLogin === null) {
+    return null;
+  }
+
   return (
     <S.Container>
       <S.HeaderContainer>
-        <S.Title>로그인</S.Title>
+        <h1>
+          <span className='ir'>로그인</span>
+          <img src={LogoText} alt='커디어리 로고' />
+        </h1>
       </S.HeaderContainer>
       <S.Form onSubmit={handleLoginSubmit}>
         <InputWithLabel
