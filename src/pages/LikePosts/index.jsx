@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
+
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import * as S from './style';
@@ -8,12 +9,15 @@ import { authState } from '../../atom/authRecoil';
 import { db } from '../../firebase';
 import PostCard from '../../components/post/PostCard';
 import DefaultLikePosts from './DefaultLikePosts';
+import Portal from '../../components/modal/Portal';
+import ConfirmModal from '../../components/modal/ConfirmModal';
 
 function LikePosts() {
   const user = useRecoilValue(authState);
   const likedRef = collection(db, 'liked');
   const [isLoading, setIsLoading] = useState(true);
   const [likedPostList, setLikedPostList] = useState([]);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -36,6 +40,12 @@ function LikePosts() {
       setIsLoading(false);
     });
   };
+
+  const confirmModalClose = () => {
+    setIsConfirmModalOpen(false);
+  };
+
+  // usePostLikedUpdate(postId, newLiked);
 
   return (
     <>
@@ -72,6 +82,19 @@ function LikePosts() {
         </S.Container>
       )}
       <NavBar />
+      <Portal>
+        <ConfirmModal
+          visible={isConfirmModalOpen}
+          msg='좋아요 목록에서 삭제할까요?'
+          leftBtnMsg='취소'
+          rightBtnMsg='삭제'
+          onClickClose={confirmModalClose}
+          rightOnclick={() => {
+            setIsConfirmModalOpen((prev) => !prev);
+          }}
+          leftOnclick={confirmModalClose}
+        />
+      </Portal>
     </>
   );
 }

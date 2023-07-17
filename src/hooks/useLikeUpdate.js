@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { deleteDoc, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
-const usePostLikedUpdate = (postId, newLiked) => {
+const useLikeUpdate = (postId, newLiked) => {
   useEffect(() => {
     const updatePostLiked = async () => {
       const postDoc = doc(db, 'post', postId);
@@ -26,4 +26,4 @@ const usePostLikedUpdate = (postId, newLiked) => {
   }, [postId, newLiked]);
 };
 
-export default usePostLikedUpdate;
+export default useLikeUpdate;
