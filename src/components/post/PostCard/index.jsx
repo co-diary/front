@@ -9,8 +9,6 @@ import IconHeartOff from '../../../assets/Icon-Heart-off.png';
 import IconStarOn from '../../../assets/Icon-star-on.png';
 import IconStarOff from '../../../assets/Icon-star-off.png';
 
-// import updatePostLiked from '../../../hooks/updatePost';
-
 function PostCard({
   id,
   date,
@@ -67,8 +65,6 @@ function PostCard({
       state: postList,
     });
   };
-
-  console.log(onOpenModal);
 
   const handleLike = (e) => {
     e.stopPropagation();

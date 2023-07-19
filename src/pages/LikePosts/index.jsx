@@ -5,11 +5,9 @@ import {
   onSnapshot,
   query,
   where,
-  // deleteDoc,
-  // doc,
-  // getDoc,
-  // setDoc,
-  // updateDoc,
+  deleteDoc,
+  doc,
+  updateDoc,
 } from 'firebase/firestore';
 
 import Header from '../../components/common/Header';
@@ -22,7 +20,6 @@ import DefaultLikePosts from './DefaultLikePosts';
 import Portal from '../../components/modal/Portal';
 import ConfirmModal from '../../components/modal/ConfirmModal';
 import { confirmModalState } from '../../atom/modalRecoil';
-// import useLikeUpdate from '../../hooks/useLikeUpdate';
 
 function LikePosts() {
   const user = useRecoilValue(authState);
@@ -56,7 +53,6 @@ function LikePosts() {
 
   const handleModalOpen = (postId) => {
     setSelectedPostId(postId);
-    console.log('값있어?', selectedPostId);
     setIsConfirmModalOpen({ ...isConfirmModalOpen, visible: !isConfirmModalOpen.visible });
   };
 
@@ -65,9 +61,13 @@ function LikePosts() {
     setIsConfirmModalOpen({ ...isConfirmModalOpen, visible: false });
   };
 
-  const handleDelete = (postId) => {
-    // 삭제동작
-    console.log('Post with id', postId, 'is going to be deleted.');
+  const handleUnlike = async (postId) => {
+    const postDoc = doc(db, 'post', postId);
+    const newField = { like: false };
+
+    await updateDoc(postDoc, newField);
+
+    await deleteDoc(doc(db, 'liked', postId));
   };
 
   return (
@@ -115,7 +115,7 @@ function LikePosts() {
           rightBtnMsg='삭제'
           onClickClose={handleModalClose}
           rightOnclick={() => {
-            handleDelete(selectedPostId);
+            handleUnlike(selectedPostId);
             handleModalClose();
           }}
           leftOnclick={handleModalClose}
