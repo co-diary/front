@@ -170,8 +170,13 @@ main / develop / feature 세 단계의 브랜치를 구성하여 배포와 개�
 
 [🔗기술문서 보러가기](https://burly-haddock-d58.notion.site/32ed0691f33f4c8fb95394b739c091af?pvs=4)
 
-## 그 외 정보
+## 7. 그 외 정보
 
 ### 폰트
 
 **LINESeedKR** (https://seed.line.me/index_kr.html)
+
+<br>
+<br>
+
+## 8. 향후 버전 계획
