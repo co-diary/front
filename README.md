@@ -1,6 +1,6 @@
 # 커디어리(Co-diary)
 
-<img width="2491" alt="서비스 이미지" src="https://github.com/co-diary/front/assets/83122749/6cbd2905-5b4f-46e8-87cc-fba9b75e8b2e">
+<img height="800" alt="서비스 이미지" src="https://github.com/co-diary/front/assets/104605709/09dd3146-ae70-4d16-bf4e-cb3779bd1465">
 
 #### [🍰 배포 링크](https://co-diary-12418.web.app/)
 
