@@ -13,6 +13,18 @@ function RecentPosts({ userId }) {
     });
   }, []);
 
+  const handleLikeButton = (postId) => {
+    const postIndex = recentPosts.findIndex((post) => post.key === postId);
+
+    if (postIndex === -1) return;
+
+    const updatedPosts = [...recentPosts];
+
+    updatedPosts[postIndex].like = !updatedPosts[postIndex].like;
+
+    setRecentPosts(updatedPosts);
+  };
+
   return (
     <>
       <S.SubTitle>최근 추가된 기록</S.SubTitle>
@@ -31,6 +43,7 @@ function RecentPosts({ userId }) {
             shop={post.shop}
             tags={post.tag}
             postList={recentPosts}
+            onLike={handleLikeButton}
           />
         ))}
       </S.Cards>
