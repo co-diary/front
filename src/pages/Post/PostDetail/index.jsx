@@ -34,7 +34,7 @@ function PostDetail() {
   const [prevBtnDisabled, setPrevBtnDisabled] = useState(false);
   const [nexBtnDisabled, setNextBtnDisabled] = useState(false);
   const { deleteImg } = usePostUpload();
-  // 이전/다음 게시글
+
   const [userPostList, setUserPostList] = useState([]);
   const [currentPostIndex, setCurrentPostIndex] = useState();
   const location = useLocation();

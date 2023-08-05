@@ -66,7 +66,6 @@ function LikePosts() {
     const newField = { like: false };
 
     await updateDoc(postDoc, newField);
-
     await deleteDoc(doc(db, 'liked', postId));
   };
 
