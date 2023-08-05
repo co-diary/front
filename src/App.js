@@ -1,25 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
+// import { useLocation, useNavigate } from 'react-router';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { onAuthStateChanged } from 'firebase/auth';
-import { authState, isAuthReady, isLoggedIn, UserIdState } from './atom/authRecoil';
+import { authState, isLoggedIn, UserIdState } from './atom/authRecoil';
 import Router from './routes/Router';
 import { appAuth, firestore } from './firebase';
 
 function App() {
   const queryClient = new QueryClient();
 
-  const [userState, setUserState] = useRecoilState(authState);
-  // const setAuth = useSetRecoilState(authState);
-  const setIsAuthReady = useSetRecoilState(isAuthReady);
+  const setUserState = useSetRecoilState(authState);
   const setIsLoggedIn = useSetRecoilState(isLoggedIn);
 
   const [userId, setUserId] = useRecoilState(UserIdState);
+  const [isLoadingData, setIsLoadingData] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(appAuth, (user) => {
       setUserState(user);
-      setIsAuthReady(true);
+      setIsLoadingData(false);
 
       if (user) {
         setUserId(user.uid);
@@ -32,7 +32,6 @@ function App() {
     return unsubscribe;
   }, []);
 
-  console.log('authState', userState);
   console.log(userId);
 
   useEffect(() => {
@@ -47,6 +46,8 @@ function App() {
         console.log(doc.id);
       });
   });
+
+  if (isLoadingData) return null;
 
   return (
     <QueryClientProvider client={queryClient}>
