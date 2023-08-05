@@ -1,24 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { deleteDoc, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { useLocation, useNavigate } from 'react-router';
-import * as S from './style';
+import { deleteDoc, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../firebase';
+import * as S from './style';
 import IconHeartOn from '../../../assets/Icon-Heart-on.png';
 import IconHeartOff from '../../../assets/Icon-Heart-off.png';
 import IconStarOn from '../../../assets/Icon-star-on.png';
 import IconStarOff from '../../../assets/Icon-star-off.png';
-import useToggle from '../../../hooks/useToggle';
-import Portal from '../../modal/Portal';
-import ConfirmModal from '../../modal/ConfirmModal';
 
-function PostCard({ id, date, like, location, menu, photo, review, score, shop, tags, postList }) {
+function PostCard({
+  id,
+  date,
+  like,
+  location,
+  menu,
+  photo,
+  review,
+  score,
+  shop,
+  tags,
+  postList,
+  onLike,
+  onOpenModal,
+}) {
   const scoreIndexs = [0, 1, 2, 3, 4];
-  const [liked, setLiked] = useToggle(like);
   const [formattedDate, setFormattedDate] = useState();
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const navigate = useNavigate();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   const formatDate = (dateFormatted) => {
     const dateString = dateFormatted.toISOString();
@@ -33,7 +42,7 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
     formatDate(dateFormatted);
   }, []);
 
-  const updatePost = async (postId, newLiked) => {
+  const updatePostLiked = async (postId, newLiked) => {
     const postDoc = doc(db, 'post', postId);
     const newField = { like: newLiked };
 
@@ -42,34 +51,32 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
     if (newLiked) {
       const postData = (await getDoc(postDoc)).data();
 
-      await setDoc(doc(db, 'liked', id), {
+      await setDoc(doc(db, 'liked', postId), {
         ...postData,
         like: newLiked,
       });
     } else {
-      await deleteDoc(doc(db, 'liked', id));
+      await deleteDoc(doc(db, 'liked', postId));
     }
-  };
-
-  const handleLikeButton = (e) => {
-    if (pathname === '/likeposts') {
-      e.stopPropagation();
-      setIsConfirmModalOpen(true);
-    } else {
-      setLiked(!liked);
-      updatePost(id, !liked);
-      e.stopPropagation();
-    }
-  };
-
-  const confirmModalClose = () => {
-    setIsConfirmModalOpen(false);
   };
 
   const handleClickCard = () => {
     navigate(`/post/${id}`, {
       state: postList,
     });
+  };
+
+  const handleLike = (e) => {
+    e.stopPropagation();
+    if (pathname === '/likeposts') {
+      console.log('하이', id);
+      onOpenModal(id);
+      return;
+    }
+    onLike(id);
+    const newLiked = !like;
+
+    updatePostLiked(id, newLiked);
   };
 
   return (
@@ -81,8 +88,8 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
         </S.PostCover>
         <S.PostContent>
           <S.PostInfo>
-            <S.PostLike onClick={handleLikeButton}>
-              {liked ? (
+            <S.PostLike onClick={handleLike}>
+              {like ? (
                 <img src={IconHeartOn} alt='좋아요 표시' />
               ) : (
                 <img src={IconHeartOff} alt='좋아요 표시하지 않음' />
@@ -115,20 +122,6 @@ function PostCard({ id, date, like, location, menu, photo, review, score, shop, 
           </S.PostReview>
         </S.PostContent>
       </S.PostCardBox>
-      <Portal>
-        <ConfirmModal
-          visible={isConfirmModalOpen}
-          msg='좋아요 목록에서 삭제할까요?'
-          leftBtnMsg='취소'
-          rightBtnMsg='삭제'
-          onClickClose={confirmModalClose}
-          rightOnclick={() => {
-            updatePost(id, !liked);
-            setIsConfirmModalOpen((prev) => !prev);
-          }}
-          leftOnclick={confirmModalClose}
-        />
-      </Portal>
     </>
   );
 }
