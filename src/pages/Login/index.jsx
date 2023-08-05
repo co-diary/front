@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router';
+import { onAuthStateChanged } from 'firebase/auth';
 import * as S from './style';
 import Button from '../../components/common/Button';
 import InputWithLabel from '../../components/common/InputWithLabel';
 import useLogin from '../../hooks/useLogin';
-import { isLoggedIn } from '../../atom/authRecoil';
 import LogoText from '../../assets/Logo-text.png';
+import { appAuth } from '../../firebase';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -18,8 +18,21 @@ function Login() {
   const [btnDisabled, setBtnDisabled] = useState(true);
   const { error, isPending, login } = useLogin();
   const emailRef = useRef(null);
-  const isLogin = useRecoilValue(isLoggedIn);
   const navigate = useNavigate();
+
+  const [isLoadingData, setIsLoadingData] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(appAuth, (user) => {
+      setIsLoadingData(false);
+
+      if (user) {
+        navigate('/home');
+      }
+    });
+
+    return unsubscribe;
+  }, []);
 
   useEffect(() => {
     if (isEmailValid && isPasswordValid) {
@@ -76,11 +89,7 @@ function Login() {
     [email, password],
   );
 
-  if (isLogin) {
-    navigate('/home');
-  }
-
-  if (isLogin === null) {
+  if (isLoadingData) {
     return null;
   }
 
