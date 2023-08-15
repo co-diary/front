@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useRecoilValue } from 'recoil';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { useLocation } from 'react-router';
-import { Map, MapMarker, ZoomControl } from 'react-kakao-maps-sdk';
+// import { Map, MapMarker, ZoomControl } from 'react-kakao-maps-sdk';
 import { db } from '../../firebase';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import { authState } from '../../atom/authRecoil';
 import useGetLocation from '../../hooks/useGetLocation';
+
+const LazyMap = React.lazy(() => import('../../components/location/LazyMap'));
 
 function Location() {
   const user = useRecoilValue(authState);
@@ -71,38 +73,18 @@ function Location() {
   return (
     <>
       <Header title='지도' />
-      {myLocation && (
-        <Map
-          center={{ lat: myLocation.latitude, lng: myLocation.longitude }} // 서울시청을 중심좌표로 설정 => 내 위치를 중심좌표로 설정
-          style={{ width: '100%', height: '100vh' }}
-          level={3}
-          onZoomChanged={(map) => setZoomLevel(map.getLevel())}
-        >
-          <ZoomControl />
-          {userPost &&
-            userPost.map((marker, index) => (
-              <MapMarker
-                key={index}
-                position={{
-                  lat: `${marker[0]}`,
-                  lng: `${marker[1]}`,
-                }}
-                draggable={true}
-              />
-            ))}
-          {likedPost &&
-            likedPost.map((marker, index) => (
-              <MapMarker
-                key={index}
-                position={{
-                  lat: `${marker[0]}`,
-                  lng: `${marker[1]}`,
-                }}
-                draggable={true}
-              />
-            ))}
-        </Map>
-      )}
+      <Suspense fallback={<div>Loading Map...</div>}>
+        {myLocation ? (
+          <LazyMap
+            myLocation={myLocation}
+            userPost={userPost}
+            likedPost={likedPost}
+            onZoomChanged={setZoomLevel}
+          />
+        ) : (
+          <div>Loading my location...</div>
+        )}
+      </Suspense>
 
       <NavBar />
     </>
