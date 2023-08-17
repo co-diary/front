@@ -2,7 +2,6 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useRecoilValue } from 'recoil';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { useLocation } from 'react-router';
-// import { Map, MapMarker, ZoomControl } from 'react-kakao-maps-sdk';
 import { db } from '../../firebase';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
@@ -19,26 +18,9 @@ function Location() {
   const location = useLocation();
   const locationState = location.state;
 
-  console.log(locationState, zoomLevel);
+  console.log(zoomLevel);
 
   const myLocation = useGetLocation();
-
-  // const [myLocation, setMyLocation] = useState(null);
-
-  // const successHandler = (response) => {
-  //   console.log(response); // coords: GeolocationCoordinates {latitude: 위도, longitude: 경도, …} timestamp: 1673446873903
-  //   const { latitude, longitude } = response.coords;
-
-  //   setMyLocation({ latitude, longitude });
-  // };
-
-  // const errorHandler = (error) => {
-  //   console.log(error);
-  // };
-
-  // useEffect(() => {
-  //   navigator.geolocation.getCurrentPosition(successHandler, errorHandler);
-  // }, []);
 
   useEffect(() => {
     if (user) {
@@ -77,6 +59,7 @@ function Location() {
         {myLocation ? (
           <LazyMap
             myLocation={myLocation}
+            locationState={locationState}
             userPost={userPost}
             likedPost={likedPost}
             onZoomChanged={setZoomLevel}
