@@ -1,10 +1,29 @@
 import React from 'react';
 import { CustomOverlayMap } from 'react-kakao-maps-sdk';
 
-function MyLocationMarker({ lat, lng }) {
+function MyLocationMarker({ myLocation }) {
   return (
-    <CustomOverlayMap position={{ lat: { lat }, lng: { lng } }}>
-      <div style={{ padding: '5px', color: '#000' }}>현위치</div>
+    <CustomOverlayMap
+      position={{ lat: myLocation.latitude, lng: myLocation.longitude }}
+      yAnchor={1}
+    >
+      <div
+        style={{
+          minWith: '20px',
+          position: 'relative',
+          top: '15px',
+          right: '5px',
+          padding: '0.5rem',
+          backgroundColor: '#F7DA76',
+          color: '#000',
+          borderRadius: '1rem',
+          fontFamily: 'LINESeedKR-Rg',
+          boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)',
+          fontSize: '1.4rem',
+        }}
+      >
+        <span>현위치</span>
+      </div>
     </CustomOverlayMap>
   );
 }

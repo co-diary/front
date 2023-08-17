@@ -1,5 +1,7 @@
 import React from 'react';
 import { Map, MapMarker, ZoomControl } from 'react-kakao-maps-sdk';
+import MyLocationMarker from './MyLocationMarker';
+// import MapMarkerYellow from '../../assets/Icon-map-marker-yellow.png';
 
 function LazyMap({ myLocation, locationState, userPost, likedPost, onZoomChanged }) {
   console.log(likedPost);
@@ -15,7 +17,9 @@ function LazyMap({ myLocation, locationState, userPost, likedPost, onZoomChanged
       level={3}
       onZoomChanged={(map) => onZoomChanged(map.getLevel())}
     >
-      <ZoomControl position='BOTTOMRIGHT' />
+      <MyLocationMarker myLocation={myLocation} />
+
+      <ZoomControl anchor='BOTTOMRIGHT' />
 
       {userPost &&
         userPost.map((marker, index) => (
