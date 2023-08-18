@@ -38,7 +38,8 @@ function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, ha
       style={{
         position: 'relative',
         width: '100%',
-        height: `calc(100vh - 6rem)`,
+        height: '100vh',
+        marginTop: '4.8rem',
         overflow: 'hidden',
       }}
       level={3}
