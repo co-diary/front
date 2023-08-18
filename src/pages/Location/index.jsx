@@ -15,12 +15,15 @@ function Location() {
   const [userPost, setUserPost] = useState([]);
   const [likedPost, setLikedPost] = useState([]);
   const [zoomLevel, setZoomLevel] = useState();
+  const [mapState, setMapState] = useState(null);
   const location = useLocation();
   const locationState = location.state;
 
+  const ZOOM_LEVEL = 4;
+
   console.log(zoomLevel);
 
-  const myLocation = useGetLocation();
+  const { myLocation, getLocation } = useGetLocation();
 
   useEffect(() => {
     if (user) {
@@ -31,7 +34,6 @@ function Location() {
 
   const getUserData = async () => {
     const postArr = [];
-    // q는 post 컬렉션 하위 문서에서 uid가 현재 로그인한 유저의 uid와 같은 거 찾는 쿼리
     const q = query(collection(db, 'post'), where('uid', '==', user.uid));
     const querySnapshot = await getDocs(q);
 
@@ -52,17 +54,50 @@ function Location() {
     setLikedPost(postArr);
   };
 
+  useEffect(() => {
+    if (myLocation) {
+      setMapState(
+        locationState
+          ? {
+              center: { lat: locationState[0], lng: locationState[1] },
+              isPanto: true,
+              level: ZOOM_LEVEL,
+            }
+          : {
+              center: { lat: myLocation.latitude, lng: myLocation.longitude },
+              isPanto: true,
+              level: ZOOM_LEVEL,
+            },
+      );
+    }
+  }, [myLocation, locationState]);
+
+  const handleButtonClick = async () => {
+    console.log('Button clicked!');
+    await getLocation();
+    if (myLocation && mapState !== null) {
+      setMapState({
+        center: { lat: myLocation.latitude, lng: myLocation.longitude },
+        isPanto: true,
+        level: ZOOM_LEVEL,
+      });
+      console.log('변경된 mapcenter', mapState.center);
+    }
+  };
+
   return (
     <>
       <Header title='지도' />
       <Suspense fallback={<div>Loading Map...</div>}>
-        {myLocation ? (
+        {myLocation && mapState !== null ? (
           <LazyMap
             myLocation={myLocation}
+            mapCenter={mapState.center}
             locationState={locationState}
             userPost={userPost}
             likedPost={likedPost}
             onZoomChanged={setZoomLevel}
+            handleButtonClick={handleButtonClick}
           />
         ) : (
           <div>Loading my location...</div>

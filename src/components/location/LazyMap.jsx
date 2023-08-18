@@ -1,15 +1,16 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Map, MapMarker, MarkerClusterer, ZoomControl } from 'react-kakao-maps-sdk';
 import MyLocationMarker from './MyLocationMarker';
 import OverlayInfo from './OverlayInfo';
 import OptionButton from './OptionButton';
 
-function LazyMap({ myLocation, locationState, userPost, likedPost, onZoomChanged }) {
+function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, handleButtonClick }) {
   console.log(likedPost);
   const CLUSTER_LEVEL = 9;
 
   const [selectedMarkerPosition, setSelectedMarkerPosition] = useState(null);
 
+  console.log('센터', mapCenter);
   const handleMarkerClick = (marker) => {
     setSelectedMarkerPosition({ lat: marker[0], lng: marker[1] });
     console.log(selectedMarkerPosition);
@@ -20,20 +21,20 @@ function LazyMap({ myLocation, locationState, userPost, likedPost, onZoomChanged
 
   const onClusterclick = (_target, cluster) => {
     const map = mapRef.current;
-    // 현재 지도 레벨에서 1레벨 확대한 레벨
     const level = map.getLevel() - 1;
 
-    // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
     map.setLevel(level, { anchor: cluster.getCenter() });
   };
 
+  const [info, setInfo] = useState();
+
+  useEffect(() => {
+    console.log(info);
+  }, [info]);
+
   return (
     <Map
-      center={
-        locationState
-          ? { lat: locationState[0], lng: locationState[1] }
-          : { lat: myLocation.latitude, lng: myLocation.longitude }
-      }
+      center={{ lat: mapCenter.lat, lng: mapCenter.lng }}
       style={{
         position: 'relative',
         width: '100%',
@@ -43,6 +44,15 @@ function LazyMap({ myLocation, locationState, userPost, likedPost, onZoomChanged
       level={3}
       ref={mapRef}
       onZoomChanged={(map) => onZoomChanged(map.getLevel())}
+      onCenterChanged={(map) =>
+        setInfo({
+          level: map.getLevel(),
+          center: {
+            lat: map.getCenter().getLat(),
+            lng: map.getCenter().getLng(),
+          },
+        })
+      }
     >
       <MyLocationMarker myLocation={myLocation} />
 
@@ -81,7 +91,7 @@ function LazyMap({ myLocation, locationState, userPost, likedPost, onZoomChanged
             onClick={() => handleMarkerClick()}
           />
         ))}
-      <OptionButton></OptionButton>
+      <OptionButton onClick={handleButtonClick} content={'현위치로 이동'}></OptionButton>
     </Map>
   );
 }
