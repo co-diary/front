@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Map, MapMarker, MarkerClusterer, ZoomControl } from 'react-kakao-maps-sdk';
 import MyLocationMarker from './MyLocationMarker';
 import OverlayInfo from './OverlayInfo';
@@ -26,12 +26,6 @@ function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, ha
     map.setLevel(level, { anchor: cluster.getCenter() });
   };
 
-  const [info, setInfo] = useState();
-
-  useEffect(() => {
-    console.log(info);
-  }, [info]);
-
   return (
     <Map
       center={{ lat: mapCenter.lat, lng: mapCenter.lng }}
@@ -44,16 +38,8 @@ function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, ha
       }}
       level={3}
       ref={mapRef}
+      draggable={true}
       onZoomChanged={(map) => onZoomChanged(map.getLevel())}
-      onCenterChanged={(map) =>
-        setInfo({
-          level: map.getLevel(),
-          center: {
-            lat: map.getCenter().getLat(),
-            lng: map.getCenter().getLng(),
-          },
-        })
-      }
     >
       <MyLocationMarker myLocation={myLocation} />
 

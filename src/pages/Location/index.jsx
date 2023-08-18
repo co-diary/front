@@ -21,8 +21,6 @@ function Location() {
 
   const ZOOM_LEVEL = 4;
 
-  console.log(zoomLevel);
-
   const { myLocation, getLocation } = useGetLocation();
 
   useEffect(() => {
@@ -73,7 +71,6 @@ function Location() {
   }, [myLocation, locationState]);
 
   const handleButtonClick = async () => {
-    console.log('Button clicked!');
     await getLocation();
     if (myLocation && mapState !== null) {
       setMapState({
@@ -81,7 +78,6 @@ function Location() {
         isPanto: true,
         level: ZOOM_LEVEL,
       });
-      console.log('변경된 mapcenter', mapState.center);
     }
   };
 
