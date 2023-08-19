@@ -36,7 +36,8 @@ function Location() {
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((value) => {
-      postArr.push(value.data().address.latLng);
+      // postArr.push(value.data().address.latLng);
+      postArr.push(value.data());
     });
     setUserPost(postArr);
   };
@@ -47,7 +48,8 @@ function Location() {
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((value) => {
-      postArr.push(value.data().address.latLng);
+      // postArr.push(value.data().address.latLng);
+      postArr.push(value.data());
     });
     setLikedPost(postArr);
   };
