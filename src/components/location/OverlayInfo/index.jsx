@@ -4,8 +4,6 @@ import * as S from './style';
 import { Tag, TagContainer } from '../../post/PostCard/style';
 
 function OverlayInfo({ postInfo }) {
-  console.log('인포', postInfo);
-
   return (
     <CustomOverlayMap
       position={{

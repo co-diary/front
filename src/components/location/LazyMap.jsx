@@ -5,13 +5,12 @@ import OptionButton from './OptionButton';
 import MyLocationMarker from './MyLocationMarker';
 
 function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, handleButtonClick }) {
-  console.log(likedPost);
   const CLUSTER_LEVEL = 9;
 
   const [selectedMarkerId, setSelectedMarkerId] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [postList, setPostList] = useState();
-  const [selectedMarkerInfo, setSelectedMarkerInfo] = useState(null); // 추가된 부분
+  const [selectedMarkerInfo, setSelectedMarkerInfo] = useState(null);
 
   useEffect(() => {
     setPostList(
@@ -26,14 +25,8 @@ function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, ha
     );
   }, []);
 
-  useEffect(() => {
-    console.log('활성화', selectedMarkerId);
-    console.log('포스트리스트', postList);
-  }, [selectedMarkerId, postList]);
-
   const handleMarkerClick = (markerId, e) => {
-    console.log('실행');
-    event.stopPropagation();
+    e.stopPropagation();
     if (selectedMarkerId === markerId) {
       setIsOpen(false);
       setSelectedMarkerInfo(null);
@@ -47,7 +40,7 @@ function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, ha
 
   const mapRef = useRef();
 
-  const onClusterclick = (_target, cluster) => {
+  const handleClusterClick = (_target, cluster) => {
     const map = mapRef.current;
     const level = map.getLevel() - 1;
 
@@ -84,7 +77,7 @@ function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, ha
             averageCenter={true}
             minLevel={CLUSTER_LEVEL}
             disableClickZoom={true}
-            onClusterclick={onClusterclick}
+            onClusterclick={handleClusterClick}
           >
             {postList.map((marker) => (
               <MapMarker
@@ -97,12 +90,9 @@ function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, ha
                 onClick={(e) => handleMarkerClick(marker.id, e)}
               />
             ))}
-            {isOpen &&
-              selectedMarkerInfo && ( // 변경된 부분
-                <OverlayInfo
-                  postInfo={postList.find((marker) => marker.id === selectedMarkerInfo)}
-                />
-              )}
+            {isOpen && selectedMarkerInfo && (
+              <OverlayInfo postInfo={postList.find((marker) => marker.id === selectedMarkerInfo)} />
+            )}
           </MarkerClusterer>
         )}
         <ZoomControl anchor='BOTTOMRIGHT' />
