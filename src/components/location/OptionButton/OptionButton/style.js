@@ -1,11 +1,7 @@
 import styled from 'styled-components';
-import Theme from '../../../styles/Theme';
+import Theme from '../../../../styles/Theme';
 
 export const Button = styled.button`
-  position: absolute;
-  z-index: 1000;
-  bottom: 8rem;
-  right: 5rem;
   font-family: 'LINESeedKR-Rg';
 `;
 

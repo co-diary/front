@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Map, MapMarker, MarkerClusterer, ZoomControl } from 'react-kakao-maps-sdk';
 import OverlayInfo from './OverlayInfo';
-import OptionButton from './OptionButton';
+import OptionButton from './OptionButton/OptionButton';
 import MyLocationMarker from './MyLocationMarker';
+import OptionContainer from './OptionContainer';
 
 function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, handleButtonClick }) {
   const CLUSTER_LEVEL = 9;
@@ -25,8 +26,7 @@ function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, ha
     );
   }, []);
 
-  const handleMarkerClick = (markerId, e) => {
-    e.stopPropagation();
+  const handleMarkerClick = (markerId) => {
     if (selectedMarkerId === markerId) {
       setIsOpen(false);
       setSelectedMarkerInfo(null);
@@ -87,7 +87,7 @@ function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, ha
                   lng: marker.latLng[1],
                 }}
                 clickable={true}
-                onClick={(e) => handleMarkerClick(marker.id, e)}
+                onClick={() => handleMarkerClick(marker.id)}
               />
             ))}
             {isOpen && selectedMarkerInfo && (
@@ -96,19 +96,10 @@ function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, ha
           </MarkerClusterer>
         )}
         <ZoomControl anchor='BOTTOMRIGHT' />
-
-        {/* {likedPost &&
-          likedPost.map((marker, index) => (
-            <MapMarker
-              key={index}
-              position={{
-                lat: `${marker[0]}`,
-                lng: `${marker[1]}`,
-              }}
-              onClick={() => handleMarkerClick(marker)}
-            />
-          ))} */}
-        <OptionButton onClick={handleButtonClick} content={'현위치로 이동'}></OptionButton>
+        <OptionContainer>
+          <OptionButton onClick={handleButtonClick} content={'좋아요 매장만 보기'}></OptionButton>
+          <OptionButton onClick={handleButtonClick} content={'현위치로 이동'}></OptionButton>
+        </OptionContainer>
       </Map>
     </>
   );
