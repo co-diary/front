@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Map, MapMarker, MarkerClusterer, ZoomControl } from 'react-kakao-maps-sdk';
-import MyLocationMarker from './MyLocationMarker';
 import OverlayInfo from './OverlayInfo';
 import OptionButton from './OptionButton';
+import MyLocationMarker from './MyLocationMarker';
 
 function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, handleButtonClick }) {
   console.log(likedPost);
@@ -11,12 +11,17 @@ function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, ha
   const [selectedMarkerId, setSelectedMarkerId] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [postList, setPostList] = useState();
+  const [selectedMarkerInfo, setSelectedMarkerInfo] = useState(null); // 추가된 부분
 
   useEffect(() => {
     setPostList(
       userPost.map((post) => ({
         id: (post.address.latLng[1] - post.address.latLng[0]).toString(),
         latLng: post.address.latLng,
+        menu: post.menu,
+        shop: post.shop,
+        photo: post.photo,
+        tag: post.tag,
       })),
     );
   }, []);
@@ -27,16 +32,17 @@ function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, ha
   }, [selectedMarkerId, postList]);
 
   const handleMarkerClick = (markerId) => {
-    setSelectedMarkerId((prevMarkerId) => {
-      if (prevMarkerId === markerId) {
-        setIsOpen(false);
-        return null;
-      } else {
-        setIsOpen(true);
-        return markerId;
-      }
-    });
+    if (selectedMarkerId === markerId) {
+      setIsOpen(false);
+      setSelectedMarkerInfo(null);
+      setSelectedMarkerId(null);
+    } else {
+      setIsOpen(true);
+      setSelectedMarkerInfo(markerId);
+      setSelectedMarkerId(markerId);
+    }
   };
+
   const mapRef = useRef();
 
   const onClusterclick = (_target, cluster) => {
@@ -59,6 +65,7 @@ function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, ha
         }}
         level={3}
         ref={mapRef}
+        draggable={true}
         onZoomChanged={(map) => onZoomChanged(map.getLevel())}
       >
         <MyLocationMarker myLocation={myLocation} />
@@ -79,12 +86,14 @@ function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, ha
                 }}
                 clickable={true}
                 onClick={() => handleMarkerClick(marker.id)}
-              >
-                {isOpen && selectedMarkerId === marker.id && (
-                  <OverlayInfo markerPosition={marker.latLng} />
-                )}
-              </MapMarker>
+              />
             ))}
+            {isOpen &&
+              selectedMarkerInfo && ( // 변경된 부분
+                <OverlayInfo
+                  postInfo={postList.find((marker) => marker.id === selectedMarkerInfo)}
+                />
+              )}
           </MarkerClusterer>
         )}
         <ZoomControl anchor='BOTTOMRIGHT' />

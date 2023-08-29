@@ -1,14 +1,30 @@
-import React from 'react';
 import { CustomOverlayMap } from 'react-kakao-maps-sdk';
+import React from 'react';
 import * as S from './style';
+import { Tag, TagContainer } from '../../post/PostCard/style';
 
-function OverlayInfo({ markerPosition, index }) {
-  console.log('markerPosition', markerPosition);
+function OverlayInfo({ postInfo }) {
+  console.log('인포', postInfo);
 
   return (
-    <CustomOverlayMap position={{ lat: markerPosition[0], lng: markerPosition[1] }}>
-      <S.Container>잉?</S.Container>
-      <div>뭔가 이게 맞나싶고 </div>
+    <CustomOverlayMap
+      position={{
+        lat: postInfo.latLng[0],
+        lng: postInfo.latLng[1],
+      }}
+    >
+      <S.Container>
+        <S.Image src={postInfo.photo} />
+        <S.Content>
+          <p>{postInfo.shop}</p>
+          <p>{postInfo.menu}</p>
+          <TagContainer>
+            {postInfo.tag.map((value, index) => (
+              <Tag key={index}>#{value}</Tag>
+            ))}
+          </TagContainer>
+        </S.Content>
+      </S.Container>
     </CustomOverlayMap>
   );
 }
