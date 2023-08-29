@@ -31,7 +31,9 @@ function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, ha
     console.log('포스트리스트', postList);
   }, [selectedMarkerId, postList]);
 
-  const handleMarkerClick = (markerId) => {
+  const handleMarkerClick = (markerId, e) => {
+    console.log('실행');
+    event.stopPropagation();
     if (selectedMarkerId === markerId) {
       setIsOpen(false);
       setSelectedMarkerInfo(null);
@@ -67,6 +69,13 @@ function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, ha
         ref={mapRef}
         draggable={true}
         onZoomChanged={(map) => onZoomChanged(map.getLevel())}
+        onClick={() => {
+          if (isOpen) {
+            setIsOpen(false);
+            setSelectedMarkerInfo(null);
+            setSelectedMarkerId(null);
+          }
+        }}
       >
         <MyLocationMarker myLocation={myLocation} />
 
@@ -85,7 +94,7 @@ function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, ha
                   lng: marker.latLng[1],
                 }}
                 clickable={true}
-                onClick={() => handleMarkerClick(marker.id)}
+                onClick={(e) => handleMarkerClick(marker.id, e)}
               />
             ))}
             {isOpen &&
