@@ -5,7 +5,14 @@ import OptionButton from './OptionButton/OptionButton';
 import MyLocationMarker from './MyLocationMarker';
 import OptionContainer from './OptionContainer';
 
-function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, handleButtonClick }) {
+function LazyMap({
+  myLocation,
+  mapCenter,
+  userPost,
+  likedPost,
+  onZoomChanged,
+  handleMoveToMyLocation,
+}) {
   const CLUSTER_LEVEL = 9;
 
   const [selectedMarkerId, setSelectedMarkerId] = useState(null);
@@ -45,6 +52,33 @@ function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, ha
     const level = map.getLevel() - 1;
 
     map.setLevel(level, { anchor: cluster.getCenter() });
+  };
+
+  const handleShowLikedStores = () => {
+    console.log('좋아요 매장');
+    setPostList(
+      likedPost.map((post) => ({
+        id: (post.address.latLng[1] - post.address.latLng[0]).toString(),
+        latLng: post.address.latLng,
+        menu: post.menu,
+        shop: post.shop,
+        photo: post.photo,
+        tag: post.tag,
+      })),
+    );
+  };
+
+  const handleShowAllStores = () => {
+    setPostList(
+      userPost.map((post) => ({
+        id: (post.address.latLng[1] - post.address.latLng[0]).toString(),
+        latLng: post.address.latLng,
+        menu: post.menu,
+        shop: post.shop,
+        photo: post.photo,
+        tag: post.tag,
+      })),
+    );
   };
 
   return (
@@ -97,8 +131,15 @@ function LazyMap({ myLocation, mapCenter, userPost, likedPost, onZoomChanged, ha
         )}
         <ZoomControl anchor='BOTTOMRIGHT' />
         <OptionContainer>
-          <OptionButton onClick={handleButtonClick} content={'좋아요 매장만 보기'}></OptionButton>
-          <OptionButton onClick={handleButtonClick} content={'현위치로 이동'}></OptionButton>
+          <OptionButton
+            onClick={handleShowAllStores}
+            content={'기록한 모든 매장 보기'}
+          ></OptionButton>
+          <OptionButton
+            onClick={handleShowLikedStores}
+            content={'좋아요 매장만 보기'}
+          ></OptionButton>
+          <OptionButton onClick={handleMoveToMyLocation} content={'현위치로 이동'}></OptionButton>
         </OptionContainer>
       </Map>
     </>

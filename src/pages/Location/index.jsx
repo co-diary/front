@@ -72,7 +72,7 @@ function Location() {
     }
   }, [myLocation, locationState]);
 
-  const handleButtonClick = async () => {
+  const handleMoveToMyLocation = async () => {
     await getLocation();
     if (myLocation && mapState !== null) {
       setMapState({
@@ -95,7 +95,7 @@ function Location() {
             userPost={userPost}
             likedPost={likedPost}
             onZoomChanged={setZoomLevel}
-            handleButtonClick={handleButtonClick}
+            handleMoveToMyLocation={handleMoveToMyLocation}
           />
         ) : (
           <div>Loading my location...</div>
