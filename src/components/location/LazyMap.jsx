@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef, useReducer } from 'react';
 import { Map, MapMarker, MarkerClusterer, ZoomControl } from 'react-kakao-maps-sdk';
 import OverlayInfo from './OverlayInfo';
-import OptionButton from './OptionButton/OptionButton';
-import MyLocationMarker from './MyLocation/MyLocationMarker';
-import OptionContainer from './OptionContainer';
+import OptionButton from './Options/OptionButton';
+import MyLocationMarker from './MyLocationMarker';
+import OptionContainer from './Options';
 import MyLocationButton from './MyLocation/MyLocationButton';
+import MenuButton from './MenuButton';
 
 function LazyMap({
   myLocation,
@@ -22,6 +23,8 @@ function LazyMap({
   const [selectedMarkerInfo, setSelectedMarkerInfo] = useState(null);
   const [showAllStores, setShowAllStores] = useState(true); //
   const [showLikedStores, setShowLikedStores] = useState(false);
+  const [optionTrigger, setOptionTrigger] = useState(false);
+  const [menuButtonMsg, setMenuButtonMsg] = useState('🍔 옵션 보기');
 
   useEffect(() => {
     setPostList(
@@ -89,6 +92,11 @@ function LazyMap({
     );
   };
 
+  const handleMenuButton = () => {
+    setOptionTrigger((prev) => !prev);
+    optionTrigger ? setMenuButtonMsg('👆 옵션 보기') : setMenuButtonMsg('👇 옵션 닫기');
+  };
+
   return (
     <>
       <Map
@@ -139,18 +147,26 @@ function LazyMap({
         )}
         <ZoomControl anchor='BOTTOMRIGHT' />
         <OptionContainer>
-          <button>🍔 버튼</button>
-          <OptionButton
-            onClick={handleShowAllStores}
-            content={'📝 기록한 모든 매장 보기'}
-            active={showAllStores}
-          ></OptionButton>
-          <OptionButton
-            onClick={handleShowLikedStores}
-            content={'❤️ 좋아요 매장만 보기'}
-            active={showLikedStores}
-          ></OptionButton>
-          <OptionButton onClick={handleMoveToMyLocation} content={'📍현위치로 이동'}></OptionButton>
+          <MenuButton
+            onClick={handleMenuButton}
+            content={menuButtonMsg}
+            className={optionTrigger ? 'slide-in' : ''}
+          ></MenuButton>
+          {optionTrigger && (
+            <>
+              <OptionButton
+                onClick={handleShowAllStores}
+                content={'📝 기록한 모든 매장 보기'}
+                active={showAllStores}
+              ></OptionButton>
+              <OptionButton
+                onClick={handleShowLikedStores}
+                content={'❤️ 좋아요 매장만 보기'}
+                active={showLikedStores}
+              ></OptionButton>
+            </>
+          )}
+          <MenuButton onClick={handleMoveToMyLocation} content={'📍현위치로 이동'}></MenuButton>
         </OptionContainer>
       </Map>
     </>

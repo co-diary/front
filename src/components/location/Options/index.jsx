@@ -12,8 +12,8 @@ const Container = styled.div`
   gap: 1rem;
 `;
 
-function OptionContainer({ children }) {
+function Options({ children }) {
   return <Container>{children}</Container>;
 }
 
-export default OptionContainer;
+export default Options;

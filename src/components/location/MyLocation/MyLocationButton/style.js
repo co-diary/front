@@ -13,9 +13,9 @@ export const ButtonContent = styled.p`
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   font-size: 1.4rem;
 
-  ${(props) =>
+  /* ${(props) =>
     props.active &&
     css`
       background-color: #ffa471;
-    `}
+    `} */
 `;
