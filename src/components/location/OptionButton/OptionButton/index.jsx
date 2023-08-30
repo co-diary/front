@@ -1,10 +1,10 @@
 import React from 'react';
 import * as S from './style';
 
-function OptionButton({ onClick, content }) {
+function OptionButton({ onClick, content, active }) {
   return (
     <S.Button onClick={onClick}>
-      <S.ButtonContent>{content}</S.ButtonContent>
+      <S.ButtonContent active={active}>{content}</S.ButtonContent>
     </S.Button>
   );
 }

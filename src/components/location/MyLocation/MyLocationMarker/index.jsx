@@ -22,7 +22,7 @@ function MyLocationMarker({ myLocation }) {
           fontSize: '1.4rem',
         }}
       >
-        <span>현위치</span>
+        <span>📍현위치</span>
       </div>
     </CustomOverlayMap>
   );

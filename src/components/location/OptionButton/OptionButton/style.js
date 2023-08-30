@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Theme from '../../../../styles/Theme';
 
 export const Button = styled.button`
@@ -12,4 +12,10 @@ export const ButtonContent = styled.p`
   border-radius: 1rem;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   font-size: 1.4rem;
+
+  ${(props) =>
+    props.active &&
+    css`
+      background-color: #ffa471;
+    `}
 `;
