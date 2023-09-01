@@ -4,9 +4,15 @@ import IconLocationOff from '../../../assets/Icon-Nav-Map-off.png';
 import IconLocationHover from '../../../assets/Icon-Map-hover.png';
 
 import IconAddInput from '../../../assets/Icon-AddInput.png';
+import { mobileMediaQuery, pcMediaQuery } from '../../../styles/MediaQuery';
 
-export const Container = styled.div`
-  padding: 4.8rem 0 6rem;
+export const Container = styled.main`
+  @media ${pcMediaQuery} {
+  }
+
+  @media ${mobileMediaQuery} {
+    padding: 4.8rem 0 6rem;
+  }
 `;
 
 export const Form = styled.form`
@@ -26,10 +32,13 @@ export const SelectBoxWrapper = styled.article`
 `;
 
 export const SectionBorder = styled.div`
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
   margin-bottom: 2.8rem;
   border-bottom: 6px solid ${Theme.SECTION_BG};
+
+  @media ${mobileMediaQuery} {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+  }
 `;
 
 export const InputBox = styled.div`

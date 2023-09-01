@@ -7,7 +7,7 @@ import styled from 'styled-components';
 //   margin-top: 2.6rem;
 // `;
 
-const Container = styled.div`
+const Container = styled.main`
   padding: 4.8rem + 0 6rem;
 `;
 

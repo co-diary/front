@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAuth, updateProfile, updateEmail, reauthenticateWithCredential, EmailAuthProvider} from 'firebase/auth';
+import {
+  getAuth,
+  updateProfile,
+  updateEmail,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+} from 'firebase/auth';
 import { getFirestore, doc, updateDoc, getDoc } from 'firebase/firestore';
 import * as S from './style';
 import Button from '../../../components/common/Button';
@@ -40,7 +46,7 @@ function ProfileEdit() {
 
   // 이메일과 닉네임 항목의 모든 유효성 검사를 통과했을 때 저장버튼 활성화
   useEffect(() => {
-    if (isEmailValid || isDisplayNameValid){
+    if (isEmailValid || isDisplayNameValid) {
       setBtnDisabled(false);
     } else {
       setBtnDisabled(true);
@@ -91,48 +97,39 @@ function ProfileEdit() {
       if (isEmailValid || isDisplayNameValid) {
         setIsModalOpen(true);
 
-        
         const auth = getAuth();
         const user = auth.currentUser;
         const db = getFirestore();
-          const userRef = doc(db, 'users', user.uid);
-          const userDoc = await getDoc(userRef);
-          const userPassword = userDoc.data().password;
-          
-          
-        if(user && user.email && userDoc && userPassword) {
-          const credential = EmailAuthProvider.credential(
-            user.email, 
-            userPassword
-          );
-        
+        const userRef = doc(db, 'users', user.uid);
+        const userDoc = await getDoc(userRef);
+        const userPassword = userDoc.data().password;
 
-        try {
-          
-          // 이메일 변경 완료를 위해서는 사용자 재인증 과정이 필요
-          await reauthenticateWithCredential(user, credential);
+        if (user && user.email && userDoc && userPassword) {
+          const credential = EmailAuthProvider.credential(user.email, userPassword);
 
-          // 인증이 완료되면 이메일 업데이트
-          await updateEmail(user, profile.email);
+          try {
+            // 이메일 변경 완료를 위해서는 사용자 재인증 과정이 필요
+            await reauthenticateWithCredential(user, credential);
 
-          // firestore 문서의 이메일도 업데이트
-          await updateDoc(userRef, {email: profile.email});
+            // 인증이 완료되면 이메일 업데이트
+            await updateEmail(user, profile.email);
 
-          console.log("이메일 업데이트 성공")
+            // firestore 문서의 이메일도 업데이트
+            await updateDoc(userRef, { email: profile.email });
 
-        } catch (error) {
-          console.log(error);
+            console.log('이메일 업데이트 성공');
+          } catch (error) {
+            console.log(error);
+          }
+        } else {
+          console.log('사용자 정보가 없습니다.');
         }
-      } else {
-        console.log("사용자 정보가 없습니다.")
       }
-    }
-  },
-    
-    [isEmailValid, isDisplayNameValid, setIsModalOpen, profile,],
-      
+    },
+
+    [isEmailValid, isDisplayNameValid, setIsModalOpen, profile],
   );
-    
+
   // 컨펌 모달 확인을 누르면 변경된 이메일과 닉네임 저장
   const handleProfileEditSubmit = useCallback(
     async (e) => {
@@ -140,8 +137,8 @@ function ProfileEdit() {
 
       const auth = getAuth();
       const currentUser = auth.currentUser;
-    
-    try {
+
+      try {
         // 변경된 이메일과 닉네임 정보 가져오기
         await updateEmail(currentUser, profile.email);
         await updateProfile(currentUser, { displayName: profile.displayName });
@@ -167,6 +164,7 @@ function ProfileEdit() {
         console.log(error);
       } finally {
         setIsModalOpen(false);
+        navigate(-1);
       }
     },
     [profile.displayName, profile.email, navigate],

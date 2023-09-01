@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import Theme from '../../../styles/Theme';
+import { pcMediaQuery } from '../../../styles/MediaQuery';
 
 // const fadeAndSlideIn = keyframes`
 //   from {

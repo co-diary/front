@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Theme from '../../../../styles/Theme';
+import { pcMediaQuery } from '../../../../styles/MediaQuery';
 
 export const Container = styled.header`
   position: fixed;
@@ -14,6 +15,11 @@ export const Container = styled.header`
   padding: 0 2rem;
   z-index: 99;
   border-bottom: 1px solid ${Theme.BORDER};
+
+  @media ${pcMediaQuery} {
+    width: 44rem;
+    margin: 0 auto;
+  }
 `;
 
 export const Button = styled.button`

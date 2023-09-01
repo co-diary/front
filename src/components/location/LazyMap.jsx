@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef, useReducer } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Map, MapMarker, MarkerClusterer, ZoomControl } from 'react-kakao-maps-sdk';
 import OverlayInfo from './OverlayInfo';
 import OptionButton from './Options/OptionButton';
-import MyLocationMarker from './MyLocationMarker';
+import MyLocationMarker from './MyLocation/MyLocationMarker';
 import OptionContainer from './Options';
-import MyLocationButton from './MyLocation/MyLocationButton';
 import MenuButton from './MenuButton';
 
 function LazyMap({
@@ -25,6 +24,7 @@ function LazyMap({
   const [showLikedStores, setShowLikedStores] = useState(false);
   const [optionTrigger, setOptionTrigger] = useState(false);
   const [menuButtonMsg, setMenuButtonMsg] = useState('🍔 옵션 보기');
+  const [isClusterVisible, setClusterVisible] = useState(true);
 
   useEffect(() => {
     setPostList(
@@ -40,6 +40,7 @@ function LazyMap({
   }, []);
 
   const handleMarkerClick = (markerId) => {
+    console.log('마커 클릭');
     if (selectedMarkerId === markerId) {
       setIsOpen(false);
       setSelectedMarkerInfo(null);
@@ -54,6 +55,9 @@ function LazyMap({
   const mapRef = useRef();
 
   const handleClusterClick = (_target, cluster) => {
+    if (!isClusterVisible) {
+      return; // 클러스터가 보이지 않을 때에는 함수 종료
+    }
     const map = mapRef.current;
     const level = map.getLevel() - 1;
 
@@ -98,14 +102,14 @@ function LazyMap({
   };
 
   return (
-    <>
+    <main>
       <Map
         center={{ lat: mapCenter.lat, lng: mapCenter.lng }}
         style={{
           position: 'relative',
           width: '100%',
-          height: '100vh',
-          marginTop: '4.8rem',
+          height: 'calc(100vh - 10.8rem)',
+          // marginTop: '4.8rem',
           overflow: 'hidden',
         }}
         level={3}
@@ -113,6 +117,7 @@ function LazyMap({
         draggable={true}
         onZoomChanged={(map) => onZoomChanged(map.getLevel())}
         onClick={() => {
+          console.log('맵 클릭 이벤트');
           if (isOpen) {
             setIsOpen(false);
             setSelectedMarkerInfo(null);
@@ -169,7 +174,7 @@ function LazyMap({
           <MenuButton onClick={handleMoveToMyLocation} content={'📍현위치로 이동'}></MenuButton>
         </OptionContainer>
       </Map>
-    </>
+    </main>
   );
 }
 

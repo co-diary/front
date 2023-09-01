@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Theme from '../../../styles/Theme';
+import { mobileMediaQuery, pcMediaQuery } from '../../../styles/MediaQuery';
 
 export const Container = styled.main`
   padding: 4.8rem 0 6rem;
@@ -128,6 +129,11 @@ export const BtnContainer = styled.div`
   z-index: 99;
   background-color: white;
   border: 1px solid ${Theme.SHADOW_BORDER};
+
+  @media ${pcMediaQuery} {
+    width: 44rem;
+    margin: 0 auto;
+  }
 `;
 
 export const Btn = styled.button`

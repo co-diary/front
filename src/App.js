@@ -1,10 +1,33 @@
 import React, { useEffect } from 'react';
+import styled from 'styled-components';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { onAuthStateChanged } from 'firebase/auth';
 import { authState, isAuthReady, isLoggedIn, UserIdState } from './atom/authRecoil';
 import Router from './routes/Router';
 import { appAuth, firestore } from './firebase';
+import { mobileMediaQuery, pcMediaQuery } from './styles/MediaQuery';
+
+const Container = styled.div`
+  > main {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  @media ${pcMediaQuery} {
+    background-color: lightgray; // PC 화면 스타일
+    padding-top: 4.8rem;
+    width: 100%;
+    height: 100%;
+    max-width: 44rem;
+    margin: 0 auto;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 8px;
+  }
+
+  @media ${mobileMediaQuery} {
+    background-color: lightblue; // 모바일 화면 스타일
+  }
+`;
 
 function App() {
   const queryClient = new QueryClient();
@@ -51,7 +74,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className='App'>
-        <Router />
+        <Container>
+          <Router />
+        </Container>
       </div>
     </QueryClientProvider>
   );
