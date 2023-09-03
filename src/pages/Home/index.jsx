@@ -13,6 +13,7 @@ import CategoryCard from '../../components/home/CategoryCard';
 import RecentPosts from '../../components/home/RecentPosts';
 import usePost from '../../hooks/usePost';
 import ToastMessage from '../../components/notification/ToastMessage';
+import NoRecentPosts from '../../components/home/NoRecentPosts';
 
 function Home() {
   const userId = useRecoilValue(UserIdState);
@@ -113,6 +114,7 @@ function Home() {
           </S.CategoryCards>
         </section>
         <section>
+          <S.SubTitle>최근 추가된 기록</S.SubTitle>
           <RecentPosts userId={userId} />
         </section>
       </S.Container>

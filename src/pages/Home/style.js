@@ -9,8 +9,8 @@ import IconSearch from '../../assets/Icon-Search.png';
 import IconSearchHover from '../../assets/Icon-Search-hover.png';
 
 export const Container = styled.main`
-  height: calc(100vh - 10.8rem);
-  padding-top: calc(4.8rem + 2.6rem);
+  height: 100vh;
+  padding-top: 7.4rem;
   padding-bottom: calc(6rem + 2.6rem);
   display: flex;
   flex-direction: column;
