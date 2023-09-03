@@ -68,4 +68,4 @@ function NavBar({ page }) {
   );
 }
 
-export default NavBar;
+export default React.memo(NavBar);
