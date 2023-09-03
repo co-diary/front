@@ -1,14 +1,10 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Theme from '../../../styles/Theme';
-import { pcMediaQuery } from '../../../styles/MediaQuery';
 
 export const Container = styled.main`
-  padding: 7.4rem 2rem;
-
-  @media ${pcMediaQuery} {
-    padding: 7.4rem 2rem;
-  }
+  padding-top: 7.4rem;
+  height: 100vh;
 `;
 
 export const HeaderContainer = styled.header`

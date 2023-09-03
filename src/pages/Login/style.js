@@ -4,6 +4,7 @@ import Theme from '../../styles/Theme';
 
 export const Container = styled.main`
   padding-top: 7.4rem;
+  height: 100vh;
 `;
 
 export const HeaderContainer = styled.header`

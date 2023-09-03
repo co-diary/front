@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router';
 import Header from '../common/Header';
 import NavBar from '../common/NavBar';
+// eslint-disable-next-line import/no-named-as-default
 import Container from './style';
 
 import NoHashTag from './NoHashtag';

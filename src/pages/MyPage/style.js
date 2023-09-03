@@ -1,10 +1,15 @@
 import styled from 'styled-components';
 import Theme from '../../styles/Theme';
+import { pcMediaQuery } from '../../styles/MediaQuery';
 
 export const Container = styled.main`
   display: flex;
   flex-direction: column;
-  padding-top: 4rem;
+  padding-top: 8rem;
+
+  @media ${pcMediaQuery} {
+    height: calc(100vh - 4.8rem);
+  }
 `;
 
 export const BoxOne = styled.div`

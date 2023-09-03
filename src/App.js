@@ -16,7 +16,6 @@ const Container = styled.div`
   }
 
   @media ${pcMediaQuery} {
-    padding-top: 4.8rem;
     width: 100%;
     height: 100%;
     max-width: 44rem;

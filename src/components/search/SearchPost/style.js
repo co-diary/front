@@ -1,14 +1,16 @@
 import styled from 'styled-components';
-// import Theme from '../../styles/Theme';
+import { pcMediaQuery } from '../../../styles/MediaQuery';
 
 export const Container = styled.main`
-  height: calc(100vh - 10.8rem);
-  padding-top: calc(4.8rem + 2.6rem);
-  padding-bottom: 2.6rem;
   display: flex;
   flex-direction: column;
   gap: 2.6rem;
+  padding-top: 7.4rem;
   height: fit-content;
+
+  @media ${pcMediaQuery} {
+    height: 100vh;
+  }
 `;
 export const logo = styled.div`
   position: absolute;

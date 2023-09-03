@@ -18,6 +18,7 @@ export const TagLink = styled.span`
   border-radius: 3rem;
   background-color: ${Theme.SUB_ORANGE};
   text-decoration: none;
+  cursor: pointer;
 `;
 
 export const TagList = styled.li`
