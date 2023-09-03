@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useRecoilValue } from 'recoil';
+import { onAuthStateChanged } from 'firebase/auth';
 import * as S from './style';
 import Button from '../../components/common/Button';
 import Header from '../../components/common/Header';
 import InputWithLabel from '../../components/common/InputWithLabel';
 import useSignup from '../../hooks/useSignup';
-import { isLoggedIn } from '../../atom/authRecoil';
+import { appAuth } from '../../firebase';
 
 function SignUp() {
   const [email, setEmail] = useState('');
@@ -31,8 +31,21 @@ function SignUp() {
   const [alreadyError, setAlreadyError] = useState(false);
   const [alreadyErrorMessage, setAlreadyErrorMessage] = useState('');
 
-  const isLogin = useRecoilValue(isLoggedIn);
   const navigate = useNavigate();
+
+  const [isLoadingData, setIsLoadingData] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(appAuth, (user) => {
+      setIsLoadingData(false);
+
+      if (user) {
+        navigate('/home');
+      }
+    });
+
+    return unsubscribe;
+  }, []);
 
   useEffect(() => {
     if (isEmailValid && isPasswordValid && isPasswordCheckValid && isDisplayNameValid) {
@@ -163,11 +176,7 @@ function SignUp() {
     [email, password, displayName, signup],
   );
 
-  if (isLogin) {
-    navigate('/home');
-  }
-
-  if (isLogin === null) {
+  if (isLoadingData) {
     return null;
   }
 
