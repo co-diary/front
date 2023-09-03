@@ -1,28 +1,6 @@
 import styled, { css } from 'styled-components';
 import Theme from '../../../styles/Theme';
 
-// const fadeAndSlideIn = keyframes`
-//   from {
-//     opacity: 0;
-//     transform: translateY(20px);
-//   }
-//   to {
-//     opacity: 1;
-//     transform: translateY(0);
-//   }
-// `;
-
-// const fadeAndSlideOut = keyframes`
-//   from {
-//     opacity: 1;
-//     transform: translateY(0);
-//   }
-//   to {
-//     opacity: 0;
-//     transform: translateY(20px);
-//   }
-// `;
-
 export const modalSettings = (visible) => css`
   opacity: ${visible ? 1 : 0};
   z-index: ${visible ? 999 : -1};

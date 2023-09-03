@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import Theme from '../../../styles/Theme';
+import { pcMediaQuery } from '../../../styles/MediaQuery';
 
 export const modalSettings = (visible) => css`
   opacity: ${visible ? 1 : 0};
@@ -34,4 +35,9 @@ export const Box = styled.section`
 
   ${(props) => modalSettings(props.visible)};
   z-index: 1000;
+
+  @media ${pcMediaQuery} {
+    width: 44rem;
+    margin: 0 auto;
+  }
 `;

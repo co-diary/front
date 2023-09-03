@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Theme from '../../styles/Theme';
 import IconBack from '../../assets/Icon-Back.png';
+import { mobileMediaQuery, pcMediaQuery } from '../../styles/MediaQuery';
 
 const Container = styled.header`
   position: fixed;
@@ -10,13 +11,27 @@ const Container = styled.header`
   left: 0;
   right: 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   height: 4.8rem;
   background-color: ${Theme.WHITE};
   padding: 0 2rem;
   z-index: 99;
   border-bottom: 1px solid ${Theme.BORDER};
+`;
+
+const Inner = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media ${pcMediaQuery} {
+    width: 44rem;
+  }
+
+  @media ${mobileMediaQuery} {
+    width: 100%;
+  }
 `;
 
 const SButton = styled.button`
@@ -47,15 +62,17 @@ function Header({ isHome, title, rightChild }) {
 
   return (
     <Container>
-      <Menu>
-        {isHome ? null : (
-          <SButton onClick={handlePageBack}>
-            <img src={IconBack} alt='뒤로가기' />
-          </SButton>
-        )}
-        {title && <PageTitle>{title}</PageTitle>}
-      </Menu>
-      <Menu>{rightChild}</Menu>
+      <Inner>
+        <Menu>
+          {isHome ? null : (
+            <SButton onClick={handlePageBack}>
+              <img src={IconBack} alt='뒤로가기' />
+            </SButton>
+          )}
+          {title && <PageTitle>{title}</PageTitle>}
+        </Menu>
+        <Menu>{rightChild}</Menu>
+      </Inner>
     </Container>
   );
 }

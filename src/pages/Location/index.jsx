@@ -1,19 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useRecoilValue } from 'recoil';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { useLocation } from 'react-router';
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { db } from '../../firebase';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import { authState } from '../../atom/authRecoil';
+import useGetLocation from '../../hooks/useGetLocation';
+
+const LazyMap = React.lazy(() => import('../../components/location/LazyMap'));
 
 function Location() {
   const user = useRecoilValue(authState);
   const [userPost, setUserPost] = useState([]);
   const [likedPost, setLikedPost] = useState([]);
+  const [zoomLevel, setZoomLevel] = useState();
+  const [mapState, setMapState] = useState(null);
   const location = useLocation();
   const locationState = location.state;
+
+  const ZOOM_LEVEL = 4;
+
+  const { myLocation, getLocation } = useGetLocation();
 
   useEffect(() => {
     if (user) {
@@ -24,12 +32,12 @@ function Location() {
 
   const getUserData = async () => {
     const postArr = [];
-    // q는 post 컬렉션 하위 문서에서 uid가 현재 로그인한 유저의 uid와 같은 거 찾는 쿼리
     const q = query(collection(db, 'post'), where('uid', '==', user.uid));
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((value) => {
-      postArr.push(value.data().address.latLng);
+      // postArr.push(value.data().address.latLng);
+      postArr.push(value.data());
     });
     setUserPost(postArr);
   };
@@ -40,46 +48,59 @@ function Location() {
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((value) => {
-      postArr.push(value.data().address.latLng);
+      // postArr.push(value.data().address.latLng);
+      postArr.push(value.data());
     });
     setLikedPost(postArr);
+  };
+
+  useEffect(() => {
+    if (myLocation) {
+      setMapState(
+        locationState
+          ? {
+              center: { lat: locationState[0], lng: locationState[1] },
+              isPanto: true,
+              level: ZOOM_LEVEL,
+            }
+          : {
+              center: { lat: myLocation.latitude, lng: myLocation.longitude },
+              isPanto: true,
+              level: ZOOM_LEVEL,
+            },
+      );
+    }
+  }, [myLocation, locationState]);
+
+  const handleMoveToMyLocation = async () => {
+    await getLocation();
+    if (myLocation && mapState !== null) {
+      setMapState({
+        center: { lat: myLocation.latitude, lng: myLocation.longitude },
+        isPanto: true,
+        level: ZOOM_LEVEL,
+      });
+    }
   };
 
   return (
     <>
       <Header title='지도' />
-      <Map
-        center={
-          locationState
-            ? { lat: locationState[0], lng: locationState[1] }
-            : { lat: '37.566535', lng: '126.9779692' }
-        } // 서울시청을 중심좌표로 설정
-        style={{ width: '100%', height: '100vh' }}
-        level={1}
-      >
-        {userPost &&
-          userPost.map((marker, index) => (
-            <MapMarker
-              key={index}
-              position={{
-                lat: `${marker[0]}`,
-                lng: `${marker[1]}`,
-              }}
-              draggable={true}
-            />
-          ))}
-        {likedPost &&
-          likedPost.map((marker, index) => (
-            <MapMarker
-              key={index}
-              position={{
-                lat: `${marker[0]}`,
-                lng: `${marker[1]}`,
-              }}
-              draggable={true}
-            />
-          ))}
-      </Map>
+      <Suspense fallback={<div>Loading Map...</div>}>
+        {myLocation && mapState !== null ? (
+          <LazyMap
+            myLocation={myLocation}
+            mapCenter={mapState.center}
+            locationState={locationState}
+            userPost={userPost}
+            likedPost={likedPost}
+            onZoomChanged={setZoomLevel}
+            handleMoveToMyLocation={handleMoveToMyLocation}
+          />
+        ) : (
+          <div>Loading my location...</div>
+        )}
+      </Suspense>
 
       <NavBar />
     </>

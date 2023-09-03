@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Theme from '../../../styles/Theme';
+import { pcMediaQuery } from '../../../styles/MediaQuery';
 
 export const PostCardBox = styled.li`
   position: relative;
@@ -60,6 +61,13 @@ export const PostLike = styled.div`
   img {
     width: 1.8rem;
     height: 1.8rem;
+  }
+
+  @media ${pcMediaQuery} {
+    img {
+      width: 2.2rem;
+      height: 2.2rem;
+    }
   }
 `;
 
