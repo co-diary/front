@@ -19,6 +19,7 @@ export const UserName = styled.strong`
   font-family: 'LINESeedKR-Bd';
   font-size: 1.4rem;
   line-height: 1.9rem;
+  margin-bottom: 0.5rem;
 `;
 
 export const UserEmail = styled.p`
