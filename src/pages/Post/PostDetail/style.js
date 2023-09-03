@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Theme from '../../../styles/Theme';
-import { mobileMediaQuery, pcMediaQuery } from '../../../styles/MediaQuery';
+import { pcMediaQuery } from '../../../styles/MediaQuery';
 
 export const Container = styled.main`
   padding: 4.8rem 0 6rem;
