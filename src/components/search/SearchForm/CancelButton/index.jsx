@@ -15,13 +15,13 @@ function CancelBtnSlide({ handleCancelBtn, focus }) {
 
 const CancelBtn = styled.button`
   position: absolute;
-  right: 1rem;
-  width: 5rem;
+  right: 0;
+  top: -0.3rem;
+  width: 4rem;
   color: #3d3d3d;
   padding: 1.3rem 0 1.3rem 0;
   font-size: 1.4rem;
   font-family: 'LINESeedKR-Bd';
-  margin-left: 0.6rem;
 
   ${({ focus }) =>
     focus
@@ -38,13 +38,13 @@ const CancelBtn = styled.button`
       opacity: 0;
     }
     to {
-      right: 1rem;
+      right: 0rem;
       opacity: 1;
     }
   }
   @keyframes buttonOut {
     from {
-      right: 1rem;
+      right: 0rem;
       opacity: 1;
     }
     to {
