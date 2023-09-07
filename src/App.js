@@ -13,6 +13,7 @@ const Container = styled.div`
   > main {
     padding-left: 2rem;
     padding-right: 2rem;
+    overflow-y: auto;
   }
 
   @media ${pcMediaQuery} {

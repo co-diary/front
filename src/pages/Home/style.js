@@ -9,13 +9,12 @@ import IconSearch from '../../assets/Icon-Search.png';
 import IconSearchHover from '../../assets/Icon-Search-hover.png';
 
 export const Container = styled.main`
-  height: 100vh;
+  height: calc(100vh - 4.8rem);
   padding-top: 7.4rem;
   padding-bottom: calc(6rem + 2.6rem);
   display: flex;
   flex-direction: column;
   gap: 2.6rem;
-  height: fit-content;
 `;
 
 export const HashLink = styled(Link)`

@@ -40,7 +40,14 @@ ${reset}
 body {
   overflow-x: hidden;
   min-height: 100vh;
+
+  -ms-overflow-style: none;
+ }
+ 
+::-webkit-scrollbar {
+  display: none;
 }
+
 
 
 button {
