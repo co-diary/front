@@ -102,14 +102,14 @@ function LazyMap({
   };
 
   return (
-    <main>
+    <main style={{ position: 'relative' }}>
       <Map
         center={{ lat: mapCenter.lat, lng: mapCenter.lng }}
         style={{
           position: 'relative',
           width: '100%',
-          height: 'calc(100vh - 10.8rem)',
-          // marginTop: '4.8rem',
+          height: '100vh',
+          marginTop: '4.8rem',
           overflow: 'hidden',
         }}
         level={3}
@@ -131,7 +131,7 @@ function LazyMap({
           <MarkerClusterer
             averageCenter={true}
             minLevel={CLUSTER_LEVEL}
-            disableClickZoom={true}
+            disableClickZoom={!isClusterVisible}
             onClusterclick={handleClusterClick}
           >
             {postList.map((marker) => (
@@ -151,29 +151,29 @@ function LazyMap({
           </MarkerClusterer>
         )}
         <ZoomControl anchor='BOTTOMRIGHT' />
-        <OptionContainer>
-          <MenuButton
-            onClick={handleMenuButton}
-            content={menuButtonMsg}
-            className={optionTrigger ? 'slide-in' : ''}
-          ></MenuButton>
-          {optionTrigger && (
-            <>
-              <OptionButton
-                onClick={handleShowAllStores}
-                content={'📝 기록한 모든 매장 보기'}
-                active={showAllStores}
-              ></OptionButton>
-              <OptionButton
-                onClick={handleShowLikedStores}
-                content={'❤️ 좋아요 매장만 보기'}
-                active={showLikedStores}
-              ></OptionButton>
-            </>
-          )}
-          <MenuButton onClick={handleMoveToMyLocation} content={'📍현위치로 이동'}></MenuButton>
-        </OptionContainer>
       </Map>
+      <OptionContainer>
+        <MenuButton
+          onClick={handleMenuButton}
+          content={menuButtonMsg}
+          className={optionTrigger ? 'slide-in' : ''}
+        ></MenuButton>
+        {optionTrigger && (
+          <>
+            <OptionButton
+              onClick={handleShowAllStores}
+              content={'📝 기록한 모든 매장 보기'}
+              active={showAllStores}
+            ></OptionButton>
+            <OptionButton
+              onClick={handleShowLikedStores}
+              content={'❤️ 좋아요 매장만 보기'}
+              active={showLikedStores}
+            ></OptionButton>
+          </>
+        )}
+        <MenuButton onClick={handleMoveToMyLocation} content={'📍현위치로 이동'}></MenuButton>
+      </OptionContainer>
     </main>
   );
 }
