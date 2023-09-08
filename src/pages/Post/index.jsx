@@ -10,6 +10,7 @@ import * as S from './style';
 import PostList from '../../components/post/PostList';
 import SelectBox from '../../components/post/PostList/SelectBox';
 import getPost from '../../hooks/getPost';
+import NoPost from '../../components/post/NoPost';
 
 const categoryContentsAll = [
   {
@@ -124,7 +125,7 @@ function Post() {
           onOptionSelected={handleOptionSelected}
           selected={selectedOption}
         />
-        <PostList postList={sortedPostList} />
+        {sortedPostList.length > 0 ? <PostList postList={sortedPostList} /> : <NoPost />}
       </S.Container>
       <NavBar />
     </>
