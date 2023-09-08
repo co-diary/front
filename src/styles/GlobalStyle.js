@@ -71,6 +71,12 @@ li {
   list-style: none;
 }
 
+input, textarea {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+
 input::placeholder {
   font-family: LINESeedKR-Rg;
 }

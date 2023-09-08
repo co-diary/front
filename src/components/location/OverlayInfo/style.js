@@ -10,8 +10,8 @@ export const Container = styled.div`
 `;
 
 export const Image = styled.img`
-  width: 60px;
-  height: 60px;
+  width: 6rem;
+  height: 6rem;
   object-fit: cover;
   border-radius: 50%;
   margin-right: 10px;
@@ -21,12 +21,16 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  p {
-    margin: 0;
-    font-size: 14px;
+
+  strong {
+    font-family: LINESeedKR-Bd;
+    font-size: 1.6rem;
     line-height: 1.5;
   }
-  p:first-child {
-    font-weight: bold;
+
+  p {
+    margin: 0;
+    font-size: 1.4rem;
+    line-height: 1.5;
   }
 `;

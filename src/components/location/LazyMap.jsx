@@ -90,6 +90,7 @@ function LazyMap({
         latLng: post.address.latLng,
         menu: post.menu,
         shop: post.shop,
+        location: post.location,
         photo: post.photo,
         tag: post.tag,
       })),
