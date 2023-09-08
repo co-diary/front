@@ -99,4 +99,4 @@ function Button({ text, size, onClick, btnDisabled }) {
   );
 }
 
-export default Button;
+export default React.memo(Button);

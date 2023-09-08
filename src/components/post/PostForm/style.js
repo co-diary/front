@@ -7,12 +7,8 @@ import IconAddInput from '../../../assets/Icon-AddInput.png';
 import { mobileMediaQuery, pcMediaQuery } from '../../../styles/MediaQuery';
 
 export const Container = styled.main`
-  @media ${pcMediaQuery} {
-  }
-
-  @media ${mobileMediaQuery} {
-    padding: 4.8rem 0 6rem;
-  }
+  margin-top: 4.8rem;
+  height: 100vh;
 `;
 
 export const Form = styled.form`

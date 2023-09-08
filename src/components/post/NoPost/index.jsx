@@ -2,7 +2,7 @@ import React from 'react';
 import * as S from './style';
 import IconBeverage from '../../../assets/Icon-beverage.png';
 
-export default function DefaultLikePosts() {
+export default function NoPost() {
   return (
     <S.Container>
       <div>

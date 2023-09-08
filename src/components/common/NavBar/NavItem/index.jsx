@@ -20,4 +20,4 @@ function NavItem({ to, label, icon, iconActive }) {
   );
 }
 
-export default NavItem;
+export default React.memo(NavItem);

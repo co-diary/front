@@ -81,4 +81,4 @@ Header.defaultProps = {
   isHome: false,
 };
 
-export default Header;
+export default React.memo(Header);

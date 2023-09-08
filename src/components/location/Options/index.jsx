@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { pcMediaQuery } from '../../../styles/MediaQuery';
 
 const Container = styled.div`
   position: absolute;
@@ -8,15 +7,9 @@ const Container = styled.div`
   flex-direction: column;
   align-items: flex-end;
   z-index: 1000;
-  bottom: 8rem;
+  bottom: 13rem;
   right: 3rem;
-  gap: 1rem;
-
-  /* @media ${pcMediaQuery} {
-    position: relative;
-    right: 1rem;
-    bottom: 10rem;
-  } */
+  gap: 0.9rem;
 `;
 
 function Options({ children }) {

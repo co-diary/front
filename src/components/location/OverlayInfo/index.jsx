@@ -4,6 +4,7 @@ import * as S from './style';
 import { Tag, TagContainer } from '../../post/PostCard/style';
 
 function OverlayInfo({ postInfo }) {
+  console.log('인포', postInfo);
   return (
     <CustomOverlayMap
       position={{
@@ -14,7 +15,10 @@ function OverlayInfo({ postInfo }) {
       <S.Container>
         <S.Image src={postInfo.photo} />
         <S.Content>
-          <p>{postInfo.shop}</p>
+          <strong>
+            {postInfo.shop}&nbsp;
+            {postInfo.location}
+          </strong>
           <p>{postInfo.menu}</p>
           <TagContainer>
             {postInfo.tag.map((value, index) => (

@@ -13,9 +13,11 @@ const SlideUpAnimation = keyframes`
 `;
 
 export const Button = styled.button`
+  position: relative;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  border-radius: 1rem;
   font-family: 'LINESeedKR-Rg';
   /* 애니메이션 효과 추가 */
-  position: relative;
   overflow: hidden;
   animation: ${SlideUpAnimation} 0.3s ease-in-out forwards;
   animation-delay: 0.2s; /* 애니메이션 지연 시간 조정 */
@@ -26,8 +28,7 @@ export const ButtonContent = styled.p`
   display: inline-block;
   padding: 1rem 2rem;
   background-color: ${Theme.MAIN};
-  border-radius: 1rem;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+
   font-size: 1.4rem;
 
   ${(props) =>

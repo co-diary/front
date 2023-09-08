@@ -40,7 +40,14 @@ ${reset}
 body {
   overflow-x: hidden;
   min-height: 100vh;
+
+  -ms-overflow-style: none;
+ }
+ 
+::-webkit-scrollbar {
+  display: none;
 }
+
 
 
 button {
@@ -63,6 +70,12 @@ img {
 li {
   list-style: none;
 }
+
+input, textarea {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
 
 input::placeholder {
   font-family: LINESeedKR-Rg;

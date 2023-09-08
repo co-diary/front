@@ -54,11 +54,8 @@ function SearchForm({ keyword, setKeyword, onChange, children, submitKeyword }) 
             )}
           </S.InputContainer>
         </S.SearchForm>
+        {children && React.cloneElement(children, { handleCancelBtn, focus })}
       </S.SearchFormContainer>
-
-      {children && React.cloneElement(children, { handleCancelBtn, focus })}
-
-      {/* <CancelBtnSlide handleCancelBtn={handleCancelBtn} focus={focus} /> */}
     </S.Container>
   );
 }

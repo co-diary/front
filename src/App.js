@@ -13,10 +13,10 @@ const Container = styled.div`
   > main {
     padding-left: 2rem;
     padding-right: 2rem;
+    overflow-y: auto;
   }
 
   @media ${pcMediaQuery} {
-    padding-top: 4.8rem;
     width: 100%;
     height: 100%;
     max-width: 44rem;

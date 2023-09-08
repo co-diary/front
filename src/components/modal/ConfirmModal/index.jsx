@@ -24,4 +24,4 @@ function ConfirmModal({
   );
 }
 
-export default ConfirmModal;
+export default React.memo(ConfirmModal);

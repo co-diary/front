@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
-export const Container = styled.main``;
+export const Container = styled.main`
+  padding-top: 4.8rem;
+  height: calc(100vh - 4.8rem);
+`;
 
 export const LikedPostContainer = styled.ul`
   padding: 2.6rem 0;

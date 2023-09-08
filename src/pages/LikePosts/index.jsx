@@ -16,7 +16,7 @@ import * as S from './style';
 import { authState } from '../../atom/authRecoil';
 import { db } from '../../firebase';
 import PostCard from '../../components/post/PostCard';
-import DefaultLikePosts from './DefaultLikePosts';
+import NoPost from '../../components/post/NoPost';
 import Portal from '../../components/modal/Portal';
 import ConfirmModal from '../../components/modal/ConfirmModal';
 import { confirmModalState } from '../../atom/modalRecoil';
@@ -100,7 +100,7 @@ function LikePosts() {
                 />
               ))
             ) : (
-              <DefaultLikePosts />
+              <NoPost />
             )}
           </S.LikedPostContainer>
         </S.Container>

@@ -10,6 +10,7 @@ export const PostCardBox = styled.li`
   border-radius: 1rem;
   box-shadow: 1px 1px 6px 2px ${Theme.SHADOW_BORDER};
   overflow: hidden;
+  cursor: pointer;
 `;
 
 export const PostCover = styled.div`
@@ -131,4 +132,5 @@ export const Tag = styled.span`
     margin-left: 0.6rem;
     background-color: ${Theme.SUB_PINK};
   }
+  cursor: pointer;
 `;
