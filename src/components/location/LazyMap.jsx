@@ -118,7 +118,6 @@ function LazyMap({
         draggable={true}
         onZoomChanged={(map) => onZoomChanged(map.getLevel())}
         onClick={() => {
-          console.log('맵 클릭 이벤트');
           if (isOpen) {
             setIsOpen(false);
             setSelectedMarkerInfo(null);

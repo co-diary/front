@@ -5,7 +5,7 @@ export const Container = styled.main`
   display: flex;
   flex-direction: column;
   gap: 2.6rem;
-  padding-top: 7.4rem;
+  padding: 7.4rem 0;
   height: fit-content;
 
   @media ${pcMediaQuery} {
