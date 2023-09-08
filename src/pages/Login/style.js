@@ -10,10 +10,11 @@ export const Container = styled.main`
 export const HeaderContainer = styled.header`
   padding: 4.8rem 0 3rem;
   text-align: center;
+`;
 
-  & img {
-    width: 17rem;
-  }
+export const logoImg = styled.img`
+  width: 17rem;
+  height: 3.8rem;
 `;
 
 export const Form = styled.form`

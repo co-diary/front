@@ -98,7 +98,7 @@ function Login() {
       <S.HeaderContainer>
         <h1>
           <span className='ir'>로그인</span>
-          <img src={LogoText} alt='커디어리 로고' />
+          <S.logoImg src={LogoText} alt='커디어리 로고' />
         </h1>
       </S.HeaderContainer>
       <S.Form onSubmit={handleLoginSubmit}>
