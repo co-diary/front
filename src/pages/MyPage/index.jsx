@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
 import * as S from './style';
 import Header from '../../components/common/Header';
@@ -9,12 +9,36 @@ import Portal from '../../components/modal/Portal';
 import useToggle from '../../hooks/useToggle';
 import Profile from '../../components/mypage/Profile';
 import UserMenuButton from '../../components/mypage/UserMenuButton';
+import ToastMessage from '../../components/notification/ToastMessage';
 
 function MyPage() {
-  const [isModalOpen, setIsModalOpen] = useToggle();
   const navigate = useNavigate();
   const auth = getAuth();
   const [user, setUser] = useState(null);
+
+  const [isModalOpen, setIsModalOpen] = useToggle();
+  const [successToast, setSuccessToast] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const getSuccessToast = searchParams.get('success');
+
+    if (getSuccessToast) {
+      activeToast(true);
+    }
+  }, [location]);
+
+  function activeToast(isSuccess) {
+    setSuccessToast(isSuccess);
+    const timer = setTimeout(() => {
+      setSuccessToast(false);
+      setSearchParams(false);
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }
 
   useEffect(() => {
     const currentUser = auth.currentUser;
@@ -55,6 +79,7 @@ function MyPage() {
         </S.UserMenu>
       </S.Container>
       <NavBar />
+      {successToast && <ToastMessage message={'프로필 수정이 완료되었습니다.'} />}
       <Portal>
         {isModalOpen ? (
           <ConfirmModal

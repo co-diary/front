@@ -20,6 +20,7 @@ import NoPost from '../../components/post/NoPost';
 import Portal from '../../components/modal/Portal';
 import ConfirmModal from '../../components/modal/ConfirmModal';
 import { confirmModalState } from '../../atom/modalRecoil';
+import LoadingIndicator from '../../components/common/LoadingIndicator';
 
 function LikePosts() {
   const user = useRecoilValue(authState);
@@ -73,12 +74,10 @@ function LikePosts() {
     <>
       <Header title='좋아요' />
       {isLoading ? (
-        <p style={{ marginTop: '5.2rem', fontSize: '1.8rem', color: 'blue' }}>로딩 중...임시</p>
+        <LoadingIndicator />
       ) : (
         <S.Container>
-          <header>
-            <h1 className='ir'>좋아요 게시글 페이지</h1>
-          </header>
+          <h1 className='ir'>좋아요 게시글 페이지</h1>
           <S.LikedPostContainer>
             {likedPostList.length > 0 ? (
               likedPostList.map((post) => (

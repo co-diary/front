@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -13,7 +13,7 @@ import CategoryCard from '../../components/home/CategoryCard';
 import RecentPosts from '../../components/home/RecentPosts';
 import usePost from '../../hooks/usePost';
 import ToastMessage from '../../components/notification/ToastMessage';
-import NoRecentPosts from '../../components/home/NoRecentPosts';
+import LoadingIndicator from '../../components/common/LoadingIndicator';
 
 function Home() {
   const userId = useRecoilValue(UserIdState);
@@ -39,7 +39,7 @@ function Home() {
   }, []);
 
   if (isLoading) {
-    return <div>🌀 Loading 🌀 </div>;
+    return <LoadingIndicator />;
   }
 
   if (isError) {
@@ -49,9 +49,8 @@ function Home() {
   function activeToast(isSuccess) {
     setSuccessToast(isSuccess);
     const timer = setTimeout(() => {
-      setSuccessToast(false);
       setSearchParams(false);
-    }, 1000);
+    }, 4000);
 
     return () => {
       clearTimeout(timer);
@@ -119,6 +118,7 @@ function Home() {
         </section>
       </S.Container>
       <NavBar />
+
       {successToast && <ToastMessage message={'오늘의 커디어리 등록 완료!'} />}
     </>
   );

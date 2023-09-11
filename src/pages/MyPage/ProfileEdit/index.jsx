@@ -31,6 +31,7 @@ function ProfileEdit() {
   const [isDisplayNameValid, setIsDisplayNameValid] = useState(null);
 
   const [btnDisabled, setBtnDisabled] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -107,6 +108,8 @@ function ProfileEdit() {
         if (user && user.email && userDoc && userPassword) {
           const credential = EmailAuthProvider.credential(user.email, userPassword);
 
+          setIsLoading(true);
+
           try {
             // 이메일 변경 완료를 위해서는 사용자 재인증 과정이 필요
             await reauthenticateWithCredential(user, credential);
@@ -123,6 +126,7 @@ function ProfileEdit() {
           }
         } else {
           console.log('사용자 정보가 없습니다.');
+          setIsLoading(false);
         }
       }
     },

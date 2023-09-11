@@ -7,6 +7,7 @@ import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import { authState } from '../../atom/authRecoil';
 import useGetLocation from '../../hooks/useGetLocation';
+import LoadingIndicator from '../../components/common/LoadingIndicator';
 
 const LazyMap = React.lazy(() => import('../../components/location/LazyMap'));
 
@@ -86,7 +87,7 @@ function Location() {
   return (
     <>
       <Header title='지도' />
-      <Suspense fallback={<div>Loading Map...</div>}>
+      <Suspense fallback={<LoadingIndicator />}>
         {myLocation && mapState !== null ? (
           <LazyMap
             myLocation={myLocation}
@@ -98,7 +99,7 @@ function Location() {
             handleMoveToMyLocation={handleMoveToMyLocation}
           />
         ) : (
-          <div>Loading my location...</div>
+          <LoadingIndicator />
         )}
       </Suspense>
 
