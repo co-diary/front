@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -20,15 +20,21 @@ function Home() {
   const [userName, setUserName] = useState('');
   const { isLoading, isError, data: posts } = usePost(userId, 'ALL');
   const [searchParams, setSearchParams] = useSearchParams();
-  const [successToast, setSuccessToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     const getSuccessToast = searchParams.get('success');
 
     if (getSuccessToast) {
-      activeToast(true);
+      setShowToast(true);
+      setToastMessage('오늘의 커디어리 등록 완료!');
     }
-  }, [location]);
+  }, []);
+
+  const handleToastAnimationEnd = () => {
+    setShowToast(false);
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(appAuth, (user) => {
@@ -46,22 +52,9 @@ function Home() {
     return <div>fetch data중 에러</div>;
   }
 
-  function activeToast(isSuccess) {
-    setSuccessToast(isSuccess);
-    const timer = setTimeout(() => {
-      setSearchParams(false);
-    }, 4000);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }
-
   const postCount = posts.length;
   const drinkCount = posts.filter((v) => v.theme === '음료').length;
   const dessertCount = posts.filter((v) => v.theme === '디저트').length;
-
-  console.log(postCount);
 
   const cards = [
     {
@@ -118,8 +111,13 @@ function Home() {
         </section>
       </S.Container>
       <NavBar />
-
-      {successToast && <ToastMessage message={'오늘의 커디어리 등록 완료!'} />}
+      {showToast && (
+        <ToastMessage
+          message={toastMessage}
+          showToast={showToast}
+          onAnimationEnd={handleToastAnimationEnd}
+        />
+      )}
     </>
   );
 }
