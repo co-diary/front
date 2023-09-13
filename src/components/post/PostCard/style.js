@@ -33,12 +33,12 @@ export const PostCover = styled.div`
 
     transform: rotate(-90deg) translateY(100%); /* 수정 */
   }
+`;
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+export const PostImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 export const PostContent = styled.div`
