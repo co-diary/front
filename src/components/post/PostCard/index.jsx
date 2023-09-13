@@ -70,7 +70,6 @@ function PostCard({
   const handleLike = (e) => {
     e.stopPropagation();
     if (pathname === '/likeposts') {
-      console.log('하이', id);
       onOpenModal(id);
       return;
     }

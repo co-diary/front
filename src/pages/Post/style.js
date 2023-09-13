@@ -3,6 +3,7 @@ import Theme from '../../styles/Theme';
 
 export const Container = styled.main`
   padding-top: 4.8rem;
+  padding-bottom: 4rem;
   height: calc(100vh - 4.8rem);
 `;
 

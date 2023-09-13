@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -107,7 +107,9 @@ function Home() {
         </section>
         <section>
           <S.SubTitle>최근 추가된 기록</S.SubTitle>
-          <RecentPosts userId={userId} />
+          <Suspense fallback={<LoadingIndicator />}>
+            <RecentPosts userId={userId} />
+          </Suspense>
         </section>
       </S.Container>
       <NavBar />

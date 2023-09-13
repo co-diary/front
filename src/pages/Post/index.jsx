@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useLocation, useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
@@ -7,10 +7,10 @@ import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import IconSearch from '../../assets/Icon-Search.png';
 import * as S from './style';
-import PostList from '../../components/post/PostList';
 import SelectBox from '../../components/post/PostList/SelectBox';
 import getPost from '../../hooks/getPost';
 import NoPost from '../../components/post/NoPost';
+import LoadingIndicator from '../../components/common/LoadingIndicator';
 
 const categoryContentsAll = [
   {
@@ -22,6 +22,8 @@ const categoryContentsAll = [
     categories: ['전체', '케이크', '마카롱', '베이커리', '기타'],
   },
 ];
+
+const PostList = React.lazy(() => import('../../components/post/PostList'));
 
 function Post() {
   const userId = useRecoilValue(UserIdState);
@@ -75,7 +77,6 @@ function Post() {
     setSortedPostList(sortedPosts);
   }, [posts, selectedOption, selectedCategory]);
 
-  // selectedOption, selectedCategory 혹은 posts 변경 시 항상 정렬과 필터링을 수행
   useEffect(() => {
     sortAndFilterPosts();
   }, [sortAndFilterPosts]);
@@ -125,7 +126,9 @@ function Post() {
           onOptionSelected={handleOptionSelected}
           selected={selectedOption}
         />
-        {sortedPostList.length > 0 ? <PostList postList={sortedPostList} /> : <NoPost />}
+        <Suspense fallback={<LoadingIndicator />}>
+          {sortedPostList.length > 0 ? <PostList postList={sortedPostList} /> : <NoPost />}
+        </Suspense>
       </S.Container>
       <NavBar />
     </>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PostCard from '../PostCard';
 
@@ -10,6 +10,20 @@ const Container = styled.ol`
 `;
 
 function PostList({ postList }) {
+  const [newPostList, setNewPostList] = useState(postList);
+
+  const handleLikeButton = (postId) => {
+    const postIndex = newPostList.findIndex((post) => post.key === postId);
+
+    if (postIndex === -1) return;
+
+    const updatedPosts = [...newPostList];
+
+    updatedPosts[postIndex].like = !updatedPosts[postIndex].like;
+
+    setNewPostList(updatedPosts);
+  };
+
   return (
     <Container>
       {postList.map((post) => (
@@ -26,6 +40,7 @@ function PostList({ postList }) {
           shop={post.shop}
           tags={post.tag}
           postList={postList}
+          onLike={handleLikeButton}
         />
       ))}
     </Container>

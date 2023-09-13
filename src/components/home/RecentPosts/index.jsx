@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import getPost from '../../../hooks/getPost';
 import PostCard from '../../post/PostCard';
 import * as S from './style';
-import NoHashTag from '../../hashtag/NoHashtag';
 import NoRecentPosts from '../NoRecentPosts';
 
 function RecentPosts({ userId }) {
