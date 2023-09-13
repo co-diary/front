@@ -12,6 +12,7 @@ import IconLikedActive from '../../../assets/Icon-Nav-Heart-on.png';
 import IconMyPage from '../../../assets/Icon-Nav-_Mypage-off.png';
 import IconMyPageActive from '../../../assets/Icon-Nav-_Mypage-on.png';
 import NavItem from './NavItem';
+import { mobileMediaQuery, pcMediaQuery } from '../../../styles/MediaQuery';
 
 const Container = styled.nav`
   position: fixed;
@@ -19,15 +20,25 @@ const Container = styled.nav`
   left: 0;
   right: 0;
   z-index: 99;
+  display: flex;
+  justify-content: center;
   height: 6rem;
   background-color: ${Theme.WHITE};
   border-top: 1px solid ${Theme.BORDER};
   padding: 0 2rem;
+`;
 
-  ul {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+const NavItems = styled.ul`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media ${pcMediaQuery} {
+    width: 44rem;
+  }
+
+  @media ${mobileMediaQuery} {
+    width: 100%;
   }
 `;
 
@@ -42,7 +53,7 @@ function NavBar({ page }) {
 
   return (
     <Container>
-      <ul>
+      <NavItems>
         {navItems.map((item) => (
           <NavItem
             key={item.label}
@@ -52,9 +63,9 @@ function NavBar({ page }) {
             iconActive={item.iconActive}
           />
         ))}
-      </ul>
+      </NavItems>
     </Container>
   );
 }
 
-export default NavBar;
+export default React.memo(NavBar);

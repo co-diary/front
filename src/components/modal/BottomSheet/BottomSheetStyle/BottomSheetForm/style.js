@@ -95,11 +95,9 @@ export const MyLocation = styled.button`
       isLocationCheck &&
       css`
         ${spin} 2000ms linear infinite;
-      `}
-`;
+      `};
+  `;
 
 export const SectionBorder = styled.div`
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
   border-bottom: 6px solid ${Theme.SECTION_BG};
 `;

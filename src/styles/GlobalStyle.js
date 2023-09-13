@@ -36,11 +36,19 @@ ${reset}
   color: ${Theme.MAIN_FONT};
 
 }
+
 body {
   overflow-x: hidden;
   min-height: 100vh;
-  padding: 0 2rem;
+
+  -ms-overflow-style: none;
+ }
+ 
+::-webkit-scrollbar {
+  display: none;
 }
+
+
 
 button {
   all: unset;
@@ -62,6 +70,12 @@ img {
 li {
   list-style: none;
 }
+
+input, textarea {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
 
 input::placeholder {
   font-family: LINESeedKR-Rg;

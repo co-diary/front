@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -13,21 +13,28 @@ import CategoryCard from '../../components/home/CategoryCard';
 import RecentPosts from '../../components/home/RecentPosts';
 import usePost from '../../hooks/usePost';
 import ToastMessage from '../../components/notification/ToastMessage';
+import LoadingIndicator from '../../components/common/LoadingIndicator';
 
 function Home() {
   const userId = useRecoilValue(UserIdState);
   const [userName, setUserName] = useState('');
   const { isLoading, isError, data: posts } = usePost(userId, 'ALL');
   const [searchParams, setSearchParams] = useSearchParams();
-  const [successToast, setSuccessToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     const getSuccessToast = searchParams.get('success');
 
     if (getSuccessToast) {
-      activeToast(true);
+      setShowToast(true);
+      setToastMessage('오늘의 커디어리 등록 완료!');
     }
-  }, [location]);
+  }, []);
+
+  const handleToastAnimationEnd = () => {
+    setShowToast(false);
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(appAuth, (user) => {
@@ -38,30 +45,16 @@ function Home() {
   }, []);
 
   if (isLoading) {
-    return <div>🌀 Loading 🌀 </div>;
+    return <LoadingIndicator />;
   }
 
   if (isError) {
     return <div>fetch data중 에러</div>;
   }
 
-  function activeToast(isSuccess) {
-    setSuccessToast(isSuccess);
-    const timer = setTimeout(() => {
-      setSuccessToast(false);
-      setSearchParams(false);
-    }, 1000);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }
-
   const postCount = posts.length;
   const drinkCount = posts.filter((v) => v.theme === '음료').length;
   const dessertCount = posts.filter((v) => v.theme === '디저트').length;
-
-  console.log(postCount);
 
   const cards = [
     {
@@ -113,11 +106,20 @@ function Home() {
           </S.CategoryCards>
         </section>
         <section>
-          <RecentPosts userId={userId} />
+          <S.SubTitle>최근 추가된 기록</S.SubTitle>
+          <Suspense fallback={<LoadingIndicator />}>
+            <RecentPosts userId={userId} />
+          </Suspense>
         </section>
       </S.Container>
       <NavBar />
-      {successToast && <ToastMessage message={'오늘의 커디어리 등록 완료!'} />}
+      {showToast && (
+        <ToastMessage
+          message={toastMessage}
+          showToast={showToast}
+          onAnimationEnd={handleToastAnimationEnd}
+        />
+      )}
     </>
   );
 }

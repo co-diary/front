@@ -8,6 +8,7 @@ import IconHeartOn from '../../../assets/Icon-Heart-on.png';
 import IconHeartOff from '../../../assets/Icon-Heart-off.png';
 import IconStarOn from '../../../assets/Icon-star-on.png';
 import IconStarOff from '../../../assets/Icon-star-off.png';
+import Thumbmail from './Thumbmail';
 
 function PostCard({
   id,
@@ -69,7 +70,6 @@ function PostCard({
   const handleLike = (e) => {
     e.stopPropagation();
     if (pathname === '/likeposts') {
-      console.log('하이', id);
       onOpenModal(id);
       return;
     }
@@ -84,7 +84,7 @@ function PostCard({
       <S.PostCardBox onClick={handleClickCard}>
         <S.PostCover>
           <span>{formattedDate}</span>
-          {photo && <img src={Array.isArray(photo) ? photo[0] : photo} alt='메뉴 썸네일 사진' />}
+          {photo.length ? <S.PostImg src={photo} alt='메뉴 썸네일 사진' /> : <Thumbmail />}
         </S.PostCover>
         <S.PostContent>
           <S.PostInfo>

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import getPost from '../../../hooks/getPost';
 import PostCard from '../../post/PostCard';
 import * as S from './style';
+import NoRecentPosts from '../NoRecentPosts';
 
 function RecentPosts({ userId }) {
   console.log(userId);
@@ -27,26 +28,29 @@ function RecentPosts({ userId }) {
 
   return (
     <>
-      <S.SubTitle>최근 추가된 기록</S.SubTitle>
-      <S.Cards>
-        {recentPosts.map((post) => (
-          <PostCard
-            key={post.key}
-            id={post.key}
-            date={post.date}
-            like={post.like}
-            location={post.location}
-            menu={post.menu}
-            photo={post.photo}
-            review={post.review}
-            score={post.score}
-            shop={post.shop}
-            tags={post.tag}
-            postList={recentPosts}
-            onLike={handleLikeButton}
-          />
-        ))}
-      </S.Cards>
+      {recentPosts.length > 0 ? (
+        <S.Cards>
+          {recentPosts.map((post) => (
+            <PostCard
+              key={post.key}
+              id={post.key}
+              date={post.date}
+              like={post.like}
+              location={post.location}
+              menu={post.menu}
+              photo={post.photo}
+              review={post.review}
+              score={post.score}
+              shop={post.shop}
+              tags={post.tag}
+              postList={recentPosts}
+              onLike={handleLikeButton}
+            />
+          ))}
+        </S.Cards>
+      ) : (
+        <NoRecentPosts />
+      )}
     </>
   );
 }

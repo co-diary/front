@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Theme from '../../../styles/Theme';
+import { pcMediaQuery } from '../../../styles/MediaQuery';
 
 export const PostCardBox = styled.li`
   position: relative;
@@ -9,6 +10,7 @@ export const PostCardBox = styled.li`
   border-radius: 1rem;
   box-shadow: 1px 1px 6px 2px ${Theme.SHADOW_BORDER};
   overflow: hidden;
+  cursor: pointer;
 `;
 
 export const PostCover = styled.div`
@@ -31,12 +33,12 @@ export const PostCover = styled.div`
 
     transform: rotate(-90deg) translateY(100%); /* 수정 */
   }
+`;
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+export const PostImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 export const PostContent = styled.div`
@@ -60,6 +62,13 @@ export const PostLike = styled.div`
   img {
     width: 1.8rem;
     height: 1.8rem;
+  }
+
+  @media ${pcMediaQuery} {
+    img {
+      width: 2.2rem;
+      height: 2.2rem;
+    }
   }
 `;
 
@@ -123,4 +132,5 @@ export const Tag = styled.span`
     margin-left: 0.6rem;
     background-color: ${Theme.SUB_PINK};
   }
+  cursor: pointer;
 `;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { QueryClient, QueryClientProvider } from 'react-query';
 // import { useLocation, useNavigate } from 'react-router';
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -6,6 +7,23 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { authState, isLoggedIn, UserIdState } from './atom/authRecoil';
 import Router from './routes/Router';
 import { appAuth, firestore } from './firebase';
+import { pcMediaQuery } from './styles/MediaQuery';
+
+const Container = styled.div`
+  > main {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    overflow-y: auto;
+  }
+
+  @media ${pcMediaQuery} {
+    width: 100%;
+    height: 100%;
+    max-width: 44rem;
+    margin: 0 auto;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 8px;
+  }
+`;
 
 function App() {
   const queryClient = new QueryClient();
@@ -52,7 +70,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className='App'>
-        <Router />
+        <Container>
+          <Router />
+        </Container>
       </div>
     </QueryClientProvider>
   );

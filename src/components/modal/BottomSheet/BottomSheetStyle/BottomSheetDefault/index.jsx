@@ -11,4 +11,4 @@ function BottomSheetDefault({ onClickClose, onClickEdit, onClickDelete }) {
   );
 }
 
-export default BottomSheetDefault;
+export default React.memo(BottomSheetDefault);

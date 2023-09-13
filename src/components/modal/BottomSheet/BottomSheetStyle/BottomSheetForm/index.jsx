@@ -74,4 +74,4 @@ function BottomSheetForm({
   );
 }
 
-export default BottomSheetForm;
+export default React.memo(BottomSheetForm);

@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import Theme from '../../styles/Theme';
 
 export const Container = styled.main`
-  padding: 4.8rem 0 8.6rem;
+  padding-top: 4.8rem;
+  padding-bottom: 4rem;
+  height: calc(100vh - 4.8rem);
 `;
 
 export const CategoryContainer = styled.ul`

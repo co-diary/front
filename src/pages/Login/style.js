@@ -2,17 +2,19 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Theme from '../../styles/Theme';
 
-export const Container = styled.div`
+export const Container = styled.main`
   padding-top: 7.4rem;
+  height: 100vh;
 `;
 
 export const HeaderContainer = styled.header`
   padding: 4.8rem 0 3rem;
   text-align: center;
+`;
 
-  & img {
-    width: 17rem;
-  }
+export const logoImg = styled.img`
+  width: 17rem;
+  height: 3.8rem;
 `;
 
 export const Form = styled.form`
