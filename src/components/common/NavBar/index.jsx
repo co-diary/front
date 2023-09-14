@@ -1,16 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import Theme from '../../../styles/Theme';
-import IconHome from '../../../assets/Icon-Nav-Home-off.png';
-import IconHomeActive from '../../../assets/Icon-Nav-Home-on.png';
-import IconMap from '../../../assets/Icon-Nav-Map-off.png';
-import IconMapActive from '../../../assets/Icon-Nav-Map-on.png';
-import IconWrite from '../../../assets/Icon-Nav-Write-off.png';
-import IconWriteActive from '../../../assets/Icon-Nav-Write-on.png';
-import IconLiked from '../../../assets/Icon-Nav-Heart-off.png';
-import IconLikedActive from '../../../assets/Icon-Nav-Heart-on.png';
-import IconMyPage from '../../../assets/Icon-Nav-_Mypage-off.png';
-import IconMyPageActive from '../../../assets/Icon-Nav-_Mypage-on.png';
+// import IconHome from '../../../assets/Icon-Nav-Home-off.png';
+// import IconHomeActive from '../../../assets/Icon-Nav-Home-on.png';
+// import IconMap from '../../../assets/Icon-Nav-Map-off.png';
+// import IconMapActive from '../../../assets/Icon-Nav-Map-on.png';
+// import IconWrite from '../../../assets/Icon-Nav-Write-off.png';
+// import IconWriteActive from '../../../assets/Icon-Nav-Write-on.png';
+// import IconLiked from '../../../assets/Icon-Nav-Heart-off.png';
+// import IconLikedActive from '../../../assets/Icon-Nav-Heart-on.png';
+// import IconMyPage from '../../../assets/Icon-Nav-_Mypage-off.png';
+// import IconMyPageActive from '../../../assets/Icon-Nav-_Mypage-on.png';
 import NavItem from './NavItem';
 import { mobileMediaQuery, pcMediaQuery } from '../../../styles/MediaQuery';
 
@@ -44,11 +44,11 @@ const NavItems = styled.ul`
 
 function NavBar({ page }) {
   const navItems = [
-    { to: '/home', label: '홈', icon: IconHome, iconActive: IconHomeActive },
-    { to: '/location', label: '지도', icon: IconMap, iconActive: IconMapActive },
-    { to: '/upload', label: '기록하기', icon: IconWrite, iconActive: IconWriteActive },
-    { to: '/likeposts', label: '좋아요', icon: IconLiked, iconActive: IconLikedActive },
-    { to: '/mypage', label: '내 정보', icon: IconMyPage, iconActive: IconMyPageActive },
+    { to: '/home', label: '홈' },
+    { to: '/location', label: '지도' },
+    { to: '/upload', label: '기록하기' },
+    { to: '/likeposts', label: '좋아요' },
+    { to: '/mypage', label: '내 정보' },
   ];
 
   return (

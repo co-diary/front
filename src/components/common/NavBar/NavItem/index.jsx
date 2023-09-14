@@ -11,12 +11,12 @@ function NavItem({ to, label, icon, iconActive }) {
   }
 
   return (
-    <S.NavItemContainer iconActive={iconActive}>
-      <S.NavLinkContainer exact='true' to={to} activeclassname='active'>
-        <img className={isActive ? 'active' : ''} src={isActive ? iconActive : icon} alt={label} />
+    <S.NavLinkContainer>
+      <S.NavItemContainer exact='true' to={to}>
+        <S.NavIcon className={`nav-${to.replace('/', '')}`} isActive={isActive} />
         {label}
-      </S.NavLinkContainer>
-    </S.NavItemContainer>
+      </S.NavItemContainer>
+    </S.NavLinkContainer>
   );
 }
 

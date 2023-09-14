@@ -2,11 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import Theme from '../../styles/Theme';
-
-import IconTag from '../../assets/Icon-tag.png';
-import IconTagHover from '../../assets/Icon-tag-hover.png';
-import IconSearch from '../../assets/Icon-Search.png';
-import IconSearchHover from '../../assets/Icon-Search-hover.png';
+import Sprites from '../../assets/Sprites.png';
 
 export const Container = styled.main`
   height: calc(100vh - 4.8rem);
@@ -21,11 +17,12 @@ export const HashLink = styled(Link)`
   position: relative;
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url(${IconTag});
-  background-size: cover;
+  background: url(${Sprites}) -39px -190px;
+  background-size: 250px 218px;
 
   &:hover {
-    background-image: url(${IconTagHover});
+    background: url(${Sprites}) -5px -190px;
+    background-size: 250px 218px;
   }
 `;
 
@@ -33,11 +30,13 @@ export const SearchLink = styled(Link)`
   position: relative;
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url(${IconSearch});
-  background-size: cover;
+
+  background: url(${Sprites}) -190px -141px;
+  background-size: 250px 218px;
 
   &:hover {
-    background-image: url(${IconSearchHover});
+    background: url(${Sprites}) -190px -73px;
+    background-size: 250px 218px;
   }
 `;
 
