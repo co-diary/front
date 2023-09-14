@@ -16,11 +16,7 @@ export const NavItemContainer = styled.li`
 
 export const NavLinkContainer = styled(NavLink)`
   width: 6.2rem;
-  height: 6rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  height: 100%;
   color: ${Theme.DISABLED_BTN_FONT};
   text-decoration: none;
 `;

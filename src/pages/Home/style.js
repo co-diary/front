@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-
 import Theme from '../../styles/Theme';
 
 import IconTag from '../../assets/Icon-tag.png';
