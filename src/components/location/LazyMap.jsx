@@ -33,7 +33,7 @@ function LazyMap({
         latLng: post.address.latLng,
         menu: post.menu,
         shop: post.shop,
-        photo: post.photo,
+        photo: post.photo[0],
         tag: post.tag,
       })),
     );
