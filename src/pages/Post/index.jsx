@@ -30,6 +30,7 @@ function Post() {
   const options = ['최신순', '별점순', '방문순'];
   const [posts, setPosts] = useState([]);
   const [selectedOption, setSelectedOption] = useState('최신순');
+  const [isLoading, setIsLoading] = useState(true);
 
   const [selectedCategory, setSelectedCategory] = useState('전체');
   const [sortedPostList, setSortedPostList] = useState([]);
@@ -40,9 +41,15 @@ function Post() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const postList = await getPost(userId, 'theme', ThemeTitle);
+      try {
+        const postList = await getPost(userId, 'theme', ThemeTitle);
 
-      setPosts(postList);
+        setPosts(postList);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setIsLoading(false);
+      }
     };
 
     fetchData();
@@ -126,9 +133,15 @@ function Post() {
           onOptionSelected={handleOptionSelected}
           selected={selectedOption}
         />
-        <Suspense fallback={<LoadingIndicator />}>
-          {sortedPostList.length > 0 ? <PostList postList={sortedPostList} /> : <NoPost />}
-        </Suspense>
+        {isLoading ? (
+          <LoadingIndicator />
+        ) : sortedPostList.length > 0 ? (
+          <Suspense fallback={<LoadingIndicator />}>
+            <PostList postList={sortedPostList} />
+          </Suspense>
+        ) : (
+          <NoPost />
+        )}
       </S.Container>
       <NavBar />
     </>
