@@ -3,21 +3,22 @@ import { NavLink } from 'react-router-dom';
 import Theme from '../../../../styles/Theme';
 import Sprites from '../../../../assets/Sprites.png';
 
-export const NavLinkContainer = styled.li`
-  width: 6.2rem;
-  height: 100%;
-  /* white-space: nowrap; */
-
-  color: ${Theme.DISABLED_BTN_FONT};
-  text-decoration: none;
-`;
-
-export const NavItemContainer = styled(NavLink)`
+export const NavItemContainer = styled.li`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
+`;
+
+export const NavLinkContainer = styled(NavLink)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 6.2rem;
+  height: 100%;
+  text-decoration: none;
 `;
 
 export const NavIcon = styled.div`
@@ -45,4 +46,8 @@ export const NavIcon = styled.div`
   &.nav-mypage {
     background-position: ${({ isActive }) => (isActive ? '-155px -107px' : '-155px -73px;')};
   }
+`;
+
+export const Label = styled.span`
+  color: ${({ isActive }) => (isActive ? Theme.MAIN_FONT : Theme.DISABLED_FONT)};
 `;

@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-
 import Theme from '../../styles/Theme';
 import Sprites from '../../assets/Sprites.png';
 
@@ -17,12 +16,13 @@ export const HashLink = styled(Link)`
   position: relative;
   width: 2.4rem;
   height: 2.4rem;
-  background: url(${Sprites}) -39px -190px;
-  background-size: 250px 218px;
+
+  background: url(${Sprites});
+  background-size: calc(500px / 2) calc(436px / 2);
+  background-position: calc(-78px / 2) calc(-378px / 2);
 
   &:hover {
-    background: url(${Sprites}) -5px -190px;
-    background-size: 250px 218px;
+    background-position: calc(-10px / 2) calc(-378px / 2);
   }
 `;
 
@@ -30,13 +30,12 @@ export const SearchLink = styled(Link)`
   position: relative;
   width: 2.4rem;
   height: 2.4rem;
-
-  background: url(${Sprites}) -190px -141px;
-  background-size: 250px 218px;
+  background: url(${Sprites});
+  background-size: calc(500px / 2) calc(436px / 2);
+  background-position: calc(-378px / 2) calc(-282px / 2);
 
   &:hover {
-    background: url(${Sprites}) -190px -73px;
-    background-size: 250px 218px;
+    background-position: calc(-378px / 2) calc(-146px / 2);
   }
 `;
 

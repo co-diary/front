@@ -55,13 +55,7 @@ function NavBar({ page }) {
     <Container>
       <NavItems>
         {navItems.map((item) => (
-          <NavItem
-            key={item.label}
-            to={item.to}
-            label={item.label}
-            icon={item.icon}
-            iconActive={item.iconActive}
-          />
+          <NavItem key={item.label} to={item.to} label={item.label} />
         ))}
       </NavItems>
     </Container>

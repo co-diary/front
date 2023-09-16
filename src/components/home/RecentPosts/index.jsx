@@ -1,16 +1,19 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect } from 'react';
 import getPost from '../../../hooks/getPost';
 import PostCard from '../../post/PostCard';
 import * as S from './style';
 import NoRecentPosts from '../NoRecentPosts';
+import LoadingIndicator from '../../common/LoadingIndicator';
 
 function RecentPosts({ userId }) {
   console.log(userId);
   const [recentPosts, setRecentPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getPost(userId, 'ORDER_BY', 'createAt', 'desc').then((data) => {
       setRecentPosts(data.slice(0, 3));
+      setIsLoading(false);
     });
   }, []);
 
@@ -28,7 +31,9 @@ function RecentPosts({ userId }) {
 
   return (
     <>
-      {recentPosts.length > 0 ? (
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : recentPosts.length > 0 ? (
         <S.Cards>
           {recentPosts.map((post) => (
             <PostCard

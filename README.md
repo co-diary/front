@@ -131,7 +131,6 @@ npm start
 ![React](https://img.shields.io/badge/react-444444?style=for-the-badge&logo=react)
 ![Recoil](https://img.shields.io/badge/recoil-444444?style=for-the-badge&logo=recoil)
 <img src="https://img.shields.io/badge/styled_components-444444?style=for-the-badge&logo=styledcomponents"/>
-<img src="https://img.shields.io/badge/react_query-444444?style=for-the-badge&logo=reactquery"/>
 
 #### BackEnd
 
@@ -145,7 +144,7 @@ npm start
 
 #### Config
 
-![npm](https://img.shields.io/badge/npm-444444?style=for-the-badge&logo=npm)
+![vite](https://img.shields.io/badge/vite-444444?style=for-the-badge&logo=vite)
 
 #### Communication
 
