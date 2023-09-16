@@ -44,24 +44,18 @@ const NavItems = styled.ul`
 
 function NavBar({ page }) {
   const navItems = [
-    { to: '/home', label: '홈', icon: IconHome, iconActive: IconHomeActive },
-    { to: '/location', label: '지도', icon: IconMap, iconActive: IconMapActive },
-    { to: '/upload', label: '기록하기', icon: IconWrite, iconActive: IconWriteActive },
-    { to: '/likeposts', label: '좋아요', icon: IconLiked, iconActive: IconLikedActive },
-    { to: '/mypage', label: '내 정보', icon: IconMyPage, iconActive: IconMyPageActive },
+    { to: '/home', label: '홈' },
+    { to: '/location', label: '지도' },
+    { to: '/upload', label: '기록하기' },
+    { to: '/likeposts', label: '좋아요' },
+    { to: '/mypage', label: '내 정보' },
   ];
 
   return (
     <Container>
       <NavItems>
         {navItems.map((item) => (
-          <NavItem
-            key={item.label}
-            to={item.to}
-            label={item.label}
-            icon={item.icon}
-            iconActive={item.iconActive}
-          />
+          <NavItem key={item.label} to={item.to} label={item.label} />
         ))}
       </NavItems>
     </Container>

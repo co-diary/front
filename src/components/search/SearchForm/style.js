@@ -1,11 +1,10 @@
 import styled, { css } from 'styled-components';
 import Theme from '../../../styles/Theme';
-import ClearIcon from '../../../assets/Icon-CancelSearch.png';
+import Sprites from '../../../assets/Sprites.png';
 
 export const Container = styled.div`
   display: flex;
   align-items: center;
-  /* height: 4.8rem; */
 
   z-index: 99;
 `;
@@ -73,8 +72,10 @@ export const ClearBtn = styled.button`
   transition: all 0.2s linear;
   width: 2rem;
   height: 2rem;
-  background-image: url(${ClearIcon});
-  background-size: cover;
+
+  background: url(${Sprites});
+  background-size: 500px 436px;
+  background-position: -446px -391px;
 `;
 
 export const CancelBtn = styled.button`

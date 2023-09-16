@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-
 import Theme from '../../styles/Theme';
 
 import IconTag from '../../assets/Icon-tag.png';
 import IconTagHover from '../../assets/Icon-tag-hover.png';
 import IconSearch from '../../assets/Icon-Search.png';
 import IconSearchHover from '../../assets/Icon-Search-hover.png';
+import Sprites from '../../assets/Sprites.png';
 
 export const Container = styled.main`
   height: calc(100vh - 4.8rem);
@@ -21,11 +21,13 @@ export const HashLink = styled(Link)`
   position: relative;
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url(${IconTag});
-  background-size: cover;
+
+  background: url(${Sprites});
+  background-size: calc(500px / 2) calc(436px / 2);
+  background-position: calc(-78px / 2) calc(-378px / 2);
 
   &:hover {
-    background-image: url(${IconTagHover});
+    background-position: calc(-10px / 2) calc(-378px / 2);
   }
 `;
 
@@ -33,11 +35,12 @@ export const SearchLink = styled(Link)`
   position: relative;
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url(${IconSearch});
-  background-size: cover;
+  background: url(${Sprites});
+  background-size: calc(500px / 2) calc(436px / 2);
+  background-position: calc(-378px / 2) calc(-282px / 2);
 
   &:hover {
-    background-image: url(${IconSearchHover});
+    background-position: calc(-378px / 2) calc(-146px / 2);
   }
 `;
 

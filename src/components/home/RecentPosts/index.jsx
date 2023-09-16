@@ -38,7 +38,7 @@ function RecentPosts({ userId }) {
               like={post.like}
               location={post.location}
               menu={post.menu}
-              photo={post.photo}
+              photo={post.photo[0]}
               review={post.review}
               score={post.score}
               shop={post.shop}

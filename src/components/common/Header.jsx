@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Theme from '../../styles/Theme';
-import IconBack from '../../assets/Icon-Back.png';
+import Sprites from '../../assets/Sprites.png';
 import { mobileMediaQuery, pcMediaQuery } from '../../styles/MediaQuery';
 
 const Container = styled.header`
@@ -38,9 +38,21 @@ const SButton = styled.button`
   background-color: ${Theme.WHITE};
   width: 2.4rem;
   height: 2.4rem;
-  img {
+  &::after {
+    content: '';
+    display: inline-block;
     width: 100%;
     height: 100%;
+    background: url(${Sprites}) -121px -5px;
+    background-size: 250px 218px;
+  }
+  &:hover::after {
+    content: '';
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background: url(${Sprites}) -121px -40px;
+    background-size: 250px 218px;
   }
 `;
 
@@ -64,11 +76,7 @@ function Header({ isHome, title, rightChild }) {
     <Container>
       <Inner>
         <Menu>
-          {isHome ? null : (
-            <SButton onClick={handlePageBack}>
-              <img src={IconBack} alt='뒤로가기' />
-            </SButton>
-          )}
+          {isHome ? null : <SButton onClick={handlePageBack}></SButton>}
           {title && <PageTitle>{title}</PageTitle>}
         </Menu>
         <Menu>{rightChild}</Menu>

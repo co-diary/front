@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "codiary",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -19,6 +19,8 @@
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
+    "react-spinners": "^0.13.8",
+    "react-transition-group": "^4.4.5",
     "recoil": "^0.7.7",
     "styled-components": "^5.3.6",
     "styled-reset": "^4.4.5",
@@ -26,10 +28,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "eslintConfig": {
     "extends": [
@@ -50,8 +51,11 @@
     ]
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^3.1.0",
     "eslint-config-naver": "^2.1.0",
     "eslint-config-prettier": "^8.6.0",
-    "prettier": "2.8.3"
+    "prettier": "2.8.3",
+    "vite": "^4.1.0",
+    "vite-plugin-svgr": "^3.2.0"
   }
 }

@@ -1,13 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import Theme from '../../styles/Theme';
-// import Theme from '../../styles/Theme';
-
-// const SButton = styled.button`
-//   background-color: ${Theme.MAIN};
-//   padding: 1rem 2.8rem;
-//   border-radius: 3rem;
-// `;
 
 const setSize = (size) => {
   switch (size) {

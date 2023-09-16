@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Theme from '../../../styles/Theme';
 import IconSelectOn from '../../../assets/Icon-Select-on.png';
 import IconSelectOff from '../../../assets/Icon-Select-off.png';
+import Sprites from '../../../assets/Sprites.png';
 
 export const SelectBox = styled.div`
   position: relative;
@@ -29,9 +30,12 @@ export const CurrentSelect = styled.button`
     height: 1.6rem;
     top: 0.6rem;
     right: 0.8rem;
-    background: center / contain no-repeat;
-    background-image: ${({ options }) =>
-      options ? `url(${IconSelectOn})` : `url(${IconSelectOff})`};
+
+    background: url(${Sprites});
+    background-repeat: no-repeat;
+    background-size: calc(500px / 2) calc(436px / 2);
+    background-position: ${({ options }) =>
+      options ? `calc(-446px / 2) calc(-299px / 2);` : `calc(-446px / 2) calc(-247px / 2);`};
   }
 `;
 
