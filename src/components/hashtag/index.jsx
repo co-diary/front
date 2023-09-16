@@ -10,6 +10,7 @@ import NoHashTag from './NoHashtag';
 import HashtagList from './HashtagList';
 import { UserIdState } from '../../atom/authRecoil';
 import usePost from '../../hooks/usePost';
+import LoadingIndicator from '../common/LoadingIndicator';
 
 function HashtagView() {
   const userId = useRecoilValue(UserIdState);
@@ -18,7 +19,7 @@ function HashtagView() {
   const { isLoading, isError, data: posts } = usePost(userId, 'ALL');
 
   if (isLoading) {
-    return <div>🌀 Loading 🌀 </div>;
+    return <LoadingIndicator />;
   }
 
   if (isError) {

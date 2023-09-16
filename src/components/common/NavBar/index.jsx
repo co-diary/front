@@ -1,16 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import Theme from '../../../styles/Theme';
-import IconHome from '../../../assets/Icon-Nav-Home-off.png';
-import IconHomeActive from '../../../assets/Icon-Nav-Home-on.png';
-import IconMap from '../../../assets/Icon-Nav-Map-off.png';
-import IconMapActive from '../../../assets/Icon-Nav-Map-on.png';
-import IconWrite from '../../../assets/Icon-Nav-Write-off.png';
-import IconWriteActive from '../../../assets/Icon-Nav-Write-on.png';
-import IconLiked from '../../../assets/Icon-Nav-Heart-off.png';
-import IconLikedActive from '../../../assets/Icon-Nav-Heart-on.png';
-import IconMyPage from '../../../assets/Icon-Nav-_Mypage-off.png';
-import IconMyPageActive from '../../../assets/Icon-Nav-_Mypage-on.png';
+// import IconHome from '../../../assets/Icon-Nav-Home-off.png';
+// import IconHomeActive from '../../../assets/Icon-Nav-Home-on.png';
+// import IconMap from '../../../assets/Icon-Nav-Map-off.png';
+// import IconMapActive from '../../../assets/Icon-Nav-Map-on.png';
+// import IconWrite from '../../../assets/Icon-Nav-Write-off.png';
+// import IconWriteActive from '../../../assets/Icon-Nav-Write-on.png';
+// import IconLiked from '../../../assets/Icon-Nav-Heart-off.png';
+// import IconLikedActive from '../../../assets/Icon-Nav-Heart-on.png';
+// import IconMyPage from '../../../assets/Icon-Nav-_Mypage-off.png';
+// import IconMyPageActive from '../../../assets/Icon-Nav-_Mypage-on.png';
 import NavItem from './NavItem';
 import { mobileMediaQuery, pcMediaQuery } from '../../../styles/MediaQuery';
 

@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Theme from '../../styles/Theme';
-
-import IconTag from '../../assets/Icon-tag.png';
-import IconTagHover from '../../assets/Icon-tag-hover.png';
-import IconSearch from '../../assets/Icon-Search.png';
-import IconSearchHover from '../../assets/Icon-Search-hover.png';
 import Sprites from '../../assets/Sprites.png';
 
 export const Container = styled.main`

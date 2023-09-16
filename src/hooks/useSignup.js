@@ -3,7 +3,7 @@ import { useSetRecoilState } from 'recoil';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useLocation, useNavigate } from 'react-router';
 import { setDoc, doc } from 'firebase/firestore';
-import { appAuth, firestore } from '../firebase.js';
+import { appAuth, db } from '../firebase.js';
 import { authState } from '../atom/authRecoil.js';
 
 const useSignup = () => {
@@ -34,7 +34,7 @@ const useSignup = () => {
             setIsPending(false);
             navigate(from);
 
-            await setDoc(doc(firestore, 'users', uid), {
+            await setDoc(doc(db, 'users', uid), {
               uid,
               email,
               password,
