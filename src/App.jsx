@@ -5,7 +5,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { onAuthStateChanged } from 'firebase/auth';
 import { authState, isLoggedIn, UserIdState } from './atom/authRecoil';
 import Router from './routes/Router';
-import { appAuth, firestore } from './firebase';
+import { appAuth, db } from './firebase';
 import { pcMediaQuery } from './styles/MediaQuery';
 import Splash from './components/Splash';
 
@@ -41,19 +41,6 @@ function App() {
 
     return unsubscribe;
   }, []);
-
-  useEffect(() => {
-    console.log(firestore);
-    const users = firestore.collection('users');
-
-    users
-      .doc('jSwWPHGDKXx2yXINq7K8')
-      .get()
-      .then((doc) => {
-        console.log(doc.data());
-        console.log(doc.id);
-      });
-  });
 
   if (isLoadingData) return null;
 

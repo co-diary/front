@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { firestore } from '../../../firebase';
+import { db } from '../../../firebase';
 import HashtagResultView from '../HashtagResultView';
 
 function HashtagResultContainer({ keyword }) {
   const [searchResult, setSearchResult] = useState([]);
 
   const searchInArray = async (collection, tag, value) => {
-    const querySnapshot = await firestore
-      .collection(collection)
-      .where(tag, 'array-contains', value)
-      .get();
+    const querySnapshot = await db.collection(collection).where(tag, 'array-contains', value).get();
 
     const results = [];
 
