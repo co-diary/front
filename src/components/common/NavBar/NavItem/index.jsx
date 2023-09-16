@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import * as S from './style';
 
-function NavItem({ to, label, icon, iconActive }) {
+function NavItem({ to, label }) {
   const location = useLocation();
   let isActive = location.pathname === to;
 
@@ -11,10 +11,10 @@ function NavItem({ to, label, icon, iconActive }) {
   }
 
   return (
-    <S.NavItemContainer iconActive={iconActive}>
-      <S.NavLinkContainer exact='true' to={to} activeclassname='active'>
-        <img className={isActive ? 'active' : ''} src={isActive ? iconActive : icon} alt={label} />
-        {label}
+    <S.NavItemContainer>
+      <S.NavLinkContainer exact='true' to={to}>
+        <S.NavIcon className={`nav-${to.replace('/', '')}`} isActive={isActive}></S.NavIcon>
+        <S.Label isActive={isActive}>{label}</S.Label>
       </S.NavLinkContainer>
     </S.NavItemContainer>
   );

@@ -1,7 +1,6 @@
 import styled, { keyframes, css } from 'styled-components';
 import Theme from '../../../../../styles/Theme';
-import MyLocationIcon from '../../../../../assets/Icon-MyLocation.png';
-import MyLocationLoding from '../../../../../assets/Icon-MyLocation-loding.png';
+import Sprites from '../../../../../assets/Sprites.png';
 
 const spin = keyframes`
   from {
@@ -86,9 +85,13 @@ export const MyLocation = styled.button`
     position: absolute;
     margin-top: -0.18rem;
     left: -2rem;
-    background-image: url(${({ isLocationCheck }) =>
-      isLocationCheck ? MyLocationLoding : MyLocationIcon});
-    background-size: cover;
+
+    background: url(${Sprites});
+    background-repeat: no-repeat;
+    background-size: 187.5px 163.5px;
+    background-position: ${({ isLocationCheck }) =>
+      isLocationCheck ? '-116.25px -3.75px;' : '-116.25px -3.75px'};
+
     width: 1.8rem;
     height: 1.8rem;
     animation: ${({ isLocationCheck }) =>
@@ -96,7 +99,8 @@ export const MyLocation = styled.button`
       css`
         ${spin} 2000ms linear infinite;
       `};
-  `;
+  }
+`;
 
 export const SectionBorder = styled.div`
   border-bottom: 6px solid ${Theme.SECTION_BG};

@@ -1,8 +1,6 @@
 import styled, { keyframes, css } from 'styled-components';
 import Theme from '../../../styles/Theme';
-import IconPhotoX from '../../../assets/Icon-Photo-X.png';
-import IconAddPhoto from '../../../assets/Icon-AddPhoto.png';
-import IconAddPhotoHover from '../../../assets/Icon-AddPhoto-hover.png';
+import Sprites from '../../../assets/Sprites.png';
 
 const Uploading = keyframes`
 0% {
@@ -33,8 +31,10 @@ export const ImgLabelBtn = styled.label`
 
   &::before {
     content: '';
-    background: url(${IconAddPhoto}) no-repeat;
-    background-size: 2rem;
+    background: url(${Sprites});
+    background-size: calc(500px / 2) calc(436px / 2);
+    background-position: calc(-446px / 2) calc(-139px / 2);
+
     position: absolute;
     margin: auto;
     left: 0;
@@ -46,12 +46,7 @@ export const ImgLabelBtn = styled.label`
   }
 
   &:hover::before {
-    background: url(${IconAddPhotoHover}) no-repeat;
-    background-size: 2rem;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    background-position: calc(-446px / 2) calc(-193px / 2);
   }
 `;
 
@@ -123,8 +118,11 @@ export const RemoveImgBtn = styled.button`
   &::after {
     content: '';
     position: absolute;
-    background: url(${IconPhotoX}) no-repeat;
-    background-size: 2rem;
+
+    background: url(${Sprites});
+    background-size: calc(500px / 2) calc(436px / 2);
+    background-position: calc(-446px / 2) calc(-10px / 2);
+
     top: 0.6rem;
     right: 0.8rem;
     width: 2rem;

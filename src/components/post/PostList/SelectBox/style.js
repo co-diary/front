@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import Theme from '../../../../styles/Theme';
-import IconSelectOn from '../../../../assets/Icon-Select-on.png';
-import IconSelectOff from '../../../../assets/Icon-Select-off.png';
+import Sprites from '../../../../assets/Sprites.png';
 
 export const Container = styled.div`
   position: relative;
@@ -26,11 +25,13 @@ export const Container = styled.div`
       position: absolute;
       width: 1.6rem;
       height: 1.6rem;
-      top: 0.6rem;
+      top: 0.7rem;
       right: 0.8rem;
-      background: center / contain no-repeat;
-      background-image: ${({ options }) =>
-        options ? `url(${IconSelectOn})` : `url(${IconSelectOff})`};
+
+      background: url(${Sprites});
+      background-size: calc(500px / 2) calc(436px / 2);
+      background-position: ${({ options }) =>
+        options ? `calc(-446px / 2) calc(-299px / 2);` : `calc(-446px / 2) calc(-247px / 2);`};
     }
   }
 `;

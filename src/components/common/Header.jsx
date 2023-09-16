@@ -46,7 +46,7 @@ const SButton = styled.button`
     background: url(${Sprites}) -121px -5px;
     background-size: 250px 218px;
   }
-  &.active::after {
+  &:hover::after {
     content: '';
     display: inline-block;
     width: 100%;

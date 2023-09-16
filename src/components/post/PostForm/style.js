@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 import Theme from '../../../styles/Theme';
-import IconLocationOff from '../../../assets/Icon-Nav-Map-off.png';
-import IconLocationHover from '../../../assets/Icon-Map-hover.png';
-
-import IconAddInput from '../../../assets/Icon-AddInput.png';
-import { mobileMediaQuery, pcMediaQuery } from '../../../styles/MediaQuery';
+import Sprites from '../../../assets/Sprites.png';
+import { mobileMediaQuery } from '../../../styles/MediaQuery';
 
 export const Container = styled.main`
   margin-top: 4.8rem;
@@ -119,8 +116,10 @@ export const CalendarBtn = styled.img`
 `;
 
 export const LocationBtn = styled.button`
-  background: url(${IconLocationOff}) no-repeat;
-  background-size: 2.2rem;
+  background: url(${Sprites});
+  background-size: calc(500px / 2) calc(436px / 2);
+  background-position: calc(-282px / 2) calc(-310px / 2);
+
   position: absolute;
   top: 0rem;
   right: 0;
@@ -129,8 +128,7 @@ export const LocationBtn = styled.button`
   cursor: pointer;
 
   &:hover {
-    background: url(${IconLocationHover}) no-repeat;
-    background-size: 2.2rem;
+    background-position: calc(-78px / 2) calc(-242px / 2);
   }
 `;
 
@@ -147,8 +145,9 @@ export const SubTitleBox = styled.div`
   span::before {
     content: '';
     display: inline-block;
-    background-image: url(${IconAddInput});
-    background-size: 2rem;
+    background: url(${Sprites});
+    background-size: calc(500px / 2) calc(436px / 2);
+    background-position: calc(-446px / 2) calc(-79px / 2);
     width: 2rem;
     height: 2rem;
     vertical-align: bottom;
