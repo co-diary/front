@@ -16,12 +16,12 @@ export const PostCardBox = styled.li`
 export const PostCover = styled.div`
   flex-basis: 13.6rem;
   flex-shrink: 0;
-  position: relative; /* 추가 */
+  position: relative;
 
   span {
     position: absolute;
-    top: 2.7rem; /* 수정 */
-    left: -3.5rem; /* 수정 */
+    top: 2.7rem;
+    left: -3.5rem;
     padding: 0 0.5rem;
     font-size: 1.3rem;
     line-height: 1.6rem;
@@ -42,14 +42,14 @@ export const PostImg = styled.img`
 `;
 
 export const PostContent = styled.div`
-  flex-grow: 1;
   padding: 2.4rem 1.6rem;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 `;
 
 export const PostInfo = styled.div`
-  flex-basis: 6.9rem;
+  width: 100%;
   min-height: 0;
   padding-bottom: 0.8rem;
 `;
@@ -84,25 +84,25 @@ export const MenuInfo = styled.strong`
   font-family: 'LINESeedKR-Bd';
   line-height: 2.2rem;
   margin-top: 0.5rem;
-  width: 18.2rem;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 `;
 
 export const StoreInfo = styled.p`
   font-size: 1.2rem;
   line-height: 1.6rem;
   color: ${Theme.MAIN_GRAY};
-  width: 18.2rem;
   margin-top: -0.1rem;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 `;
 
 export const PostReview = styled.div`
-  flex-grow: 1;
+  width: 100%;
   padding-top: 1rem;
   border-top: 1px solid ${Theme.SHADOW_BORDER};
 
@@ -115,6 +115,14 @@ export const PostReview = styled.div`
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
+
+  /* ::before {
+    content: '';
+    display: inline-block;
+    width: 100%;
+    height: 1px;
+    background-color: ${Theme.SHADOW_BORDER};
+  } */
 `;
 
 export const TagContainer = styled.div`

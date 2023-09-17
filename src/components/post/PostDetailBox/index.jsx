@@ -31,6 +31,8 @@ export default function PostDetailBox() {
     navigate('/hashtag/keyword', { state: { data: tag } });
   }, []);
 
+  const isLocationTrue = post.address.latLng[0] + post.address.latLng[1];
+
   return (
     <S.Container>
       <header>
@@ -52,12 +54,14 @@ export default function PostDetailBox() {
       </S.Section>
       <S.Section>
         <h2 className='ir'>메뉴 후기와 매장 정보</h2>
-        {typeof images === 'string' && (
+        {/* {typeof images === 'string' && (
           <S.PhotoCarousel>
             <img src={images} alt='' />
           </S.PhotoCarousel>
         )}
-        {typeof images === 'object' && (
+         */}
+
+        {!!images.length && typeof images === 'object' && (
           <S.PhotoCarousel>
             <SimpleSlider images={images} />
           </S.PhotoCarousel>
@@ -78,32 +82,37 @@ export default function PostDetailBox() {
                 <S.DlTitle>상호명</S.DlTitle>
                 <dd>{post.shop}</dd>
               </S.DlBox>
-              <S.DlBox>
-                <S.DlTitle>위치</S.DlTitle>
-                <dd>{post.address.location}</dd>
-              </S.DlBox>
-              <Map
-                center={{
-                  lat: latLng[0],
-                  lng: latLng[1],
-                }}
-                style={{
-                  width: '296px',
-                  height: '66px',
-                  borderRadius: '10px',
-                  marginTop: '10px',
-                  marginLeft: 'auto',
-                }}
-                level={3}
-                onClick={handleLocationMap}
-              >
-                <MapMarker
-                  position={{
-                    lat: latLng[0],
-                    lng: latLng[1],
-                  }}
-                />
-              </Map>
+              {/* 등록 위치 없을 경우 맵 뜨지 않도록 처리 */}
+              {!!isLocationTrue && (
+                <>
+                  <S.DlBox>
+                    <S.DlTitle>위치</S.DlTitle>
+                    <dd>{post.address.location}</dd>
+                  </S.DlBox>
+                  <Map
+                    center={{
+                      lat: latLng[0],
+                      lng: latLng[1],
+                    }}
+                    style={{
+                      width: '296px',
+                      height: '66px',
+                      borderRadius: '10px',
+                      marginTop: '10px',
+                      marginLeft: 'auto',
+                    }}
+                    level={3}
+                    onClick={handleLocationMap}
+                  >
+                    <MapMarker
+                      position={{
+                        lat: latLng[0],
+                        lng: latLng[1],
+                      }}
+                    />
+                  </Map>
+                </>
+              )}
             </S.DlContainer>
           </S.ListItem>
           <S.ListItem>
