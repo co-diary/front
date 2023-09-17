@@ -3,6 +3,7 @@ import Theme from '../../../styles/Theme';
 
 export const Container = styled.main`
   padding: 4.8rem 0 6rem;
+  height: calc(100vh - 4.8rem);
 `;
 
 export const Section = styled.section`
@@ -23,7 +24,7 @@ export const Section = styled.section`
 export const DateInfo = styled.span`
   width: 8.4rem;
   text-align: center;
-  padding: 0.6rem 0 0.2rem;
+  padding: 0.4rem 0 0.4rem;
   font-size: 1.2rem;
   color: ${Theme.MAIN_GRAY};
   border: 1px solid ${Theme.PLACEHOLDER};
@@ -67,7 +68,8 @@ export const ListContainer = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 2.4rem;
-  width: 35rem;
+  width: 100%;
+  max-width: 35rem;
 `;
 
 export const ListTitle = styled.strong`
