@@ -8,7 +8,7 @@ import IconHeartOn from '../../../assets/Icon-Heart-on.png';
 import IconHeartOff from '../../../assets/Icon-Heart-off.png';
 import IconStarOn from '../../../assets/Icon-star-on.png';
 import IconStarOff from '../../../assets/Icon-star-off.png';
-import Thumbmail from './Thumbmail';
+import Thumbnail from './Thumbnail';
 
 function PostCard({
   id,
@@ -84,7 +84,7 @@ function PostCard({
       <S.PostCardBox onClick={handleClickCard}>
         <S.PostCover>
           <span>{formattedDate}</span>
-          {photo.length ? <S.PostImg src={photo} alt='메뉴 썸네일 사진' /> : <Thumbmail />}
+          {photo ? <S.PostImg src={photo} alt='메뉴 썸네일 사진' /> : <Thumbnail />}
         </S.PostCover>
         <S.PostContent>
           <S.PostInfo>
