@@ -5,15 +5,17 @@ import { useLocation } from 'react-router';
 import Header from '../../../components/common/Header';
 import NavBar from '../../../components/common/NavBar';
 import HashtagResultContainer from '../../../components/hashtag/HashtagResultContainer';
+import withPathnameWatcher from '../../../components/hocs/withPathnameWatcher';
 
 const Container = styled.main`
   padding-top: 7.4rem;
   height: calc(100vh - 4.8rem);
 `;
 
-function HashtagResult() {
+function HashtagResult({ pathname }) {
   const location = useLocation();
 
+  console.log(pathname);
   const keyword = location.state.data;
 
   return (
@@ -27,4 +29,4 @@ function HashtagResult() {
   );
 }
 
-export default HashtagResult;
+export default withPathnameWatcher(HashtagResult);

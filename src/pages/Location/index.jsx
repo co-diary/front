@@ -8,6 +8,7 @@ import NavBar from '../../components/common/NavBar';
 import { authState } from '../../atom/authRecoil';
 import useGetLocation from '../../hooks/useGetLocation';
 import LoadingIndicator from '../../components/common/LoadingIndicator';
+import withPathnameWatcher from '../../components/hocs/withPathnameWatcher';
 
 const LazyMap = React.lazy(() => import('../../components/location/LazyMap'));
 
@@ -113,4 +114,4 @@ function Location() {
   );
 }
 
-export default Location;
+export default withPathnameWatcher(Location);

@@ -11,6 +11,7 @@ import SelectBox from '../../components/post/PostList/SelectBox';
 import getPost from '../../hooks/getPost';
 import NoPost from '../../components/post/NoPost';
 import LoadingIndicator from '../../components/common/LoadingIndicator';
+import withPathnameWatcher from '../../components/hocs/withPathnameWatcher';
 
 const categoryContentsAll = [
   {
@@ -38,6 +39,10 @@ function Post() {
   const location = useLocation();
   const navigate = useNavigate();
   const ThemeTitle = location.state;
+
+  const goBack = () => {
+    navigate(-1);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -107,10 +112,6 @@ function Post() {
     setSelectedOption(option);
   };
 
-  const goBack = () => {
-    navigate(-1);
-  };
-
   return (
     <>
       <h1 className='ir'>{ThemeTitle} 게시글 페이지</h1>
@@ -152,4 +153,4 @@ function Post() {
     </>
   );
 }
-export default Post;
+export default withPathnameWatcher(Post);

@@ -22,6 +22,7 @@ import Portal from '../../components/modal/Portal';
 import ConfirmModal from '../../components/modal/ConfirmModal';
 import { confirmModalState } from '../../atom/modalRecoil';
 import LoadingIndicator from '../../components/common/LoadingIndicator';
+import withPathnameWatcher from '../../components/hocs/withPathnameWatcher';
 
 function LikePosts() {
   const user = useRecoilValue(authState);
@@ -32,6 +33,10 @@ function LikePosts() {
   const [selectedPostId, setSelectedPostId] = useState(null);
 
   const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1);
+  };
 
   useEffect(() => {
     if (user) {
@@ -71,10 +76,6 @@ function LikePosts() {
 
     await updateDoc(postDoc, newField);
     await deleteDoc(doc(db, 'liked', postId));
-  };
-
-  const goBack = () => {
-    navigate(-1);
   };
 
   return (
@@ -130,4 +131,4 @@ function LikePosts() {
   );
 }
 
-export default LikePosts;
+export default withPathnameWatcher(LikePosts);
