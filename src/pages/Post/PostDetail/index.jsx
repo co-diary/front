@@ -14,7 +14,7 @@ import IconNextDisabled from '../../../assets/Icon-detail-next-hover.png';
 import IconHeartOff from '../../../assets/Icon-Heart-off.png';
 import IconHeartOn from '../../../assets/Icon-Heart-on.png';
 import IconMore from '../../../assets/Icon-More.png';
-import currentPost from '../../../atom/currentPostRecoil';
+import { currentPost } from '../../../atom/currentPostRecoil';
 import currentPath from '../../../atom/pathRecoil';
 import { confirmModalState, bottomSheetState } from '../../../atom/modalRecoil';
 import Portal from '../../../components/modal/Portal';

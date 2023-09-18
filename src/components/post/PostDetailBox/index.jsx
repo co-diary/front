@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import IconStarOn from '../../../assets/Icon-star-on.png';
 import IconStarOff from '../../../assets/Icon-star-off.png';
 import SimpleSlider from '../../../components/post/SimpleSlider';
-import currentPost from '../../../atom/currentPostRecoil';
+import { currentPost } from '../../../atom/currentPostRecoil';
 import * as S from './style';
 
 export default function PostDetailBox() {
