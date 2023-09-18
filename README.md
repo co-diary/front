@@ -153,7 +153,10 @@ npm start
 
 <br>
 
-### 3-3. 그 외 협업 전략 - GitFlow 🌊
+### 3-3. 프로젝트 컨벤션 정보 (GitWiki) 📚 
+[📚 GitWiki](https://github.com/co-diary/front/wiki/%F0%9F%93%9A-%EC%BB%A8%EB%B2%A4%EC%85%98-%EB%AA%A8%EC%9D%8C)
+
+### 3-4. 브랜치 전략 (GitFlow) 🌊
 
 Git branch 전략은 최대한 혼선이 없도록 팀원들이 공통적으로 경험이 있는 GitFlow를 채택하게 되었습니다.  
 main / develop / feature 세 단계의 브랜치를 구성하여 배포와 개발 기능을 분리하여 활용하였습니다.
@@ -291,7 +294,7 @@ main / develop / feature 세 단계의 브랜치를 구성하여 배포와 개�
 
 ### 그 외에러 수정 / QA
 
-- 지도페이지 에러 수정 외 반응형 오류 [issue#183](https://github.com/co-diary/front/issues/183),
-- 렌더링 이슈 [issue#189](https://github.com/co-diary/front/issues/189),
+- 지도페이지 에러 수정 외 반응형 오류 [issue#183](https://github.com/co-diary/front/issues/183)
+- 렌더링 이슈 [issue#189](https://github.com/co-diary/front/issues/189)
 - firebase 버전 문제 [issue#194](https://github.com/co-diary/front/issues/194)
 - 1차 배포 이후 유저 피드백 반영 (UI 이슈) [issue#195](https://github.com/co-diary/front/issues/195)
