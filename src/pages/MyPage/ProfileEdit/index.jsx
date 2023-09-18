@@ -163,12 +163,12 @@ function ProfileEdit() {
 
         console.log('프로필 수정 성공');
         setIsModalOpen(false);
-        navigate(-1);
+        navigate('/mypage');
       } catch (error) {
         console.log(error);
       } finally {
         setIsModalOpen(false);
-        navigate(-1);
+        navigate('/mypage');
       }
     },
     [profile.displayName, profile.email, navigate],
@@ -179,9 +179,13 @@ function ProfileEdit() {
     setIsModalOpen(false);
   }, [setIsModalOpen]);
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <>
-      <Header />
+      <Header handlePageBack={goBack} />
       <S.Container>
         <S.HeaderContainer>
           <S.Title>내 정보 수정하기</S.Title>

@@ -107,11 +107,16 @@ function Post() {
     setSelectedOption(option);
   };
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <>
       <h1 className='ir'>{ThemeTitle} 게시글 페이지</h1>
       <Header
         title={ThemeTitle}
+        handlePageBack={goBack}
         rightChild={
           <S.HeaderBtn onClick={() => navigate('/search')}>
             <img src={IconSearch} alt='검색' />

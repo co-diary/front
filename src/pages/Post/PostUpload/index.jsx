@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '../../../components/common/Header';
 import NavBar from '../../../components/common/NavBar';
 import Button from '../../../components/common/Button';
@@ -38,6 +38,7 @@ function PostUpload() {
   const imageList = useRecoilValue(imageListState);
   const inputValid = useRecoilValue(inputValidState);
 
+  const navigate = useNavigate();
   const pathnameNavigate = useLocation();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useRecoilState(confirmModalState);
   const { addPost, response, deleteImg } = usePostUpload('post');
@@ -129,10 +130,15 @@ function PostUpload() {
     }
   }, [response.error]);
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <>
       <Header
         title='오늘 작성할 커디어리'
+        handlePageBack={goBack}
         rightChild={
           <Button
             size='sm'

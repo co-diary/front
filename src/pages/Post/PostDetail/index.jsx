@@ -38,7 +38,10 @@ function PostDetail() {
   const [userPostList, setUserPostList] = useState([]);
   const [currentPostIndex, setCurrentPostIndex] = useState();
   const location = useLocation();
-  const categoryPostArr = location.state;
+  const categoryPostArr = location.state.postList;
+  const pathName = location.state.pathNameState;
+
+  console.log(pathName);
 
   useEffect(() => {
     addPostListener();

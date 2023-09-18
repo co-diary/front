@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   collection,
@@ -29,6 +30,8 @@ function LikePosts() {
   const [likedPostList, setLikedPostList] = useState([]);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useRecoilState(confirmModalState);
   const [selectedPostId, setSelectedPostId] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
@@ -70,9 +73,13 @@ function LikePosts() {
     await deleteDoc(doc(db, 'liked', postId));
   };
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <>
-      <Header title='좋아요' />
+      <Header title='좋아요' handlePageBack={goBack} />
       {isLoading ? (
         <LoadingIndicator />
       ) : (

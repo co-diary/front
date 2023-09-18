@@ -5,6 +5,7 @@ import OptionButton from './Options/OptionButton';
 import MyLocationMarker from './MyLocation/MyLocationMarker';
 import OptionContainer from './Options';
 import MenuButton from './MenuButton';
+import { mapStyle } from './style';
 
 function LazyMap({
   myLocation,
@@ -106,13 +107,7 @@ function LazyMap({
     <main style={{ position: 'relative' }}>
       <Map
         center={{ lat: mapCenter.lat, lng: mapCenter.lng }}
-        style={{
-          position: 'relative',
-          width: '100%',
-          height: '100vh',
-          marginTop: '4.8rem',
-          overflow: 'hidden',
-        }}
+        style={mapStyle}
         level={3}
         ref={mapRef}
         draggable={true}
