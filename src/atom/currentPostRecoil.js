@@ -7,5 +7,5 @@ export const currentPost = atom({
 
 export const currentTheme = atom({
   key: 'currentTheme',
-  default: null,
+  default: '음료',
 });
