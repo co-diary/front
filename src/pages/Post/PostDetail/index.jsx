@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { updateDoc, doc, onSnapshot, deleteDoc, setDoc } from 'firebase/firestore';
 
 import { db } from '../../../firebase';
@@ -40,9 +40,8 @@ function PostDetail() {
   const [currentPostIndex, setCurrentPostIndex] = useState();
 
   const categoryPostArr = location.state;
-  // const pathName = location.state.pathNameState || '';
 
-  console.log(location.state);
+  const path = useRecoilValue(currentPath);
 
   useEffect(() => {
     addPostListener();
@@ -156,7 +155,7 @@ function PostDetail() {
   }, [userPostList, currentPostIndex]);
 
   const goPrevPage = useCallback(() => {
-    navigate(`/${pathName}`);
+    navigate(`/${path}`);
   });
 
   return (
