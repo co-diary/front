@@ -11,7 +11,7 @@ function usePathnameWatcher() {
   const [pathNameValue, setPathNameValue] = useRecoilState(currentPath);
 
   useEffect(() => {
-    setPathNameValue(pathname);
+    setPathNameValue(pathNameState);
   }, [pathname, setPathNameValue]);
 
   console.log('hook동작', pathNameState);

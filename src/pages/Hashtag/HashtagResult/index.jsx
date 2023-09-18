@@ -12,10 +12,9 @@ const Container = styled.main`
   height: calc(100vh - 4.8rem);
 `;
 
-function HashtagResult({ pathname }) {
+function HashtagResult() {
   const location = useLocation();
 
-  console.log(pathname);
   const keyword = location.state.data;
 
   return (

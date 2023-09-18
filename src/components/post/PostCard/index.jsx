@@ -28,7 +28,6 @@ function PostCard({
   const scoreIndexs = [0, 1, 2, 3, 4];
   const [formattedDate, setFormattedDate] = useState();
   const { pathname } = useLocation();
-  const pathNameState = pathname.replace('/', '');
   const navigate = useNavigate();
 
   const formatDate = (dateFormatted) => {
@@ -64,13 +63,9 @@ function PostCard({
 
   const handleClickCard = () => {
     navigate(`/post/${id}`, {
-      state: { postList, pathNameState },
+      state: postList,
     });
   };
-
-  // 현재 경로
-
-  console.log(pathname.replace('/', ''));
 
   const handleLike = (e) => {
     e.stopPropagation();
