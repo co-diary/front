@@ -1,13 +1,14 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { useRecoilValue } from 'recoil';
 import { collection, query, where, getDocs } from 'firebase/firestore';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { db } from '../../firebase';
 import Header from '../../components/common/Header';
 import NavBar from '../../components/common/NavBar';
 import { authState } from '../../atom/authRecoil';
 import useGetLocation from '../../hooks/useGetLocation';
 import LoadingIndicator from '../../components/common/LoadingIndicator';
+import withPathnameWatcher from '../../components/hocs/withPathnameWatcher';
 
 const LazyMap = React.lazy(() => import('../../components/location/LazyMap'));
 
@@ -23,6 +24,7 @@ function Location() {
   const ZOOM_LEVEL = 4;
 
   const { myLocation, getLocation } = useGetLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
@@ -84,9 +86,13 @@ function Location() {
     }
   };
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <>
-      <Header title='지도' />
+      <Header title='지도' handlePageBack={goBack} />
       <Suspense fallback={<LoadingIndicator />}>
         {myLocation && mapState !== null ? (
           <LazyMap
@@ -108,4 +114,4 @@ function Location() {
   );
 }
 
-export default Location;
+export default withPathnameWatcher(Location);

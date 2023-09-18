@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { updateDoc, doc, onSnapshot, deleteDoc, setDoc } from 'firebase/firestore';
 
 import { db } from '../../../firebase';
@@ -14,7 +14,8 @@ import IconNextDisabled from '../../../assets/Icon-detail-next-hover.png';
 import IconHeartOff from '../../../assets/Icon-Heart-off.png';
 import IconHeartOn from '../../../assets/Icon-Heart-on.png';
 import IconMore from '../../../assets/Icon-More.png';
-import currentPost from '../../../atom/currentPostRecoil';
+import { currentPost } from '../../../atom/currentPostRecoil';
+import currentPath from '../../../atom/pathRecoil';
 import { confirmModalState, bottomSheetState } from '../../../atom/modalRecoil';
 import Portal from '../../../components/modal/Portal';
 import BottomSheet from '../../../components/modal/BottomSheet';
@@ -34,11 +35,13 @@ function PostDetail() {
   const [prevBtnDisabled, setPrevBtnDisabled] = useState(false);
   const [nexBtnDisabled, setNextBtnDisabled] = useState(false);
   const { deleteImg } = usePostUpload();
-
+  const location = useLocation();
   const [userPostList, setUserPostList] = useState([]);
   const [currentPostIndex, setCurrentPostIndex] = useState();
-  const location = useLocation();
+
   const categoryPostArr = location.state;
+
+  const path = useRecoilValue(currentPath);
 
   useEffect(() => {
     addPostListener();
@@ -51,6 +54,7 @@ function PostDetail() {
 
       categoryPostArr.forEach((v) => postArr.push(v.key));
       setUserPostList(postArr);
+      console.log(userPostList);
       findIndex(postArr);
     } else {
       findIndex(userPostList);
@@ -150,12 +154,17 @@ function PostDetail() {
     navigate(`/post/${userPostList[currentPostIndex + 1]}`);
   }, [userPostList, currentPostIndex]);
 
+  const goPrevPage = useCallback(() => {
+    navigate(`/${path}`);
+  });
+
   return (
     <>
       {post && (
         <>
           <Header
             title={post.category}
+            handlePageBack={goPrevPage}
             rightChild={
               <>
                 <S.HeaderBtn onClick={handleLikedBtn}>

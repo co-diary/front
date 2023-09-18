@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   collection,
@@ -21,6 +22,7 @@ import Portal from '../../components/modal/Portal';
 import ConfirmModal from '../../components/modal/ConfirmModal';
 import { confirmModalState } from '../../atom/modalRecoil';
 import LoadingIndicator from '../../components/common/LoadingIndicator';
+import withPathnameWatcher from '../../components/hocs/withPathnameWatcher';
 
 function LikePosts() {
   const user = useRecoilValue(authState);
@@ -29,6 +31,12 @@ function LikePosts() {
   const [likedPostList, setLikedPostList] = useState([]);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useRecoilState(confirmModalState);
   const [selectedPostId, setSelectedPostId] = useState(null);
+
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1);
+  };
 
   useEffect(() => {
     if (user) {
@@ -72,7 +80,7 @@ function LikePosts() {
 
   return (
     <>
-      <Header title='좋아요' />
+      <Header title='좋아요' handlePageBack={goBack} />
       {isLoading ? (
         <LoadingIndicator />
       ) : (
@@ -123,4 +131,4 @@ function LikePosts() {
   );
 }
 
-export default LikePosts;
+export default withPathnameWatcher(LikePosts);

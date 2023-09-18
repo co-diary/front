@@ -14,6 +14,7 @@ import RecentPosts from '../../components/home/RecentPosts';
 import usePost from '../../hooks/usePost';
 import ToastMessage from '../../components/notification/ToastMessage';
 import LoadingIndicator from '../../components/common/LoadingIndicator';
+import withPathnameWatcher from '../../components/hocs/withPathnameWatcher';
 
 function Home() {
   const userId = useRecoilValue(UserIdState);
@@ -124,4 +125,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default withPathnameWatcher(Home);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, Suspense } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useLocation, useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import { UserIdState } from '../../atom/authRecoil';
@@ -11,6 +11,8 @@ import SelectBox from '../../components/post/PostList/SelectBox';
 import getPost from '../../hooks/getPost';
 import NoPost from '../../components/post/NoPost';
 import LoadingIndicator from '../../components/common/LoadingIndicator';
+import withPathnameWatcher from '../../components/hocs/withPathnameWatcher';
+import { currentTheme } from '../../atom/currentPostRecoil';
 
 const categoryContentsAll = [
   {
@@ -39,10 +41,30 @@ function Post() {
   const navigate = useNavigate();
   const ThemeTitle = location.state;
 
+  const [themeState, setThemeState] = useRecoilState(currentTheme);
+  const [categoryContents, setCategoryContents] = useState(null);
+
+  const goBack = () => {
+    navigate(-1);
+  };
+
+  useEffect(() => {
+    if (ThemeTitle === null) {
+      return;
+    }
+    setThemeState(ThemeTitle);
+  }, []);
+
+  useEffect(() => {
+    const themeContents = categoryContentsAll.filter((v) => v.Theme === themeState)[0];
+
+    setCategoryContents(themeContents);
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const postList = await getPost(userId, 'theme', ThemeTitle);
+        const postList = await getPost(userId, 'theme', themeState);
 
         setPosts(postList);
         setIsLoading(false);
@@ -53,9 +75,7 @@ function Post() {
     };
 
     fetchData();
-  }, [userId, ThemeTitle]);
-
-  const categoryContents = categoryContentsAll.filter((v) => v.Theme === ThemeTitle)[0];
+  }, [userId, themeState]);
 
   const onClickCategory = (categoryName) => {
     setSelectedCategory(categoryName);
@@ -109,9 +129,10 @@ function Post() {
 
   return (
     <>
-      <h1 className='ir'>{ThemeTitle} 게시글 페이지</h1>
+      <h1 className='ir'>{themeState} 게시글 페이지</h1>
       <Header
-        title={ThemeTitle}
+        title={themeState}
+        handlePageBack={goBack}
         rightChild={
           <S.HeaderBtn onClick={() => navigate('/search')}>
             <img src={IconSearch} alt='검색' />
@@ -121,11 +142,15 @@ function Post() {
       <S.Container>
         <nav>
           <S.CategoryContainer>
-            {categoryContents.categories.map((content) => (
-              <li onClick={() => onClickCategory(`${content}`)} key={uuidv4()}>
-                <S.CategoryBtn isActive={content === selectedCategory}>{content}</S.CategoryBtn>
-              </li>
-            ))}
+            {categoryContents ? (
+              categoryContents.categories.map((content) => (
+                <li onClick={() => onClickCategory(content)} key={uuidv4()}>
+                  <S.CategoryBtn isActive={content === selectedCategory}>{content}</S.CategoryBtn>
+                </li>
+              ))
+            ) : (
+              <LoadingIndicator />
+            )}
           </S.CategoryContainer>
         </nav>
         <SelectBox
@@ -147,4 +172,4 @@ function Post() {
     </>
   );
 }
-export default Post;
+export default withPathnameWatcher(Post);

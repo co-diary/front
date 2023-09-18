@@ -180,9 +180,13 @@ function SignUp() {
     return null;
   }
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <>
-      <Header />
+      <Header handlePageBack={goBack} />
       <S.Container>
         <S.HeaderContainer>
           <S.Title>회원가입</S.Title>

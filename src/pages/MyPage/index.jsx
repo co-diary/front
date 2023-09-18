@@ -63,9 +63,13 @@ function MyPage() {
     navigate(`/profile/${user.id}/edit`);
   };
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <>
-      <Header title='마이 페이지' />
+      <Header title='마이 페이지' handlePageBack={goBack} />
       <S.Container>
         <Profile user={user} goEdit={handleEditButtonClick} />
         <S.UserMenu>

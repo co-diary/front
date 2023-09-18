@@ -31,10 +31,13 @@ function HashtagView() {
   const goResultPage = (contents) => {
     navigate('/hashtag/keyword', { state: { data: contents } });
   };
+  const goBack = () => {
+    navigate(-1);
+  };
 
   return (
     <>
-      <Header title='태그 모아보기' />
+      <Header title='태그 모아보기' handlePageBack={goBack} />
       <Container>
         {onlyTags.length > 0 && <HashtagList tagArr={onlyTags} goResultPage={goResultPage} />}
         {!isLoading && onlyTags.length === 0 && <NoHashTag />}

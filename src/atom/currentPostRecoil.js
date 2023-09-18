@@ -1,8 +1,11 @@
 import { atom } from 'recoil';
 
-const currentPost = atom({
+export const currentPost = atom({
   key: 'currentPost',
   default: null,
 });
 
-export default currentPost;
+export const currentTheme = atom({
+  key: 'currentTheme',
+  default: '음료',
+});

@@ -5,7 +5,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { onAuthStateChanged } from 'firebase/auth';
 import { authState, isLoggedIn, UserIdState } from './atom/authRecoil';
 import Router from './routes/Router';
-import { appAuth, db } from './firebase';
+import { appAuth } from './firebase';
 import { pcMediaQuery } from './styles/MediaQuery';
 import Splash from './components/Splash';
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 import Theme from '../../styles/Theme';
 import Sprites from '../../assets/Sprites.png';
 import { mobileMediaQuery, pcMediaQuery } from '../../styles/MediaQuery';
@@ -66,12 +65,7 @@ const PageTitle = styled.h2`
   padding-top: 0.4rem;
 `;
 
-function Header({ isHome, title, rightChild }) {
-  const navigate = useNavigate();
-  const handlePageBack = () => {
-    navigate(-1);
-  };
-
+function Header({ isHome, title, rightChild, handlePageBack }) {
   return (
     <Container>
       <Inner>
