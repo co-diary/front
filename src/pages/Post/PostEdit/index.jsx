@@ -40,15 +40,17 @@ function PostEdit() {
 
   const setInputValid = useSetRecoilState(inputValidState);
 
+  const navigate = useNavigate();
   const { state } = useLocation();
   const { id } = useParams();
-  const navigate = useNavigate();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useRecoilState(confirmModalState);
   const { updatePost, response, deleteImg } = usePostUpload('post', id);
   const [btnDisabled, setBtnDisabled] = useState(false);
   const imageDeleteList = useRecoilValue(imageDeleteState);
 
-  console.log('넘어온 state값', state);
+  const goBack = () => {
+    navigate(-1);
+  };
 
   useEffect(() => {
     if (
@@ -134,6 +136,7 @@ function PostEdit() {
     <>
       <Header
         title='커디어리 수정'
+        handlePageBack={goBack}
         rightChild={
           <Button size='sm' text='수정' btnDisabled={btnDisabled} onClick={handlePostEditConfirm} />
         }

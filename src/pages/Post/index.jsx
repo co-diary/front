@@ -44,8 +44,8 @@ function Post() {
   const [themeState, setThemeState] = useRecoilState(currentTheme);
   const [categoryContents, setCategoryContents] = useState(null);
 
-  const goBack = () => {
-    navigate(-1);
+  const goHome = () => {
+    navigate('/home');
   };
 
   useEffect(() => {
@@ -132,7 +132,7 @@ function Post() {
       <h1 className='ir'>{themeState} 게시글 페이지</h1>
       <Header
         title={themeState}
-        handlePageBack={goBack}
+        handlePageBack={goHome}
         rightChild={
           <S.HeaderBtn onClick={() => navigate('/search')}>
             <img src={IconSearch} alt='검색' />
